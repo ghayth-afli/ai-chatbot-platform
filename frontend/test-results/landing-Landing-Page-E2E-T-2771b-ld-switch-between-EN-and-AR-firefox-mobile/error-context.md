@@ -1,0 +1,168 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - navigation "nav.label" [ref=e5]:
+    - generic [ref=e7]:
+      - button "الرئيسية" [ref=e8] [cursor=pointer]:
+        - generic [ref=e9]: nexus
+        - generic [ref=e10]: •
+      - generic [ref=e11]:
+        - button "المميزات" [ref=e12] [cursor=pointer]
+        - button "حول" [ref=e13] [cursor=pointer]
+        - button "دخول" [ref=e14] [cursor=pointer]
+        - button "إنشاء حساب" [ref=e15] [cursor=pointer]
+      - button "Switch to English" [active] [ref=e17] [cursor=pointer]: EN
+  - main [ref=e18]:
+    - generic [ref=e22]:
+      - generic [ref=e23]:
+        - heading "نيكسس." [level=1] [ref=e24]
+        - generic [ref=e25]: •
+      - paragraph [ref=e26]: اختبر الدردشة متعددة النماذج باللغة الإنجليزية والعربية. انتقل بسلاسة بين DeepSeek و LLaMA و Mistral.
+      - generic [ref=e27]:
+        - generic [ref=e28]: DeepSeek Chat
+        - generic [ref=e29]: LLaMA 3
+        - generic [ref=e30]: Mistral 7B
+      - generic [ref=e31]:
+        - button "ابدأ الدردشة" [ref=e32] [cursor=pointer]
+        - button "المميزات" [ref=e33] [cursor=pointer]
+    - generic [ref=e35]:
+      - generic [ref=e36]:
+        - paragraph [ref=e37]: ── capabilities ──
+        - heading "المميزات القوية" [level=2] [ref=e38]
+      - generic [ref=e39]:
+        - generic [ref=e40] [cursor=pointer]:
+          - generic [ref=e42]: M
+          - heading "متعدد النماذج" [level=3] [ref=e43]
+          - paragraph [ref=e44]: أوصل إلى أحدث نماذج مفتوحة المصدر في واجهة واحدة. انتقل بين DeepSeek و LLaMA و Mistral بنقرة واحدة.
+        - generic [ref=e45] [cursor=pointer]:
+          - generic [ref=e47]: C
+          - heading "سجل الدردشة" [level=3] [ref=e48]
+          - paragraph [ref=e49]: يتم حفظ محادثاتك تلقائياً. استأنف من حيث توقفت، في أي وقت وفي أي مكان.
+        - generic [ref=e50] [cursor=pointer]:
+          - generic [ref=e52]: B
+          - heading "ثنائية اللغة بشكل افتراضي" [level=3] [ref=e53]
+          - paragraph [ref=e54]: دعم كامل للغة الإنجليزية والعربية. بدّل اللغات فوراً واستمتع بدعم RTL مثالي.
+        - generic [ref=e55] [cursor=pointer]:
+          - generic [ref=e57]: S
+          - heading "ملخصات ذكية" [level=3] [ref=e58]
+          - paragraph [ref=e59]: احصل على ملخصات تلقائية للمحادثات الطويلة. رؤى مكثفة بدون الفوضى.
+        - generic [ref=e60] [cursor=pointer]:
+          - generic [ref=e62]: M
+          - heading "تبديل النموذج" [level=3] [ref=e63]
+          - paragraph [ref=e64]: قارن الردود من نماذج مختلفة. جد الخيار الأفضل لاحتياجاتك في الوقت الفعلي.
+    - generic [ref=e66]:
+      - generic [ref=e67]:
+        - paragraph [ref=e68]: ── Supported by ──
+        - heading "النماذج المتاحة" [level=2] [ref=e69]
+      - table [ref=e71]:
+        - rowgroup [ref=e72]:
+          - row "النماذج المتاحة Provider Description Status" [ref=e73]:
+            - columnheader "النماذج المتاحة" [ref=e74]
+            - columnheader "Provider" [ref=e75]
+            - columnheader "Description" [ref=e76]
+            - columnheader "Status" [ref=e77]
+        - rowgroup [ref=e78]:
+          - row "DeepSeek Chat DeepSeek نموذج استدلال سريع ودقيق محسّن للمهام العملية والبرمجة. available" [ref=e79]:
+            - cell "DeepSeek Chat" [ref=e80]
+            - cell "DeepSeek" [ref=e81]
+            - cell "نموذج استدلال سريع ودقيق محسّن للمهام العملية والبرمجة." [ref=e82]
+            - cell "available" [ref=e83]:
+              - generic [ref=e84]: available
+          - row "LLaMA 3 Meta نموذج Meta القوي مفتوح المصدر بمعرفة عامة ممتازة وإبداع. available" [ref=e85]:
+            - cell "LLaMA 3" [ref=e86]
+            - cell "Meta" [ref=e87]
+            - cell "نموذج Meta القوي مفتوح المصدر بمعرفة عامة ممتازة وإبداع." [ref=e88]
+            - cell "available" [ref=e89]:
+              - generic [ref=e90]: available
+          - row "Mistral 7B Mistral نموذج فعال وخفيف الوزن مع قدرات ممتازة على اتباع التعليمات. available" [ref=e91]:
+            - cell "Mistral 7B" [ref=e92]
+            - cell "Mistral" [ref=e93]
+            - cell "نموذج فعال وخفيف الوزن مع قدرات ممتازة على اتباع التعليمات." [ref=e94]
+            - cell "available" [ref=e95]:
+              - generic [ref=e96]: available
+    - generic [ref=e98]:
+      - generic [ref=e99]:
+        - paragraph [ref=e100]: ── Translate Everything ──
+        - heading "تجربة حقيقية ثنائية اللغة" [level=2] [ref=e101]
+      - generic [ref=e102]:
+        - generic [ref=e103]:
+          - paragraph [ref=e104]: واجهة إنجليزية
+          - generic [ref=e105]:
+            - generic [ref=e108]:
+              - paragraph [ref=e109]: هذه واجهة إنجليزية مع إمكانية وصول مثالية وطباعة حديثة.
+              - paragraph [ref=e110]: DeepSeek Chat
+            - paragraph [ref=e113]: هذه واجهة إنجليزية مع إمكانية وصول مثالية وطباعة حديثة.
+          - paragraph [ref=e115]: ← → Seamless Language Support
+        - generic [ref=e116]:
+          - paragraph [ref=e117]: واجهة عربية
+          - generic [ref=e118]:
+            - generic [ref=e121]:
+              - paragraph [ref=e122]: هذه واجهة عربية مع دعم كامل للغة العربية والكتابة من اليمين إلى اليسار.
+              - paragraph [ref=e123]: LLaMA 3
+            - paragraph [ref=e126]: هذه واجهة عربية مع دعم كامل للغة العربية والكتابة من اليمين إلى اليسار.
+          - paragraph [ref=e128]: دعم اللغة العربية الكامل ←→
+      - generic [ref=e130]:
+        - generic [ref=e131]: 🔄
+        - generic [ref=e132]:
+          - heading "تخطيط RTL" [level=3] [ref=e133]
+          - paragraph [ref=e134]: دعم كامل للغات من اليمين إلى اليسار مع تعكس تخطيط تلقائي.
+    - generic [ref=e136]:
+      - generic [ref=e137]:
+        - paragraph [ref=e138]: ── Who We Are ──
+        - heading "حول نيكسس" [level=2] [ref=e139]
+      - generic [ref=e140]:
+        - paragraph [ref=e141]: نيكسس منصة دردشة ذكية حديثة متعددة النماذج مبنية للجيل القادم من المستخدمين الذين يقدرون الاختيار والشفافية والدعم متعدد اللغات.
+        - paragraph [ref=e142]: نحن نؤمن بوضع المستخدمين أولاً. لهذا السبب بنينا نيكسس بنماذج مفتوحة المصدر ودعم ثنائي اللغة منذ اليوم الأول والمرونة للتبديل بين المزودين بدون احتكاك.
+        - paragraph [ref=e143]: سواء كنت تبحث أو تبرمج أو تكتب أو تستكشف إمكانيات الذكاء الاصطناعي، يمنحك نيكسس الأدوات للقيام بأفضل عملك.
+      - generic [ref=e144]:
+        - generic [ref=e145]:
+          - generic [ref=e146]: "01"
+          - heading "Choice" [level=3] [ref=e147]
+          - paragraph [ref=e148]: Multiple models, multiple languages, multiple possibilities.
+        - generic [ref=e149]:
+          - generic [ref=e150]: "02"
+          - heading "Transparency" [level=3] [ref=e151]
+          - paragraph [ref=e152]: Open-source models with clear provider attribution.
+        - generic [ref=e153]:
+          - generic [ref=e154]: "03"
+          - heading "Accessibility" [level=3] [ref=e155]
+          - paragraph [ref=e156]: Bilingual by default. For everyone, everywhere.
+    - generic [ref=e158]:
+      - generic [ref=e159]:
+        - generic [ref=e160]:
+          - generic [ref=e161]:
+            - generic [ref=e162]: نيكسس.
+            - generic [ref=e163]: •
+          - paragraph [ref=e164]: منصة الذكاء الاصطناعي
+        - generic [ref=e165]:
+          - heading "Product" [level=4] [ref=e166]
+          - list [ref=e167]:
+            - listitem [ref=e168]:
+              - link "Features" [ref=e169] [cursor=pointer]:
+                - /url: "#features"
+            - listitem [ref=e170]:
+              - link "Models" [ref=e171] [cursor=pointer]:
+                - /url: "#models"
+            - listitem [ref=e172]:
+              - link "About" [ref=e173] [cursor=pointer]:
+                - /url: "#about"
+        - generic [ref=e174]:
+          - heading "Legal" [level=4] [ref=e175]
+          - list [ref=e176]:
+            - listitem [ref=e177]:
+              - button "Privacy" [ref=e178] [cursor=pointer]
+            - listitem [ref=e179]:
+              - button "Terms" [ref=e180] [cursor=pointer]
+            - listitem [ref=e181]:
+              - button "Cookies" [ref=e182] [cursor=pointer]
+        - generic [ref=e183]:
+          - heading "Connect" [level=4] [ref=e184]
+          - list [ref=e185]:
+            - listitem [ref=e186]:
+              - link "GitHub" [ref=e187] [cursor=pointer]:
+                - /url: https://github.com
+            - listitem [ref=e188]:
+              - generic [ref=e189]: "اللغة: AR"
+      - generic [ref=e190]: © 2026 نيكسس. جميع الحقوق محفوظة.
+```
