@@ -1,20 +1,92 @@
 {
-  "app": {
-    "title": "nexus AI",
-    "subtitle": "Multi-model Chatbot Platform"
-  },
   "nav": {
     "home": "Home",
+    "features": "Features",
+    "about": "About",
+    "login": "Login",
+    "signup": "Sign Up",
     "chat": "Chat",
     "profile": "Profile",
-    "settings": "Settings",
-    "logout": "Logout"
+    "history": "History",
+    "language": "Language"
   },
-  "general": {
-    "loading": "Loading...",
-    "error": "Error",
-    "success": "Success",
-    "cancel": "Cancel",
-    "save": "Save"
+  "hero": {
+    "headline": "nexus.",
+    "subhead": "Experience multi-model chat in English and Arabic. Seamlessly switch between DeepSeek, LLaMA, and Mistral.",
+    "cta": {
+      "default": "Start Chatting",
+      "authenticated": "Resume Chat"
+    },
+    "chips": {
+      "deepseek": "DeepSeek Chat",
+      "llama": "LLaMA 3",
+      "mistral": "Mistral 7B"
+    }
+  },
+  "features": {
+    "title": "Powerful Features",
+    "multiModel": {
+      "title": "Multi-Model",
+      "body": "Access the latest open-source models in one interface. Switch between DeepSeek, LLaMA, and Mistral with a single click."
+    },
+    "chatHistory": {
+      "title": "Chat History",
+      "body": "Your conversations are saved automatically. Pick up right where you left off, anytime, anywhere."
+    },
+    "bilingual": {
+      "title": "Bilingual by Default",
+      "body": "Full support for English and Arabic. Switch languages instantly and enjoy perfect RTL support."
+    },
+    "summaries": {
+      "title": "Smart Summaries",
+      "body": "Get automatic summaries of long conversations. Distilled insights without the noise."
+    },
+    "modelSwitching": {
+      "title": "Model Switching",
+      "body": "Compare responses from different models. Find the best fit for your needs in real time."
+    }
+  },
+  "models": {
+    "title": "Available Models",
+    "rows": {
+      "deepseek": {
+        "description": "Fast, accurate reasoning model optimized for practical tasks and coding."
+      },
+      "llama": {
+        "description": "Meta's powerful open-source model with excellent general knowledge and creativity."
+      },
+      "mistral": {
+        "description": "Efficient and lightweight model with strong instruction-following capabilities."
+      }
+    }
+  },
+  "bilingual": {
+    "title": "True Bilingual Experience",
+    "english": {
+      "heading": "English Interface",
+      "sample": "This is the English interface with perfect accessibility and modern typography."
+    },
+    "arabic": {
+      "heading": "واجهة عربية",
+      "sample": "هذه واجهة عربية مع دعم كامل للغة العربية والكتابة من اليمين إلى اليسار."
+    },
+    "rtl": {
+      "heading": "RTL Layout",
+      "body": "Full support for right-to-left languages with automatic layout mirroring."
+    }
+  },
+  "about": {
+    "title": "About Nexus",
+    "body": [
+      "Nexus is a modern multi-model chatbot platform built for the next generation of users who value choice, transparency, and multilingual support.",
+      "We believe in putting users first. That's why we built nexus with open-source models, bilingual support from day one, and the flexibility to switch between providers without friction.",
+      "Whether you're researching, coding, writing, or just exploring the possibilities of AI, nexus gives you the tools to do your best work."
+    ]
+  },
+  "footer": {
+    "brand": "nexus.",
+    "platform": "AI Platform",
+    "languageIndicator": "Language",
+    "copyright": "© 2026 nexus. All rights reserved."
   }
 }

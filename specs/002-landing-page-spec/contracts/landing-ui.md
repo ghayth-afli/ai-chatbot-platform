@@ -112,7 +112,59 @@ interface NavRoute {
   - Anchor routes trigger smooth scroll to the matching DOM section when already on `/`.
   - Route entries call `navigate(path)` from React Router; if `requiresAuth` is true and the mock auth context says `false`, navigation still occurs but CTA copy reflects locked state (future enhancement can block).
 
-## 4. Hero CTA Contract
+## 4. Navbar Button Styling Contract
+
+- **Positioning & Visibility**:
+  - LOGIN and SIGNUP buttons MUST be positioned on the RIGHT side of the navbar.
+  - Both buttons MUST be always visible (never hidden) across all responsive breakpoints from 320px to 1440px; on mobile viewports they may stack vertically within the navbar but must remain accessible.
+  - Buttons MUST be separated from other nav items (anchor links, language toggle) by spacing.
+
+- **Button Styling**:
+
+```ts
+interface NavbarButtonStyle {
+  signup: {
+    style: "primary"; // Filled button
+    background: "bg-volt"; // Volt (#C8FF00)
+    textColor: "text-ink"; // Text on Volt
+    contrast: "7.8:1"; // Exceeds WCAG AA
+    height: "h-11"; // 44px minimum (Tailwind h-11)
+    padding: "px-4 py-2"; // Comfortable click target
+    border: "none"; // Filled, no border
+    hoverState: "opacity-90"; // Subtle hover feedback
+  };
+  login: {
+    style: "secondary"; // Outline/Ghost button
+    background: "bg-transparent";
+    textColor: "text-volt"; // Volt text
+    contrast: "4.5:1"; // WCAG AA minimum
+    height: "h-11"; // 44px minimum (Tailwind h-11)
+    padding: "px-4 py-2";
+    border: "border border-volt"; // Volt outline
+    hoverState: "bg-volt/10"; // Light Volt background on hover
+  };
+}
+```
+
+- **Tailwind Implementation Example**:
+
+  ```jsx
+  <button className="bg-volt text-ink h-11 px-4 py-2 hover:opacity-90 font-medium">
+    Sign Up
+  </button>
+  <button className="bg-transparent text-volt border border-volt h-11 px-4 py-2 hover:bg-volt/10 font-medium">
+    Login
+  </button>
+  ```
+
+- **Contract Rules**:
+  - Both buttons MUST have minimum 44px height to meet touch target guidelines (SC-009).
+  - Contrast ratio of Signup button (Volt text/background) MUST be validated at 7.8:1+ (exceeds WCAG AA 4.5:1).
+  - Login button outline MUST use the same Volt color as the Signup fill to maintain visual cohesion.
+  - Buttons MUST scale appropriately on 320px viewports without text truncation or overlap.
+  - Label text must NOT be abbreviated (always show "Sign Up" and "Login", not "Up" or "In").
+
+## 5. Hero CTA Contract
 
 - **Props**:
 

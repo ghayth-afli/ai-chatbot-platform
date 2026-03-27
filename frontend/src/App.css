@@ -2,8 +2,161 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:wght@400;700&family=Noto+Kufi+Arabic:wght@400;700&display=swap");
+
+:root {
+  --ink: #0d0d12;
+  --paper: #f5f3ef;
+  --volt: #c8ff00;
+  --plasma: #7b5cff;
+  --spark: #ff4d6d;
+  --ice: #00d4e8;
+  --muted: #6b6878;
+  --surface: #1a1825;
+  --glass: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.09);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
 body {
-  background-color: #0d0d12;
-  color: #f5f3ef;
+  background-color: var(--ink);
+  color: var(--paper);
   font-family: "DM Sans", sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  scroll-behavior: smooth;
+}
+
+/* Typography Scales */
+.font-syne {
+  font-family: "Syne", sans-serif;
+}
+
+.font-dm-sans {
+  font-family: "DM Sans", sans-serif;
+}
+
+.font-mono {
+  font-family: "Space Mono", monospace;
+}
+
+.font-arabic {
+  font-family: "Noto Kufi Arabic", sans-serif;
+  direction: rtl;
+}
+
+/* Tailwind color overrides */
+html {
+  --color-ink: #0d0d12;
+  --color-paper: #f5f3ef;
+  --color-volt: #c8ff00;
+  --color-plasma: #7b5cff;
+  --color-spark: #ff4d6d;
+  --color-ice: #00d4e8;
+  --color-muted: #6b6878;
+  --color-surface: #1a1825;
+}
+
+/* RTL Support */
+html[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+html[dir="rtl"] input,
+html[dir="rtl"] button {
+  direction: rtl;
+}
+
+/* Container queries for responsive RTL */
+@supports (container-type: inline-size) {
+  .rtl-container {
+    container-type: inline-size;
+  }
+}
+
+/* Glass morphism effects */
+.bg-glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+}
+
+.border-glass {
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+/* Gradient backgrounds matching brand */
+.bg-gradient-brand {
+  background: linear-gradient(
+    135deg,
+    rgba(123, 92, 255, 0.2) 0%,
+    rgba(200, 255, 0, 0.1) 50%,
+    rgba(0, 212, 232, 0.05) 100%
+  );
+}
+
+/* Smooth transitions */
+* {
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Disable transitions for scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus states for keyboard navigation */
+a:focus,
+button:focus {
+  outline: 2px solid var(--volt);
+  outline-offset: 2px;
+}
+
+/* Selection color */
+::selection {
+  background-color: rgba(200, 255, 0, 0.3);
+  color: var(--paper);
+}
+
+/* Scrollbar styling for modern browsers */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ink);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(200, 255, 0, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(200, 255, 0, 0.5);
+}
+
+/* Print styles */
+@media (print) {
+  body {
+    background: white;
+    color: black;
+  }
 }

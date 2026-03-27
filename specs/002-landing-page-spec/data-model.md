@@ -12,6 +12,25 @@
   - When `locale === 'ar'`, `dir` MUST be `rtl` and document direction updated atomically.
 - **Relationships**: Consumed by Navbar, Hero CTA, Footer, and Bilingual section components for copy + layout decisions.
 
+## NavigationButton
+
+- **Represents**: The LOGIN and SIGNUP buttons in the navbar with distinct styling requirements.
+- **Fields**:
+  - `id`: `'login' | 'signup'`
+  - `labelKey`: translation key (e.g., `nav.login`)
+  - `path`: target route (`'/login'` or `'/signup'`)
+  - `style`: `'primary' | 'secondary'` (Signup is primary/filled, Login is secondary/outline)
+  - `visible`: `'always'` (never hidden, including mobile)
+  - `positioning`: `'right'` (right-aligned in navbar)
+  - `minHeight`: `44` (pixels, for touch targets)
+- **Validation rules**:
+  - Signup button MUST use `style: 'primary'` with filled Volt background.
+  - Login button MUST use `style: 'secondary'` with outline Volt border.
+  - Both buttons MUST be visible at all responsive breakpoints (320px–1440px).
+  - Contrast ratio for Signup button MUST exceed 7.8:1 (WCAG AAA). Login outline MUST have 4.5:1 minimum (WCAG AA).
+  - Button labels MUST NOT be truncated: always show "Sign Up" and "Login" in full.
+- **Relationships**: Rendered by `Navbar.jsx`; navigation handled by React Router `navigate()` on click; positions on the RIGHT side of the navbar layout.
+
 ## NavigationRoute
 
 - **Represents**: Links exposed in navbar/footer and the corresponding React Router targets.

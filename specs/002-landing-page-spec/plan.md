@@ -82,4 +82,27 @@ run.sh / run.bat / README.md
 
 ## Complexity Tracking
 
-No constitution waivers required; table intentionally left empty.
+## Complexity Tracking
+
+_Phase 1 Updates (2026-03-27)_:
+
+**Enhancement**: Navbar button styling clarification added to contracts.
+
+- **Change**: Spec clarified that LOGIN/SIGNUP buttons must be right-aligned and highly visible with distinct styling.
+- **Impact**: New `NavigationButton` entity added to data-model.md; new **Section 4 (Navbar Button Styling Contract)** added to contracts/landing-ui.md with explicit Volt color, outline vs. filled styling, and 44px touch target requirements.
+- **Constitution**: No principles violated. Principle III (brand UX) enhanced; Principle XVI (WCAG AA accessibility) reinforced with specific contrast ratios (7.8:1 for Signup, 4.5:1 for Login).
+- **Waivers**: None required.
+
+---
+
+_Post-Design Constitution Recheck (2026-03-27)_:
+
+All five core principles confirmed PASS after design phase:
+
+- ✅ **Principle I (Multi-Model)**: Models section + hero wiring confirmed.
+- ✅ **Principle II (Bilingual)**: EN/AR contracts + RTL data model confirmed.
+- ✅ **Principle III (Modern UX)**: Navbar button styling + brand compliance in contracts confirmed.
+- ✅ **Principle IV (Latest Tech Stack)**: React 18, Tailwind 3, React Router 6.21 used throughout.
+- ✅ **Principle V (Security/Privacy)**: No backend calls, localStorage only, no secrets.
+
+**Gate Result**: 🟢 **PASS** — Ready for Phase 2 task generation.

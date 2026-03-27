@@ -53,7 +53,7 @@ A prospective or returning user uses the landing page controls to jump into auth
 
 **Acceptance Scenarios**:
 
-1. **Given** the visitor is unauthenticated, **When** they click “Login” in the navbar, **Then** they are routed to `/login` without a page reload.
+1. **Given** the visitor is unauthenticated, **When** they view the navbar, **Then** the LOGIN and SIGNUP buttons are positioned on the RIGHT side and immediately visible with high contrast (Volt accent on dark background). **When** the Signup button appears filled (primary style) with Volt background and the Login button appears as outline (secondary style) with Volt border. **When** they click either button, they are routed to the appropriate page (`/signup` or `/login`) without a page reload.
 2. **Given** the visitor is unauthenticated, **When** they click the hero “Start Chatting” CTA, **Then** they are routed to `/login` with focus placed on the login form container.
 3. **Given** the visitor has an active session (auth context true), **When** they click the hero CTA, **Then** they are routed to `/chat` to resume conversations.
 4. **Given** the visitor opens the optional nav link “Features” or “About”, **When** they click it, **Then** the page performs smooth-scrolling to the corresponding section.
@@ -93,7 +93,7 @@ A mobile visitor on a 360px wide device can read every section, toggle languages
 ### Functional Requirements
 
 - **FR-001**: The landing page route `/` MUST render the seven required sections (navbar, hero, features, models, bilingual/RTL, about, footer) in the specified order using React and Tailwind CSS.
-- **FR-002**: The navbar MUST include the nexus. wordmark, optional anchor links (Features, About), Login button, Signup button, and an EN/AR language switch styled per the brand identity.
+- **FR-002**: The navbar MUST include the nexus. wordmark positioned left, optional anchor links (Features, About) in the center, and LOGIN/SIGNUP buttons positioned on the RIGHT side with high visual contrast using neon accent colors (Volt recommended) and prominent sizing. The buttons MUST be clearly separated from other nav items, easily scannable, and distinctive in styling (Signup primary/filled, Login secondary/outline).
 - **FR-003**: The language switch MUST toggle between English and Arabic text by reading from `src/i18n/en.json` and `src/i18n/ar.json`, update visible copy without reloading, and store the selected locale in `localStorage`.
 - **FR-004**: Selecting Arabic MUST update the document direction to RTL and mirror alignment, spacing, and icon ordering for every section, including cards and chat bubble mockups.
 - **FR-005**: The hero section MUST include a headline, subtitle, three model chips (DeepSeek, LLaMA3, Mistral), a gradient/dark background, and a “Start Chatting” CTA styled with neon accents.
@@ -106,6 +106,7 @@ A mobile visitor on a 360px wide device can read every section, toggle languages
 - **FR-012**: React Router MUST define routes for `/`, `/login`, `/signup`, `/chat`, `/profile`, and `/history`; navbar buttons and CTA MUST navigate to these routes without full page reloads.
 - **FR-013**: All textual content (headlines, button labels, descriptions) MUST be stored in JSON translation files—no hardcoded strings may remain in JSX components.
 - **FR-014**: Tailwind CSS MUST enforce the dark theme palette (Ink background, Surface panels) with neon Volt/Plasma accents, rounded components, and responsive spacing tokens inspired by the brand identity HTML.
+- **FR-014a**: Login and Signup buttons in the navbar MUST be visually distinct with different styling: **SIGNUP button MUST be PRIMARY** (filled Volt background with strong contrast) and **LOGIN button MUST be SECONDARY** (outline/ghost style with Volt border). Both buttons MUST be immediately visible, easily scannable, and easily clickable (minimum 44px height) on desktop and mobile viewports.
 - **FR-015**: The layout MUST remain responsive from 320px to 1440px widths, ensuring sections stack gracefully, typography scales appropriately, and no horizontal scroll appears on standard devices.
 - **FR-016**: Interactive controls (language switch, CTA, navbar buttons) MUST include accessible labels, 4.5:1 contrast ratios, and keyboard focus states to satisfy WCAG AA expectations for marketing pages.
 
@@ -128,6 +129,7 @@ A mobile visitor on a 360px wide device can read every section, toggle languages
 - **SC-006**: Accessibility audit (axe or Lighthouse) reports no critical issues for contrast, keyboard focus, or ARIA labels on the landing page.
 - **SC-007**: Bilingual / RTL showcase demonstrates English and Arabic examples with correct fonts and direction, validated by design review referencing brand_identity_chatbot_genz.html.
 - **SC-008**: Footer displays brand identity, AI platform descriptor, and language indicator across both languages without truncation on devices down to 320px width.
+- **SC-009**: Navbar LOGIN and SIGNUP buttons are positioned on the right side, visually distinct (Signup filled/primary with Volt, Login outline/secondary), and immediately clear to users across all viewport sizes (320px to 1440px); contrast ratio meets or exceeds 4.5:1 per WCAG AA.
 
 ## Assumptions
 
