@@ -1,0 +1,58 @@
+# =========================
+# Environment / Secrets
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# Backend (Python)
+# =========================
+backend/venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.sqlite3
+*.db
+.pytest_cache/
+.mypy_cache/
+.coverage
+
+# =========================
+# Frontend (Node)
+# =========================
+node_modules/
+frontend/node_modules/
+frontend/.env.local
+frontend/build/
+frontend/dist/
+
+# =========================
+# Logs
+# =========================
+logs/
+*.log
+backend.log
+frontend.log
+
+# =========================
+# IDE
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Internal / Docs (not for repo)
+# =========================
+constitution.md
+brand_identity_chatbot_genz.html
