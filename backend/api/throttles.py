@@ -18,12 +18,12 @@ class LoginAttemptThrottle(SimpleRateThrottle):
 	"""
 	scope = 'login_attempts'
 	
-	def get_cache_key(self):
+	def get_cache_key(self, request, view):
 		"""Use IP address as cache key for login attempts."""
-		if self.request.user and self.request.user.is_authenticated:
+		if request.user and request.user.is_authenticated:
 			return None  # Don't throttle authenticated users
 		
-		return f'login_attempt_{self.get_ident(self.request)}'
+		return f'login_attempt_{self.get_ident(request)}'
 
 
 class VerificationCodeThrottle(SimpleRateThrottle):
@@ -34,9 +34,9 @@ class VerificationCodeThrottle(SimpleRateThrottle):
 	"""
 	scope = 'verification_code'
 	
-	def get_cache_key(self):
+	def get_cache_key(self, request, view):
 		"""Use email address as cache key for code requests."""
-		email = self.request.data.get('email')
+		email = request.data.get('email')
 		if not email:
 			return None
 		
@@ -51,9 +51,9 @@ class ResendCodeThrottle(SimpleRateThrottle):
 	"""
 	scope = 'verification_code'
 	
-	def get_cache_key(self):
+	def get_cache_key(self, request, view):
 		"""Use email address as cache key for resend requests."""
-		email = self.request.data.get('email')
+		email = request.data.get('email')
 		if not email:
 			return None
 		
