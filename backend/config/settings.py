@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 import os
 from pathlib import Path
+from datetime import timedelta
 
 from dotenv import load_dotenv
 
@@ -30,7 +31,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'dev-key-not-for-production')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,testserver').split(',')
 
 
 # Application definition
@@ -145,3 +146,97 @@ CORS_ALLOWED_ORIGINS = os.getenv(
     'CORS_ALLOWED_ORIGINS',
     'http://localhost:3000,http://127.0.0.1:3000'
 ).split(',')
+CORS_ALLOW_CREDENTIALS = True
+
+
+# ==============================================
+# JWT Configuration (django-rest-framework-simplejwt)
+# ==============================================
+# JWT configured for HTTP-only cookie authentication per security specification.
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'AUTH_COOKIE': 'access_token',
+    'AUTH_COOKIE_SECURE': os.getenv('AUTH_COOKIE_SECURE', 'False') == 'True',
+    'AUTH_COOKIE_HTTP_ONLY': True,
+    'AUTH_COOKIE_SAMESITE': 'Lax',
+}
+
+
+# ==============================================
+# Email Configuration
+# ==============================================
+# Email backend configured for development and production environments.
+
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'localhost')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', '1025'))
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'False') == 'True'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@nexus-chat.ai')
+
+
+# ==============================================
+# REST Framework Configuration
+# ==============================================
+# Rate limiting and error handling configured per specification.
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/hour',
+        'user': '1000/hour',
+        'login_attempts': '5/15min',
+        'verification_code': '3/60min',
+    },
+    'DEFAULT_EXCEPTION_HANDLER': 'api.exceptions.custom_exception_handler',
+    'EXCEPTION_TEST_RESPONSE_EXCEPTION_HANDLER': 'api.exceptions.custom_exception_handler',
+}
+
+
+# ==============================================
+# Google OAuth Configuration
+# ==============================================
+# Google OAuth credentials configured via environment variables.
+
+GOOGLE_OAUTH_CLIENT_ID = os.getenv('GOOGLE_OAUTH_CLIENT_ID', '')
+GOOGLE_OAUTH_CLIENT_SECRET = os.getenv('GOOGLE_OAUTH_CLIENT_SECRET', '')
+
+
+# ==============================================
+# Email Templates Directory
+# ==============================================
+
+TEMPLATES[0]['DIRS'] = [BASE_DIR / 'templates']
+
+
+# ==============================================
+# Sentry Configuration for Production Error Tracking
+# ==============================================
+# Sentry configured for production error tracking. Disabled in development.
+
+if not DEBUG:
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+    
+    SENTRY_DSN = os.getenv('SENTRY_DSN', '')
+    
+    if SENTRY_DSN:
+        sentry_sdk.init(
+            dsn=SENTRY_DSN,
+            integrations=[DjangoIntegration()],
+            traces_sample_rate=0.1,
+            send_default_pii=False,
+            environment=os.getenv('ENVIRONMENT', 'production'),
+        )

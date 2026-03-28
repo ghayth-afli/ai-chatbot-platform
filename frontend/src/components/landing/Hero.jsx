@@ -32,14 +32,18 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 py-16 sm:py-20 md:py-24 lg:py-32">
+    <div
+      className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 py-16 sm:py-20 md:py-24 lg:py-32"
+      role="region"
+      aria-label="Hero section"
+    >
       <div className="text-center">
         {/* Wordmark */}
         <div className="mb-8 flex items-end justify-center gap-1">
-          <h1 className="font-['Syne'] font-black text-6xl sm:text-7xl lg:text-8xl leading-tight text-paper tracking-tight">
+          <h1 className="font-['Syne'] font-black text-4xl sm:text-5xl md:text-6xl lg:text-8xl leading-tight text-paper tracking-tight">
             {t("hero.headline")}
           </h1>
-          <span className="text-volt font-['Syne'] font-black text-7xl sm:text-8xl lg:text-9xl leading-none mb-2">
+          <span className="text-volt font-['Syne'] font-black text-4xl sm:text-5xl md:text-6xl lg:text-9xl leading-none mb-2">
             •
           </span>
         </div>
@@ -66,16 +70,20 @@ const Hero = () => {
         {/* CTA Buttons */}
         <div
           className={`flex flex-col sm:flex-row gap-4 justify-center ${isArabic ? "flex-row-reverse" : ""}`}
+          role="group"
+          aria-label="Call-to-action buttons"
         >
           <button
             onClick={handleCTA}
-            className="px-8 py-4 bg-volt text-ink font-bold rounded-lg hover:bg-paper transition-colors duration-300 font-syne uppercase tracking-wide text-sm sm:text-base"
+            className="px-8 py-4 bg-volt text-ink font-bold rounded-lg hover:bg-paper active:scale-95 transition-all duration-200 font-syne uppercase tracking-wide text-sm sm:text-base focus:ring-2 focus:ring-offset-2 focus:ring-volt"
+            aria-label="Get started with nexus AI platform"
           >
             {t("hero.cta.default")}
           </button>
           <button
             onClick={handleFeaturesScroll}
-            className="px-8 py-4 border border-volt text-volt font-bold rounded-lg hover:bg-volt/10 transition-colors duration-300 font-syne uppercase tracking-wide text-sm sm:text-base"
+            className="px-8 py-4 border border-volt text-volt font-bold rounded-lg hover:bg-volt/10 active:scale-95 transition-all duration-200 font-syne uppercase tracking-wide text-sm sm:text-base focus:ring-2 focus:ring-offset-2 focus:ring-volt"
+            aria-label="Scroll to features section"
           >
             {t("nav.features")}
           </button>

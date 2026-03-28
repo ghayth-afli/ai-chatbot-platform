@@ -25,6 +25,24 @@ module.exports = {
         xs: "2px",
         sm: "4px",
       },
+      screens: {
+        xs: "320px",
+      },
+      animation: {
+        "fade-in": "fade-in 0.3s ease-out",
+      },
+      keyframes: {
+        "fade-in": {
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+      },
+      borderColor: {
+        volt: "#C8FF00",
+        plasma: "#7B5CFF",
+        spark: "#FF4D6D",
+        ice: "#00D4E8",
+      },
     },
   },
   plugins: [],

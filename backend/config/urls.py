@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include([
         path('health/', include('api.urls')),
+        path('auth/', include('users.urls')),  # Authentication endpoints registered under /api/auth
     ])),
 ]

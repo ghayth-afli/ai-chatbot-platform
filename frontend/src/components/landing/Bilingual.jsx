@@ -17,7 +17,11 @@ const Bilingual = () => {
   const { isArabic } = useLanguage();
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-8">
+    <div
+      className="w-full max-w-7xl mx-auto px-4 sm:px-8"
+      role="region"
+      aria-label="Bilingual demonstration"
+    >
       {/* Section Title */}
       <div className="text-center mb-12">
         <p className="font-mono text-xs sm:text-sm uppercase tracking-widest text-muted mb-4">
@@ -31,9 +35,15 @@ const Bilingual = () => {
       {/* Showcase Grid */}
       <div
         className={`grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 ${isArabic ? "md:grid-flow-col-dense" : ""}`}
+        role="group"
+        aria-label="Language demonstration samples"
       >
         {/* English Showcase */}
-        <div className="p-4 sm:p-6 md:p-8 rounded-lg sm:rounded-xl border border-ice/40 bg-ice/5">
+        <div
+          className="p-4 sm:p-6 md:p-8 rounded-lg sm:rounded-xl border border-ice/40 bg-ice/5"
+          role="region"
+          aria-label="English language example"
+        >
           <p className="font-mono text-xs uppercase tracking-widest text-ice mb-4">
             {t("bilingual.english.heading")}
           </p>
@@ -69,6 +79,8 @@ const Bilingual = () => {
         <div
           className="p-4 sm:p-6 md:p-8 rounded-lg sm:rounded-xl border border-spark/40 bg-spark/5"
           dir="rtl"
+          role="region"
+          aria-label="Arabic language example"
         >
           <p className="font-mono text-xs uppercase tracking-widest text-spark mb-4">
             {t("bilingual.arabic.heading")}
