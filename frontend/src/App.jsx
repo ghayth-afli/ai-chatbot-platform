@@ -1,33 +1,25 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
+import { GoogleOAuthProvider } from "./components/GoogleOAuthMock";
 import i18n from "./i18n/config";
 import { LanguageProvider } from "./hooks/useLanguage";
+import { AuthProvider } from "./hooks/useAuth";
+import { GOOGLE_CLIENT_ID } from "./config/oauth";
+
+// Pages
 import Landing from "./pages/Landing";
-import "./App.css";
+import LoginPage from "./pages/auth/LoginPage";
+import SignupPage from "./pages/auth/SignupPage";
+import VerifyEmailPage from "./pages/auth/VerifyEmailPage";
+import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
+import ChatPage from "./pages/ChatPage";
 
-// Placeholder pages for routing
-const LoginPage = () => (
-  <div className="p-8 text-center text-paper">
-    <h1 className="text-4xl font-bold text-volt mb-4">Login</h1>
-    <p className="text-lg text-gray-400">Login page under development</p>
-  </div>
-);
+// Components
+import PrivateRoute from "./components/PrivateRoute";
 
-const SignupPage = () => (
-  <div className="p-8 text-center text-paper">
-    <h1 className="text-4xl font-bold text-volt mb-4">Sign Up</h1>
-    <p className="text-lg text-gray-400">Sign up page under development</p>
-  </div>
-);
-
-const ChatPage = () => (
-  <div className="p-8 text-center text-paper">
-    <h1 className="text-4xl font-bold text-volt mb-4">Chat</h1>
-    <p className="text-lg text-gray-400">Chat interface under development</p>
-  </div>
-);
-
+// Placeholder pages for future implementation
 const ProfilePage = () => (
   <div className="p-8 text-center text-paper">
     <h1 className="text-4xl font-bold text-volt mb-4">Profile</h1>
@@ -44,22 +36,67 @@ const HistoryPage = () => (
 
 function App() {
   return (
-    <I18nextProvider i18n={i18n}>
-      <LanguageProvider>
-        <div className="min-h-screen bg-ink text-paper font-sans">
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Landing />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/signup" element={<SignupPage />} />
-              <Route path="/chat" element={<ChatPage />} />
-              <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/history" element={<HistoryPage />} />
-            </Routes>
-          </BrowserRouter>
-        </div>
-      </LanguageProvider>
-    </I18nextProvider>
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <I18nextProvider i18n={i18n}>
+        <LanguageProvider>
+          <AuthProvider>
+            <div className="min-h-screen bg-ink text-paper font-sans">
+              <BrowserRouter>
+                <Routes>
+                  {/* Public Routes */}
+                  <Route path="/" element={<Landing />} />
+
+                  {/* Authentication Routes */}
+                  <Route path="/auth/login" element={<LoginPage />} />
+                  <Route path="/auth/signup" element={<SignupPage />} />
+                  <Route
+                    path="/auth/verify-email"
+                    element={<VerifyEmailPage />}
+                  />
+                  <Route
+                    path="/auth/forgot-password"
+                    element={<ForgotPasswordPage />}
+                  />
+                  <Route
+                    path="/auth/reset-password"
+                    element={<ResetPasswordPage />}
+                  />
+
+                  {/* Protected Routes */}
+                  <Route
+                    path="/chat"
+                    element={
+                      <PrivateRoute>
+                        <ChatPage />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    path="/profile"
+                    element={
+                      <PrivateRoute>
+                        <ProfilePage />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    path="/history"
+                    element={
+                      <PrivateRoute>
+                        <HistoryPage />
+                      </PrivateRoute>
+                    }
+                  />
+
+                  {/* Fallback route */}
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+              </BrowserRouter>
+            </div>
+          </AuthProvider>
+        </LanguageProvider>
+      </I18nextProvider>
+    </GoogleOAuthProvider>
   );
 }
 

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>التحقق من البريد الإلكتروني</title>
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Arabic Typesetting", sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 20px;
+        direction: rtl;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+      .header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 40px 20px;
+        text-align: center;
+      }
+      .header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 600;
+      }
+      .content {
+        padding: 40px 20px;
+      }
+      .greeting {
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 20px;
+        text-align: right;
+      }
+      .code-box {
+        background: #f9f9f9;
+        border: 2px solid #667eea;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        margin: 30px 0;
+      }
+      .code {
+        font-size: 32px;
+        font-weight: bold;
+        letter-spacing: 8px;
+        color: #667eea;
+        font-family: "Courier New", monospace;
+      }
+      .expiry {
+        color: #666;
+        font-size: 14px;
+        margin-top: 15px;
+      }
+      .instructions {
+        color: #555;
+        font-size: 14px;
+        line-height: 1.6;
+        margin: 20px 0;
+        text-align: right;
+      }
+      .footer {
+        background: #f5f5f5;
+        padding: 20px;
+        text-align: center;
+        font-size: 12px;
+        color: #999;
+        border-top: 1px solid #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>التحقق من بريدك الإلكتروني</h1>
+      </div>
+      <div class="content">
+        <div class="greeting">مرحباً {{ email }},</div>
+        <div class="instructions">
+          شكراً لك على التسجيل في خدمتنا. لإكمال إعداد حسابك والوصول إلى لوحة
+          التحكم، يرجى التحقق من بريدك الإلكتروني باستخدام الرمز أدناه.
+        </div>
+        <div class="code-box">
+          <div class="code">{{ code }}</div>
+          <div class="expiry">
+            ينتهي صلاحية الرمز خلال {{ expiry_minutes }} دقيقة
+          </div>
+        </div>
+        <div class="instructions">
+          <strong>كيفية التحقق:</strong>
+          <br />1. انتقل إلى صفحة التحقق على موقعنا أو تطبيقنا <br />2. أدخل أو
+          الصق الرمز أعلاه <br />3. اضغط على زر "التحقق" <br /><br />
+          إذا لم تقم بإنشاء هذا الحساب، يرجى تجاهل هذا البريد أو التواصل مع فريق
+          الدعم.
+        </div>
+      </div>
+      <div class="footer">
+        <p>© 2026 منصة Nexus Chat AI. جميع الحقوق محفوظة.</p>
+        <p>إذا واجهت مشكلاً، تواصل معنا في support@nexus-chat.ai</p>
+      </div>
+    </div>
+  </body>
+</html>

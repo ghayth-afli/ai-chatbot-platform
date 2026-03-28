@@ -13,7 +13,11 @@ const About = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 sm:px-8">
+    <div
+      className="w-full max-w-4xl mx-auto px-4 sm:px-8"
+      role="region"
+      aria-label="About platform section"
+    >
       {/* Section Title */}
       <div className="text-center mb-12">
         <p className="font-mono text-xs sm:text-sm uppercase tracking-widest text-muted mb-4">
@@ -37,8 +41,15 @@ const About = () => {
       </div>
 
       {/* Brand Values */}
-      <div className="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-        <div className="p-4 sm:p-6 rounded-lg border border-volt/30 bg-volt/5">
+      <div
+        className="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6"
+        role="list"
+        aria-label="Platform values"
+      >
+        <div
+          className="p-4 sm:p-6 rounded-lg border border-volt/30 bg-volt/5"
+          role="listitem"
+        >
           <div className="text-xl sm:text-2xl font-bold text-volt mb-2">01</div>
           <h3 className="font-bold text-sm sm:text-base text-paper mb-2">
             Choice
@@ -47,7 +58,10 @@ const About = () => {
             Multiple models, multiple languages, multiple possibilities.
           </p>
         </div>
-        <div className="p-4 sm:p-6 rounded-lg border border-plasma/30 bg-plasma/5">
+        <div
+          className="p-4 sm:p-6 rounded-lg border border-plasma/30 bg-plasma/5"
+          role="listitem"
+        >
           <div className="text-xl sm:text-2xl font-bold text-plasma mb-2">
             02
           </div>
@@ -58,7 +72,10 @@ const About = () => {
             Open-source models with clear provider attribution.
           </p>
         </div>
-        <div className="p-4 sm:p-6 rounded-lg border border-ice/30 bg-ice/5">
+        <div
+          className="p-4 sm:p-6 rounded-lg border border-ice/30 bg-ice/5"
+          role="listitem"
+        >
           <div className="text-xl sm:text-2xl font-bold text-ice mb-2">03</div>
           <h3 className="font-bold text-sm sm:text-base text-paper mb-2">
             Accessibility

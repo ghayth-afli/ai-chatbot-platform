@@ -33,6 +33,14 @@ const Features = () => {
     ice: "bg-ice/10",
   };
 
+  // ✅ FIX: Static border color classes (Tailwind requires static strings)
+  const accentBorderMap = {
+    volt: "hover:border-volt",
+    plasma: "hover:border-plasma",
+    spark: "hover:border-spark",
+    ice: "hover:border-ice",
+  };
+
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-8">
       {/* Section Title */}
@@ -52,7 +60,9 @@ const Features = () => {
         {features.map((feature) => (
           <div
             key={feature.id}
-            className={`p-4 sm:p-6 md:p-8 rounded-lg sm:rounded-xl border border-border bg-glass hover:border-${feature.accent} transition-all duration-300 group cursor-pointer min-h-[200px]`}
+            className={`p-4 sm:p-6 md:p-8 rounded-lg sm:rounded-xl border border-border bg-glass transition-all duration-300 group cursor-pointer hover:border-opacity-100 min-h-[220px] sm:min-h-[240px] flex flex-col ${accentBorderMap[feature.accent]}`}
+            role="article"
+            aria-label={`${t(feature.titleKey)} - ${t(feature.bodyKey)}`}
           >
             {/* Icon Placeholder */}
             <div
@@ -71,11 +81,11 @@ const Features = () => {
             </h3>
 
             {/* Body */}
-            <p className="text-sm sm:text-base text-paper/70 font-light leading-relaxed">
+            <p className="text-sm sm:text-base text-paper/70 font-light leading-relaxed flex-grow">
               {t(feature.bodyKey)}
             </p>
           </div>
-        ))}
+        ))}}
       </div>
     </div>
   );
