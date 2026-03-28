@@ -258,6 +258,7 @@ def verify_google_token(token):
 	"""
 	Verify Google OAuth token and extract user info.
 	
+	In development mode with mock tokens, returns mock user data.
 	For production use google-auth library:
 	from google.auth.transport import requests
 	from google.oauth2 import id_token
@@ -268,6 +269,15 @@ def verify_google_token(token):
 	Returns:
 		dict: Decoded token with {email, name, picture_url} or raises exception
 	"""
+	# Handle mock token in development
+	if token == 'mock-jwt-token-from-google' and settings.DEBUG:
+		return {
+			'email': 'testuser@example.com',
+			'name': 'Test User',
+			'picture_url': 'https://lh3.googleusercontent.com/a/default-user',
+			'email_verified': True,
+		}
+	
 	try:
 		from google.auth.transport import requests
 		from google.oauth2 import id_token

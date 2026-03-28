@@ -36,11 +36,8 @@ export const GoogleLogin = ({
   ...props
 }) => {
   const handleClick = () => {
-    // Mock implementation - returns a mock credential
-    const mockCredential = {
-      token: "mock-jwt-token-from-google",
-      clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-    };
+    // Mock implementation - returns a mock credential as a string token
+    const mockCredential = "mock-jwt-token-from-google";
 
     if (onSuccess) {
       onSuccess({ credential: mockCredential });

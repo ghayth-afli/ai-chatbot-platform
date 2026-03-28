@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status as http_status
 from django.contrib.auth.models import User
 from django.db.models import Q
+from .models import UserExtension
 from .serializers import (
 	UserSerializer, SignupSerializer, LoginSerializer,
 	PasswordResetSerializer, NewPasswordSerializer,
@@ -301,7 +302,8 @@ class GoogleOAuthView(APIView):
 			user.extension.is_verified = True
 			user.extension.save()
 		else:
-			user.extension.create(
+			UserExtension.objects.create(
+				user=user,
 				auth_provider='google',
 				profile_picture_url=picture_url,
 				is_verified=True
