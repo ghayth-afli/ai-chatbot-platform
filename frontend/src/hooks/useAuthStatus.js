@@ -21,13 +21,7 @@ export const useAuthStatus = () => {
   return {
     isAuthenticated,
     toggleAuth,
-    user: isAuthenticated
-      ? {
-          id: "user-123",
-          name: "Demo User",
-          email: "demo@nexus.ai",
-        }
-      : null,
+    user: null,
   };
 };
 

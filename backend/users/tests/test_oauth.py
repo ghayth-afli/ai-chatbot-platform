@@ -22,7 +22,7 @@ class GoogleOAuthTestCase(TestCase):
 		self.client = Client()
 		self.google_url = reverse('users:google-oauth')
 
-	@patch('users.utils.verify_google_token')
+	@patch('users.views.verify_google_token')
 	def test_valid_oauth_token_creates_user(self, mock_verify):
 		"""Test: Valid Google token creates new user (201, account auto-created)."""
 		# Mock Google token verification
@@ -53,7 +53,7 @@ class GoogleOAuthTestCase(TestCase):
 		self.assertEqual(user.extension.auth_provider, 'google')
 		self.assertTrue(user.extension.is_verified)
 
-	@patch('users.utils.verify_google_token')
+	@patch('users.views.verify_google_token')
 	def test_existing_user_google_login(self, mock_verify):
 		"""Test: Existing user signs in via Google (200, returns tokens)."""
 		# Create existing user
@@ -89,7 +89,7 @@ class GoogleOAuthTestCase(TestCase):
 		user.refresh_from_db()
 		self.assertEqual(user.extension.auth_provider, 'google')
 
-	@patch('users.utils.verify_google_token')
+	@patch('users.views.verify_google_token')
 	def test_account_merge_email_password_to_google(self, mock_verify):
 		"""
 		Test: Account merging - email/password user + Google login = same account.
@@ -139,7 +139,7 @@ class GoogleOAuthTestCase(TestCase):
 		self.assertEqual(user.extension.auth_provider, 'google')
 		self.assertTrue(user.extension.is_verified)
 
-	@patch('users.utils.verify_google_token')
+	@patch('users.views.verify_google_token')
 	def test_invalid_google_token_fails(self, mock_verify):
 		"""Test: Invalid Google token fails (GOOGLE_AUTH_FAILED error)."""
 		# Mock Google token verification failure
@@ -173,7 +173,7 @@ class GoogleOAuthTestCase(TestCase):
 		response_data = response.json()
 		self.assertEqual(response_data['code'], 'INVALID_TOKEN')
 
-	@patch('users.utils.verify_google_token')
+	@patch('users.views.verify_google_token')
 	def test_duplicate_google_auth_same_account(self, mock_verify):
 		"""Test: Second login with same Google account doesn't create duplicate."""
 		# First login - create account

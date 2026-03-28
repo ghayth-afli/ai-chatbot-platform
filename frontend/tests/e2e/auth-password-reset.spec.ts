@@ -24,20 +24,20 @@ test.describe("Password Reset - E2E", () => {
     await page.click('a:has-text("Forgot password")');
 
     // Should navigate to forgot-password page
-    await page.waitForURL("**/forgot-password", { timeout: 5000 });
+    await page.waitForURL("**/auth/forgot-password", { timeout: 5000 });
 
     // Fill in email
     await page.fill('input[type="email"]', "demo@example.com");
 
     // Submit
-    await page.click('button:has-text("Reset")');
+    await page.click('button:has-text("Send Reset Code")');
 
     // Should show success message
     const successMessage = await page.locator("text=/reset code sent/i");
     await expect(successMessage).toBeVisible({ timeout: 5000 });
 
     // Should auto-navigate to reset-password page
-    await page.waitForURL("**/reset-password", { timeout: 5000 });
+    await page.waitForURL("**/auth/reset-password", { timeout: 5000 });
 
     // Fill in code (in test environment, fetch from backend or mock)
     await page.fill('input[placeholder*="123456"]', "123456");
@@ -48,7 +48,7 @@ test.describe("Password Reset - E2E", () => {
     await passwordInputs.nth(1).fill("NewPassword456!");
 
     // Submit reset
-    await page.click('button:has-text("Reset")');
+    await page.click('button:has-text("Reset Password")');
 
     // Should show success message
     const resetSuccess = await page.locator("text=/password reset/i");
@@ -65,7 +65,7 @@ test.describe("Password Reset - E2E", () => {
     await page.fill('input[type="email"]', "demo@example.com");
     await page.fill('input[type="password"]', "NewPassword456!");
 
-    await page.click('button:has-text("Log In")');
+    await page.click('button:has-text("Sign In")');
 
     // Should successfully login and redirect to chat
     await page.waitForURL("**/chat", { timeout: 5000 });

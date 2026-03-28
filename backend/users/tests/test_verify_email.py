@@ -1,6 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.core.cache import cache
 from users.models import VerificationCode
 from django.utils import timezone
 from datetime import timedelta
@@ -119,6 +120,7 @@ class ResendCodeTestCase(TestCase):
 	"""
 
 	def setUp(self):
+		cache.clear()  # Clear throttle cache before each test
 		self.client = Client()
 		self.resend_url = reverse('users:resend-code')
 		# Create a test user with unverified email
@@ -147,31 +149,15 @@ class ResendCodeTestCase(TestCase):
 
 	def test_rate_limiting(self):
 		"""Test: Rate limiting (3/60min)."""
-		# Create 3 verification codes to hit rate limit
-		VerificationCode.objects.create(
-			user=self.user,
-			code='111111',
-			type='verify',
-			expires_at=timezone.now() + timedelta(minutes=10),
-			is_used=False,
-			created_at=timezone.now()
-		)
-		VerificationCode.objects.create(
-			user=self.user,
-			code='222222',
-			type='verify',
-			expires_at=timezone.now() + timedelta(minutes=10),
-			is_used=False,
-			created_at=timezone.now()
-		)
-		VerificationCode.objects.create(
-			user=self.user,
-			code='333333',
-			type='verify',
-			expires_at=timezone.now() + timedelta(minutes=10),
-			is_used=False,
-			created_at=timezone.now()
-		)
+		# Make 3 resend requests
+		for i in range(3):
+			data = json.dumps({'email': 'test@example.com'})
+			response = self.client.post(
+				self.resend_url,
+				data=data,
+				content_type='application/json'
+			)
+			self.assertEqual(response.status_code, 200)
 
 		# Fourth request should be rate limited
 		data = json.dumps({'email': 'test@example.com'})
@@ -181,7 +167,7 @@ class ResendCodeTestCase(TestCase):
 			content_type='application/json'
 		)
 
-		# Should either fail with 429 or return error
+		# Should either fail with 429 (rate limited) or return error
 		self.assertIn(response.status_code, [429, 400])
 
 	def test_unverified_user_can_resend(self):

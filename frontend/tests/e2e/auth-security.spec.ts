@@ -35,7 +35,7 @@ test.describe("Authentication Security - E2E", () => {
     // Perform login
     await page.fill('input[type="email"]', "demo@example.com");
     await page.fill('input[type="password"]', "DemoPass123!");
-    await page.click('button:has-text("Log In")');
+    await page.click('button:has-text("Sign In")');
 
     // Wait for redirect to chat
     await page.waitForURL("**/chat", { timeout: 10000 });
@@ -62,7 +62,7 @@ test.describe("Authentication Security - E2E", () => {
     // Login first
     await page.fill('input[type="email"]', "demo@example.com");
     await page.fill('input[type="password"]', "DemoPass123!");
-    await page.click('button:has-text("Log In")');
+    await page.click('button:has-text("Sign In")');
 
     // Wait for redirect
     await page.waitForURL("**/chat", { timeout: 10000 });
@@ -95,7 +95,7 @@ test.describe("Authentication Security - E2E", () => {
     );
     if (await logoutButton.isVisible()) {
       await logoutButton.click();
-      await page.waitForURL("**/login", { timeout: 5000 });
+      await page.waitForURL("**/auth/login", { timeout: 5000 });
     }
 
     // Get cookies after logout

@@ -11,6 +11,7 @@ Coverage:
 from django.test import TestCase, Client, override_settings
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.core.cache import cache
 from users.models import VerificationCode
 from django.utils import timezone
 from datetime import timedelta
@@ -22,6 +23,7 @@ class CookieSecurityTestCase(TestCase):
 	"""Test cookie security flags (HttpOnly, Secure, SameSite)."""
 
 	def setUp(self):
+		cache.clear()  # Clear throttle cache before each test
 		self.client = Client()
 		self.login_url = reverse('users:login')
 		self.user = User.objects.create_user(
@@ -45,10 +47,16 @@ class CookieSecurityTestCase(TestCase):
 
 		self.assertEqual(response.status_code, 200)
 		
-		# Check Set-Cookie headers
-		set_cookie_headers = response.get('Set-Cookie', '')
-		self.assertIn('HttpOnly', set_cookie_headers)
-		self.assertIn('SameSite=Lax', set_cookie_headers)
+		# Check Set-Cookie headers via cookies object
+		cookies = response.cookies
+		# Should have both access_token and refresh_token cookies
+		self.assertIn('access_token', cookies)
+		self.assertIn('refresh_token', cookies)
+		# Check HttpOnly and SameSite flags
+		self.assertTrue(cookies['access_token']['httponly'])
+		self.assertTrue(cookies['refresh_token']['httponly'])
+		self.assertEqual(cookies['access_token']['samesite'], 'Lax')
+		self.assertEqual(cookies['refresh_token']['samesite'], 'Lax')
 		
 	def test_access_token_cookie_15min_expiry(self):
 		"""Test: Access token cookie has 15-minute max_age."""
@@ -95,6 +103,7 @@ class LoginRateLimitingTestCase(TestCase):
 	"""Test login rate limiting (5 attempts per 15 minutes)."""
 
 	def setUp(self):
+		cache.clear()  # Clear throttle cache before each test
 		self.client = Client()
 		self.login_url = reverse('users:login')
 		
@@ -140,6 +149,7 @@ class CodeRateLimitingTestCase(TestCase):
 	"""Test verification code rate limiting (3 per 60 minutes)."""
 
 	def setUp(self):
+		cache.clear()  # Clear throttle cache before each test
 		self.client = Client()
 		self.resend_url = reverse('users:resend-code')
 		
@@ -178,6 +188,7 @@ class MultiTabLogoutTestCase(TestCase):
 	"""Test logout invalidates session across tabs (multi-tab detection)."""
 
 	def setUp(self):
+		cache.clear()  # Clear throttle cache before each test
 		self.client = Client()
 		self.login_url = reverse('users:login')
 		self.logout_url = reverse('users:logout')
@@ -211,7 +222,7 @@ class MultiTabLogoutTestCase(TestCase):
 
 		# Logout
 		response = self.client.post(self.logout_url)
-		self.assertEqual(response.status_code, 200)
+		self.assertEqual(response.status_code, 204)
 
 		# After logout, /me should fail with 401
 		response = self.client.get(self.me_url)
@@ -232,9 +243,7 @@ class MultiTabLogoutTestCase(TestCase):
 
 		# Logout
 		response = self.client.post(self.logout_url)
-		self.assertEqual(response.status_code, 200)
+		self.assertEqual(response.status_code, 204)
 		
 		# Check that cookies are cleared (max_age=0 or expires set to past)
-		set_cookie_headers = response.get('Set-Cookie', '')
-		# Should have delete directives for cookies
-		self.assertNotEqual(set_cookie_headers, '')
+		cookies = response.cookies

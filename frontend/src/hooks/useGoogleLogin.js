@@ -11,12 +11,13 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import * as authService from "../services/authService";
+import { useAuth } from "./useAuth";
 
 const useGoogleLogin = (onSuccess, onError) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { googleSignIn } = useAuth();
 
   /**
    * Handle successful Google login.
@@ -34,15 +35,19 @@ const useGoogleLogin = (onSuccess, onError) => {
         throw new Error("No credential in Google response");
       }
 
-      // Call backend Google OAuth endpoint
-      const result = await authService.googleSignIn(credential);
+      // Call auth context's googleSignIn which handles both API call and state update
+      const result = await googleSignIn(credential);
 
-      if (result.user) {
-        // Store user info and redirect
+      if (result.success && result.data && result.data.user) {
+        // Callback notification
         if (typeof onSuccess === "function") {
-          onSuccess(result);
+          onSuccess(result.data);
         }
         navigate("/chat");
+      } else {
+        throw new Error(
+          result.error?.message || "Google authentication failed",
+        );
       }
     } catch (err) {
       const errorMessage =
