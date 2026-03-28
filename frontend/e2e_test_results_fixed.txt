@@ -1,0 +1,498 @@
+
+> nexus-chatbot-frontend@0.1.0 test:e2e
+> playwright test
+
+
+Running 204 tests using 1 worker
+
+[1A[2K[1/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-email-verification.spec.ts:4:7 ÔÇ║ Email Verification Flow E2E ÔÇ║ should complete signup, receive verification code, and verify email
+[1A[2K  1) [chromium-mobile] ÔÇ║ tests\e2e\auth-email-verification.spec.ts:4:7 ÔÇ║ Email Verification Flow E2E ÔÇ║ should complete signup, receive verification code, and verify email 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/auth/verify-email*" until "load"
+    ============================================================
+
+      19 |
+      20 |     // Should redirect to verify-email page
+    > 21 |     await page.waitForURL("**/auth/verify-email*");
+         |                ^
+      22 |     expect(page.url()).toContain("/auth/verify-email");
+      23 |
+      24 |     // Verify email input field shows
+        at D:\my_folder\ai-chat-platform\ai-chatbot-platform\frontend\tests\e2e\auth-email-verification.spec.ts:21:16
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\auth-email-verification-Em-0ae74-ation-code-and-verify-email-chromium-mobile\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\auth-email-verification-Em-0ae74-ation-code-and-verify-email-chromium-mobile\error-context.md
+
+
+[1A[2K[2/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-email-verification.spec.ts:43:7 ÔÇ║ Email Verification Flow E2E ÔÇ║ should show error for invalid verification code
+[1A[2K  2) [chromium-mobile] ÔÇ║ tests\e2e\auth-email-verification.spec.ts:43:7 ÔÇ║ Email Verification Flow E2E ÔÇ║ should show error for invalid verification code 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('input[name="code"]')[22m
+
+
+      48 |
+      49 |     // Enter invalid code
+    > 50 |     await page.fill('input[name="code"]', "999999");
+         |                ^
+      51 |
+      52 |     // Submit
+      53 |     await page.click('button:has-text("Verify Email")');
+        at D:\my_folder\ai-chat-platform\ai-chatbot-platform\frontend\tests\e2e\auth-email-verification.spec.ts:50:16
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\auth-email-verification-Em-3c19c-r-invalid-verification-code-chromium-mobile\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\auth-email-verification-Em-3c19c-r-invalid-verification-code-chromium-mobile\error-context.md
+
+
+[1A[2K[3/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-email-verification.spec.ts:61:7 ÔÇ║ Email Verification Flow E2E ÔÇ║ should show error for expired verification code
+[1A[2K  3) [chromium-mobile] ÔÇ║ tests\e2e\auth-email-verification.spec.ts:61:7 ÔÇ║ Email Verification Flow E2E ÔÇ║ should show error for expired verification code 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('input[name="code"]')[22m
+
+
+      66 |
+      67 |     // Use an expired code
+    > 68 |     await page.fill('input[name="code"]', "000000");
+         |                ^
+      69 |
+      70 |     // Submit
+      71 |     await page.click('button:has-text("Verify Email")');
+        at D:\my_folder\ai-chat-platform\ai-chatbot-platform\frontend\tests\e2e\auth-email-verification.spec.ts:68:16
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\auth-email-verification-Em-67f81-r-expired-verification-code-chromium-mobile\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\auth-email-verification-Em-67f81-r-expired-verification-code-chromium-mobile\error-context.md
+
+
+[1A[2K[4/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-email-verification.spec.ts:79:7 ÔÇ║ Email Verification Flow E2E ÔÇ║ resend code button should be functional
+[1A[2K  4) [chromium-mobile] ÔÇ║ tests\e2e\auth-email-verification.spec.ts:79:7 ÔÇ║ Email Verification Flow E2E ÔÇ║ resend code button should be functional 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('button:has-text("Resend Code")')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('button:has-text("Resend Code")')[22m
+
+
+      85 |     // Find and click resend button
+      86 |     const resendButton = await page.locator('button:has-text("Resend Code")');
+    > 87 |     await expect(resendButton).toBeVisible();
+         |                                ^
+      88 |
+      89 |     await resendButton.click();
+      90 |
+        at D:\my_folder\ai-chat-platform\ai-chatbot-platform\frontend\tests\e2e\auth-email-verification.spec.ts:87:32
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\auth-email-verification-Em-70092-button-should-be-functional-chromium-mobile\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\auth-email-verification-Em-70092-button-should-be-functional-chromium-mobile\error-context.md
+
+
+[1A[2K[5/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-email-verification.spec.ts:97:7 ÔÇ║ Email Verification Flow E2E ÔÇ║ should display countdown timer
+[1A[2K  5) [chromium-mobile] ÔÇ║ tests\e2e\auth-email-verification.spec.ts:97:7 ÔÇ║ Email Verification Flow E2E ÔÇ║ should display countdown timer 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('text=/expires|minutes|seconds/i')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('text=/expires|minutes|seconds/i')[22m
+
+
+      103 |     // Check for countdown timer display
+      104 |     const timer = page.locator("text=/expires|minutes|seconds/i");
+    > 105 |     await expect(timer).toBeVisible();
+          |                         ^
+      106 |   });
+      107 | });
+      108 |
+        at D:\my_folder\ai-chat-platform\ai-chatbot-platform\frontend\tests\e2e\auth-email-verification.spec.ts:105:25
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\auth-email-verification-Em-487ac-uld-display-countdown-timer-chromium-mobile\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\auth-email-verification-Em-487ac-uld-display-countdown-timer-chromium-mobile\error-context.md
+
+
+[1A[2K[6/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-google-oauth.spec.ts:22:7 ÔÇ║ Google OAuth E2E ÔÇ║ Google Sign-In button appears on login page
+[1A[2K[7/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-google-oauth.spec.ts:37:7 ÔÇ║ Google OAuth E2E ÔÇ║ Google Sign-In button appears on signup page
+[1A[2K[8/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-google-oauth.spec.ts:49:7 ÔÇ║ Google OAuth E2E ÔÇ║ Mocked Google OAuth flow completes
+[1A[2K[9/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-google-oauth.spec.ts:64:7 ÔÇ║ Google OAuth E2E ÔÇ║ Error message displays on invalid Google credentials
+[1A[2K[10/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-google-oauth.spec.ts:76:7 ÔÇ║ Google OAuth E2E ÔÇ║ Google OAuth auto-creates account and authenticated user reaches /chat
+[1A[2K[11/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-google-oauth.spec.ts:89:7 ÔÇ║ Google OAuth E2E ÔÇ║ Account merging: existing email/password user can OAuth with same email
+[1A[2K[12/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-google-oauth.spec.ts:104:7 ÔÇ║ Google OAuth E2E ÔÇ║ Signup with Google skips email verification
+[1A[2K[13/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-google-oauth.spec.ts:118:7 ÔÇ║ Google OAuth E2E ÔÇ║ Second login with same Google account does not create duplicate
+[1A[2K[14/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-password-reset.spec.ts:22:7 ÔÇ║ Password Reset - E2E ÔÇ║ Should complete password reset flow
+[1A[2K  6) [chromium-mobile] ÔÇ║ tests\e2e\auth-password-reset.spec.ts:22:7 ÔÇ║ Password Reset - E2E ÔÇ║ Should complete password reset flow 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('text=/reset code sent/i')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('text=/reset code sent/i')[22m
+
+
+      35 |     // Should show success message
+      36 |     const successMessage = await page.locator("text=/reset code sent/i");
+    > 37 |     await expect(successMessage).toBeVisible({ timeout: 5000 });
+         |                                  ^
+      38 |
+      39 |     // Should auto-navigate to reset-password page
+      40 |     await page.waitForURL("**/auth/reset-password", { timeout: 5000 });
+        at D:\my_folder\ai-chat-platform\ai-chatbot-platform\frontend\tests\e2e\auth-password-reset.spec.ts:37:34
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\auth-password-reset-Passwo-6f9b6-omplete-password-reset-flow-chromium-mobile\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\auth-password-reset-Passwo-6f9b6-omplete-password-reset-flow-chromium-mobile\error-context.md
+
+
+[1A[2K[15/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-password-reset.spec.ts:74:7 ÔÇ║ Password Reset - E2E ÔÇ║ Should reject invalid password reset code
+[1A[2K  7) [chromium-mobile] ÔÇ║ tests\e2e\auth-password-reset.spec.ts:74:7 ÔÇ║ Password Reset - E2E ÔÇ║ Should reject invalid password reset code 
+
+    TimeoutError: page.waitForURL: Timeout 5000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/reset-password" until "load"
+    ============================================================
+
+      82 |
+      83 |     // Wait for auto-navigation to reset page
+    > 84 |     await page.waitForURL("**/reset-password", { timeout: 5000 });
+         |                ^
+      85 |
+      86 |     // Fill in invalid code
+      87 |     await page.fill('input[placeholder*="123456"]', "000000");
+        at D:\my_folder\ai-chat-platform\ai-chatbot-platform\frontend\tests\e2e\auth-password-reset.spec.ts:84:16
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\auth-password-reset-Passwo-07ae2-invalid-password-reset-code-chromium-mobile\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\auth-password-reset-Passwo-07ae2-invalid-password-reset-code-chromium-mobile\error-context.md
+
+
+[1A[2K[16/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-password-reset.spec.ts:103:7 ÔÇ║ Password Reset - E2E ÔÇ║ Should prevent password reset without email on forgot page
+[1A[2K  8) [chromium-mobile] ÔÇ║ tests\e2e\auth-password-reset.spec.ts:103:7 ÔÇ║ Password Reset - E2E ÔÇ║ Should prevent password reset without email on forgot page 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('text=/required|invalid/i')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('text=/required|invalid/i')[22m
+
+
+      113 |     // Should show validation error
+      114 |     const errorMessage = await page.locator("text=/required|invalid/i");
+    > 115 |     await expect(errorMessage).toBeVisible({ timeout: 5000 });
+          |                                ^
+      116 |   });
+      117 |
+      118 |   test("Should prevent weak passwords during reset", async ({ page }) => {
+        at D:\my_folder\ai-chat-platform\ai-chatbot-platform\frontend\tests\e2e\auth-password-reset.spec.ts:115:32
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\auth-password-reset-Passwo-b9a3d-ithout-email-on-forgot-page-chromium-mobile\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\auth-password-reset-Passwo-b9a3d-ithout-email-on-forgot-page-chromium-mobile\error-context.md
+
+
+[1A[2K[17/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-password-reset.spec.ts:118:7 ÔÇ║ Password Reset - E2E ÔÇ║ Should prevent weak passwords during reset
+[1A[2K  9) [chromium-mobile] ÔÇ║ tests\e2e\auth-password-reset.spec.ts:118:7 ÔÇ║ Password Reset - E2E ÔÇ║ Should prevent weak passwords during reset 
+
+    TimeoutError: page.waitForURL: Timeout 5000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/reset-password" until "load"
+    ============================================================
+
+      126 |
+      127 |     // Wait for navigation to reset page
+    > 128 |     await page.waitForURL("**/reset-password", { timeout: 5000 });
+          |                ^
+      129 |
+      130 |     // Fill in code
+      131 |     await page.fill('input[placeholder*="123456"]', "123456");
+        at D:\my_folder\ai-chat-platform\ai-chatbot-platform\frontend\tests\e2e\auth-password-reset.spec.ts:128:16
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\auth-password-reset-Passwo-5640e-weak-passwords-during-reset-chromium-mobile\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\auth-password-reset-Passwo-5640e-weak-passwords-during-reset-chromium-mobile\error-context.md
+
+
+[1A[2K[18/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-password-reset.spec.ts:148:7 ÔÇ║ Password Reset - E2E ÔÇ║ Should prevent mismatched passwords during reset
+[1A[2K  10) [chromium-mobile] ÔÇ║ tests\e2e\auth-password-reset.spec.ts:148:7 ÔÇ║ Password Reset - E2E ÔÇ║ Should prevent mismatched passwords during reset 
+
+    TimeoutError: page.waitForURL: Timeout 5000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/reset-password" until "load"
+    ============================================================
+
+      156 |
+      157 |     // Wait for navigation
+    > 158 |     await page.waitForURL("**/reset-password", { timeout: 5000 });
+          |                ^
+      159 |
+      160 |     // Fill in code
+      161 |     await page.fill('input[placeholder*="123456"]', "123456");
+        at D:\my_folder\ai-chat-platform\ai-chatbot-platform\frontend\tests\e2e\auth-password-reset.spec.ts:158:16
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\auth-password-reset-Passwo-1b3bc-ched-passwords-during-reset-chromium-mobile\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\auth-password-reset-Passwo-1b3bc-ched-passwords-during-reset-chromium-mobile\error-context.md
+
+
+[1A[2K[19/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-password-reset.spec.ts:178:7 ÔÇ║ Password Reset - E2E ÔÇ║ Should limit password reset code requests (rate limiting)
+[1A[2K[20/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-security.spec.ts:22:7 ÔÇ║ Authentication Security - E2E ÔÇ║ Verify cookies are set after successful login
+[1A[2K  11) [chromium-mobile] ÔÇ║ tests\e2e\auth-security.spec.ts:22:7 ÔÇ║ Authentication Security - E2E ÔÇ║ Verify cookies are set after successful login 
+
+    TimeoutError: page.waitForURL: Timeout 10000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/chat" until "load"
+    ============================================================
+
+      39 |
+      40 |     // Wait for redirect to chat
+    > 41 |     await page.waitForURL("**/chat", { timeout: 10000 });
+         |                ^
+      42 |
+      43 |     // Get cookies after login
+      44 |     const cookiesAfter = await context.cookies();
+        at D:\my_folder\ai-chat-platform\ai-chatbot-platform\frontend\tests\e2e\auth-security.spec.ts:41:16
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\auth-security-Authenticati-57776--set-after-successful-login-chromium-mobile\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\auth-security-Authenticati-57776--set-after-successful-login-chromium-mobile\error-context.md
+
+
+[1A[2K[21/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-security.spec.ts:61:7 ÔÇ║ Authentication Security - E2E ÔÇ║ Verify JavaScript cannot read HTTP-only cookies
+[1A[2K  12) [chromium-mobile] ÔÇ║ tests\e2e\auth-security.spec.ts:61:7 ÔÇ║ Authentication Security - E2E ÔÇ║ Verify JavaScript cannot read HTTP-only cookies 
+
+    TimeoutError: page.waitForURL: Timeout 10000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/chat" until "load"
+    ============================================================
+
+      66 |
+      67 |     // Wait for redirect
+    > 68 |     await page.waitForURL("**/chat", { timeout: 10000 });
+         |                ^
+      69 |
+      70 |     // Try to read cookies via JavaScript (should be empty for HTTP-only)
+      71 |     const documentCookies = await page.evaluate(() => document.cookie);
+        at D:\my_folder\ai-chat-platform\ai-chatbot-platform\frontend\tests\e2e\auth-security.spec.ts:68:16
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\auth-security-Authenticati-ee346-nnot-read-HTTP-only-cookies-chromium-mobile\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\auth-security-Authenticati-ee346-nnot-read-HTTP-only-cookies-chromium-mobile\error-context.md
+
+
+[1A[2K[22/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-security.spec.ts:78:7 ÔÇ║ Authentication Security - E2E ÔÇ║ Verify cookies are cleared after logout
+[1A[2K  13) [chromium-mobile] ÔÇ║ tests\e2e\auth-security.spec.ts:78:7 ÔÇ║ Authentication Security - E2E ÔÇ║ Verify cookies are cleared after logout 
+
+    TimeoutError: page.waitForURL: Timeout 10000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/chat" until "load"
+      navigated to "http://localhost:3000/login"
+      navigated to "http://localhost:3000/login"
+      navigated to "http://localhost:3000/"
+      navigated to "http://localhost:3000/"
+    ============================================================
+
+      81 |     await page.fill('input[type="password"]', "DemoPass123!");
+      82 |     await page.click('button:has-text("Log In")');
+    > 83 |     await page.waitForURL("**/chat", { timeout: 10000 });
+         |                ^
+      84 |
+      85 |     // Get cookies after login
+      86 |     const cookiesBeforeLogout = await context.cookies();
+        at D:\my_folder\ai-chat-platform\ai-chatbot-platform\frontend\tests\e2e\auth-security.spec.ts:83:16
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\auth-security-Authenticati-f050d-es-are-cleared-after-logout-chromium-mobile\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\auth-security-Authenticati-f050d-es-are-cleared-after-logout-chromium-mobile\error-context.md
+
+
+[1A[2K[23/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-security.spec.ts:111:7 ÔÇ║ Authentication Security - E2E ÔÇ║ Verify login rate limit error message after multiple failed attempts
+[1A[2K  14) [chromium-mobile] ÔÇ║ tests\e2e\auth-security.spec.ts:111:7 ÔÇ║ Authentication Security - E2E ÔÇ║ Verify login rate limit error message after multiple failed attempts 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32mtrue[39m
+    Received: [31mfalse[39m
+
+      127 |       if (i < 5) {
+      128 |         // Should show invalid credentials error
+    > 129 |         expect(errorExists).toBe(true);
+          |                             ^
+      130 |       } else {
+      131 |         // On 6th attempt, should be rate limited
+      132 |         const errorText = await page
+        at D:\my_folder\ai-chat-platform\ai-chatbot-platform\frontend\tests\e2e\auth-security.spec.ts:129:29
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\auth-security-Authenticati-049c6-er-multiple-failed-attempts-chromium-mobile\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\auth-security-Authenticati-049c6-er-multiple-failed-attempts-chromium-mobile\error-context.md
+
+
+[1A[2K[24/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-security.spec.ts:147:7 ÔÇ║ Authentication Security - E2E ÔÇ║ Verify logout in one tab affects other tabs (multi-tab sync)
+[1A[2K  15) [chromium-mobile] ÔÇ║ tests\e2e\auth-security.spec.ts:147:7 ÔÇ║ Authentication Security - E2E ÔÇ║ Verify logout in one tab affects other tabs (multi-tab sync) 
+
+    TimeoutError: page.waitForURL: Timeout 10000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/chat" until "load"
+      navigated to "http://localhost:3000/login"
+      navigated to "http://localhost:3000/login"
+      navigated to "http://localhost:3000/"
+      navigated to "http://localhost:3000/"
+    ============================================================
+
+      163 |       await page1.fill('input[type="password"]', "Password123!");
+      164 |       await page1.click('button:has-text("Log In")');
+    > 165 |       await page1.waitForURL("**/chat", { timeout: 10000 });
+          |                   ^
+      166 |
+      167 |       // Tab 2: Navigate to same app (inherits login from Tab 1 via localStorage)
+      168 |       await page2.goto("http://localhost:3000/chat", {
+        at D:\my_folder\ai-chat-platform\ai-chatbot-platform\frontend\tests\e2e\auth-security.spec.ts:165:19
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\auth-security-Authenticati-bfe39--other-tabs-multi-tab-sync--chromium-mobile\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\auth-security-Authenticati-bfe39--other-tabs-multi-tab-sync--chromium-mobile\error-context.md
+
+
+[1A[2K[25/204] [chromium-mobile] ÔÇ║ tests\e2e\auth-security.spec.ts:208:7 ÔÇ║ Authentication Security - E2E ÔÇ║ Verify token refresh works correctly
+[1A[2K  16) [chromium-mobile] ÔÇ║ tests\e2e\auth-security.spec.ts:208:7 ÔÇ║ Authentication Security - E2E ÔÇ║ Verify token refresh works correctly 
+
+    TimeoutError: page.waitForURL: Timeout 10000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/chat" until "load"
+      navigated to "http://localhost:3000/login"
+      navigated to "http://localhost:3000/login"
+      navigated to "http://localhost:3000/"
+      navigated to "http://localhost:3000/"
+    ============================================================
+
+      211 |     await page.fill('input[type="password"]', "DemoPass123!");
+      212 |     await page.click('button:has-text("Log In")');
+    > 213 |     await page.waitForURL("**/chat", { timeout: 10000 });
+          |                ^
+      214 |
+      215 |     // Verify can access protected route
+      216 |     const profileLink = page.locator('a[href*="/profile"]');
+        at D:\my_folder\ai-chat-platform\ai-chatbot-platform\frontend\tests\e2e\auth-security.spec.ts:213:16
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\auth-security-Authenticati-2c69c-ken-refresh-works-correctly-chromium-mobile\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\auth-security-Authenticati-2c69c-ken-refresh-works-correctly-chromium-mobile\error-context.md
+
+
+[1A[2K[26/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:53:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Mobile Layout (360px) ÔÇ║ T030.1: All major sections should render stacked on mobile
+[1A[2K[27/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:81:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Mobile Layout (360px) ÔÇ║ T030.2: Mobile navbar hamburger menu should be visible and functional
+[1A[2K[28/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:112:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Mobile Layout (360px) ÔÇ║ T030.3: Mobile navbar focus-trap should contain keyboard navigation
+[1A[2K[29/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:145:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Mobile Layout (360px) ÔÇ║ T030.4: Hero CTA button should be tappable (44x44px minimum)
+[1A[2K[30/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:162:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Mobile Layout (360px) ÔÇ║ T030.5: Language toggle should be accessible on mobile
+[1A[2K[31/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:180:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Mobile Layout (360px) ÔÇ║ T030.6: Mobile layout should not have horizontal scroll at 360px
+[1A[2K[32/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:199:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Desktop Layout (1440px) ÔÇ║ T030.7: Desktop navbar should show horizontal navigation links
+[1A[2K[33/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:210:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Desktop Layout (1440px) ÔÇ║ T030.8: Desktop layout should not show hamburger menu
+[1A[2K[34/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:222:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Desktop Layout (1440px) ÔÇ║ T030.9: Feature cards should display in grid layout on desktop
+[1A[2K[35/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:238:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Desktop Layout (1440px) ÔÇ║ T030.10: Models section should show table/grid on desktop
+[1A[2K[36/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:261:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Desktop Layout (1440px) ÔÇ║ T030.11: Desktop layout should maintain full width without overflow
+[1A[2K[37/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:278:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Navigation & Routing ÔÇ║ T030.12: Home navigation should scroll to hero section
+[1A[2K[38/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:303:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Navigation & Routing ÔÇ║ T030.13: Navigation links should scroll to sections or navigate to routes
+[1A[2K[39/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:327:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Navigation & Routing ÔÇ║ T030.14: Signup button should navigate to /signup
+[1A[2K[40/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:344:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Navigation & Routing ÔÇ║ T030.15: Login button should navigate to /login
+[1A[2K[41/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:365:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Language Switching & RTL ÔÇ║ T030.16: Language toggle should switch between EN and AR
+[1A[2K[42/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:409:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Language Switching & RTL ÔÇ║ T030.17: Arabic text should persist after page reload
+[1A[2K[43/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:432:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Language Switching & RTL ÔÇ║ T030.18: RTL layout should apply correct margin/padding directionality
+[1A[2K[44/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:457:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Accessibility Tests ÔÇ║ T030.19: All interactive elements should be keyboard accessible
+[1A[2K[45/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:479:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Accessibility Tests ÔÇ║ T030.20: CTA buttons should have adequate color contrast
+[1A[2K[46/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:502:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Accessibility Tests ÔÇ║ T030.21: Form inputs and buttons should have focus indicators
+[1A[2K[47/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:524:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Accessibility Tests ÔÇ║ T030.22: Page should have proper heading hierarchy (h1 present)
+[1A[2K[48/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:537:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Accessibility Tests ÔÇ║ T030.23: Nav should have proper ARIA labels
+[1A[2K[49/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:549:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Performance & Visual Tests ÔÇ║ T030.24: Page should load within 3 seconds
+[1A[2K[50/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:559:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Performance & Visual Tests ÔÇ║ T030.25: All images should load without errors
+[1A[2K[51/204] [chromium-mobile] ÔÇ║ tests\e2e\landing.spec.ts:583:9 ÔÇ║ Landing Page E2E Tests ÔÇ║ Performance & Visual Tests ÔÇ║ T030.26: Hero section should have visible gradient background
+[1A[2K[52/204] [chromium-desktop] ÔÇ║ tests\e2e\auth-email-verification.spec.ts:4:7 ÔÇ║ Email Verification Flow E2E ÔÇ║ should complete signup, receive verification code, and verify email
+[1A[2K  17) [chromium-desktop] ÔÇ║ tests\e2e\auth-email-verification.spec.ts:4:7 ÔÇ║ Email Verification Flow E2E ÔÇ║ should complete signup, receive verification code, and verify email 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/auth/verify-email*" until "load"
+    ============================================================
+
+      19 |
+      20 |     // Should redirect to verify-email page
+    > 21 |     await page.waitForURL("**/auth/verify-email*");
+         |                ^
+      22 |     expect(page.url()).toContain("/auth/verify-email");
+      23 |
+      24 |     // Verify email input field shows
+        at D:\my_folder\ai-chat-platform\ai-chatbot-platform\frontend\tests\e2e\auth-email-verification.spec.ts:21:16
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\auth-email-verification-Em-0ae74-ation-code-and-verify-email-chromium-desktop\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\auth-email-verification-Em-0ae74-ation-code-and-verify-email-chromium-desktop\error-context.md
+
+

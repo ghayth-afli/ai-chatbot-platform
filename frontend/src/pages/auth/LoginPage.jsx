@@ -264,15 +264,6 @@ const LoginPage = () => {
             </Link>
           </p>
         </div>
-
-        {/* Demo Credentials */}
-        <div className="demo-credentials">
-          <div className="demo-credentials-title">
-            {t("auth.demoCredentials") || "Demo Credentials"}
-          </div>
-          <p>Email: demo@example.com</p>
-          <p>Password: DemoPass123!</p>
-        </div>
       </div>
     </div>
   );

@@ -1,0 +1,42 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e6]:
+  - generic [ref=e8]:
+    - img [ref=e10]
+    - generic [ref=e14]:
+      - generic [ref=e15]:
+        - text: nexus
+        - generic [ref=e16]: .
+      - generic [ref=e17]: AI PLATFORM
+  - generic [ref=e18]:
+    - heading "Sign Up" [level=1] [ref=e19]
+    - paragraph [ref=e20]: Create your account to get started with Nexus Chat
+  - generic [ref=e21]:
+    - generic [ref=e22]:
+      - generic [ref=e23]:
+        - generic [ref=e24]: First Name*
+        - textbox "John" [ref=e25]
+      - generic [ref=e26]:
+        - generic [ref=e27]: Last Name*
+        - textbox "Doe" [ref=e28]
+    - generic [ref=e29]:
+      - generic [ref=e30]: Email Address*
+      - textbox "name@example.com" [ref=e31]
+    - generic [ref=e32]:
+      - generic [ref=e33]: Password*
+      - textbox "••••••••" [ref=e34]
+      - button "👁️‍🗨️" [ref=e35] [cursor=pointer]
+    - generic [ref=e36]:
+      - generic [ref=e37]: Confirm Password*
+      - textbox "••••••••" [ref=e38]
+    - button "Sign Up" [ref=e39] [cursor=pointer]
+  - generic [ref=e41]: Or
+  - button "Sign up with Google" [ref=e43] [cursor=pointer]:
+    - img [ref=e44]
+    - generic [ref=e49]: Sign up with Google
+  - paragraph [ref=e51]:
+    - text: Already have an account?
+    - link "Log In" [ref=e52] [cursor=pointer]:
+      - /url: /auth/login
+```

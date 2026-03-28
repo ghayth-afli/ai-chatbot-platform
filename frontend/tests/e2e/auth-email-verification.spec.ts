@@ -5,21 +5,21 @@ test.describe("Email Verification Flow E2E", () => {
     page,
   }) => {
     // Navigate to signup page
-    await page.goto("http://localhost:3000/signup");
+    await page.goto("http://localhost:3000/auth/signup");
 
     // Fill in signup form
     await page.fill('input[name="email"]', "verify@test.com");
-    await page.fill('input[name="first_name"]', "Verify");
-    await page.fill('input[name="last_name"]', "User");
+    await page.fill('input[name="firstName"]', "Verify");
+    await page.fill('input[name="lastName"]', "User");
     await page.fill('input[name="password"]', "VerifyPass123!");
-    await page.fill('input[name="password_confirm"]', "VerifyPass123!");
+    await page.fill('input[name="passwordConfirm"]', "VerifyPass123!");
 
     // Submit signup form
-    await page.click('button:has-text("Create Account")');
+    await page.click('button:has-text("Sign Up")');
 
     // Should redirect to verify-email page
-    await page.waitForURL("**/verify-email*");
-    expect(page.url()).toContain("/verify-email");
+    await page.waitForURL("**/auth/verify-email*");
+    expect(page.url()).toContain("/auth/verify-email");
 
     // Verify email input field shows
     const emailField = await page.locator('input[name="email"]');
@@ -43,7 +43,7 @@ test.describe("Email Verification Flow E2E", () => {
   test("should show error for invalid verification code", async ({ page }) => {
     // Navigate to verify-email page
     await page.goto(
-      "http://localhost:3000/verify-email?email=test@example.com",
+      "http://localhost:3000/auth/verify-email?email=test@example.com",
     );
 
     // Enter invalid code
@@ -61,7 +61,7 @@ test.describe("Email Verification Flow E2E", () => {
   test("should show error for expired verification code", async ({ page }) => {
     // Navigate to verify-email page
     await page.goto(
-      "http://localhost:3000/verify-email?email=test@example.com",
+      "http://localhost:3000/auth/verify-email?email=test@example.com",
     );
 
     // Use an expired code
@@ -79,7 +79,7 @@ test.describe("Email Verification Flow E2E", () => {
   test("resend code button should be functional", async ({ page }) => {
     // Navigate to verify-email page
     await page.goto(
-      "http://localhost:3000/verify-email?email=test@example.com",
+      "http://localhost:3000/auth/verify-email?email=test@example.com",
     );
 
     // Find and click resend button
@@ -97,7 +97,7 @@ test.describe("Email Verification Flow E2E", () => {
   test("should display countdown timer", async ({ page }) => {
     // Navigate to verify-email page
     await page.goto(
-      "http://localhost:3000/verify-email?email=test@example.com",
+      "http://localhost:3000/auth/verify-email?email=test@example.com",
     );
 
     // Check for countdown timer display

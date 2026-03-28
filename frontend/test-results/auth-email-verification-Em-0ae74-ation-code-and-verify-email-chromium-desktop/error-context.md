@@ -1,0 +1,61 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e6]:
+  - generic [ref=e8]:
+    - img [ref=e10]
+    - generic [ref=e14]:
+      - generic [ref=e15]:
+        - text: nexus
+        - generic [ref=e16]: .
+      - generic [ref=e17]: AI PLATFORM
+  - generic [ref=e18]:
+    - heading "Sign Up" [level=1] [ref=e19]
+    - paragraph [ref=e20]: Create your account to get started with Nexus Chat
+  - generic [ref=e21]:
+    - generic [ref=e22]:
+      - generic [ref=e23]: ⚠️
+      - generic [ref=e24]: Validation failed
+    - generic [ref=e25]:
+      - generic [ref=e26]:
+        - generic [ref=e27]: First Name*
+        - textbox "John" [ref=e28]: Verify
+      - generic [ref=e29]:
+        - generic [ref=e30]: Last Name*
+        - textbox "Doe" [ref=e31]: User
+    - generic [ref=e32]:
+      - generic [ref=e33]: Email Address*
+      - textbox "name@example.com" [ref=e34]: verify@test.com
+    - generic [ref=e35]:
+      - generic [ref=e36]: Password*
+      - textbox "••••••••" [ref=e37]: VerifyPass123!
+      - button "👁️‍🗨️" [ref=e38] [cursor=pointer]
+      - generic [ref=e46]:
+        - generic [ref=e47]:
+          - generic [ref=e48]: ✓
+          - generic [ref=e49]: At least 8 characters
+        - generic [ref=e50]:
+          - generic [ref=e51]: ✓
+          - generic [ref=e52]: One uppercase letter (A-Z)
+        - generic [ref=e53]:
+          - generic [ref=e54]: ✓
+          - generic [ref=e55]: One lowercase letter (a-z)
+        - generic [ref=e56]:
+          - generic [ref=e57]: ✓
+          - generic [ref=e58]: One number (0-9)
+        - generic [ref=e59]:
+          - generic [ref=e60]: ✓
+          - generic [ref=e61]: One special character (!@#$%^&*)
+    - generic [ref=e62]:
+      - generic [ref=e63]: Confirm Password*
+      - textbox "••••••••" [ref=e64]: VerifyPass123!
+    - button "Sign Up" [ref=e65] [cursor=pointer]
+  - generic [ref=e67]: Or
+  - button "Sign up with Google" [ref=e69] [cursor=pointer]:
+    - img [ref=e70]
+    - generic [ref=e75]: Sign up with Google
+  - paragraph [ref=e77]:
+    - text: Already have an account?
+    - link "Log In" [ref=e78] [cursor=pointer]:
+      - /url: /auth/login
+```

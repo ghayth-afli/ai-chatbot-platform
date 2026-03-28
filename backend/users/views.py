@@ -200,14 +200,14 @@ class ResetPasswordView(APIView):
 			return Response(response_data, status=http_status.HTTP_404_NOT_FOUND)
 		
 		# Verify code
-		is_valid, error = verify_code(user, serializer.data['code'], code_type='reset')
+		is_valid, error = verify_code(user, serializer.validated_data['code'], code_type='reset')
 		
 		if not is_valid:
 			response_data = get_error_response(error or 'INVALID_CODE')
 			return Response(response_data, status=http_status.HTTP_400_BAD_REQUEST)
 		
 		# Update password
-		user.set_password(serializer.data['new_password'])
+		user.set_password(serializer.validated_data['new_password'])
 		user.save()
 		
 		return Response(
@@ -231,6 +231,11 @@ class ResendCodeView(APIView):
 		except User.DoesNotExist:
 			response_data = get_error_response('USER_NOT_FOUND')
 			return Response(response_data, status=http_status.HTTP_404_NOT_FOUND)
+		
+		# Check if user is already verified (for verify code only)
+		if code_type == 'verify' and user.extension.is_verified:
+			response_data = get_error_response('USER_ALREADY_VERIFIED')
+			return Response(response_data, status=http_status.HTTP_400_BAD_REQUEST)
 		
 		# Generate and send code
 		if code_type == 'reset':
@@ -258,6 +263,11 @@ class MeView(APIView):
 	permission_classes = [IsAuthenticated]
 	
 	def get(self, request):
+		# Ensure user is authenticated (should be enforced by permission_classes)
+		if not request.user or not request.user.is_authenticated:
+			response_data = get_error_response('UNAUTHORIZED', {'detail': 'Authentication required'})
+			return Response(response_data, status=http_status.HTTP_401_UNAUTHORIZED)
+		
 		serializer = UserSerializer(request.user)
 		return Response(serializer.data, status=http_status.HTTP_200_OK)
 
