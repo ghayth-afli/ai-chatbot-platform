@@ -267,14 +267,16 @@ test.describe("Landing Page E2E Tests", () => {
       page,
     }) => {
       // Check page height and scroll capability
-      const pageHeight = await page.evaluate(() => document.documentElement.scrollHeight);
+      const pageHeight = await page.evaluate(
+        () => document.documentElement.scrollHeight,
+      );
       const windowHeight = await page.evaluate(() => window.innerHeight);
-      
+
       // Only test scroll if page is scrollable
       if (pageHeight <= windowHeight) {
         return; // Page is not scrollable, skip this test
       }
-      
+
       // Scroll down first
       await page.evaluate(() => window.scrollTo(0, 500));
       await page.waitForTimeout(300);
