@@ -1,0 +1,283 @@
+/* ════════ ABOUT SECTION STYLES ════════ */
+
+.aboutSec {
+  border-top: 1px solid var(--border);
+  background: linear-gradient(
+    135deg,
+    rgba(123, 92, 255, 0.04) 0%,
+    transparent 55%
+  );
+  padding: 96px 40px;
+}
+
+.secIn {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.aboutLayout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+  align-items: center;
+}
+
+/* ════════ ABOUT CARD ════════ */
+
+.abCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+  animation: drift 6s ease-in-out infinite;
+}
+
+.abGlow {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(123, 92, 255, 0.22) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.abWm {
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  font-size: 58px;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.dot {
+  color: var(--volt);
+}
+
+.abQuote {
+  font-family: "DM Sans", sans-serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 15px;
+  color: rgba(245, 243, 239, 0.48);
+  margin-bottom: 20px;
+}
+
+.abPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ap {
+  font-family: "Space Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  padding: 6px 12px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.apV {
+  border-color: rgba(200, 255, 0, 0.3);
+  color: var(--volt);
+  background: rgba(200, 255, 0, 0.05);
+}
+
+.apP {
+  border-color: rgba(123, 92, 255, 0.3);
+  color: var(--plasma);
+  background: rgba(123, 92, 255, 0.05);
+}
+
+/* ════════ ABOUT CONTENT ════════ */
+
+.abContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.sTag {
+  font-family: "Space Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.sTag::before {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: var(--muted);
+  display: inline-block;
+}
+
+.sTitle {
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  font-size: clamp(28px, 4vw, 52px);
+  letter-spacing: -0.03em;
+  line-height: 1.06;
+  color: var(--paper);
+}
+
+.highlight {
+  color: var(--volt);
+}
+
+.sBody {
+  font-size: 16px;
+  font-weight: 300;
+  color: rgba(245, 243, 239, 0.5);
+  line-height: 1.75;
+  max-width: 100%;
+  margin-top: 14px;
+}
+
+.abFeats {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.abFeat {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.abIco {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  background: rgba(123, 92, 255, 0.1);
+  border: 1px solid rgba(123, 92, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.abFt {
+  font-family: "Syne", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--paper);
+  margin-bottom: 3px;
+}
+
+.abFd {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ════════ RESPONSIVE ════════ */
+
+@media (max-width: 1024px) {
+  .aboutLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .abCard {
+    animation: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .aboutSec {
+    padding: 60px 20px;
+  }
+
+  .aboutLayout {
+    gap: 40px;
+  }
+
+  .sTag::before {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .aboutSec {
+    padding: 40px 16px;
+  }
+
+  .abCard {
+    padding: 20px;
+  }
+
+  .abWm {
+    font-size: 40px;
+  }
+
+  .abQuote {
+    font-size: 13px;
+  }
+
+  .sTitle {
+    font-size: 24px;
+  }
+
+  .sBody {
+    font-size: 14px;
+  }
+
+  .abFeats {
+    gap: 14px;
+  }
+
+  .abIco {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .abFt {
+    font-size: 13px;
+  }
+
+  .abFd {
+    font-size: 12px;
+  }
+}
+
+/* ════════ RTL SUPPORT ════════ */
+
+html[dir="rtl"] .sTag::before {
+  display: none;
+}
+
+html[dir="rtl"] .aboutLayout {
+  direction: rtl;
+}
+
+html[dir="rtl"] .abCard {
+  direction: rtl;
+  text-align: right;
+}
+
+html[dir="rtl"] .abFeat {
+  flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .abPills {
+  flex-direction: row-reverse;
+}

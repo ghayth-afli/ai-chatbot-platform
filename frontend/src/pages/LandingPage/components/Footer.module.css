@@ -1,0 +1,84 @@
+/* ════════ FOOTER STYLES ════════ */
+
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 34px 40px;
+}
+
+.footIn {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.footLogo {
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.03em;
+  color: var(--paper);
+  display: flex;
+  align-items: center;
+}
+
+.dot {
+  color: var(--volt);
+}
+
+.footMeta {
+  font-family: "Space Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.footR {
+  font-family: "Space Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--plasma);
+}
+
+/* ════════ RESPONSIVE ════════ */
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 26px 20px;
+  }
+
+  .footIn {
+    gap: 12px;
+  }
+
+  .footLogo {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 20px 16px;
+  }
+
+  .footIn {
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footMeta,
+  .footR {
+    font-size: 8px;
+  }
+}
+
+/* ════════ RTL SUPPORT ════════ */
+
+html[dir="rtl"] .footIn {
+  flex-direction: row-reverse;
+}
