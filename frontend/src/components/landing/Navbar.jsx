@@ -236,6 +236,28 @@ const Navbar = () => {
                 {t(link.labelKey)}
               </button>
             ))}
+
+            {/* Mobile Auth Buttons */}
+            <div className="pt-4 mt-4 border-t border-border space-y-2">
+              <button
+                onClick={() => {
+                  navigate("/auth/login");
+                  setIsOpen(false);
+                }}
+                className="block w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg border border-volt text-volt font-bold text-sm hover:bg-volt/10 transition-colors focus:outline-none focus:ring-2 focus:ring-volt"
+              >
+                {t("nav.login")}
+              </button>
+              <button
+                onClick={() => {
+                  navigate("/auth/signup");
+                  setIsOpen(false);
+                }}
+                className="block w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg bg-volt text-ink font-bold text-sm hover:bg-paper transition-colors focus:outline-none focus:ring-2 focus:ring-volt/50"
+              >
+                {t("nav.signup")}
+              </button>
+            </div>
           </div>
         )}
       </div>
