@@ -1,0 +1,225 @@
+/* ════════ FEATURES SECTION STYLES ════════ */
+
+.featSec {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 96px 40px;
+}
+
+.secIn {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sTag {
+  font-family: "Space Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.sTag::before {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: var(--muted);
+  display: inline-block;
+}
+
+.sTitle {
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  font-size: clamp(28px, 4vw, 52px);
+  letter-spacing: -0.03em;
+  line-height: 1.06;
+  color: var(--paper);
+}
+
+.highlight {
+  color: var(--volt);
+}
+
+.sBody {
+  font-size: 16px;
+  font-weight: 300;
+  color: rgba(245, 243, 239, 0.5);
+  line-height: 1.75;
+  max-width: 480px;
+  margin-top: 14px;
+}
+
+/* ════════ FEATURES LAYOUT ════════ */
+
+.featHead {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: end;
+  margin-bottom: 48px;
+}
+
+.featGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* ════════ FEATURE CARD ════════ */
+
+.fCard {
+  background: var(--surface);
+  padding: 32px 26px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.28s;
+}
+
+.fCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: transparent;
+  transition: background 0.28s;
+}
+
+.fCard:hover {
+  background: #1e1c2c;
+}
+
+.fCard:hover::before {
+  background: var(--plasma);
+}
+
+/* ════════ FEATURE ICON ════════ */
+
+.fIco {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.fIcoV {
+  background: rgba(200, 255, 0, 0.1);
+  border: 1px solid rgba(200, 255, 0, 0.2);
+}
+
+.fIcoP {
+  background: rgba(123, 92, 255, 0.1);
+  border: 1px solid rgba(123, 92, 255, 0.2);
+}
+
+.fIcoI {
+  background: rgba(0, 212, 232, 0.1);
+  border: 1px solid rgba(0, 212, 232, 0.2);
+}
+
+.fIcoS {
+  background: rgba(255, 77, 109, 0.1);
+  border: 1px solid rgba(255, 77, 109, 0.2);
+}
+
+.fTitle {
+  font-family: "Syne", sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: -0.02em;
+  color: var(--paper);
+  margin-bottom: 8px;
+}
+
+.fDesc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.fBadge {
+  display: inline-flex;
+  margin-top: 14px;
+  font-family: "Space Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  padding: 4px 10px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+/* ════════ RESPONSIVE ════════ */
+
+@media (max-width: 1024px) {
+  .featHead {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .featGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .featSec {
+    padding: 60px 20px;
+  }
+
+  .featGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .sTag::before {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .featSec {
+    padding: 40px 16px;
+  }
+
+  .fCard {
+    padding: 24px 18px;
+  }
+
+  .fIco {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
+
+  .fTitle {
+    font-size: 15px;
+  }
+
+  .fDesc {
+    font-size: 12px;
+  }
+}
+
+/* ════════ RTL SUPPORT ════════ */
+
+html[dir="rtl"] .sTag::before {
+  display: none;
+}
+
+html[dir="rtl"] .featHead {
+  direction: rtl;
+}

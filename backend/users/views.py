@@ -124,10 +124,12 @@ class LoginView(APIView):
 		# Generate tokens
 		tokens = get_tokens_for_user(user)
 		
-		# Create response with user data
+		# Create response with user data and tokens
 		response_data = {
 			'message': 'Login successful',
 			'user': UserSerializer(user).data,
+			'access_token': tokens['access_token'],
+			'refresh_token': tokens['refresh_token'],
 		}
 		response = Response(response_data, status=http_status.HTTP_200_OK)
 		
@@ -333,4 +335,44 @@ class GoogleOAuthView(APIView):
 		response = set_auth_cookies(response, tokens['access_token'], tokens['refresh_token'])
 		
 		return response
+
+
+class RefreshTokenView(APIView):
+	"""Endpoint to refresh access token using refresh token."""
+	
+	permission_classes = [AllowAny]
+	
+	def post(self, request):
+		from rest_framework_simplejwt.tokens import RefreshToken
+		
+		refresh_token = request.data.get('refresh_token') or request.COOKIES.get('refresh_token')
+		
+		if not refresh_token:
+			response_data = get_error_response('REFRESH_TOKEN_MISSING')
+			return Response(response_data, status=http_status.HTTP_401_UNAUTHORIZED)
+		
+		try:
+			token = RefreshToken(refresh_token)
+			new_access_token = str(token.access_token)
+			
+			response_data = {
+				'message': 'Token refreshed successfully',
+				'access_token': new_access_token,
+			}
+			response = Response(response_data, status=http_status.HTTP_200_OK)
+			
+			# Update auth cookie
+			response.set_cookie(
+				'access_token',
+				new_access_token,
+				max_age=15 * 60,  # 15 minutes
+				httponly=True,
+				secure=False,  # Set to True in production with HTTPS
+				samesite='Lax'
+			)
+			
+			return response
+		except Exception as e:
+			response_data = get_error_response('INVALID_REFRESH_TOKEN')
+			return Response(response_data, status=http_status.HTTP_401_UNAUTHORIZED)
 

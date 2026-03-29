@@ -17,7 +17,7 @@ from django.urls import path
 from .views import (
 	SignupView, VerifyEmailView, LoginView, LogoutView,
 	ForgotPasswordView, ResetPasswordView, ResendCodeView,
-	MeView, GoogleOAuthView
+	MeView, GoogleOAuthView, RefreshTokenView
 )
 
 app_name = 'users'
@@ -31,5 +31,6 @@ urlpatterns = [
 	path('reset-password/', ResetPasswordView.as_view(), name='reset-password'),
 	path('resend-code/', ResendCodeView.as_view(), name='resend-code'),
 	path('google/', GoogleOAuthView.as_view(), name='google-oauth'),
+	path('refresh/', RefreshTokenView.as_view(), name='refresh'),
 	path('me/', MeView.as_view(), name='me'),
 ]

@@ -43,7 +43,7 @@ const LoginPage = () => {
   useEffect(() => {
     if (isAuthenticated) {
       const from = location.state?.from?.pathname || "/chat";
-      navigate(from);
+      navigate(from, { replace: true });
     }
   }, [isAuthenticated, navigate, location]);
 
@@ -95,17 +95,46 @@ const LoginPage = () => {
         localStorage.setItem("rememberedEmail", formData.email);
       }
 
+      // Clear form and errors on successful login
+      setFormData({ email: "", password: "" });
+      setErrors({});
+
+      // Redirect to chat (or intended destination)
       const from = location.state?.from?.pathname || "/chat";
-      navigate(from);
+      navigate(from, { replace: true });
     } else {
-      // Handle specific error codes
-      if (result.error?.code === "USER_NOT_VERIFIED") {
+      // Handle backend errors
+      const error = result.error;
+
+      if (error?.code === "USER_NOT_VERIFIED") {
         // Redirect to email verification with email
         navigate("/auth/verify-email", {
           state: { email: formData.email },
         });
+      } else if (error?.details?.errors) {
+        // Handle field-specific validation errors
+        const newErrors = {};
+        const backendErrors = error.details.errors;
+
+        if (backendErrors.email) {
+          newErrors.email = Array.isArray(backendErrors.email)
+            ? backendErrors.email[0]
+            : backendErrors.email;
+        }
+        if (backendErrors.password) {
+          newErrors.password = Array.isArray(backendErrors.password)
+            ? backendErrors.password[0]
+            : backendErrors.password;
+        }
+
+        if (Object.keys(newErrors).length > 0) {
+          setErrors(newErrors);
+        } else {
+          setErrors({ submit: error.message || t("auth.loginFailed") });
+        }
       } else {
-        setErrors({ submit: result.error?.message || t("auth.loginFailed") });
+        // Generic error
+        setErrors({ submit: error?.message || t("auth.loginFailed") });
       }
     }
   };

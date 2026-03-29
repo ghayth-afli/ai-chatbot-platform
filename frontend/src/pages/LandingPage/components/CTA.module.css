@@ -1,0 +1,164 @@
+/* ════════ CTA SECTION STYLES ════════ */
+
+.ctaSec {
+  padding: 120px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+}
+
+.ctaBg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 50% 80% at 50% 110%,
+      rgba(123, 92, 255, 0.22) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 30% 40% at 50% 0%,
+      rgba(200, 255, 0, 0.04) 0%,
+      transparent 60%
+    );
+}
+
+.ctaIn {
+  position: relative;
+  z-index: 1;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.ctaEye {
+  font-family: "Space Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--volt);
+  margin-bottom: 16px;
+}
+
+.ctaTtl {
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  font-size: clamp(32px, 5vw, 60px);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: 16px;
+}
+
+.highlightPlasma {
+  color: var(--plasma);
+}
+
+.ctaSub {
+  font-size: 16px;
+  font-weight: 300;
+  color: rgba(245, 243, 239, 0.5);
+  line-height: 1.7;
+  margin-bottom: 36px;
+}
+
+.ctaBtns {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-family: "Space Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  padding: 16px 36px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.12s;
+}
+
+.btnCp {
+  font-weight: 700;
+  background: var(--volt);
+  color: var(--ink);
+}
+
+.btnCp:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 44px rgba(200, 255, 0, 0.3);
+}
+
+.btnCg {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--paper);
+}
+
+.btnCg:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* ════════ RESPONSIVE ════════ */
+
+@media (max-width: 768px) {
+  .ctaSec {
+    padding: 80px 20px;
+  }
+
+  .ctaTtl {
+    margin-bottom: 12px;
+  }
+
+  .ctaSub {
+    font-size: 14px;
+    margin-bottom: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ctaSec {
+    padding: 60px 16px;
+  }
+
+  .ctaTtl {
+    font-size: 28px;
+  }
+
+  .ctaSub {
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+
+  .btn {
+    font-size: 10px;
+    padding: 12px 24px;
+  }
+
+  .ctaBtns {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ════════ RTL SUPPORT ════════ */
+
+html[dir="rtl"] .ctaIn {
+  direction: rtl;
+}
+
+html[dir="rtl"] .ctaBtns {
+  flex-direction: row-reverse;
+}

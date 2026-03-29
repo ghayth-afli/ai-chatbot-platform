@@ -24,6 +24,106 @@ const authClient = axios.create({
   withCredentials: true, // Include cookies in requests
 });
 
+// Add request interceptor to include JWT token from localStorage
+authClient.interceptors.request.use(
+  (config) => {
+    // Don't add token to auth endpoints that don't need it
+    const publicEndpoints = [
+      "/signup/",
+      "/login/",
+      "/verify-email/",
+      "/forgot-password/",
+      "/reset-password/",
+      "/resend-code/",
+      "/google/",
+      "/refresh/",
+    ];
+    const isPublicEndpoint = publicEndpoints.some((endpoint) =>
+      config.url?.includes(endpoint),
+    );
+
+    if (!isPublicEndpoint) {
+      // Add token only to protected endpoints
+      const token = localStorage.getItem("access_token");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
+
+// Add response interceptor to handle token refresh on 401
+authClient.interceptors.response.use(
+  (response) => {
+    // Store token if returned in response
+    if (response.data?.access_token) {
+      localStorage.setItem("access_token", response.data.access_token);
+    }
+    return response;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+
+    // Don't retry auth endpoints that shouldn't be retried
+    const noRetryEndpoints = [
+      "/login/",
+      "/signup/",
+      "/verify-email/",
+      "/forgot-password/",
+      "/reset-password/",
+      "/resend-code/",
+      "/google/",
+      "/refresh/",
+    ];
+    const shouldNotRetry = noRetryEndpoints.some((endpoint) =>
+      originalRequest.url?.includes(endpoint),
+    );
+
+    if (shouldNotRetry || originalRequest.url?.includes("/refresh/")) {
+      return Promise.reject(error);
+    }
+
+    // If 401 and we have a refresh token, try to refresh
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      const refreshToken = localStorage.getItem("refresh_token");
+
+      if (refreshToken) {
+        try {
+          // Try to refresh the token
+          const refreshResponse = await axios.post(
+            `${API_BASE_URL}/api/auth/refresh/`,
+            { refresh_token: refreshToken },
+            { headers: { "Content-Type": "application/json" } },
+          );
+
+          if (refreshResponse.data?.access_token) {
+            localStorage.setItem(
+              "access_token",
+              refreshResponse.data.access_token,
+            );
+            // Retry original request with new token
+            originalRequest.headers.Authorization = `Bearer ${refreshResponse.data.access_token}`;
+            return authClient(originalRequest);
+          }
+        } catch (refreshError) {
+          // Refresh failed, user needs to login again
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("refresh_token");
+          localStorage.removeItem("user");
+          return Promise.reject(error);
+        }
+      }
+    }
+
+    return Promise.reject(error);
+  },
+);
+
 /**
  * Sign up new user
  * @param {string} email
@@ -75,8 +175,16 @@ export const login = async (email, password) => {
       password,
     });
 
-    // Store user data in localStorage or context
+    // Store user data and token in localStorage
     localStorage.setItem("user", JSON.stringify(response.data.user));
+
+    // Store token if provided in response
+    if (response.data.access_token) {
+      localStorage.setItem("access_token", response.data.access_token);
+    }
+    if (response.data.refresh_token) {
+      localStorage.setItem("refresh_token", response.data.refresh_token);
+    }
 
     return {
       success: true,

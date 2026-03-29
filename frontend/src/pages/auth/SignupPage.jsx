@@ -127,9 +127,46 @@ const SignupPage = () => {
         state: { email: formData.email },
       });
     } else {
-      // Error will be displayed from context
-      if (result.error?.code) {
-        setErrors({ submit: result.error.message });
+      // Handle backend validation errors
+      const error = result.error;
+
+      if (error?.details?.errors) {
+        // Extract field-specific validation errors from backend
+        const newErrors = {};
+        const backendErrors = error.details.errors;
+
+        // Map backend field names to frontend form field names
+        if (backendErrors.email) {
+          newErrors.email = Array.isArray(backendErrors.email)
+            ? backendErrors.email[0]
+            : backendErrors.email;
+        }
+        if (backendErrors.password) {
+          newErrors.password = Array.isArray(backendErrors.password)
+            ? backendErrors.password[0]
+            : backendErrors.password;
+        }
+        if (backendErrors.first_name) {
+          newErrors.firstName = Array.isArray(backendErrors.first_name)
+            ? backendErrors.first_name[0]
+            : backendErrors.first_name;
+        }
+        if (backendErrors.last_name) {
+          newErrors.lastName = Array.isArray(backendErrors.last_name)
+            ? backendErrors.last_name[0]
+            : backendErrors.last_name;
+        }
+
+        // If we have field errors, set them
+        if (Object.keys(newErrors).length > 0) {
+          setErrors(newErrors);
+        } else {
+          // If no field errors, set submit error
+          setErrors({ submit: error.message || "Signup failed" });
+        }
+      } else {
+        // Generic error
+        setErrors({ submit: error?.message || "Signup failed" });
       }
     }
   };

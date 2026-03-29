@@ -1,0 +1,416 @@
+/* ════════ CHAT HEADER STYLES ════════ */
+
+.chatHeader {
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  background: rgba(13, 13, 18, 0.6);
+  backdrop-filter: blur(12px);
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ════════ MOBILE TOGGLE ════════ */
+
+.mobToggle {
+  display: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--glass);
+  color: var(--paper);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ════════ MODEL SELECTOR ════════ */
+
+.modelSelectWrap {
+  position: relative;
+}
+
+.modelSelect {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surf2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.modelSelect:hover {
+  border-color: rgba(123, 92, 255, 0.4);
+}
+
+.modelSelect.open {
+  border-color: var(--plasma);
+}
+
+.modelDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.modelNameLabel {
+  font-family: "Space Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--paper);
+  white-space: nowrap;
+}
+
+.modelChevron {
+  font-size: 10px;
+  color: var(--muted);
+  margin-left: 4px;
+  transition: transform 0.2s;
+}
+
+html[dir="rtl"] .modelChevron {
+  margin-left: 0;
+  margin-right: 4px;
+}
+
+.modelSelect.open .modelChevron {
+  transform: rotate(180deg);
+}
+
+/* ════════ MODEL DROPDOWN ════════ */
+
+.modelDropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  min-width: 220px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: 200;
+  animation: fadeUp 0.18s ease both;
+}
+
+html[dir="rtl"] .modelDropdown {
+  left: auto;
+  right: 0;
+}
+
+.modelDropdown.open {
+  display: block;
+}
+
+.modelOpt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.modelOpt:hover {
+  background: var(--surf2);
+}
+
+.modelOpt.selected {
+  background: rgba(123, 92, 255, 0.1);
+}
+
+.modelOptInfo {
+  flex: 1;
+}
+
+.modelOptName {
+  font-family: "Syne", sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--paper);
+}
+
+.modelOptDesc {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+.modelCheck {
+  font-size: 12px;
+  color: var(--volt);
+}
+
+/* ════════ LANGUAGE TOGGLE ════════ */
+
+.langTog {
+  display: flex;
+  background: var(--surf2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.ltBtn {
+  font-family: "Space Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.07em;
+  padding: 4px 10px;
+  border-radius: 5px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.ltBtn.on {
+  background: var(--plasma);
+  color: #fff;
+}
+
+/* ════════ LOGOUT BUTTON ════════ */
+
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Space Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.07em;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--glass);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+
+.logoutBtn:hover {
+  border-color: rgba(255, 77, 109, 0.4);
+  color: var(--spark);
+}
+
+/* ════════ PROFILE BUTTON ════════ */
+
+.profileBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Space Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.07em;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(123, 92, 255, 0.3);
+  background: var(--glass);
+  color: var(--plasma);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+
+.profileBtn:hover {
+  border-color: rgba(123, 92, 255, 0.5);
+  color: #fff;
+}
+
+/* ════════ COLLAPSE TOGGLE ════════ */
+
+.collapseToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--glass);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.collapseToggle:hover {
+  background: rgba(200, 255, 0, 0.08);
+  border-color: rgba(200, 255, 0, 0.3);
+  color: var(--volt);
+}
+
+.collapseToggle:active {
+  background: rgba(200, 255, 0, 0.12);
+}
+
+/* ════════ RESPONSIVE ════════ */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .chatHeader {
+    padding: 0 14px;
+  }
+
+  .modelNameLabel {
+    font-size: 9px;
+  }
+}
+
+/* Tablet/Small */
+@media (max-width: 768px) {
+  .chatHeader {
+    padding: 0 12px;
+    gap: 10px;
+  }
+
+  .mobToggle {
+    display: flex;
+  }
+
+  .collapseToggle {
+    display: none;
+  }
+
+  .modelSelect {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+
+  .modelNameLabel {
+    display: none;
+  }
+
+  .modelOptName {
+    font-size: 12px;
+  }
+
+  .modelOptDesc {
+    font-size: 10px;
+  }
+
+  .headerRight .logoutBtn {
+    display: none;
+  }
+
+  .profileBtn {
+    font-size: 8px;
+    padding: 5px 10px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .chatHeader {
+    padding: 0 10px;
+    gap: 6px;
+  }
+
+  .headerLeft,
+  .headerRight {
+    gap: 8px;
+  }
+
+  .modelSelect {
+    min-width: 0;
+    padding: 5px 6px;
+    font-size: 12px;
+  }
+
+  .modelChevron {
+    margin-left: 0;
+    font-size: 9px;
+  }
+
+  .modelDot {
+    width: 5px;
+    height: 5px;
+  }
+
+  .modelDropdown {
+    min-width: 180px;
+  }
+
+  .logoutBtn {
+    display: none;
+  }
+
+  .profileBtn {
+    font-size: 8px;
+    padding: 5px 8px;
+    gap: 4px;
+  }
+
+  .langTog {
+    padding: 2px;
+    gap: 1px;
+  }
+
+  .ltBtn {
+    font-size: 7px;
+    padding: 3px 6px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 360px) {
+  .chatHeader {
+    padding: 0 8px;
+    height: 44px;
+  }
+
+  .mobToggle {
+    width: 32px;
+    height: 32px;
+  }
+
+  .modelSelect {
+    padding: 4px 5px;
+    min-width: 40px;
+  }
+
+  .modelOpt {
+    padding: 9px 11px;
+  }
+
+  .langTog {
+    min-width: 0;
+  }
+
+  .profileBtn {
+    padding: 4px 6px;
+    font-size: 7px;
+  }
+}
+
+/* ════════ RTL SUPPORT ════════ */
+
+html[dir="rtl"] .headerLeft {
+  flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .headerRight {
+  flex-direction: row-reverse;
+}

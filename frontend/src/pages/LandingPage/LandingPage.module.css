@@ -1,0 +1,341 @@
+/* ═════════════════════════════════════════════════════════════
+   LANDING PAGE DESIGN TOKENS & THEME
+═════════════════════════════════════════════════════════════ */
+
+:root {
+  --ink: #0d0d12;
+  --paper: #f5f3ef;
+  --volt: #c8ff00;
+  --plasma: #7b5cff;
+  --spark: #ff4d6d;
+  --ice: #00d4e8;
+  --muted: #6b6878;
+  --surface: #1a1825;
+  --glass: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.09);
+  --nav-h: 64px;
+}
+
+/* ═════════════════════════════════════════════════════════════
+   TYPOGRAPHY & BASE STYLES
+═════════════════════════════════════════════════════════════ */
+
+.landingPageContainer {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: "DM Sans", sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+.landingPageContainer *,
+.landingPageContainer *::before,
+.landingPageContainer *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ═════════════════════════════════════════════════════════════
+   SCROLLBAR STYLING
+═════════════════════════════════════════════════════════════ */
+
+.landingPageContainer::-webkit-scrollbar {
+  width: 4px;
+}
+
+.landingPageContainer::-webkit-scrollbar-track {
+  background: var(--ink);
+}
+
+.landingPageContainer::-webkit-scrollbar-thumb {
+  background: var(--plasma);
+  border-radius: 2px;
+}
+
+/* ═════════════════════════════════════════════════════════════
+   ANIMATIONS
+═════════════════════════════════════════════════════════════ */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* ═════════════════════════════════════════════════════════════
+   MAIN CONTENT
+═════════════════════════════════════════════════════════════ */
+
+.mainContent {
+  width: 100%;
+}
+
+/* ═════════════════════════════════════════════════════════════
+   UTILITY CLASSES
+═════════════════════════════════════════════════════════════ */
+
+.sectionContainer {
+  padding: 96px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sectionInner {
+  width: 100%;
+}
+
+.sectionTag {
+  font-family: "Space Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.sectionTag::before {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: var(--muted);
+  display: inline-block;
+}
+
+.sectionTitle {
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  font-size: clamp(28px, 4vw, 52px);
+  letter-spacing: -0.03em;
+  line-height: 1.06;
+  color: var(--paper);
+}
+
+.sectionTitleHighlight {
+  color: var(--volt);
+}
+
+.sectionTitleHighlightPlasma {
+  color: var(--plasma);
+}
+
+.sectionBody {
+  font-size: 16px;
+  font-weight: 300;
+  color: rgba(245, 243, 239, 0.5);
+  line-height: 1.75;
+  max-width: 480px;
+  margin-top: 14px;
+}
+
+/* ═════════════════════════════════════════════════════════════
+   BUTTONS
+═════════════════════════════════════════════════════════════ */
+
+.button {
+  font-family: "Space Mono", monospace;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+
+.buttonPrimary {
+  background: var(--volt);
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  padding: 13px 26px;
+  border-radius: 9px;
+}
+
+.buttonPrimary:hover {
+  background: #d4ff1a;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 28px rgba(200, 255, 0, 0.28);
+}
+
+.buttonSecondary {
+  background: var(--glass);
+  color: var(--paper);
+  border: 1px solid var(--border);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  padding: 13px 26px;
+  border-radius: 9px;
+}
+
+.buttonSecondary:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.buttonNav {
+  font-family: "Space Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  padding: 9px 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+
+.buttonNavGhost {
+  background: var(--glass);
+  color: var(--paper);
+  border: 1px solid var(--border);
+}
+
+.buttonNavGhost:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.buttonNavPrimary {
+  background: var(--volt);
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.buttonNavPrimary:hover {
+  background: #d4ff1a;
+  box-shadow: 0 6px 24px rgba(200, 255, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+/* ═════════════════════════════════════════════════════════════
+   CHIP BADGES
+═════════════════════════════════════════════════════════════ */
+
+.chip {
+  font-family: "Space Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  padding: 6px 13px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  background: var(--glass);
+}
+
+.chipVolt {
+  border-color: rgba(200, 255, 0, 0.35);
+  color: var(--volt);
+  background: rgba(200, 255, 0, 0.06);
+}
+
+.chipPlasma {
+  border-color: rgba(123, 92, 255, 0.35);
+  color: var(--plasma);
+  background: rgba(123, 92, 255, 0.06);
+}
+
+.chipIce {
+  border-color: rgba(0, 212, 232, 0.35);
+  color: var(--ice);
+  background: rgba(0, 212, 232, 0.06);
+}
+
+/* ═════════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+═════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .sectionContainer {
+    padding: 60px 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sectionContainer {
+    padding: 60px 20px;
+  }
+
+  .sectionTag::before {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .sectionContainer {
+    padding: 40px 16px;
+  }
+
+  .sectionTitle {
+    font-size: 28px;
+  }
+
+  .sectionBody {
+    font-size: 14px;
+  }
+}
+
+/* ═════════════════════════════════════════════════════════════
+   RTL SUPPORT
+═════════════════════════════════════════════════════════════ */
+
+html[dir="rtl"] .sectionTag::before {
+  display: none;
+}
+
+html[dir="rtl"] .chipContainer {
+  flex-direction: row-reverse;
+}

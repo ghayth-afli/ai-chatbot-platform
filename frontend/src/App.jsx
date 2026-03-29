@@ -8,13 +8,13 @@ import { AuthProvider } from "./hooks/useAuth";
 import { GOOGLE_CLIENT_ID } from "./config/oauth";
 
 // Pages
-import Landing from "./pages/Landing";
+import LandingPage from "./pages/LandingPage/LandingPage";
 import LoginPage from "./pages/auth/LoginPage";
 import SignupPage from "./pages/auth/SignupPage";
 import VerifyEmailPage from "./pages/auth/VerifyEmailPage";
 import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
-import ChatPage from "./pages/ChatPage";
+import ChatPageWrapper from "./pages/ChatPage/ChatPage";
 
 // Components
 import PrivateRoute from "./components/PrivateRoute";
@@ -44,7 +44,7 @@ function App() {
               <BrowserRouter>
                 <Routes>
                   {/* Public Routes */}
-                  <Route path="/" element={<Landing />} />
+                  <Route path="/" element={<LandingPage />} />
 
                   {/* Authentication Routes */}
                   <Route path="/auth/login" element={<LoginPage />} />
@@ -67,7 +67,7 @@ function App() {
                     path="/chat"
                     element={
                       <PrivateRoute>
-                        <ChatPage />
+                        <ChatPageWrapper />
                       </PrivateRoute>
                     }
                   />

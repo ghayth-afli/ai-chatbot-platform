@@ -1,0 +1,13 @@
+
+> nexus-chatbot-frontend@0.1.0 test:e2e
+> playwright test
+
+
+Running 252 tests using 1 worker
+
+[1A[2K[1/252] [chromium-mobile] ÔÇ║ tests\e2e\auth-email-verification.spec.ts:9:7 ÔÇ║ Email Verification Flow E2E ÔÇ║ should load signup page successfully
+[1A[2K[2/252] [chromium-mobile] ÔÇ║ tests\e2e\auth-email-verification.spec.ts:31:7 ÔÇ║ Email Verification Flow E2E ÔÇ║ should accept email input on signup page
+[1A[2K[3/252] [chromium-mobile] ÔÇ║ tests\e2e\auth-email-verification.spec.ts:49:7 ÔÇ║ Email Verification Flow E2E ÔÇ║ should show password strength requirements
+[1A[2K[chromium-mobile] ÔÇ║ tests\e2e\auth-email-verification.spec.ts:49:7 ÔÇ║ Email Verification Flow E2E ÔÇ║ should show password strength requirements
+Password strength elements found: [33m6[39m
+

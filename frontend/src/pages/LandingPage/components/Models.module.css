@@ -1,0 +1,339 @@
+/* ════════ MODELS SECTION STYLES ════════ */
+
+.modSec {
+  padding: 96px 40px;
+}
+
+.secIn {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sTag {
+  font-family: "Space Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.sTag::before {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: var(--muted);
+  display: inline-block;
+}
+
+.sTitle {
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  font-size: clamp(28px, 4vw, 52px);
+  letter-spacing: -0.03em;
+  line-height: 1.06;
+  color: var(--paper);
+}
+
+.highlightPlasma {
+  color: var(--plasma);
+}
+
+.sBody {
+  font-size: 16px;
+  font-weight: 300;
+  color: rgba(245, 243, 239, 0.5);
+  line-height: 1.75;
+  max-width: 480px;
+  margin-top: 14px;
+}
+
+/* ════════ MODELS LAYOUT ════════ */
+
+.modLayout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 52px;
+  align-items: center;
+  margin-top: 48px;
+}
+
+.modCards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: all 0.28s;
+  position: relative;
+}
+
+.mCard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  transition: border-color 0.28s;
+  pointer-events: none;
+}
+
+.mCard:hover::after,
+.mCard.on::after {
+  border-color: var(--plasma);
+}
+
+.mCard.on {
+  background: rgba(123, 92, 255, 0.08);
+}
+
+.mDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.mName {
+  font-family: "Syne", sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--paper);
+}
+
+.mDesc {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.mBadge {
+  font-family: "Space Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.07em;
+  padding: 4px 8px;
+  border-radius: 6px;
+  margin-left: auto;
+  white-space: nowrap;
+  border: 1px solid;
+}
+
+.badgeV {
+  background: rgba(200, 255, 0, 0.1);
+  color: var(--volt);
+  border-color: rgba(200, 255, 0, 0.22);
+}
+
+.badgeP {
+  background: rgba(123, 92, 255, 0.1);
+  color: var(--plasma);
+  border-color: rgba(123, 92, 255, 0.22);
+}
+
+.badgeI {
+  background: rgba(0, 212, 232, 0.1);
+  color: var(--ice);
+  border-color: rgba(0, 212, 232, 0.22);
+}
+
+/* ════════ MODEL DISPLAY ════════ */
+
+.modShow {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+}
+
+.msTag {
+  font-family: "Space Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--volt);
+  margin-bottom: 10px;
+}
+
+.msTitle {
+  font-family: "Syne", sans-serif;
+  font-weight: 700;
+  font-size: 21px;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+
+.msSub {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.65;
+  margin-bottom: 20px;
+}
+
+/* ════════ PILLS ════════ */
+
+.pillRow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pill {
+  border-radius: 8px;
+  padding: 10px 14px;
+  border: 1px solid;
+}
+
+.pl {
+  font-family: "Space Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.pd {
+  font-size: 11px;
+  color: rgba(245, 243, 239, 0.55);
+  margin-top: 3px;
+}
+
+.pillV {
+  background: rgba(200, 255, 0, 0.08);
+  border-color: rgba(200, 255, 0, 0.2);
+}
+
+.pillV .pl {
+  color: var(--volt);
+}
+
+.pillP {
+  background: rgba(123, 92, 255, 0.08);
+  border-color: rgba(123, 92, 255, 0.2);
+}
+
+.pillP .pl {
+  color: var(--plasma);
+}
+
+.pillI {
+  background: rgba(0, 212, 232, 0.08);
+  border-color: rgba(0, 212, 232, 0.2);
+}
+
+.pillI .pl {
+  color: var(--ice);
+}
+
+/* ════════ STATS ════════ */
+
+.statRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.statC {
+  background: var(--ink);
+  padding: 16px;
+  text-align: center;
+}
+
+.statN {
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  font-size: 28px;
+  letter-spacing: -0.03em;
+  color: var(--volt);
+}
+
+.statL {
+  font-family: "Space Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* ════════ RESPONSIVE ════════ */
+
+@media (max-width: 1024px) {
+  .modLayout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .modSec {
+    padding: 60px 20px;
+  }
+
+  .sTag::before {
+    display: none;
+  }
+
+  .modLayout {
+    gap: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modSec {
+    padding: 40px 16px;
+  }
+
+  .mCard {
+    padding: 14px 16px;
+  }
+
+  .mBadge {
+    margin-left: 0;
+  }
+
+  .pillRow {
+    gap: 6px;
+  }
+
+  .pill {
+    padding: 8px 10px;
+  }
+
+  .pl {
+    font-size: 8px;
+  }
+
+  .pd {
+    font-size: 10px;
+  }
+}
+
+/* ════════ RTL SUPPORT ════════ */
+
+html[dir="rtl"] .sTag::before {
+  display: none;
+}
+
+html[dir="rtl"] .modLayout {
+  direction: rtl;
+}
+
+html[dir="rtl"] .mBadge {
+  margin-left: 0;
+  margin-right: auto;
+}

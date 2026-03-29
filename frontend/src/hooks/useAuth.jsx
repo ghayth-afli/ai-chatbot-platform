@@ -27,23 +27,34 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const initializeAuth = async () => {
       try {
-        // Check if user exists in localStorage
+        // Check if user and token exist in localStorage
         const savedUser = localStorage.getItem("user");
-        if (savedUser) {
+        const savedToken = localStorage.getItem("access_token");
+
+        if (savedUser && savedToken) {
+          // User data and token exist - assume authenticated
           setUser(JSON.parse(savedUser));
           setIsAuthenticated(true);
 
-          // Verify with backend (calls GET /api/auth/me/)
-          const result = await authService.getCurrentUser();
-          if (result.success) {
-            setUser(result.data);
-            localStorage.setItem("user", JSON.stringify(result.data));
-          } else {
-            // Token invalid - clear local state
-            setUser(null);
-            setIsAuthenticated(false);
-            localStorage.removeItem("user");
+          // Optionally verify with backend to refresh user data
+          try {
+            const result = await authService.getCurrentUser();
+            if (result.success) {
+              setUser(result.data);
+              localStorage.setItem("user", JSON.stringify(result.data));
+            }
+            // If verification fails, keep the savedUser anyway (graceful degradation)
+          } catch (err) {
+            console.error(
+              "Auth verification error (continuing with cached user):",
+              err,
+            );
+            // Don't clear state - user is still authenticated based on localStorage
           }
+        } else {
+          // No saved authentication
+          setUser(null);
+          setIsAuthenticated(false);
         }
       } catch (err) {
         console.error("Auth initialization error:", err);
