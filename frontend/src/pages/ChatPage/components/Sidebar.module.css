@@ -360,14 +360,25 @@ html[dir="rtl"] .sfBtn {
 
 /* ════════ RESPONSIVE ════════ */
 
+/* Tablet */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 240px;
+  }
+}
+
+/* Tablet/Mobile Transition */
 @media (max-width: 768px) {
   .sidebar {
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
+    width: 70vw;
+    max-width: 280px;
     z-index: 200;
     transform: translateX(-100%);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
   }
 
   html[dir="rtl"] .sidebar {
@@ -383,21 +394,78 @@ html[dir="rtl"] .sfBtn {
   html[dir="rtl"] .sidebar.mobOpen {
     transform: translateX(0);
   }
-}
 
-@media (max-width: 480px) {
   .logo {
     font-size: 16px;
   }
 
+  .histTitle {
+    font-size: 12px;
+  }
+
+  .userCard {
+    margin: 10px;
+    padding: 10px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .sidebar {
+    width: 100vw;
+    max-width: 100%;
+  }
+
+  .sidebarHead {
+    height: 48px;
+    padding: 0 12px;
+  }
+
+  .logo {
+    font-size: 15px;
+  }
+
   .badge {
     font-size: 7px;
-    padding: 1px 4px;
+    padding: 1px 3px;
+  }
+
+  .newChatBtn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .userCard {
+    margin: 8px;
+    padding: 8px;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+
+  .userName {
+    font-size: 12px;
+  }
+
+  .userSub {
+    font-size: 7px;
+  }
+
+  .aiSummary {
+    margin: 0 10px 8px;
+    padding: 10px;
+  }
+
+  .summaryText {
+    font-size: 11px;
   }
 
   .sidebarSearch input {
     font-size: 11px;
-    padding: 6px 10px 6px 28px;
+    padding: 6px 10px 6px 26px;
   }
 
   .histTitle {
@@ -406,6 +474,45 @@ html[dir="rtl"] .sfBtn {
 
   .histMeta {
     font-size: 7px;
+  }
+
+  .sidebarFooter {
+    padding: 8px 10px;
+  }
+
+  .sfBtn {
+    font-size: 11px;
+    padding: 7px 8px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 360px) {
+  .sidebarHead {
+    height: 44px;
+    padding: 0 10px;
+  }
+
+  .logo {
+    font-size: 13px;
+  }
+
+  .badge {
+    font-size: 6px;
+    padding: 1px 2px;
+  }
+
+  .userCard {
+    margin: 6px;
+    padding: 6px;
+  }
+
+  .summaryText {
+    font-size: 10px;
+  }
+
+  .histTitle {
+    font-size: 10px;
   }
 }
 

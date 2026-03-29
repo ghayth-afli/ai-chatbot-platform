@@ -239,55 +239,136 @@ html[dir="rtl"] .modelDropdown {
 
 /* ════════ RESPONSIVE ════════ */
 
+/* Tablet */
+@media (max-width: 1024px) {
+  .chatHeader {
+    padding: 0 14px;
+  }
+
+  .modelNameLabel {
+    font-size: 9px;
+  }
+}
+
+/* Tablet/Small */
 @media (max-width: 768px) {
   .chatHeader {
     padding: 0 12px;
+    gap: 10px;
   }
 
   .mobToggle {
     display: flex;
   }
 
-  .headerRight .logoutBtn {
-    display: none;
+  .modelSelect {
+    padding: 6px 8px;
+    font-size: 13px;
   }
 
   .modelNameLabel {
     display: none;
   }
 
-  .modelSelect {
-    padding: 6px 8px;
+  .modelOptName {
+    font-size: 12px;
+  }
+
+  .modelOptDesc {
+    font-size: 10px;
+  }
+
+  .headerRight .logoutBtn {
+    display: none;
+  }
+
+  .profileBtn {
+    font-size: 8px;
+    padding: 5px 10px;
   }
 }
 
+/* Mobile */
 @media (max-width: 480px) {
   .chatHeader {
     padding: 0 10px;
+    gap: 6px;
+  }
+
+  .headerLeft,
+  .headerRight {
     gap: 8px;
   }
 
   .modelSelect {
     min-width: 0;
+    padding: 5px 6px;
+    font-size: 12px;
   }
 
   .modelChevron {
     margin-left: 0;
+    font-size: 9px;
   }
 
-  .logoutBtn,
+  .modelDot {
+    width: 5px;
+    height: 5px;
+  }
+
+  .modelDropdown {
+    min-width: 180px;
+  }
+
+  .logoutBtn {
+    display: none;
+  }
+
   .profileBtn {
     font-size: 8px;
     padding: 5px 8px;
+    gap: 4px;
   }
 
   .langTog {
     padding: 2px;
+    gap: 1px;
   }
 
   .ltBtn {
-    font-size: 8px;
-    padding: 3px 8px;
+    font-size: 7px;
+    padding: 3px 6px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 360px) {
+  .chatHeader {
+    padding: 0 8px;
+    height: 44px;
+  }
+
+  .mobToggle {
+    width: 32px;
+    height: 32px;
+  }
+
+  .modelSelect {
+    padding: 4px 5px;
+    min-width: 40px;
+  }
+
+  .modelOpt {
+    padding: 9px 11px;
+  }
+
+  .langTog {
+    min-width: 0;
+  }
+
+  .profileBtn {
+    padding: 4px 6px;
+    font-size: 7px;
   }
 }
 

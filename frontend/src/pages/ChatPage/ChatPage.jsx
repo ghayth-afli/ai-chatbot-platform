@@ -37,11 +37,12 @@ export default function ChatPage() {
     document.body.dir = isArabic ? "rtl" : "ltr";
   }, [i18n.language]);
 
-  // Close sidebar on larger screens
+  // Close sidebar and profile panel on screen resize to larger viewports
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 768) {
         setSidebarOpen(false);
+        setProfilePanelOpen(false);
       }
     };
     window.addEventListener("resize", handleResize);

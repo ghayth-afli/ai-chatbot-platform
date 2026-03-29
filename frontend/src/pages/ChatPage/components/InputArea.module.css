@@ -149,6 +149,23 @@ body[dir="rtl"] .chatTextarea {
 
 /* ════════ RESPONSIVE ════════ */
 
+/* Tablet */
+@media (max-width: 1024px) {
+  .inputArea {
+    padding: 14px 18px 18px;
+  }
+
+  .inputWrap {
+    max-width: 100%;
+  }
+
+  .qaPill {
+    font-size: 8px;
+    padding: 5px 10px;
+  }
+}
+
+/* Tablet/Mobile Transition */
 @media (max-width: 768px) {
   .inputArea {
     padding: 12px 16px 16px;
@@ -157,38 +174,96 @@ body[dir="rtl"] .chatTextarea {
   .inputWrap {
     max-width: 100%;
   }
+
+  .quickActions {
+    display: flex;
+    gap: 6px;
+  }
+
+  .qaPill {
+    font-size: 8px;
+    padding: 5px 10px;
+  }
 }
 
+/* Mobile */
 @media (max-width: 480px) {
   .inputArea {
-    padding: 10px 12px 14px;
+    padding: 10px 12px 12px;
+  }
+
+  .inputWrap {
+    max-width: 100%;
   }
 
   .quickActions {
     display: none;
+    gap: 5px;
+    margin-bottom: 8px;
+  }
+
+  .qaPill {
+    font-size: 7px;
+    padding: 4px 8px;
   }
 
   .inputBox {
     border-radius: 12px;
-    padding: 8px 8px 8px 12px;
+    padding: 8px 8px 8px 11px;
+    gap: 8px;
   }
 
   html[dir="rtl"] .inputBox {
-    padding: 8px 12px 8px 8px;
+    padding: 8px 11px 8px 8px;
   }
 
   .chatTextarea {
-    font-size: 13px;
+    font-size: 12px;
+    min-height: 22px;
+    max-height: 120px;
   }
 
   .sendBtn {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
   }
 
   .inputFooter {
-    margin-top: 6px;
+    margin-top: 5px;
+    padding: 0 2px;
+  }
+
+  .inputHint,
+  .charCount {
     font-size: 7px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 360px) {
+  .inputArea {
+    padding: 8px 10px 10px;
+  }
+
+  .inputBox {
+    border-radius: 10px;
+    padding: 7px 7px 7px 10px;
+    gap: 6px;
+  }
+
+  html[dir="rtl"] .inputBox {
+    padding: 7px 10px 7px 7px;
+  }
+
+  .chatTextarea {
+    font-size: 11px;
+  }
+
+  .sendBtn {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
   }
 }
 

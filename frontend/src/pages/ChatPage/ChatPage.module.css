@@ -149,12 +149,49 @@ body {
 }
 
 /* ═════════════════════════════════════════════════════════════
-   RESPONSIVE
+   RESPONSIVE BREAKPOINTS
 ═════════════════════════════════════════════════════════════ */
 
+/* Tablet & Below */
+@media (max-width: 1024px) {
+  :root {
+    --sidebar-w: 260px;
+  }
+}
+
+/* Tablet (768px - 1024px) */
 @media (max-width: 768px) {
   :root {
+    --sidebar-w: 240px;
+    --header-h: 52px;
+  }
+
+  .app {
+    font-size: 13px;
+  }
+}
+
+/* Mobile (480px - 768px) */
+@media (max-width: 480px) {
+  :root {
+    --sidebar-w: 280px;
+    --header-h: 48px;
+  }
+
+  .app {
+    font-size: 12px;
+  }
+}
+
+/* Small Mobile (< 480px) */
+@media (max-width: 360px) {
+  :root {
     --sidebar-w: 100%;
+    --header-h: 44px;
+  }
+
+  .app {
+    font-size: 11px;
   }
 }
 

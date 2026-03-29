@@ -279,21 +279,44 @@ html[dir="rtl"] .typingBubble {
 
 /* ════════ RESPONSIVE ════════ */
 
+/* Tablet */
+@media (max-width: 1024px) {
+  .messagesInner {
+    max-width: 800px;
+    padding: 0 18px;
+  }
+
+  .welcome {
+    padding: 36px 18px;
+  }
+
+  .welcomeLogo {
+    font-size: 36px;
+  }
+
+  .suggestionGrid {
+    max-width: 500px;
+  }
+}
+
+/* Tablet/Mobile Transition */
 @media (max-width: 768px) {
   .messagesWrap {
-    padding: 16px 0;
+    padding: 14px 0;
   }
 
   .messagesInner {
+    max-width: 100%;
     padding: 0 16px;
   }
 
   .welcome {
-    padding: 30px 16px;
+    padding: 28px 16px;
+    gap: 2px;
   }
 
   .welcomeLogo {
-    font-size: 30px;
+    font-size: 32px;
   }
 
   .welcomeSub {
@@ -303,13 +326,30 @@ html[dir="rtl"] .typingBubble {
 
   .suggestionGrid {
     grid-template-columns: 1fr;
-    max-width: 400px;
+    max-width: 90vw;
+    gap: 12px;
+  }
+
+  .sugCard {
+    padding: 14px;
+    border-radius: 10px;
+  }
+
+  .msgBubble {
+    font-size: 13px;
+    padding: 11px 14px;
+  }
+
+  .msgAvatar {
+    width: 26px;
+    height: 26px;
   }
 }
 
+/* Mobile */
 @media (max-width: 480px) {
   .messagesWrap {
-    padding: 12px 0;
+    padding: 10px 0;
   }
 
   .messagesInner {
@@ -318,6 +358,9 @@ html[dir="rtl"] .typingBubble {
 
   .welcome {
     padding: 20px 12px;
+    justify-content: flex-start;
+    min-height: auto;
+    padding-top: 40px;
   }
 
   .welcomeLogo {
@@ -329,13 +372,20 @@ html[dir="rtl"] .typingBubble {
     margin-bottom: 20px;
   }
 
-  .msgBubble {
-    font-size: 13px;
-    padding: 10px 12px;
+  .suggestionGrid {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+    gap: 10px;
   }
 
   .sugCard {
-    padding: 12px;
+    padding: 11px 13px;
+    border-radius: 10px;
+  }
+
+  .sugIcon {
+    font-size: 16px;
+    margin-bottom: 5px;
   }
 
   .sugTitle {
@@ -343,7 +393,92 @@ html[dir="rtl"] .typingBubble {
   }
 
   .sugDesc {
+    font-size: 9px;
+    line-height: 1.4;
+  }
+
+  .msg {
+    gap: 8px;
+  }
+
+  .msgAvatar {
+    width: 24px;
+    height: 24px;
     font-size: 10px;
+  }
+
+  .msgMeta {
+    font-size: 7px;
+    gap: 4px;
+  }
+
+  .msgBubble {
+    font-size: 12px;
+    padding: 9px 11px;
+    border-radius: 14px;
+    line-height: 1.6;
+  }
+
+  .msg.ai .msgBubble {
+    border-radius: 3px 14px 14px 14px;
+  }
+
+  .msg.user .msgBubble {
+    border-radius: 14px 3px 14px 14px;
+  }
+
+  .msgActions {
+    gap: 4px;
+    margin-top: 4px;
+  }
+
+  .msgActBtn {
+    font-size: 7px;
+    padding: 2px 6px;
+  }
+
+  .typingBubble {
+    padding: 10px 12px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 360px) {
+  .messagesWrap {
+    padding: 8px 0;
+  }
+
+  .messagesInner {
+    padding: 0 10px;
+  }
+
+  .welcome {
+    padding: 16px 10px 20px;
+    padding-top: 36px;
+  }
+
+  .welcomeLogo {
+    font-size: 24px;
+  }
+
+  .welcomeSub {
+    font-size: 11px;
+    margin-bottom: 16px;
+  }
+
+  .sugCard {
+    padding: 10px 11px;
+  }
+
+  .msgBubble {
+    font-size: 11px;
+    padding: 8px 10px;
+  }
+
+  .msgAvatar {
+    width: 22px;
+    height: 22px;
+    font-size: 9px;
   }
 }
 

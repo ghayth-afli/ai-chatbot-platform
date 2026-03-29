@@ -241,44 +241,105 @@ html[dir="rtl"] .profilePanel.open {
   border-color: rgba(255, 77, 109, 0.5);
 }
 
-/* ════════ RESPONSIVE ════════ */
-
-@media (max-width: 768px) {
+/* Tablet */
+@media (max-width: 1024px) {
   .profilePanel {
-    width: 100%;
+    width: 300px;
+  }
+
+  .ppHead {
+    padding: 0 16px;
+  }
+
+  .ppBody {
+    padding: 18px 16px;
   }
 }
 
-@media (max-width: 480px) {
+/* Tablet/Mobile Transition */
+@media (max-width: 768px) {
+  .profilePanel {
+    width: min(100vw, 360px);
+  }
+
+  .ppHead {
+    padding: 0 16px;
+  }
+
   .ppBody {
     padding: 16px 14px;
   }
 
   .ppAvatarBig {
-    width: 50px;
-    height: 50px;
-    font-size: 18px;
+    width: 56px;
+    height: 56px;
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .ppName {
+    font-size: 17px;
+  }
+
+  .ppEmail {
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .profilePanel {
+    width: 100%;
+  }
+
+  .ppHead {
+    padding: 0 12px;
+    height: 48px;
+  }
+
+  .ppBody {
+    padding: 14px 12px;
+  }
+
+  .ppTitle {
+    font-size: 14px;
+  }
+
+  .ppClose {
+    width: 26px;
+    height: 26px;
+    font-size: 12px;
+  }
+
+  .ppAvatarBig {
+    width: 48px;
+    height: 48px;
+    font-size: 16px;
     margin-bottom: 10px;
   }
 
   .ppName {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .ppEmail {
     font-size: 11px;
+    margin-bottom: 12px;
   }
 
   .ppStatRow {
     gap: 6px;
+    margin-bottom: 10px;
   }
 
   .ppStat {
-    padding: 10px 6px;
+    padding: 9px 6px;
+    border-radius: 8px;
   }
 
   .ppStatN {
-    font-size: 18px;
+    font-size: 17px;
   }
 
   .ppStatL {
@@ -286,12 +347,18 @@ html[dir="rtl"] .profilePanel.open {
   }
 
   .ppCard {
-    padding: 12px 14px;
+    padding: 11px 12px;
     margin-bottom: 10px;
+    border-radius: 10px;
+  }
+
+  .ppCardLabel {
+    font-size: 7px;
+    margin-bottom: 6px;
   }
 
   .ppCardText {
-    font-size: 12px;
+    font-size: 11px;
   }
 
   .ppPrefLabel {
@@ -300,13 +367,63 @@ html[dir="rtl"] .profilePanel.open {
 
   .ppPrefVal {
     font-size: 8px;
-    padding: 2px 6px;
+    padding: 3px 7px;
   }
 
   .ppLogout {
     font-size: 9px;
-    padding: 9px;
-    gap: 6px;
+    padding: 10px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 360px) {
+  .ppHead {
+    padding: 0 10px;
+    height: 44px;
+  }
+
+  .ppBody {
+    padding: 12px 10px;
+  }
+
+  .ppTitle {
+    font-size: 13px;
+  }
+
+  .ppAvatarBig {
+    width: 44px;
+    height: 44px;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .ppName {
+    font-size: 13px;
+  }
+
+  .ppEmail {
+    font-size: 10px;
+  }
+
+  .ppStatRow {
+    gap: 5px;
+  }
+
+  .ppStat {
+    padding: 8px 4px;
+  }
+
+  .ppStatN {
+    font-size: 15px;
+  }
+
+  .ppCard {
+    padding: 10px 11px;
+  }
+
+  .ppCardText {
+    font-size: 10px;
   }
 }
 
