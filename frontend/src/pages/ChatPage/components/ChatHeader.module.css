@@ -237,6 +237,29 @@ html[dir="rtl"] .modelDropdown {
   color: #fff;
 }
 
+/* ════════ COLLAPSE TOGGLE ════════ */
+
+.collapseToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--glass);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+.collapseToggle:hover {
+  background: rgba(200, 255, 0, 0.08);
+  border-color: rgba(200, 255, 0, 0.3);
+  color: var(--volt);
+}
+
 /* ════════ RESPONSIVE ════════ */
 
 /* Tablet */
@@ -259,6 +282,10 @@ html[dir="rtl"] .modelDropdown {
 
   .mobToggle {
     display: flex;
+  }
+
+  .collapseToggle {
+    display: none;
   }
 
   .modelSelect {

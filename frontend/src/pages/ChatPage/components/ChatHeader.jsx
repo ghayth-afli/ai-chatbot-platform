@@ -10,6 +10,8 @@ export default function ChatHeader({
   selectedModel,
   onModelChange,
   onToggleSidebar,
+  onToggleCollapse,
+  isSidebarCollapsed,
   onOpenProfile,
 }) {
   const { t, i18n } = useTranslation();
@@ -106,6 +108,35 @@ export default function ChatHeader({
             ))}
           </div>
         </div>
+
+        {/* Collapse Toggle (Desktop only) */}
+        <button
+          className={styles.collapseToggle}
+          onClick={onToggleCollapse}
+          title={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+          {isSidebarCollapsed ? (
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path
+                d="M11 4L5 8l6 4"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          ) : (
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path
+                d="M5 4l6 4-6 4"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          )}
+        </button>
       </div>
 
       <div className={styles.headerRight}>

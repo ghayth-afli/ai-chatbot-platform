@@ -24,6 +24,7 @@ export default function ChatPage() {
 
   // UI State
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [profilePanelOpen, setProfilePanelOpen] = useState(false);
   const [selectedModel, setSelectedModel] = useState("deepseek-chat");
   const [chatHistory, setChatHistory] = useState([]);
@@ -64,9 +65,11 @@ export default function ChatPage() {
       {/* Sidebar */}
       <Sidebar
         isOpen={sidebarOpen || false}
+        isCollapsed={sidebarCollapsed}
         onClose={() => setSidebarOpen(false)}
         onOpenProfile={() => setProfilePanelOpen(true)}
         onNewChat={handleNewChat}
+        onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
         chatHistory={chatHistory}
         currentChatId={currentChatId}
         onSelectChat={(id) => setCurrentChatId(id)}
@@ -79,6 +82,8 @@ export default function ChatPage() {
           selectedModel={selectedModel}
           onModelChange={setSelectedModel}
           onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+          onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+          isSidebarCollapsed={sidebarCollapsed}
           onOpenProfile={() => setProfilePanelOpen(true)}
         />
 

@@ -518,6 +518,109 @@ html[dir="rtl"] .sfBtn {
   }
 }
 
+/* ════════ COLLAPSED SIDEBAR ════════ */
+
+.headerBtns {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.collapseBtn {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--glass);
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.12s;
+  flex-shrink: 0;
+}
+
+.collapseBtn:hover {
+  background: rgba(200, 255, 0, 0.08);
+  border-color: rgba(200, 255, 0, 0.3);
+  color: var(--volt);
+}
+
+/* Collapsed state (Desktop/Tablet only) */
+.collapsed {
+  width: 70px;
+  transition:
+    width 0.28s ease,
+    transform 0.28s ease;
+}
+
+.collapsed .sidebarHead {
+  justify-content: center;
+  padding: 0 8px;
+}
+
+.collapsed .logo {
+  display: none;
+}
+
+.collapsed .userCard {
+  display: none;
+}
+
+.collapsed .aiSummary {
+  display: none;
+}
+
+.collapsed .sidebarSearch {
+  display: none;
+}
+
+.collapsed .historyLabel {
+  display: none;
+}
+
+.collapsed .histItem {
+  justify-content: center;
+  padding: 12px 0;
+  margin: 2px 0;
+}
+
+.collapsed .histIcon {
+  margin: 0;
+}
+
+.collapsed .histContent {
+  display: none;
+}
+
+.collapsed .emptyState {
+  display: none;
+}
+
+.collapsed .sidebarFooter {
+  padding: 8px 4px;
+}
+
+.collapsed .sfBtn {
+  width: 100%;
+  justify-content: center;
+  padding: 8px 4px;
+  gap: 0;
+}
+
+.collapsed .sfBtn svg {
+  margin: 0;
+}
+
+/* Collapsed state on mobile - doesn't apply since mobile uses drawer overlay */
+@media (max-width: 768px) {
+  .collapsed {
+    width: 70vw;
+    max-width: 280px;
+  }
+}
+
 /* ════════ RTL SUPPORT ════════ */
 
 html[dir="rtl"] .userCardInner {

@@ -9,9 +9,11 @@ import styles from "./Sidebar.module.css";
  */
 export default function Sidebar({
   isOpen,
+  isCollapsed,
   onClose,
   onOpenProfile,
   onNewChat,
+  onToggleCollapse,
   chatHistory,
   currentChatId,
   onSelectChat,
@@ -30,27 +32,58 @@ export default function Sidebar({
   };
 
   return (
-    <aside className={`${styles.sidebar} ${isOpen ? styles.mobOpen : ""}`}>
+    <aside
+      className={`${styles.sidebar} ${isOpen ? styles.mobOpen : ""} ${isCollapsed ? styles.collapsed : ""}`}
+    >
       {/* Sidebar Header */}
       <div className={styles.sidebarHead}>
         <a href="/" className={styles.logo}>
           nexus<span className={styles.dot}>.</span>
           <span className={styles.badge}>AI</span>
         </a>
-        <button
-          className={styles.newChatBtn}
-          onClick={onNewChat}
-          title="New Chat"
-        >
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path
-              d="M7 2v10M2 7h10"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-            />
-          </svg>
-        </button>
+        <div className={styles.headerBtns}>
+          <button
+            className={styles.newChatBtn}
+            onClick={onNewChat}
+            title="New Chat"
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path
+                d="M7 2v10M2 7h10"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+              />
+            </svg>
+          </button>
+          <button
+            className={styles.collapseBtn}
+            onClick={onToggleCollapse}
+            title={isCollapsed ? "Expand" : "Collapse"}
+          >
+            {isCollapsed ? (
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path
+                  d="M10 3L4 7l6 4"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path
+                  d="M4 3l6 4-6 4"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            )}
+          </button>
+        </div>
       </div>
 
       {/* User Card */}
