@@ -19,7 +19,6 @@ import { ProfilePanel } from "../../components/chat/ProfilePanel";
 import { useChat } from "./useChat";
 import { useWebSocket } from "../../hooks/useWebSocket";
 import { useAuth } from "../../hooks/useAuth";
-import "../../styles/nexus-design-system.css";
 
 export function ChatPage() {
   const navigate = useNavigate();

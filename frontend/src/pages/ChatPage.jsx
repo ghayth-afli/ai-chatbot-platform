@@ -6,7 +6,7 @@
  */
 
 import React from "react";
-import { ChatPage as ChatPageComponent } from "../features/chat/ChatPage";
+import { ChatPage as ChatPageComponent } from "../features/chat/NexusChatPage";
 
 const ChatPage = () => {
   return <ChatPageComponent />;
