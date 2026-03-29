@@ -630,11 +630,93 @@ html[dir="rtl"] .sfBtn {
   margin: 0;
 }
 
-/* Collapsed state on mobile - doesn't apply since mobile uses drawer overlay */
+/* Collapsed state only on Desktop/Tablet (>768px) - mobile uses drawer overlay */
 @media (max-width: 768px) {
+  /* On mobile, override collapsed styles to use drawer behavior instead */
   .collapsed {
+    width: auto;
+    max-width: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
     width: 70vw;
     max-width: 280px;
+    transform: translateX(-100%);
+    z-index: 200;
+  }
+
+  html[dir="rtl"] .collapsed {
+    left: auto;
+    right: 0;
+    transform: translateX(100%);
+  }
+
+  /* When sidebar is both open AND collapsed on mobile, show it */
+  .sidebar.mobOpen.collapsed {
+    transform: translateX(0);
+  }
+
+  html[dir="rtl"] .sidebar.mobOpen.collapsed {
+    transform: translateX(0);
+  }
+
+  .collapsed .sidebarHead {
+    justify-content: space-between;
+    padding: 0 16px;
+  }
+
+  .collapsed .logo {
+    display: flex;
+  }
+
+  .collapsed .userCard {
+    display: block;
+  }
+
+  .collapsed .aiSummary {
+    display: block;
+  }
+
+  .collapsed .sidebarSearch {
+    display: block;
+  }
+
+  .collapsed .historyLabel {
+    display: block;
+  }
+
+  .collapsed .histItem {
+    justify-content: flex-start;
+    padding: 9px 10px;
+    margin-bottom: 2px;
+  }
+
+  .collapsed .histIcon {
+    margin-top: 1px;
+  }
+
+  .collapsed .histContent {
+    display: block;
+  }
+
+  .collapsed .emptyState {
+    display: block;
+  }
+
+  .collapsed .sidebarFooter {
+    padding: 10px 12px;
+  }
+
+  .collapsed .sfBtn {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 8px 10px;
+    gap: 9px;
+  }
+
+  .collapsed .sfBtn svg {
+    margin: 0;
   }
 }
 
