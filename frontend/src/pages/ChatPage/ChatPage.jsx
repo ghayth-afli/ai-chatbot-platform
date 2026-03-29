@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../hooks/useAuth";
-import { useChat } from "../../features/chat/useChat";
+import { useChat } from "../../hooks/useChat";
 import styles from "./ChatPage.module.css";
 
 // Sub-components
