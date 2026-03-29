@@ -243,8 +243,8 @@ html[dir="rtl"] .modelDropdown {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 8px;
   border: 1px solid var(--border);
   background: var(--glass);
@@ -252,12 +252,18 @@ html[dir="rtl"] .modelDropdown {
   cursor: pointer;
   transition: all 0.15s;
   flex-shrink: 0;
+  padding: 0;
+  margin: 0;
 }
 
 .collapseToggle:hover {
   background: rgba(200, 255, 0, 0.08);
   border-color: rgba(200, 255, 0, 0.3);
   color: var(--volt);
+}
+
+.collapseToggle:active {
+  background: rgba(200, 255, 0, 0.12);
 }
 
 /* ════════ RESPONSIVE ════════ */
