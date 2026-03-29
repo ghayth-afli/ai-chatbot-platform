@@ -12,6 +12,8 @@
     transform 0.28s ease,
     width 0.28s ease;
   z-index: 50;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 html[dir="rtl"] .sidebar {
