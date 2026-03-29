@@ -11,9 +11,8 @@
 
 import axios from "axios";
 
-const API_BASE_URL =
-  process.env.REACT_APP_API_URL || "http://localhost:8000/api";
-const CHAT_API = `${API_BASE_URL}/chat`;
+const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+const CHAT_API = `${API_BASE_URL}/api/chat`;
 
 /**
  * Send a message to the AI and get a response
@@ -29,15 +28,22 @@ export const sendMessage = async (sessionId, message, model = null) => {
       ...(model && { model }),
     };
 
+    console.log(`📤 Sending message to session ${sessionId}:`, payload);
+
     const response = await axios.post(
       `${CHAT_API}/${sessionId}/send/`,
       payload,
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+          Authorization: `Bearer ${localStorage.getItem("access_token") || ""}`,
           "Content-Type": "application/json",
         },
       },
+    );
+
+    console.log(
+      `✅ Message API response (status ${response.status}):`,
+      response.data,
     );
 
     return {
@@ -45,7 +51,8 @@ export const sendMessage = async (sessionId, message, model = null) => {
       data: response.data,
     };
   } catch (error) {
-    console.error("Error sending message:", error);
+    console.error("❌ Error sending message:", error);
+    console.error("Error response:", error.response?.data);
     return {
       success: false,
       error: error.response?.data?.error || "Failed to send message",
@@ -74,7 +81,7 @@ export const createSession = async (
 
     const response = await axios.post(CHAT_API + "/", payload, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+        Authorization: `Bearer ${localStorage.getItem("access_token") || ""}`,
         "Content-Type": "application/json",
       },
     });
@@ -101,7 +108,7 @@ export const getSessions = async (page = 1) => {
   try {
     const response = await axios.get(`${CHAT_API}/?page=${page}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+        Authorization: `Bearer ${localStorage.getItem("access_token") || ""}`,
       },
     });
 
@@ -128,7 +135,7 @@ export const getSessionMessages = async (sessionId, page = 1) => {
   try {
     const response = await axios.get(`${CHAT_API}/${sessionId}/?page=${page}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+        Authorization: `Bearer ${localStorage.getItem("access_token") || ""}`,
       },
     });
 
@@ -154,7 +161,7 @@ export const deleteSession = async (sessionId) => {
   try {
     const response = await axios.delete(`${CHAT_API}/${sessionId}/`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+        Authorization: `Bearer ${localStorage.getItem("access_token") || ""}`,
       },
     });
 
@@ -184,7 +191,7 @@ export const updateSessionModel = async (sessionId, model) => {
       { model },
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+          Authorization: `Bearer ${localStorage.getItem("access_token") || ""}`,
           "Content-Type": "application/json",
         },
       },

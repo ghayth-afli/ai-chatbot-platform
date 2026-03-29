@@ -21,7 +21,7 @@ const Hero = () => {
 
   const handleCTA = () => {
     // For MVP, navigate to login
-    navigate("/login");
+    navigate("/auth/login");
   };
 
   const handleFeaturesScroll = () => {

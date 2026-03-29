@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 class ChatService:
     """Service class for chat operations."""
 
-    VALID_MODELS = ['deepseek', 'llama3', 'mistral']
+    VALID_MODELS = ['deepseek', 'llama3', 'mistral', 'nemotron']
     VALID_LANGUAGES = ['en', 'ar']
     MAX_MESSAGE_LENGTH = 5000
     PAGE_SIZE = 50
@@ -293,5 +293,71 @@ class ChatService:
         return {
             'session_id': session.id,
             'model': session.ai_model,
+            'updated_at': session.updated_at.isoformat(),
+        }
+
+    @staticmethod
+    def paginate_messages(messages_qs, page: int = 1, page_size: int = None) -> Dict[str, Any]:
+        """
+        Paginate a queryset of messages.
+
+        Args:
+            messages_qs: QuerySet of Message objects
+            page: Page number (1-indexed)
+            page_size: Items per page (defaults to ChatService.PAGE_SIZE)
+
+        Returns:
+            Dict with paginated messages and metadata
+        """
+        if page_size is None:
+            page_size = ChatService.PAGE_SIZE
+
+        paginator = Paginator(messages_qs, page_size)
+        page_obj = paginator.get_page(page)
+
+        messages_data = []
+        for message in page_obj:
+            messages_data.append({
+                'id': message.id,
+                'role': message.role,
+                'content': message.content,
+                'model': message.ai_model,
+                'created_at': message.created_at.isoformat(),
+            })
+
+        return {
+            'messages': messages_data,
+            'page': page_obj.number,
+            'total_pages': paginator.num_pages,
+            'total_count': paginator.count,
+            'page_size': page_size,
+        }
+
+    @staticmethod
+    def get_session_info(user: User, session_id: int) -> Dict[str, Any]:
+        """
+        Get metadata about a session without messages.
+
+        Args:
+            user: User instance
+            session_id: Session ID
+
+        Returns:
+            Dict with session metadata
+        """
+        try:
+            session = ChatSession.objects.get(id=session_id)
+        except ChatSession.DoesNotExist:
+            raise ValueError(f'Session {session_id} not found')
+
+        if session.user != user:
+            raise PermissionDenied('Access denied to this session')
+
+        return {
+            'id': session.id,
+            'title': session.title,
+            'model': session.ai_model,
+            'message_count': session.messages.count(),
+            'created_at': session.created_at.isoformat(),
             'updated_at': session.updated_at.isoformat(),
         }

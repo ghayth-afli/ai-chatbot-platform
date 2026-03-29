@@ -13,7 +13,7 @@ import {
   sendMessage,
   deleteSession,
   updateSessionModel,
-} from "../services/chatService";
+} from "../../services/chatService";
 
 export const useChat = (token) => {
   // Session state
@@ -25,15 +25,25 @@ export const useChat = (token) => {
   const [messages, setMessages] = useState([]);
   const [currentModel, setCurrentModel] = useState("deepseek");
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalMessageCount, setTotalMessageCount] = useState(0);
+
   // Loading and error states
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [sending, setSending] = useState(false);
 
-  // Load all sessions on init
+  // Log messages whenever they change
   useEffect(() => {
-    loadSessions();
-  }, [token]);
+    console.log(
+      "📊 useChat messages state updated:",
+      messages.length,
+      "messages:",
+      messages,
+    );
+  }, [messages]);
 
   /**
    * Load all user sessions
@@ -58,6 +68,11 @@ export const useChat = (token) => {
     [token],
   );
 
+  // Load all sessions on init
+  useEffect(() => {
+    loadSessions();
+  }, [loadSessions, token]);
+
   /**
    * Create a new chat session
    */
@@ -75,9 +90,11 @@ export const useChat = (token) => {
         setCurrentSession(newSession);
         setCurrentModel(newSession.model);
         setMessages([]);
+        setLoading(false);
         return newSession.id;
       } else {
         setError(result.error || "Failed to create session");
+        setLoading(false);
         return null;
       }
     },
@@ -88,12 +105,23 @@ export const useChat = (token) => {
    * Load messages for a specific session
    */
   const handleLoadSession = useCallback(async (sessionId, page = 1) => {
+    console.log(
+      "📥 handleLoadSession called for session:",
+      sessionId,
+      "page:",
+      page,
+    );
     setLoading(true);
     setError(null);
 
     const result = await getSessionMessages(sessionId, page);
 
     if (result.success) {
+      console.log(
+        "📥 Loaded",
+        result.data.messages?.length || 0,
+        "messages from API",
+      );
       setCurrentSessionId(sessionId);
       setCurrentSession({
         id: result.data.session_id,
@@ -101,9 +129,17 @@ export const useChat = (token) => {
       });
       setMessages(result.data.messages || []);
       setCurrentModel(result.data.model || "deepseek");
+
+      // Update pagination state
+      setCurrentPage(result.data.page || 1);
+      setTotalPages(result.data.total_pages || 1);
+      setTotalMessageCount(result.data.total_count || 0);
+
+      setLoading(false);
       return result.data;
     } else {
       setError(result.error || "Failed to load session");
+      setLoading(false);
       return null;
     }
   }, []);
@@ -113,13 +149,21 @@ export const useChat = (token) => {
    */
   const handleSendMessage = useCallback(
     async (messageText, model = null) => {
+      console.log("🚀 handleSendMessage called with:", {
+        messageText,
+        model,
+        currentSessionId,
+      });
+
       if (!currentSessionId) {
         setError("No session selected");
+        console.error("❌ No session selected");
         return null;
       }
 
       if (!messageText || !messageText.trim()) {
         setError("Message cannot be empty");
+        console.error("❌ Message is empty");
         return null;
       }
 
@@ -135,22 +179,36 @@ export const useChat = (token) => {
         isOptimistic: true,
       };
 
+      console.log("📝 Adding optimistic user message:", optimisticUserMsg);
       setMessages((prev) => [...prev, optimisticUserMsg]);
 
       const result = await sendMessage(currentSessionId, messageText, model);
+
+      console.log("📤 Send message response from service:", result);
 
       if (result.success) {
         // Remove optimistic message and add real ones
         const aiResponse = result.data.response;
         const aiModel = result.data.model;
 
-        setMessages((prev) =>
-          prev.filter((msg) => msg.id !== optimisticUserMsg.id),
-        );
+        console.log("✅ Message sent successfully. AI Response:", {
+          aiResponse,
+          aiModel,
+        });
+
+        setMessages((prev) => {
+          const filtered = prev.filter(
+            (msg) => msg.id !== optimisticUserMsg.id,
+          );
+          console.log(
+            "🗑️ Removed optimistic message. Messages now:",
+            filtered.length,
+          );
+          return filtered;
+        });
 
         // Add actual user and AI messages
-        setMessages((prev) => [
-          ...prev,
+        const newMessages = [
           {
             id: `user-${Date.now()}`,
             role: "user",
@@ -164,20 +222,33 @@ export const useChat = (token) => {
             model: aiModel,
             created_at: new Date().toISOString(),
           },
-        ]);
+        ];
+
+        console.log("📬 Adding real user and AI messages:", newMessages);
+
+        setMessages((prev) => {
+          const updated = [...prev, ...newMessages];
+          console.log("📊 Messages after adding real ones:", updated.length);
+          return updated;
+        });
 
         // Update current model if changed
         if (model) {
+          console.log("🔄 Updating model to:", model);
           setCurrentModel(model);
         }
 
+        setSending(false);
+        console.log("✨ Finished sending message successfully");
         return result.data;
       } else {
         // Remove optimistic message on error
+        console.error("❌ Error sending message:", result.error);
         setMessages((prev) =>
           prev.filter((msg) => msg.id !== optimisticUserMsg.id),
         );
         setError(result.error || "Failed to send message");
+        setSending(false);
         return null;
       }
     },
@@ -262,6 +333,26 @@ export const useChat = (token) => {
     setError(null);
   }, []);
 
+  /**
+   * Navigate to next page of messages
+   */
+  const goToNextPage = useCallback(async () => {
+    if (!currentSessionId || currentPage >= totalPages) return;
+
+    const nextPage = currentPage + 1;
+    await handleLoadSession(currentSessionId, nextPage);
+  }, [currentSessionId, currentPage, totalPages, handleLoadSession]);
+
+  /**
+   * Navigate to previous page of messages
+   */
+  const goToPreviousPage = useCallback(async () => {
+    if (!currentSessionId || currentPage <= 1) return;
+
+    const prevPage = currentPage - 1;
+    await handleLoadSession(currentSessionId, prevPage);
+  }, [currentSessionId, currentPage, handleLoadSession]);
+
   return {
     // Session data
     sessions,
@@ -271,6 +362,11 @@ export const useChat = (token) => {
 
     // Message data
     messages,
+
+    // Pagination data
+    currentPage,
+    totalPages,
+    totalMessageCount,
 
     // State
     loading,
@@ -286,5 +382,7 @@ export const useChat = (token) => {
     clearMessages,
     clearError,
     reloadSessions: loadSessions,
+    goToNextPage,
+    goToPreviousPage,
   };
 };

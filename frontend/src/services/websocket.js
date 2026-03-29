@@ -5,202 +5,192 @@
  * across multiple devices/windows via Django Channels
  */
 
-import io from "socket.io-client";
-
 const WS_URL = process.env.REACT_APP_WS_URL || "http://localhost:8000";
+const WS_PROTOCOL = WS_URL.startsWith("https") ? "wss" : "ws";
+const WS_BASE = `${WS_PROTOCOL}://${WS_URL.split("://")[1]}`;
 
-let socket = null;
-let reconnectAttempts = 0;
-const MAX_RECONNECT_ATTEMPTS = 5;
-const RECONNECT_DELAY = 3000;
+let sockets = {}; // Map of session_id -> WebSocket connection
 
 /**
- * Initialize WebSocket connection
+ * Initialize WebSocket connection for a specific chat session
+ * @param {string} sessionId - Chat session ID
  * @param {string} token - JWT authentication token
- * @param {Object} options - Socket.io options
- * @returns {Object} Socket instance
+ * @returns {Promise<WebSocket|null>} WebSocket instance or null if connection fails
  */
-export const initializeWebSocket = (token, options = {}) => {
-  if (socket?.connected) {
-    console.log("WebSocket already connected");
-    return socket;
+export const initializeWebSocket = async (sessionId, token) => {
+  if (sockets[sessionId]?.readyState === WebSocket.OPEN) {
+    return sockets[sessionId];
   }
 
-  const defaultOptions = {
-    reconnection: true,
-    reconnectionDelay: RECONNECT_DELAY,
-    reconnectionAttempts: MAX_RECONNECT_ATTEMPTS,
-    auth: {
-      token,
-    },
-    ...options,
-  };
+  return new Promise((resolve) => {
+    let resolved = false; // Track if already resolved
 
-  socket = io(WS_URL, defaultOptions);
+    const resolveOnce = (value) => {
+      if (!resolved) {
+        resolved = true;
+        resolve(value);
+      }
+    };
 
-  // Connection handlers
-  socket.on("connect", () => {
-    console.log("WebSocket connected");
-    reconnectAttempts = 0;
+    try {
+      const wsUrl = `${WS_BASE}/ws/chat/${sessionId}/?token=${token}`;
+      console.log(`[WebSocket] Connecting to ${wsUrl}`);
+      const ws = new WebSocket(wsUrl);
+
+      ws.onopen = () => {
+        console.log(`[WebSocket] Connected to session ${sessionId}`);
+        sockets[sessionId] = ws;
+        resolveOnce(ws);
+      };
+
+      ws.onerror = (error) => {
+        console.error(
+          `[WebSocket] Connection error for session ${sessionId}:`,
+          error,
+        );
+        sockets[sessionId] = null;
+        resolveOnce(null);
+      };
+
+      ws.onclose = () => {
+        console.log(`[WebSocket] Disconnected from session ${sessionId}`);
+        sockets[sessionId] = null;
+      };
+
+      // Timeout after 5 seconds - if no connection, resolve with null
+      setTimeout(() => {
+        if (ws.readyState !== WebSocket.OPEN) {
+          console.warn(
+            `[WebSocket] Connection timeout for session ${sessionId}`,
+          );
+          ws.close();
+          sockets[sessionId] = null;
+          resolveOnce(null);
+        }
+      }, 5000);
+    } catch (error) {
+      console.error(
+        `[WebSocket] Failed to create connection for session ${sessionId}:`,
+        error,
+      );
+      resolveOnce(null);
+    }
   });
-
-  socket.on("connect_error", (error) => {
-    console.error("WebSocket connection error:", error);
-  });
-
-  socket.on("disconnect", (reason) => {
-    console.log("WebSocket disconnected:", reason);
-  });
-
-  socket.on("reconnect_attempt", () => {
-    reconnectAttempts += 1;
-    console.log(
-      `Reconnection attempt: ${reconnectAttempts}/${MAX_RECONNECT_ATTEMPTS}`,
-    );
-  });
-
-  return socket;
 };
 
 /**
- * Get current socket instance
- * @returns {Object|null} Socket instance or null if not connected
+ * Get current socket instance for a session
+ * @param {string} sessionId - Session ID
+ * @returns {WebSocket|null} WebSocket instance or null if not connected
  */
-export const getSocket = () => socket;
+export const getSocket = (sessionId) => sockets[sessionId] || null;
 
 /**
- * Subscribe to message events
+ * Subscribe to message events on a WebSocket
+ * @param {WebSocket} ws - WebSocket instance
  * @param {Function} callback - Function to call when message received
  */
-export const onMessageReceived = (callback) => {
-  if (!socket) {
-    console.warn("WebSocket not initialized");
-    return;
+export const onMessageReceived = (ws, callback) => {
+  if (!ws) {
+    return () => {}; // No-op if WebSocket not available
   }
 
-  socket.on("message.new", (data) => {
-    console.log("New message received:", data);
-    callback(data);
-  });
+  const handleMessage = (event) => {
+    try {
+      const data = JSON.parse(event.data);
+      if (
+        data.type === "message.new" ||
+        data.type === "message.updated" ||
+        data.type === "message.deleted"
+      ) {
+        callback(data);
+      }
+    } catch (error) {
+      console.error("Error parsing WebSocket message:", error);
+    }
+  };
 
-  socket.on("message.updated", (data) => {
-    console.log("Message updated:", data);
-    callback({ type: "update", data });
-  });
-
-  socket.on("message.deleted", (data) => {
-    console.log("Message deleted:", data);
-    callback({ type: "delete", data });
-  });
+  ws.addEventListener("message", handleMessage);
 
   return () => {
-    socket.off("message.new");
-    socket.off("message.updated");
-    socket.off("message.deleted");
+    ws.removeEventListener("message", handleMessage);
   };
 };
 
 /**
- * Subscribe to session events
+ * Subscribe to session events on a WebSocket
+ * @param {WebSocket} ws - WebSocket instance
  * @param {Function} callback - Function to call when session event occurs
  */
-export const onSessionEvent = (callback) => {
-  if (!socket) {
-    console.warn("WebSocket not initialized");
-    return;
+export const onSessionEvent = (ws, callback) => {
+  if (!ws) {
+    return () => {}; // No-op if WebSocket not available
   }
 
-  socket.on("session.created", (data) => {
-    console.log("Session created:", data);
-    callback({ type: "created", data });
-  });
+  const handleMessage = (event) => {
+    try {
+      const data = JSON.parse(event.data);
+      if (data.type === "session.updated" || data.type === "session.deleted") {
+        callback(data);
+      }
+    } catch (error) {
+      console.error("Error parsing WebSocket message:", error);
+    }
+  };
 
-  socket.on("session.updated", (data) => {
-    console.log("Session updated:", data);
-    callback({ type: "updated", data });
-  });
-
-  socket.on("session.deleted", (data) => {
-    console.log("Session deleted:", data);
-    callback({ type: "deleted", data });
-  });
+  ws.addEventListener("message", handleMessage);
 
   return () => {
-    socket.off("session.created");
-    socket.off("session.updated");
-    socket.off("session.deleted");
+    ws.removeEventListener("message", handleMessage);
   };
 };
 
 /**
  * Subscribe to typing indicator events
+ * @param {WebSocket} ws - WebSocket instance
  * @param {Function} callback - Function to call when typing event
  */
-export const onTypingIndicator = (callback) => {
-  if (!socket) {
-    console.warn("WebSocket not initialized");
-    return;
+export const onTypingIndicator = (ws, callback) => {
+  if (!ws) {
+    return () => {}; // No-op if WebSocket not available
   }
 
-  socket.on("typing.start", (data) => {
-    callback({ type: "start", user: data.user });
-  });
+  const handleMessage = (event) => {
+    try {
+      const data = JSON.parse(event.data);
+      if (data.type === "typing.start" || data.type === "typing.stop") {
+        callback(data);
+      }
+    } catch (error) {
+      console.error("Error parsing WebSocket message:", error);
+    }
+  };
 
-  socket.on("typing.stop", (data) => {
-    callback({ type: "stop", user: data.user });
-  });
+  ws.addEventListener("message", handleMessage);
 
   return () => {
-    socket.off("typing.start");
-    socket.off("typing.stop");
+    ws.removeEventListener("message", handleMessage);
   };
 };
 
 /**
- * Broadcast typing indicator
- * @param {number} sessionId - Session ID
- * @param {boolean} isTyping - Whether user is typing
+ * Disconnect WebSocket and clean up
+ * @param {string} sessionId - Session ID
  */
-export const broadcastTyping = (sessionId, isTyping) => {
-  if (!socket?.connected) {
-    console.warn("WebSocket not connected");
-    return;
-  }
-
-  socket.emit("typing", {
-    session_id: sessionId,
-    is_typing: isTyping,
-  });
-};
-
-/**
- * Manually broadcast message to all connected clients
- * @param {Object} messageData - Message data to broadcast
- */
-export const broadcastMessage = (messageData) => {
-  if (!socket?.connected) {
-    console.warn("WebSocket not connected");
-    return;
-  }
-
-  socket.emit("message.broadcast", messageData);
-};
-
-/**
- * Disconnect WebSocket
- */
-export const disconnectWebSocket = () => {
-  if (socket) {
-    socket.disconnect();
-    socket = null;
-    console.log("WebSocket disconnected");
+export const disconnectWebSocket = (sessionId) => {
+  const ws = sockets[sessionId];
+  if (ws) {
+    ws.close();
+    sockets[sessionId] = null;
   }
 };
 
 /**
  * Check if WebSocket is connected
- * @returns {boolean}
+ * @param {string} sessionId - Session ID
+ * @returns {boolean} True if WebSocket is open
  */
-export const isConnected = () => {
-  return socket?.connected || false;
+export const isConnected = (sessionId) => {
+  const ws = sockets[sessionId];
+  return ws?.readyState === WebSocket.OPEN;
 };

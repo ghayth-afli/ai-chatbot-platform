@@ -9,7 +9,6 @@ import json
 import logging
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
-from django.contrib.auth.models import AnonymousUser
 from jwt import decode as jwt_decode
 import os
 
@@ -37,6 +36,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         - Verify token and get user
         - Join group for session if authorized
         """
+        from django.contrib.auth.models import AnonymousUser
+        
         self.session_id = self.scope['url_route']['kwargs']['session_id']
         self.user = self.scope.get('user', AnonymousUser())
         self.room_group_name = f'chat_{self.session_id}'

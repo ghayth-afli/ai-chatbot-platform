@@ -100,10 +100,14 @@ class ChatSessionViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, pk=None, *args, **kwargs):
         """
-        GET /api/chat/{id}/ - Retrieve session with messages
+        GET /api/chat/{id}/?page=1 - Retrieve session with paginated messages
+        
+        Query Parameters:
+            page: Page number (1-indexed), defaults to 1
         """
         try:
-            result = ChatService.get_session_messages(request.user, int(pk), page=1)
+            page = int(request.query_params.get('page', 1))
+            result = ChatService.get_session_messages(request.user, int(pk), page=page)
             return Response(result, status=status.HTTP_200_OK)
         except ValueError as e:
             logger.warning(f'Session not found: {str(e)}')
@@ -171,6 +175,7 @@ class ChatSessionViewSet(viewsets.ModelViewSet):
                 model=model,
             )
 
+            logger.info(f'Message sent successfully. Response: {result}')
             return Response(result, status=status.HTTP_200_OK)
         except ValueError as e:
             logger.warning(f'Bad message data: {str(e)}')

@@ -11,6 +11,13 @@ class ChatSession(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 
+	class Meta:
+		# Performance indexes for common queries
+		indexes = [
+			models.Index(fields=['user', '-updated_at']),  # For fetching user sessions sorted by last updated
+			models.Index(fields=['user', 'created_at']),   # For date-range queries
+		]
+
 	def __str__(self):
 		return f"{self.user.username} - {self.title}"
 
@@ -28,6 +35,14 @@ class Message(models.Model):
 	content = models.TextField()
 	ai_model = models.CharField(max_length=50, blank=True)
 	created_at = models.DateTimeField(auto_now_add=True)
+
+	class Meta:
+		# Performance indexes for common queries
+		indexes = [
+			models.Index(fields=['session', 'created_at']),  # For fetching messages in a session chronologically
+			models.Index(fields=['session', '-created_at']), # For fetching recent messages first
+		]
+		ordering = ['created_at']  # Default ordering for chronological display
 
 	def __str__(self):
 		return f"{self.role}: {self.content[:50]}"
