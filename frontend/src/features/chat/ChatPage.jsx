@@ -15,9 +15,11 @@ import { useTranslation } from "react-i18next";
 import { ChatSidebar } from "../../components/chat/ChatSidebar";
 import { ChatMessages } from "../../components/chat/ChatMessages";
 import { MessageInput } from "../../components/chat/MessageInput";
+import { ProfilePanel } from "../../components/chat/ProfilePanel";
 import { useChat } from "./useChat";
 import { useWebSocket } from "../../hooks/useWebSocket";
 import { useAuth } from "../../hooks/useAuth";
+import "../../styles/nexus-design-system.css";
 
 export function ChatPage() {
   const navigate = useNavigate();
@@ -25,6 +27,8 @@ export function ChatPage() {
   const { logout, user } = useAuth();
   const isRTL = i18n.language === "ar";
   const [userSummary, setUserSummary] = useState(null);
+  const [profilePanelOpen, setProfilePanelOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Get auth token from localStorage
   const token = localStorage.getItem("access_token");
@@ -178,6 +182,8 @@ export function ChatPage() {
         userProfile={userProfile}
         userSummary={userSummary}
         onLogout={handleLogout}
+        isOpen={sidebarOpen}
+        onToggle={() => setSidebarOpen(!sidebarOpen)}
       />
 
       {/* Main Chat Area */}
@@ -185,7 +191,17 @@ export function ChatPage() {
         {/* Header - Chat Interface Header with Model, Settings, Delete */}
         <div className="border-b border-[var(--border)]/40 backdrop-blur-xl bg-[var(--ink)]/40 sticky top-0 z-10">
           <div className="px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3 sm:gap-4 flex-wrap">
-            {/* Left Section - Session Title & Status */}
+            {/* Left Section - Mobile Sidebar Toggle */}
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="md:hidden p-2 hover:bg-[var(--surface)]/60 rounded-lg transition-colors"
+              title="Toggle sidebar"
+              aria-label="Toggle sidebar"
+            >
+              ☰
+            </button>
+
+            {/* Session Title & Status */}
             <div
               className={`flex-1 min-w-0 ${isRTL ? "text-right" : "text-left"}`}
             >
@@ -264,6 +280,16 @@ export function ChatPage() {
                   aria-label="Settings"
                 >
                   ⚙️
+                </button>
+
+                {/* Profile Button */}
+                <button
+                  onClick={() => setProfilePanelOpen(!profilePanelOpen)}
+                  className="flex-shrink-0 p-2 text-[var(--plasma)] hover:bg-[var(--plasma)]/10 rounded-lg transition-colors"
+                  title="Open profile"
+                  aria-label="Profile"
+                >
+                  👤
                 </button>
 
                 {/* Delete Chat Button */}
@@ -367,6 +393,14 @@ export function ChatPage() {
           </div>
         )}
       </div>
+
+      {/* Profile Panel */}
+      <ProfilePanel
+        isOpen={profilePanelOpen}
+        onClose={() => setProfilePanelOpen(false)}
+        userProfile={userProfile}
+        userSummary={userSummary}
+      />
     </div>
   );
 }

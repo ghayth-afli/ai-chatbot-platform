@@ -1,17 +1,21 @@
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
-
 /**
  * ChatSidebar Component
  *
+ * Modern redesigned sidebar with Nexus design system
  * Displays:
- * - Chat session management
- * - User profile section
+ * - Logo and new chat button
+ * - User card with profile info
  * - AI-generated user summary
- * - Language switch
- * - Logout button
- * - RTL support
+ * - Search functionality
+ * - Chat history list with model indicators
+ * - Footer with export, settings, and additional actions
+ * - RTL support for Arabic
  */
+
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import styles from "./ChatSidebar.module.css";
+
 export const ChatSidebar = ({
   sessions = [],
   currentSessionId = null,
@@ -19,15 +23,26 @@ export const ChatSidebar = ({
   onNewChat = () => {},
   onDeleteSession = () => {},
   loading = false,
-  collapsed = false,
-  onToggleCollapsed = () => {},
   userProfile = null,
   userSummary = null,
   onLogout = () => {},
+  isOpen = true,
+  onToggle = () => {},
 }) => {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === "ar";
+  const [searchQuery, setSearchQuery] = useState("");
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
+
+  const getInitials = (name) => {
+    if (!name) return "?";
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
 
   const formatDate = (timestamp) => {
     if (!timestamp) return "";
@@ -60,228 +75,226 @@ export const ChatSidebar = ({
     return icons[model] || "🤖";
   };
 
-  return (
-    <div
-      className={`${
-        collapsed ? "w-0 overflow-hidden" : "w-64"
-      } bg-[var(--surface)]/40 backdrop-blur-xl border-r border-[var(--border)]/40 flex flex-col transition-all duration-300 ${isRTL ? "rtl" : "ltr"}`}
-      dir={isRTL ? "rtl" : "ltr"}
-    >
-      {/* Header */}
-      <div
-        className={`p-4 border-b border-[var(--border)]/40 flex items-center justify-between gap-2 backdrop-blur-sm ${isRTL ? "flex-row-reverse" : ""}`}
-      >
-        <button
-          onClick={onNewChat}
-          disabled={loading}
-          className="flex-1 px-3 py-2.5 bg-gradient-to-r from-[var(--volt)] to-[var(--volt)]/80 text-[var(--ink)] font-600 font-syne rounded-xl text-sm hover:shadow-lg hover:shadow-[var(--volt)]/30 disabled:opacity-50 transition-all duration-200 active:scale-95"
-        >
-          {t("chat:newChat") || "New Chat"}
-        </button>
-        <button
-          onClick={onToggleCollapsed}
-          className="p-2 hover:bg-[var(--surface)]/60 rounded-lg transition-colors text-lg"
-          aria-label="Toggle sidebar"
-        >
-          {collapsed ? "→" : "←"}
-        </button>
-      </div>
+  const getModelColor = (model) => {
+    const colors = {
+      nemotron: "var(--volt)",
+      liquid: "var(--plasma)",
+      trinity: "var(--ice)",
+    };
+    return colors[model] || "var(--muted)";
+  };
 
-      {/* Sessions List */}
-      <div className="flex-1 overflow-y-auto scrollbar-hide">
-        {loading && !sessions.length ? (
-          <div className="p-8 text-center flex flex-col items-center justify-center h-full">
-            <div className="flex gap-1 mb-3">
-              <div
-                className="w-2 h-2 rounded-full bg-[var(--volt)] animate-bounce"
-                style={{ animationDelay: "0s" }}
-              ></div>
-              <div
-                className="w-2 h-2 rounded-full bg-[var(--ice)] animate-bounce"
-                style={{ animationDelay: "0.2s" }}
-              ></div>
-              <div
-                className="w-2 h-2 rounded-full bg-[var(--volt)] animate-bounce"
-                style={{ animationDelay: "0.4s" }}
-              ></div>
+  const filteredSessions = sessions.filter((session) =>
+    session.title?.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
+  return (
+    <>
+      {/* Mobile overlay */}
+      {isOpen && (
+        <div
+          className={styles.mobileOverlay}
+          onClick={onToggle}
+          dir={isRTL ? "rtl" : "ltr"}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`${styles.sidebar} ${isOpen ? styles.open : ""}`}
+        dir={isRTL ? "rtl" : "ltr"}
+      >
+        {/* Header - Logo + New Chat Button */}
+        <div className={styles.head}>
+          <a href="/" className={styles.logo}>
+            nexus<span className={styles.dot}>.</span>
+            <span className={styles.badge}>AI</span>
+          </a>
+          <button
+            className={styles.newChatBtn}
+            onClick={onNewChat}
+            disabled={loading}
+            title="New Chat"
+            aria-label="Create new chat"
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path
+                d="M7 2v10M2 7h10"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+              />
+            </svg>
+          </button>
+        </div>
+
+        {/* User Card */}
+        {userProfile && (
+          <div className={styles.userCard}>
+            <div className={styles.userCardInner}>
+              <div className={styles.avatar}>
+                {getInitials(userProfile.name || userProfile.email)}
+              </div>
+              <div className={styles.userInfo}>
+                <div className={styles.userName}>
+                  {userProfile.name || userProfile.email}
+                </div>
+                <div className={styles.userSub}>
+                  PRO · {i18n.language.toUpperCase()}
+                </div>
+              </div>
+              <span className={styles.userChevron}>▾</span>
             </div>
-            <p className="text-sm text-[var(--muted)] font-dm-sans">
-              {t("chat:loading") || "Loading..."}
-            </p>
           </div>
-        ) : sessions.length === 0 ? (
-          <div className="p-6 text-center flex flex-col items-center justify-center h-full">
-            <p className="text-3xl mb-3">💬</p>
-            <p className="text-sm font-syne font-600 text-[var(--paper)]">
-              {t("chat:noSessions") || "No conversations yet"}
-            </p>
-            <p className="text-xs text-[var(--muted)] mt-2 font-dm-sans">
-              {t("chat:startNewChat") || "Start a new conversation"}
-            </p>
+        )}
+
+        {/* AI Summary */}
+        {userSummary && (
+          <div className={styles.aiSummary}>
+            <div className={styles.summaryTag}>
+              <span className={styles.summaryDot} />
+              <span>{t("chat:aiSummary") || "AI Summary"}</span>
+            </div>
+            <div className={styles.summaryText}>{userSummary}</div>
           </div>
-        ) : (
-          <div className="space-y-2 p-3">
-            {sessions.map((session) => {
+        )}
+
+        {/* Search */}
+        <div className={styles.search}>
+          <span className={styles.searchIcon}>⌕</span>
+          <input
+            type="text"
+            placeholder={t("chat:searchChats") || "Search chats…"}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className={styles.searchInput}
+          />
+        </div>
+
+        {/* History Label */}
+        <div className={styles.historyLabel}>
+          {t("chat:recentChats") || "Recent Chats"}
+        </div>
+
+        {/* History List */}
+        <div className={styles.historyList}>
+          {loading && !sessions.length ? (
+            <div className={styles.empty}>
+              <p className={styles.emptyIcon}>💬</p>
+              <p className={styles.emptyText}>
+                {t("chat:loading") || "Loading..."}
+              </p>
+            </div>
+          ) : filteredSessions.length === 0 ? (
+            <div className={styles.empty}>
+              <p className={styles.emptyIcon}>🔍</p>
+              <p className={styles.emptyText}>
+                {searchQuery
+                  ? t("chat:noResults") || "No results found"
+                  : t("chat:noChats") || "No chats yet"}
+              </p>
+            </div>
+          ) : (
+            filteredSessions.map((session) => {
               const isActive = session.id === currentSessionId;
               const isDeleting = deleteConfirmId === session.id;
 
               return (
-                <div
-                  key={session.id}
-                  className={`group relative ${isRTL ? "rtl" : "ltr"}`}
-                  dir={isRTL ? "rtl" : "ltr"}
-                >
+                <div key={session.id} className={styles.histItem}>
                   <button
                     onClick={() => onSelectSession(session.id)}
-                    className={`w-full p-3 rounded-xl text-left transition-all duration-200 backdrop-blur-sm border ${
-                      isActive
-                        ? "bg-[var(--plasma)]/30 border-[var(--plasma)]/50 shadow-lg shadow-[var(--plasma)]/20"
-                        : "bg-[var(--surface)]/30 border-[var(--border)]/20 hover:bg-[var(--surface)]/50 hover:border-[var(--border)]/50"
-                    } ${isRTL ? "rtl" : ""}`}
+                    className={`${styles.histItemBtn} ${
+                      isActive ? styles.active : ""
+                    }`}
                   >
-                    {/* Model Icon + Title */}
-                    <div
-                      className={`flex items-start gap-3 mb-2 ${isRTL ? "flex-row-reverse" : ""}`}
-                    >
-                      <span className="text-xl flex-shrink-0 drop-shadow-sm">
-                        {getModelIcon(session.model)}
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        <p
-                          className={`text-sm font-600 font-syne text-[var(--paper)] truncate ${isRTL ? "text-right" : "text-left"}`}
-                        >
-                          {session.title}
-                        </p>
-                        <p className="text-xs text-[var(--muted)] mt-0.5 font-dm-sans">
-                          {session.message_count}{" "}
-                          {t("chat:message") || "messages"}
-                        </p>
+                    <span className={styles.histIcon}>
+                      {getModelIcon(session.model)}
+                    </span>
+                    <div className={styles.histContent}>
+                      <div className={styles.histTitle}>{session.title}</div>
+                      <div className={styles.histMeta}>
+                        <span
+                          className={styles.modelDot}
+                          style={{
+                            background: getModelColor(session.model),
+                          }}
+                        />
+                        {formatDate(session.updated_at)}
                       </div>
                     </div>
-
-                    {/* Timestamp */}
-                    <p
-                      className={`text-xs text-[var(--muted)]/70 font-dm-sans ${isRTL ? "text-right" : "text-left"}`}
-                    >
-                      {formatDate(session.updated_at)}
-                    </p>
                   </button>
 
-                  {/* Delete Button - Always Visible on Mobile */}
-                  <div
-                    className={`absolute top-3 right-3 opacity-0 group-hover:opacity-100 md:opacity-100 transition-opacity ${isRTL ? "left-3 right-auto" : ""}`}
-                  >
-                    {isDeleting ? (
-                      <div
-                        className={`flex gap-1.5 p-2 bg-[var(--surface)]/60 backdrop-blur-sm border border-[var(--border)]/40 rounded-lg shadow-xl ${isRTL ? "flex-row-reverse" : ""}`}
-                      >
-                        <button
-                          onClick={() => onDeleteSession(session.id)}
-                          className="px-2.5 py-1.5 text-xs bg-gradient-to-r from-[var(--spark)] to-[var(--spark)]/80 text-white rounded-lg font-600 hover:shadow-lg hover:shadow-[var(--spark)]/30 transition-all active:scale-95 font-syne"
-                          title="Confirm delete"
-                        >
-                          {t("chat:confirm") || "Yes"}
-                        </button>
-                        <button
-                          onClick={() => setDeleteConfirmId(null)}
-                          className="px-2.5 py-1.5 text-xs bg-[var(--muted)]/40 text-[var(--paper)] rounded-lg font-600 hover:bg-[var(--muted)]/60 transition-colors font-syne"
-                          title="Cancel delete"
-                        >
-                          {t("chat:cancel") || "No"}
-                        </button>
-                      </div>
-                    ) : (
+                  {/* Delete Button */}
+                  {isDeleting ? (
+                    <div className={styles.deleteConfirm}>
                       <button
-                        onClick={() => setDeleteConfirmId(session.id)}
-                        className="p-1.5 text-lg text-[var(--spark)] hover:bg-[var(--spark)]/20 rounded-lg transition-colors backdrop-blur-sm"
-                        aria-label="Delete session"
-                        title="Delete this conversation"
+                        onClick={() => onDeleteSession(session.id)}
+                        className={styles.confirmYes}
+                        title="Confirm"
                       >
-                        🗑️
+                        ✓
                       </button>
-                    )}
-                  </div>
+                      <button
+                        onClick={() => setDeleteConfirmId(null)}
+                        className={styles.confirmNo}
+                        title="Cancel"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setDeleteConfirmId(session.id);
+                      }}
+                      className={styles.deleteBtn}
+                      title="Delete"
+                      hidden={!isActive}
+                    >
+                      🗑️
+                    </button>
+                  )}
                 </div>
               );
-            })}
-          </div>
-        )}
-      </div>
-
-      {/* Footer - User Profile, Summary & Logout */}
-      <div className="border-t border-[var(--border)]/40 bg-[var(--surface)]/30 backdrop-blur-sm flex flex-col">
-        {/* User Summary Section */}
-        {userSummary && (
-          <div className="p-3 border-b border-[var(--border)]/40">
-            <p className="text-xs font-syne font-600 text-[var(--ice)] uppercase tracking-wide mb-2">
-              📊 {t("chat:userSummary") || "User Summary"}
-            </p>
-            <p className="text-xs text-[var(--muted)] leading-relaxed font-dm-sans line-clamp-3">
-              {userSummary}
-            </p>
-          </div>
-        )}
-
-        {/* User Profile & Actions */}
-        <div className="p-3 space-y-2">
-          {/* User Info */}
-          {userProfile && (
-            <div className="flex items-center gap-2 p-2 rounded-lg bg-[var(--surface)]/50 hover:bg-[var(--surface)]/80 transition-colors">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-[var(--plasma)] to-[var(--plasma)]/70 flex items-center justify-center text-xs font-bold text-white">
-                {userProfile.name
-                  ? userProfile.name.charAt(0).toUpperCase()
-                  : userProfile.email?.charAt(0).toUpperCase()}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-syne font-600 text-[var(--paper)] truncate">
-                  {userProfile.name || userProfile.email}
-                </p>
-                <p className="text-xs text-[var(--muted)] truncate">
-                  {userProfile.email}
-                </p>
-              </div>
-            </div>
+            })
           )}
-
-          {/* Action Buttons */}
-          <div className="flex gap-2">
-            {/* Language Toggle */}
-            <button
-              onClick={() =>
-                i18n.changeLanguage(i18n.language === "en" ? "ar" : "en")
-              }
-              className="flex-1 px-2 py-2 text-xs font-syne font-600 bg-[var(--surface)]/60 border border-[var(--border)]/40 rounded-lg hover:bg-[var(--surface)]/80 transition-colors text-[var(--paper)]"
-              title={`Switch to ${i18n.language === "en" ? "Arabic" : "English"}`}
-            >
-              {i18n.language === "en" ? "عربي" : "ENG"}
-            </button>
-
-            {/* Settings Button */}
-            <button
-              className="flex-1 px-2 py-2 text-xl bg-[var(--surface)]/60 border border-[var(--border)]/40 rounded-lg hover:bg-[var(--surface)]/80 transition-colors"
-              title="Settings"
-              aria-label="Settings"
-            >
-              ⚙️
-            </button>
-
-            {/* Logout Button */}
-            <button
-              onClick={onLogout}
-              className="flex-1 px-2 py-2 text-xs font-syne font-600 bg-[var(--spark)]/20 border border-[var(--spark)]/40 text-[var(--spark)] rounded-lg hover:bg-[var(--spark)]/30 transition-colors"
-              title="Logout"
-              aria-label="Logout"
-            >
-              🚪
-            </button>
-          </div>
-
-          {/* Tip */}
-          <p className="text-xs text-[var(--muted)] text-center pt-1 font-dm-sans">
-            💡 {t("chat:chatTip") || "Use different models to explore"}
-          </p>
         </div>
-      </div>
-    </div>
+
+        {/* Footer */}
+        <div className={styles.footer}>
+          <button className={styles.sfBtn} title="Export chat">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <path
+                d="M6.5 1v7M3.5 5l3 3 3-3M1.5 10h10"
+                stroke="currentColor"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span>{t("chat:export") || "Export"}</span>
+          </button>
+          <button className={styles.sfBtn} title="Settings">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <circle
+                cx="6.5"
+                cy="6.5"
+                r="2"
+                stroke="currentColor"
+                strokeWidth="1.4"
+              />
+              <path
+                d="M6.5 1v1M6.5 11v1M1 6.5h1M11 6.5h1"
+                stroke="currentColor"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+              />
+            </svg>
+            <span>{t("chat:settings") || "Settings"}</span>
+          </button>
+        </div>
+      </aside>
+    </>
   );
 };

@@ -1,16 +1,18 @@
+/**
+ * MessageInput Component
+ *
+ * Nexus design - Features:
+ * - Model selector with custom pills
+ * - Glassmorphic input area
+ * - Quick action buttons
+ * - Character counter with visual feedback
+ * - RTL support
+ */
+
 import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import styles from "./MessageInput.module.css";
 
-/**
- * MessageInput Component - Modern Design
- *
- * Features:
- * - Model selector with custom pills (not dropdown)
- * - Glassmorphic input area
- * - Character counter with visual feedback
- * - Smooth animations and transitions
- * - Full responsive design
- */
 export const MessageInput = ({
   onSendMessage,
   onModelChange,
@@ -24,14 +26,36 @@ export const MessageInput = ({
   const textareaRef = useRef(null);
   const isRTL = i18n.language === "ar";
 
-  const MAX_LENGTH = 5000;
+  const MAX_LENGTH = 4000;
   const charCount = message.length;
   const isOverLimit = charCount > MAX_LENGTH;
 
   const models = [
-    { id: "nemotron", name: "Nemotron", icon: "🚀", desc: "Super 120B" },
-    { id: "liquid", name: "Liquid", icon: "💧", desc: "Fast Thinking" },
-    { id: "trinity", name: "Trinity", icon: "✨", desc: "Mini Model" },
+    {
+      id: "nemotron",
+      name: "Nemotron",
+      icon: "🚀",
+      desc: "Reasoning · Code · Analysis",
+    },
+    {
+      id: "liquid",
+      name: "Liquid",
+      icon: "💧",
+      desc: "Fast · Thinking · Inference",
+    },
+    {
+      id: "trinity",
+      name: "Trinity",
+      icon: "✨",
+      desc: "Efficient · Mini · Versatile",
+    },
+  ];
+
+  const quickActions = [
+    { text: "Explain", icon: "📖" },
+    { text: "Analyze", icon: "📊" },
+    { text: "Refactor", icon: "⚙️" },
+    { text: "Debug", icon: "🐛" },
   ];
 
   // Auto-resize textarea
@@ -39,7 +63,7 @@ export const MessageInput = ({
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
       textareaRef.current.style.height =
-        Math.min(textareaRef.current.scrollHeight, 200) + "px";
+        Math.min(textareaRef.current.scrollHeight, 160) + "px";
     }
   }, [message]);
 
@@ -68,101 +92,70 @@ export const MessageInput = ({
     onModelChange(modelId);
   };
 
+  const handleQuickAction = (actionText) => {
+    const newMessage = message
+      ? `${message}\n\n${actionText}:`
+      : `${actionText}:`;
+    setMessage(newMessage);
+    setTimeout(() => textareaRef.current?.focus(), 0);
+  };
+
   return (
-    <div
-      className={`relative px-4 py-6 bg-gradient-to-t from-[var(--ink)] via-[var(--surface)]/50 to-transparent ${isRTL ? "rtl" : "ltr"}`}
-      dir={isRTL ? "rtl" : "ltr"}
-    >
-      <div className="max-w-4xl mx-auto space-y-4">
-        {/* Model Selector Pills */}
-        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-          {models.map((m) => (
+    <div className={styles.container} dir={isRTL ? "rtl" : "ltr"}>
+      <div className={styles.wrap}>
+        {/* Quick Actions */}
+        <div className={styles.quickActions} id="quick-actions">
+          {quickActions.map((action) => (
             <button
-              key={m.id}
-              onClick={() => handleModelSelect(m.id)}
-              disabled={disabled || loading}
-              className={`flex-shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-full font-500 text-xs sm:text-sm whitespace-nowrap transition-all duration-200 ${
-                model === m.id
-                  ? "bg-[var(--plasma)] text-white shadow-lg shadow-[var(--plasma)]/40"
-                  : "bg-[var(--surface)] border border-[var(--border)] text-[var(--paper)] hover:border-[var(--plasma)]/50 hover:bg-[var(--surface)]/80"
-              } disabled:opacity-50 disabled:cursor-not-allowed`}
+              key={action.text}
+              className={styles.quickActionPill}
+              onClick={() => handleQuickAction(action.text)}
+              title={action.text}
             >
-              <span className="text-base">{m.icon}</span>
-              <span className="font-syne font-600">{m.name}</span>
-              {model === m.id && <span className="text-sm">✓</span>}
+              <span className={styles.qaIcon}>{action.icon}</span>
+              {action.text}
             </button>
           ))}
         </div>
 
-        {/* Glassmorphic Input Area */}
-        <div className="relative backdrop-blur-xl rounded-2xl border border-[var(--border)] bg-[var(--glass)] p-4 shadow-2xl shadow-black/20 transition-all duration-300 focus-within:border-[var(--plasma)]/50 focus-within:shadow-lg focus-within:shadow-[var(--plasma)]/20">
-          {/* Message Input */}
-          <div
-            className={`flex gap-3 items-end ${isRTL ? "flex-row-reverse" : ""}`}
+        {/* Input Box */}
+        <div className={styles.inputBox}>
+          <textarea
+            ref={textareaRef}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder={t("chat:askAnything") || "Ask anything…"}
+            disabled={disabled || loading}
+            className={styles.textarea}
+            rows="1"
+          />
+          <button
+            onClick={handleSend}
+            disabled={disabled || loading || !message.trim() || isOverLimit}
+            aria-label={t("chat:send") || "Send message"}
+            className={styles.sendBtn}
+            title="Send (Enter)"
           >
-            <textarea
-              ref={textareaRef}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder={
-                t("chat:message-placeholder") || "What's on your mind..."
-              }
-              disabled={disabled || loading}
-              className={`flex-1 bg-transparent text-[var(--paper)] placeholder-[var(--muted)]/60 focus:outline-none resize-none font-dm-sans max-h-[200px] overflow-y-auto ${isRTL ? "text-right" : "text-left"}`}
-              rows="1"
-            />
-
-            {/* Send Button */}
-            <button
-              onClick={handleSend}
-              disabled={disabled || loading || !message.trim() || isOverLimit}
-              aria-label={t("chat:send") || "Send message"}
-              className={`flex-shrink-0 w-10 h-10 rounded-lg bg-[var(--plasma)] hover:bg-[var(--plasma)]/90 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center transition-all duration-200 transform hover:scale-105 active:scale-95 ${
-                loading ? "animate-pulse" : ""
-              }`}
-              title={isOverLimit ? "Message too long" : "Send message (Enter)"}
-            >
-              {loading ? (
-                <span className="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              ) : (
-                <span className="text-lg">↑</span>
-              )}
-            </button>
-          </div>
-
-          {/* Character Counter */}
-          {charCount > 0 && (
-            <div className="mt-3 pt-3 border-t border-[var(--border)]/50 flex items-center justify-between">
-              <div className="w-full h-1 bg-[var(--surface)]/50 rounded-full overflow-hidden">
-                <div
-                  className={`h-full transition-all duration-300 ${
-                    isOverLimit ? "bg-[var(--spark)]" : "bg-[var(--volt)]"
-                  }`}
-                  style={{
-                    width: `${Math.min((charCount / MAX_LENGTH) * 100, 100)}%`,
-                  }}
-                />
-              </div>
-              <span
-                className={`ml-3 text-xs font-mono whitespace-nowrap ${
-                  isOverLimit
-                    ? "text-[var(--spark)] font-600"
-                    : "text-[var(--muted)]"
-                }`}
-              >
-                {charCount}/{MAX_LENGTH}
-              </span>
-            </div>
-          )}
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path
+                d="M2 7.5H13M13 7.5L8.5 3M13 7.5L8.5 12"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
         </div>
 
-        {/* Usage Tip */}
-        <div className="flex items-center gap-2 text-xs text-[var(--muted)] px-2">
-          <span>💡</span>
-          <span>
-            {t("chat:tip-keyboard") ||
-              "Press Enter to send, Shift+Enter for new line"}
+        {/* Footer */}
+        <div className={styles.footer}>
+          <span className={styles.hint}>
+            {t("chat:inputHint") || "Shift+Enter for new line"}
+          </span>
+          <span className={styles.charCount}>
+            {charCount} / {MAX_LENGTH}
           </span>
         </div>
       </div>
