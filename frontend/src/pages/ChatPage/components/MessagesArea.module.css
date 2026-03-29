@@ -268,8 +268,9 @@ html[dir="rtl"] .typingBubble {
   height: 5px;
   border-radius: 50%;
   background: var(--plasma);
-  animation: bounce 1.2s ease infinite;
+  animation: typingDot 1.2s ease-in-out infinite;
   display: inline-block;
+  opacity: 0.35;
 }
 
 .td:nth-child(2) {
@@ -278,6 +279,25 @@ html[dir="rtl"] .typingBubble {
 
 .td:nth-child(3) {
   animation-delay: 0.36s;
+}
+
+@keyframes typingDot {
+  0% {
+    transform: translateY(0px) scale(0.9);
+    opacity: 0.25;
+  }
+  40% {
+    transform: translateY(-3px) scale(1);
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(1px) scale(0.95);
+    opacity: 0.45;
+  }
+  100% {
+    transform: translateY(0px) scale(0.9);
+    opacity: 0.25;
+  }
 }
 
 /* ════════ RESPONSIVE ════════ */

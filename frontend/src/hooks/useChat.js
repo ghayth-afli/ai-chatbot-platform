@@ -42,15 +42,16 @@ export function useChat() {
           model,
         );
 
-        // Add AI response
-        if (response.ai_message) {
+        // Backend returns `response` + metadata instead of `ai_message`
+        const aiContent = response.ai_message?.content || response.response;
+        if (aiContent) {
           const aiMessage = {
-            id: Date.now() + 1,
+            id: response.ai_message_id || Date.now() + 1,
             role: "assistant",
-            content: response.ai_message.content,
-            model: response.ai_message.model || model,
+            content: aiContent,
+            model: response.ai_message?.model || response.model || model,
             timestamp:
-              response.ai_message.created_at || new Date().toISOString(),
+              response.ai_message?.created_at || new Date().toISOString(),
           };
 
           setMessages((prev) => [...prev, aiMessage]);

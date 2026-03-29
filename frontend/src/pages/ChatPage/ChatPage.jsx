@@ -43,6 +43,8 @@ export default function ChatPage() {
     typeof window !== "undefined" ? localStorage.getItem("access_token") : null,
   );
   const sessionInitializedRef = useRef(false);
+  const currentChatIsEmpty = Boolean(currentSession) && messages.length === 0;
+  const canCreateNewChat = !currentSession || !currentChatIsEmpty;
 
   // Handle RTL direction based on language
   useEffect(() => {
@@ -142,6 +144,10 @@ export default function ChatPage() {
   };
 
   const handleNewChat = async () => {
+    if (!canCreateNewChat) {
+      console.warn("Cannot create a new chat while the current chat is empty");
+      return;
+    }
     try {
       const sessionId = await createSession();
       if (sessionId) {
@@ -173,6 +179,7 @@ export default function ChatPage() {
         onClose={() => setSidebarOpen(false)}
         onOpenProfile={() => setProfilePanelOpen(true)}
         onNewChat={handleNewChat}
+        canCreateNewChat={canCreateNewChat}
         onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
         chatHistory={chatSessions}
         currentChatId={currentSession}

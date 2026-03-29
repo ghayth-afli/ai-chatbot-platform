@@ -13,6 +13,7 @@ export default function Sidebar({
   onClose,
   onOpenProfile,
   onNewChat,
+  canCreateNewChat = true,
   onToggleCollapse,
   chatHistory,
   currentChatId,
@@ -54,7 +55,13 @@ export default function Sidebar({
           <button
             className={styles.newChatBtn}
             onClick={onNewChat}
-            title="New Chat"
+            title={
+              canCreateNewChat
+                ? "New Chat"
+                : "Finish current chat to create new"
+            }
+            disabled={!canCreateNewChat}
+            aria-disabled={!canCreateNewChat}
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path
