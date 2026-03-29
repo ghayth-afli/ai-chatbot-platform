@@ -20,7 +20,7 @@ function getHeaders() {
 /**
  * Create a new chat session
  */
-export async function createChatSession(title = null, model = "deepseek-chat") {
+export async function createChatSession(title = null, model = "nemotron") {
   const response = await fetch(`${API_BASE_URL}/chat/`, {
     method: "POST",
     headers: getHeaders(),
