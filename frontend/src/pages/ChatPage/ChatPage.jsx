@@ -20,15 +20,24 @@ import ProfilePanel from "./components/ProfilePanel";
 export default function ChatPage() {
   const { i18n } = useTranslation();
   const { user } = useAuth();
-  const { messages, sendMessage, isLoading } = useChat();
+  const {
+    messages,
+    sendMessage,
+    isLoading,
+    currentSession,
+    chatSessions,
+    createSession,
+    loadSessions,
+    loadChatHistory,
+    deleteSession,
+    updateModel,
+  } = useChat();
 
   // UI State
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [profilePanelOpen, setProfilePanelOpen] = useState(false);
   const [selectedModel, setSelectedModel] = useState("deepseek-chat");
-  const [chatHistory, setChatHistory] = useState([]);
-  const [currentChatId, setCurrentChatId] = useState(null);
 
   // Handle RTL direction based on language
   useEffect(() => {
@@ -37,6 +46,18 @@ export default function ChatPage() {
     document.documentElement.lang = i18n.language;
     document.body.dir = isArabic ? "rtl" : "ltr";
   }, [i18n.language]);
+
+  // Load chat sessions on mount
+  useEffect(() => {
+    loadSessions();
+  }, [loadSessions]);
+
+  // Update model when selectedModel changes
+  useEffect(() => {
+    if (currentSession) {
+      updateModel(currentSession, selectedModel);
+    }
+  }, [selectedModel, currentSession, updateModel]);
 
   // Close sidebar and profile panel on screen resize to larger viewports
   useEffect(() => {
@@ -51,13 +72,34 @@ export default function ChatPage() {
   }, []);
 
   const handleSendMessage = (content) => {
+    if (!currentSession) {
+      console.warn("No active chat session");
+      return;
+    }
     sendMessage(content, selectedModel);
   };
 
-  const handleNewChat = () => {
-    // Reset current chat
-    setCurrentChatId(null);
-    // In a real app, create new chat in backend
+  const handleNewChat = async () => {
+    try {
+      const sessionId = await createSession();
+      if (sessionId) {
+        setSidebarOpen(false); // Close sidebar on mobile after creating new chat
+      }
+    } catch (error) {
+      console.error("Error creating new chat:", error);
+    }
+  };
+
+  const handleSelectChat = async (chatId) => {
+    await loadChatHistory(chatId);
+    setSidebarOpen(false); // Close sidebar on mobile after selecting chat
+  };
+
+  const handleDeleteChat = async (chatId) => {
+    await deleteSession(chatId);
+    if (currentSession === chatId) {
+      // If deleted chat was current, list will be reloaded and currentSession set to null
+    }
   };
 
   return (
@@ -70,9 +112,10 @@ export default function ChatPage() {
         onOpenProfile={() => setProfilePanelOpen(true)}
         onNewChat={handleNewChat}
         onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
-        chatHistory={chatHistory}
-        currentChatId={currentChatId}
-        onSelectChat={(id) => setCurrentChatId(id)}
+        chatHistory={chatSessions}
+        currentChatId={currentSession}
+        onSelectChat={handleSelectChat}
+        onDeleteChat={handleDeleteChat}
       />
 
       {/* Main Content Area */}
@@ -94,7 +137,7 @@ export default function ChatPage() {
         <InputArea
           onSendMessage={handleSendMessage}
           isLoading={isLoading}
-          disabled={!user}
+          disabled={!user || !currentSession}
         />
       </main>
 

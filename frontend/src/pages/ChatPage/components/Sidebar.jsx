@@ -17,6 +17,7 @@ export default function Sidebar({
   chatHistory,
   currentChatId,
   onSelectChat,
+  onDeleteChat,
 }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
