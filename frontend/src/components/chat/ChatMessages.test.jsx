@@ -22,14 +22,14 @@ describe("ChatMessages Component", () => {
       role: "user",
       content: "Hello AI",
       created_at: "2024-01-01T10:00:00Z",
-      ai_model: "deepseek",
+      ai_model: "nemotron",
     },
     {
       id: 2,
       role: "assistant",
       content: "Hello! How can I help?",
       created_at: "2024-01-01T10:00:05Z",
-      ai_model: "deepseek",
+      ai_model: "nemotron",
     },
   ];
 
@@ -39,7 +39,7 @@ describe("ChatMessages Component", () => {
         messages={mockMessages}
         loading={false}
         error={null}
-        currentModel="deepseek"
+        currentModel="nemotron"
       />,
     );
 
@@ -53,7 +53,7 @@ describe("ChatMessages Component", () => {
         messages={[mockMessages[0]]}
         loading={false}
         error={null}
-        currentModel="deepseek"
+        currentModel="nemotron"
       />,
     );
 
@@ -67,7 +67,7 @@ describe("ChatMessages Component", () => {
         messages={[mockMessages[1]]}
         loading={false}
         error={null}
-        currentModel="deepseek"
+        currentModel="nemotron"
       />,
     );
 
@@ -81,7 +81,7 @@ describe("ChatMessages Component", () => {
         messages={[]}
         loading={false}
         error={null}
-        currentModel="deepseek"
+        currentModel="nemotron"
       />,
     );
 
@@ -94,7 +94,7 @@ describe("ChatMessages Component", () => {
         messages={mockMessages}
         loading={true}
         error={null}
-        currentModel="deepseek"
+        currentModel="nemotron"
       />,
     );
 
@@ -110,7 +110,7 @@ describe("ChatMessages Component", () => {
         messages={mockMessages}
         loading={false}
         error="Failed to get response"
-        currentModel="deepseek"
+        currentModel="nemotron"
       />,
     );
 
@@ -125,7 +125,7 @@ describe("ChatMessages Component", () => {
         messages={mockMessages}
         loading={false}
         error={null}
-        currentModel="deepseek"
+        currentModel="nemotron"
       />,
     );
 
@@ -140,11 +140,11 @@ describe("ChatMessages Component", () => {
         messages={[mockMessages[1]]}
         loading={false}
         error={null}
-        currentModel="deepseek"
+        currentModel="nemotron"
       />,
     );
 
-    expect(screen.getByText(/deepseek|model/i)).toBeInTheDocument();
+    expect(screen.getByText(/nemotron|model/i)).toBeInTheDocument();
   });
 
   it("renders multiple messages in order", () => {
@@ -153,7 +153,7 @@ describe("ChatMessages Component", () => {
         messages={mockMessages}
         loading={false}
         error={null}
-        currentModel="deepseek"
+        currentModel="nemotron"
       />,
     );
 
@@ -167,7 +167,7 @@ describe("ChatMessages Component", () => {
       role: "assistant",
       content: "a".repeat(500),
       created_at: "2024-01-01T10:00:05Z",
-      ai_model: "deepseek",
+      ai_model: "nemotron",
     };
 
     render(
@@ -175,7 +175,7 @@ describe("ChatMessages Component", () => {
         messages={[longMessage]}
         loading={false}
         error={null}
-        currentModel="deepseek"
+        currentModel="nemotron"
       />,
     );
 
@@ -188,7 +188,7 @@ describe("ChatMessages Component", () => {
       role: "user",
       content: "Hello! 👋 How are you? @#$%",
       created_at: "2024-01-01T10:00:00Z",
-      ai_model: "deepseek",
+      ai_model: "nemotron",
     };
 
     render(
@@ -196,7 +196,7 @@ describe("ChatMessages Component", () => {
         messages={[specialMessage]}
         loading={false}
         error={null}
-        currentModel="deepseek"
+        currentModel="nemotron"
       />,
     );
 
@@ -209,7 +209,7 @@ describe("ChatMessages Component", () => {
       role: "assistant",
       content: '```js\nconst hello = () => console.log("Hi");\n```',
       created_at: "2024-01-01T10:00:05Z",
-      ai_model: "deepseek",
+      ai_model: "nemotron",
     };
 
     render(
@@ -217,7 +217,7 @@ describe("ChatMessages Component", () => {
         messages={[codeMessage]}
         loading={false}
         error={null}
-        currentModel="deepseek"
+        currentModel="nemotron"
       />,
     );
 
@@ -230,7 +230,7 @@ describe("ChatMessages Component", () => {
       role: "user",
       content: "مرحبا بك في تطبيقي",
       created_at: "2024-01-01T10:00:00Z",
-      ai_model: "deepseek",
+      ai_model: "nemotron",
     };
 
     render(
@@ -238,7 +238,7 @@ describe("ChatMessages Component", () => {
         messages={[arabicMessage]}
         loading={false}
         error={null}
-        currentModel="deepseek"
+        currentModel="nemotron"
       />,
     );
 

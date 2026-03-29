@@ -69,7 +69,7 @@ export const sendMessage = async (sessionId, message, model = null) => {
  */
 export const createSession = async (
   title = null,
-  model = "deepseek",
+  model = "nemotron",
   language = "en",
 ) => {
   try {
@@ -181,7 +181,7 @@ export const deleteSession = async (sessionId) => {
 /**
  * Update session AI model
  * @param {number} sessionId - Session ID
- * @param {string} model - New model ('deepseek', 'llama3', 'mistral')
+ * @param {string} model - New model ('nemotron', 'liquid', 'trinity')
  * @returns {Promise} Updated session data
  */
 export const updateSessionModel = async (sessionId, model) => {

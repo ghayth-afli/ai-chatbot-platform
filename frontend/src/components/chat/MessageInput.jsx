@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 export const MessageInput = ({
   onSendMessage,
   onModelChange,
-  selectedModel = "deepseek",
+  selectedModel = "nemotron",
   disabled = false,
   loading = false,
 }) => {
@@ -29,10 +29,9 @@ export const MessageInput = ({
   const isOverLimit = charCount > MAX_LENGTH;
 
   const models = [
-    { id: "deepseek", name: "DeepSeek", icon: "🧠", desc: "Fast & Powerful" },
-    { id: "llama3", name: "LLaMA 3", icon: "🦙", desc: "Open Source" },
-    { id: "mistral", name: "Mistral", icon: "⚡", desc: "Efficient" },
     { id: "nemotron", name: "Nemotron", icon: "🚀", desc: "Super 120B" },
+    { id: "liquid", name: "Liquid", icon: "💧", desc: "Fast Thinking" },
+    { id: "trinity", name: "Trinity", icon: "✨", desc: "Mini Model" },
   ];
 
   // Auto-resize textarea

@@ -17,7 +17,7 @@ export const ChatMessages = ({
   messages = [],
   loading = false,
   error = null,
-  currentModel = "deepseek",
+  currentModel = "nemotron",
   currentPage = 1,
   totalPages = 1,
   onPreviousPage = null,
@@ -29,10 +29,9 @@ export const ChatMessages = ({
   const isRTL = i18n.language === "ar";
 
   const models = [
-    { id: "deepseek", name: "DeepSeek", icon: "🧠" },
-    { id: "llama3", name: "LLaMA 3", icon: "🦙" },
-    { id: "mistral", name: "Mistral", icon: "⚡" },
     { id: "nemotron", name: "Nemotron", icon: "🚀" },
+    { id: "liquid", name: "Liquid", icon: "💧" },
+    { id: "trinity", name: "Trinity", icon: "✨" },
   ];
 
   // Auto-scroll to bottom on new messages
@@ -53,10 +52,9 @@ export const ChatMessages = ({
 
   const getModelLabel = (model) => {
     const modelMap = {
-      deepseek: "DeepSeek",
-      llama3: "LLaMA 3",
-      mistral: "Mistral",
       nemotron: "Nemotron",
+      liquid: "Liquid",
+      trinity: "Trinity",
     };
     return modelMap[model] || model;
   };

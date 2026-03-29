@@ -43,7 +43,7 @@ print("Creating chat session...")
 session_data = ChatService.create_session(
     user=user,
     title='Test Session - Nemotron',
-    model='deepseek',
+    model='nemotron',
     language='en'
 )
 print(f"✓ Session created: {session_data}")
@@ -56,7 +56,7 @@ try:
         user=user,
         session_id=session_data['id'],
         message_text='Hello! What is 2+2? Answer in one sentence.',
-        model='deepseek'
+        model='nemotron'
     )
     print(f"✓ Message sent successfully!")
     print(f"  User message ID: {result['user_message_id']}")

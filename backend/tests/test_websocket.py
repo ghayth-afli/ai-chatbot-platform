@@ -27,7 +27,7 @@ class WebSocketTests(TestCase):
         self.session = ChatSession.objects.create(
             user=self.user,
             title='Test Session',
-            ai_model='deepseek',
+            ai_model='nemotron',
         )
 
     @pytest.mark.asyncio

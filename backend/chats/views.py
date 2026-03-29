@@ -56,13 +56,13 @@ class ChatSessionViewSet(viewsets.ModelViewSet):
         
         Body: {
             "title": "Python Help",  // optional
-            "model": "deepseek",     // optional, defaults to deepseek
+            "model": "nemotron",     // optional, defaults to nemotron
             "language": "en"         // optional, defaults to en
         }
         """
         try:
             title = request.data.get('title')
-            model = request.data.get('model', 'deepseek')
+            model = request.data.get('model', 'nemotron')
             language = request.data.get('language', 'en')
 
             session_data = ChatService.create_session(

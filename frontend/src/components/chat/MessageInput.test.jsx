@@ -30,7 +30,7 @@ describe("MessageInput Component", () => {
       <MessageInput
         onSendMessage={mockOnSend}
         onModelChange={mockOnModelChange}
-        selectedModel="deepseek"
+        selectedModel="nemotron"
         disabled={false}
         loading={false}
       />,
@@ -45,13 +45,13 @@ describe("MessageInput Component", () => {
       <MessageInput
         onSendMessage={mockOnSend}
         onModelChange={mockOnModelChange}
-        selectedModel="deepseek"
+        selectedModel="nemotron"
         disabled={false}
         loading={false}
       />,
     );
 
-    const modelSelect = screen.getByDisplayValue("deepseek");
+    const modelSelect = screen.getByDisplayValue("nemotron");
     expect(modelSelect).toBeInTheDocument();
   });
 
@@ -62,7 +62,7 @@ describe("MessageInput Component", () => {
       <MessageInput
         onSendMessage={mockOnSend}
         onModelChange={mockOnModelChange}
-        selectedModel="deepseek"
+        selectedModel="nemotron"
         disabled={false}
         loading={false}
       />,
@@ -74,7 +74,7 @@ describe("MessageInput Component", () => {
     await user.type(textarea, "Hello AI");
     await user.click(sendButton);
 
-    expect(mockOnSend).toHaveBeenCalledWith("Hello AI", "deepseek");
+    expect(mockOnSend).toHaveBeenCalledWith("Hello AI", "nemotron");
   });
 
   it("sends message on Shift+Enter", async () => {
@@ -84,7 +84,7 @@ describe("MessageInput Component", () => {
       <MessageInput
         onSendMessage={mockOnSend}
         onModelChange={mockOnModelChange}
-        selectedModel="deepseek"
+        selectedModel="nemotron"
         disabled={false}
         loading={false}
       />,
@@ -95,7 +95,7 @@ describe("MessageInput Component", () => {
     await user.type(textarea, "Hello AI");
     await user.keyboard("{Shift>}{Enter}{/Shift}");
 
-    expect(mockOnSend).toHaveBeenCalledWith("Hello AI", "deepseek");
+    expect(mockOnSend).toHaveBeenCalledWith("Hello AI", "nemotron");
   });
 
   it("clears input after sending", async () => {
@@ -105,7 +105,7 @@ describe("MessageInput Component", () => {
       <MessageInput
         onSendMessage={mockOnSend}
         onModelChange={mockOnModelChange}
-        selectedModel="deepseek"
+        selectedModel="nemotron"
         disabled={false}
         loading={false}
       />,
@@ -125,7 +125,7 @@ describe("MessageInput Component", () => {
       <MessageInput
         onSendMessage={mockOnSend}
         onModelChange={mockOnModelChange}
-        selectedModel="deepseek"
+        selectedModel="nemotron"
         disabled={true}
         loading={false}
       />,
@@ -145,7 +145,7 @@ describe("MessageInput Component", () => {
       <MessageInput
         onSendMessage={mockOnSend}
         onModelChange={mockOnModelChange}
-        selectedModel="deepseek"
+        selectedModel="nemotron"
         disabled={false}
         loading={false}
       />,
@@ -166,7 +166,7 @@ describe("MessageInput Component", () => {
       <MessageInput
         onSendMessage={mockOnSend}
         onModelChange={mockOnModelChange}
-        selectedModel="deepseek"
+        selectedModel="nemotron"
         disabled={false}
         loading={false}
       />,
@@ -188,17 +188,17 @@ describe("MessageInput Component", () => {
       <MessageInput
         onSendMessage={mockOnSend}
         onModelChange={mockOnModelChange}
-        selectedModel="deepseek"
+        selectedModel="nemotron"
         disabled={false}
         loading={false}
       />,
     );
 
-    const modelSelect = screen.getByDisplayValue("deepseek");
+    const modelSelect = screen.getByDisplayValue("nemotron");
 
-    await user.selectOptions(modelSelect, "llama3");
+    await user.selectOptions(modelSelect, "liquid");
 
-    expect(mockOnModelChange).toHaveBeenCalledWith("llama3");
+    expect(mockOnModelChange).toHaveBeenCalledWith("liquid");
   });
 
   it("shows loading state", () => {
@@ -206,7 +206,7 @@ describe("MessageInput Component", () => {
       <MessageInput
         onSendMessage={mockOnSend}
         onModelChange={mockOnModelChange}
-        selectedModel="deepseek"
+        selectedModel="nemotron"
         disabled={false}
         loading={true}
       />,

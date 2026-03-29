@@ -1,7 +1,7 @@
 """
 AI Model Routing Module
 
-Routes messages to appropriate AI providers (OpenRouter, Groq)
+Routes messages to OpenRouter API provider
 based on selected model and handles API calls.
 """
 
@@ -22,46 +22,36 @@ def get_api_keys():
     load_dotenv(env_path)
     return {
         'openrouter': os.getenv('OPENROUTER_API_KEY'),
-        'groq': os.getenv('GROQ_API_KEY'),
-        'mock': True,  # Enable mock responses for testing
     }
 
 # API Endpoints
-OPENROUTER_BASE_URL = 'https://openrouter.io/api/v1/chat/completions'
-GROQ_BASE_URL = 'https://api.groq.com/openai/v1/chat/completions'
+OPENROUTER_BASE_URL = 'https://openrouter.ai/api/v1/chat/completions'
 
 # Whether to use mock responses (set to False when APIs are available)
-USE_MOCK_RESPONSES = False
+USE_MOCK_RESPONSES = False  # ✅ Using real OpenRouter API
 
 # Model mappings to provider
 MODEL_PROVIDER_MAP = {
-    'deepseek': 'openrouter',
-    'mistral': 'openrouter',
     'nemotron': 'openrouter',
-    'llama3': 'groq',
+    'liquid': 'openrouter',
+    'trinity': 'openrouter',
 }
 
 # Model IDs for each provider
 OPENROUTER_MODELS = {
-    'deepseek': 'deepseek/deepseek-chat',
-    'mistral': 'mistral/mistral-7b-instruct',
     'nemotron': 'nvidia/nemotron-3-super-120b-a12b:free',
+    'liquid': 'liquid/lfm-2.5-1.2b-thinking:free',
+    'trinity': 'arcee-ai/trinity-mini:free',
 }
-
-GROQ_MODELS = {
-    'llama3': 'llama3-70b-8192',
-}
-
 
 def get_mock_response(model_id: str, message: str) -> Dict[str, Any]:
     """
     Generate a mock AI response for testing without real API calls.
     """
     mock_responses = {
-        'deepseek': f'[DeepSeek Mock] I received your message: "{message}". This is a test response from the mock DeepSeek model.',
-        'mistral': f'[Mistral Mock] You said: "{message}". Here is a simulated response from the Mistral model.',
         'nemotron': f'[Nemotron Mock] Your input: "{message}". Mock response from the Nvidia Nemotron model.',
-        'llama3': f'[LLaMA3 Mock] Message received: "{message}". This is a simulated response from the LLaMA3 model via Groq.',
+        'liquid': f'[Liquid Mock] You said: "{message}". Here is a simulated response from the Liquid model.',
+        'trinity': f'[Trinity Mock] Message received: "{message}". This is a simulated response from the Trinity model.',
     }
     
     response_text = mock_responses.get(model_id, f'[Mock] Received: "{message}"')
@@ -78,7 +68,7 @@ def route_to_openrouter(model_id: str, message: str, system_prompt: str = None) 
     Route message to OpenRouter API provider.
     
     Args:
-        model_id: Model identifier ('deepseek', 'mistral', 'nemotron')
+        model_id: Model identifier ('nemotron', 'liquid', 'trinity')
         message: User message content
         system_prompt: Optional system prompt for context
         
@@ -103,10 +93,14 @@ def route_to_openrouter(model_id: str, message: str, system_prompt: str = None) 
     
     model_name = OPENROUTER_MODELS[model_id]
     
+    # Get API key and other config
+    openrouter_api_key = openrouter_api_key.strip() if openrouter_api_key else None
+    
     headers = {
         'Authorization': f'Bearer {openrouter_api_key}',
         'Content-Type': 'application/json',
-        'HTTP-Referer': os.getenv('FRONTEND_URL', 'http://localhost:3000'),
+        'Referer': os.getenv('FRONTEND_URL', 'http://localhost:3000'),
+        'X-OpenRouter-Title': 'AI Chat Platform',
     }
     
     messages = []
@@ -122,20 +116,35 @@ def route_to_openrouter(model_id: str, message: str, system_prompt: str = None) 
     }
     
     try:
-        logger.debug(f'OpenRouter request: URL={OPENROUTER_BASE_URL}, model={model_name}')
-        logger.debug(f'API key (first 30 chars): {openrouter_api_key[:30]}...')
+        logger.info(f'🔵 OpenRouter Request Details:')
+        logger.info(f'  URL: {OPENROUTER_BASE_URL}')
+        logger.info(f'  Model: {model_name}')
+        logger.info(f'  API Key length: {len(openrouter_api_key) if openrouter_api_key else 0}')
+        logger.info(f'  API Key starts with: {openrouter_api_key[:25] if openrouter_api_key else "NONE"}...')
+        logger.info(f'  Headers: {list(headers.keys())}')
+        logger.info(f'  Message length: {len(message)} chars')
         
         response = requests.post(OPENROUTER_BASE_URL, json=payload, headers=headers, timeout=60)
         
         logger.debug(f'OpenRouter response status: {response.status_code}')
         
         if response.status_code != 200:
-            logger.error(f'OpenRouter API returned {response.status_code}: {response.text[:200]}')
-            if response.status_code == 405:
-                logger.error('405 Method Not Allowed - This may indicate an authentication issue or endpoint problem')
-            return {'error': f'OpenRouter API error (status {response.status_code}): {response.text[:100]}'}
+            logger.error(f'❌ OpenRouter API Error {response.status_code}')
+            logger.error(f'   Response body: {response.text}')
+            try:
+                error_data = response.json()
+                logger.error(f'   Error details: {error_data}')
+            except:
+                pass
+            if response.status_code == 401:
+                logger.error('   → 401 Unauthorized: Check API key validity and format')
+            elif response.status_code == 405:
+                logger.error('   → 405 Method Not Allowed: Check endpoint URL')
+            return {'error': f'OpenRouter API error (status {response.status_code}): {response.text[:200]}'}
         
         response.raise_for_status()
+        
+        logger.info(f'✅ OpenRouter request successful!')
         
         data = response.json()
         content = data['choices'][0]['message']['content']
@@ -158,78 +167,12 @@ def route_to_openrouter(model_id: str, message: str, system_prompt: str = None) 
         return {'error': f'Unexpected error: {str(e)}'}
 
 
-def route_to_groq(model_id: str, message: str, system_prompt: str = None) -> Dict[str, Any]:
-    """
-    Route message to Groq API provider.
-    
-    Args:
-        model_id: Model identifier ('llama3')
-        message: User message content
-        system_prompt: Optional system prompt for context
-        
-    Returns:
-        Dict with 'response' and 'tokens' keys, or error dict
-    """
-    # Use mock response for testing if real API is unavailable
-    if USE_MOCK_RESPONSES:
-        logger.info(f'Using MOCK response for {model_id} (set USE_MOCK_RESPONSES=False to use real API)')
-        return get_mock_response(model_id, message)
-    
-    api_keys = get_api_keys()
-    groq_api_key = api_keys['groq']
-    
-    if not groq_api_key:
-        logger.error('GROQ_API_KEY not set')
-        return {'error': 'Groq API key not configured'}
-    
-    if model_id not in GROQ_MODELS:
-        logger.error(f'Unknown Groq model: {model_id}')
-        return {'error': f'Unknown model: {model_id}'}
-    
-    model_name = GROQ_MODELS[model_id]
-    
-    headers = {
-        'Authorization': f'Bearer {groq_api_key}',
-        'Content-Type': 'application/json',
-    }
-    
-    messages = []
-    if system_prompt:
-        messages.append({'role': 'system', 'content': system_prompt})
-    messages.append({'role': 'user', 'content': message})
-    
-    payload = {
-        'model': model_name,
-        'messages': messages,
-        'max_tokens': 2000,
-        'temperature': 0.7,
-    }
-    
-    try:
-        response = requests.post(GROQ_BASE_URL, json=payload, headers=headers, timeout=30)
-        response.raise_for_status()
-        
-        data = response.json()
-        content = data['choices'][0]['message']['content']
-        usage = data.get('usage', {})
-        
-        logger.info(f'Groq call successful for model {model_id}')
-        return {
-            'response': content,
-            'tokens': usage.get('total_tokens', 0),
-            'model': model_id,
-        }
-    except requests.exceptions.RequestException as e:
-        logger.error(f'Groq API error: {str(e)}')
-        return {'error': f'API error: {str(e)}'}
-
-
 def dispatch_to_provider(model_id: str, message: str, system_prompt: str = None) -> Dict[str, Any]:
     """
-    Dispatcher function that routes message to correct provider based on model.
+    Dispatcher function that routes message to OpenRouter API.
     
     Args:
-        model_id: Model identifier ('deepseek', 'mistral', 'llama3')
+        model_id: Model identifier ('nemotron', 'liquid', 'trinity')
         message: User message content
         system_prompt: Optional system prompt for context
         
@@ -247,14 +190,6 @@ def dispatch_to_provider(model_id: str, message: str, system_prompt: str = None)
         logger.error(f'Unsupported model: {model_id}')
         return {'error': f'Model {model_id} is not supported'}
     
-    provider = MODEL_PROVIDER_MAP[model_id]
+    logger.info(f'Routing {model_id} to OpenRouter provider')
     
-    logger.info(f'Routing {model_id} to {provider} provider')
-    
-    if provider == 'openrouter':
-        return route_to_openrouter(model_id, message, system_prompt)
-    elif provider == 'groq':
-        return route_to_groq(model_id, message, system_prompt)
-    else:
-        logger.error(f'Unknown provider: {provider}')
-        return {'error': f'Unknown provider: {provider}'}
+    return route_to_openrouter(model_id, message, system_prompt)

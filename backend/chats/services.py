@@ -23,13 +23,13 @@ logger = logging.getLogger(__name__)
 class ChatService:
     """Service class for chat operations."""
 
-    VALID_MODELS = ['deepseek', 'llama3', 'mistral', 'nemotron']
+    VALID_MODELS = ['nemotron', 'liquid', 'trinity']
     VALID_LANGUAGES = ['en', 'ar']
     MAX_MESSAGE_LENGTH = 5000
     PAGE_SIZE = 50
 
     @staticmethod
-    def create_session(user: User, title: str = None, model: str = 'deepseek', 
+    def create_session(user: User, title: str = None, model: str = 'nemotron', 
                       language: str = 'en') -> Dict[str, Any]:
         """
         Create a new chat session for a user.
@@ -37,7 +37,7 @@ class ChatService:
         Args:
             user: User instance
             title: Optional session title (auto-generated if not provided)
-            model: AI model to use ('deepseek', 'llama3', 'mistral')
+            model: AI model to use ('nemotron', 'liquid', 'trinity')
             language: Language for the session ('en' or 'ar')
 
         Returns:
@@ -268,7 +268,7 @@ class ChatService:
         Args:
             user: User instance
             session_id: Session ID
-            model: New model ('deepseek', 'llama3', 'mistral')
+            model: New model ('nemotron', 'liquid', 'trinity')
 
         Returns:
             Dict with updated session info

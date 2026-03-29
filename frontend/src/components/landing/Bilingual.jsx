@@ -55,7 +55,7 @@ const Bilingual = () => {
               <div className="w-8 h-8 rounded-lg bg-plasma/20 flex-shrink-0" />
               <div className="px-4 py-3 rounded-lg rounded-bl-none bg-glass border border-border text-paper/80 max-w-xs">
                 <p className="text-sm">{t("bilingual.english.sample")}</p>
-                <p className="text-xs text-plasma mt-2">DeepSeek Chat</p>
+                <p className="text-xs text-plasma mt-2">Nemotron Chat</p>
               </div>
             </div>
 

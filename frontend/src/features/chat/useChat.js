@@ -23,7 +23,7 @@ export const useChat = (token) => {
 
   // Message state
   const [messages, setMessages] = useState([]);
-  const [currentModel, setCurrentModel] = useState("deepseek");
+  const [currentModel, setCurrentModel] = useState("nemotron");
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -77,7 +77,7 @@ export const useChat = (token) => {
    * Create a new chat session
    */
   const handleCreateSession = useCallback(
-    async (title = null, model = "deepseek", language = "en") => {
+    async (title = null, model = "nemotron", language = "en") => {
       setLoading(true);
       setError(null);
 
@@ -125,10 +125,10 @@ export const useChat = (token) => {
       setCurrentSessionId(sessionId);
       setCurrentSession({
         id: result.data.session_id,
-        model: result.data.model || "deepseek",
+        model: result.data.model || "nemotron",
       });
       setMessages(result.data.messages || []);
-      setCurrentModel(result.data.model || "deepseek");
+      setCurrentModel(result.data.model || "nemotron");
 
       // Update pagination state
       setCurrentPage(result.data.page || 1);

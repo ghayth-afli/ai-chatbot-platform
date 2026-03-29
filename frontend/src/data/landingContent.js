@@ -45,21 +45,21 @@ export const features = [
 
 export const models = [
   {
-    modelName: "DeepSeek Chat",
-    provider: "DeepSeek",
-    descriptionKey: "models.rows.deepseek.description",
+    modelName: "Nemotron 3 Super",
+    provider: "NVIDIA",
+    descriptionKey: "models.rows.nemotron.description",
     status: "available",
   },
   {
-    modelName: "LLaMA 3",
-    provider: "Meta",
-    descriptionKey: "models.rows.llama.description",
+    modelName: "Liquid FM",
+    provider: "Liquid",
+    descriptionKey: "models.rows.liquid.description",
     status: "available",
   },
   {
-    modelName: "Mistral 7B",
-    provider: "Mistral",
-    descriptionKey: "models.rows.mistral.description",
+    modelName: "Trinity Mini",
+    provider: "Arcee AI",
+    descriptionKey: "models.rows.trinity.description",
     status: "available",
   },
 ];

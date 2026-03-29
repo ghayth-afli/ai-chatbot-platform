@@ -45,7 +45,7 @@ export function ChatPage() {
         // In a real implementation, this would call an API endpoint
         // For now, we'll generate a placeholder summary based on chat history
         const summaryExamples = [
-          "Interested in AI and programming. Frequently uses DeepSeek model.",
+          "Interested in AI and programming. Frequently uses Nemotron model.",
           "Explores multiple AI models. Prefers technical discussions.",
           "Regular chatbot user. Strong focus on practical applications.",
         ];
@@ -231,18 +231,18 @@ export function ChatPage() {
                 {/* Model Badge */}
                 <div className="flex-shrink-0 flex items-center gap-2 px-3 py-2 bg-[var(--plasma)]/10 border border-[var(--plasma)]/30 rounded-lg backdrop-blur-sm hover:bg-[var(--plasma)]/20 transition-colors cursor-pointer">
                   <span className="text-lg">
-                    {currentModel === "deepseek"
-                      ? "🧠"
-                      : currentModel === "llama3"
-                        ? "🦙"
-                        : "⚡"}
+                    {currentModel === "nemotron"
+                      ? "🚀"
+                      : currentModel === "liquid"
+                        ? "💧"
+                        : "✨"}
                   </span>
                   <span className="text-xs sm:text-sm font-syne font-600 text-[var(--paper)]">
-                    {currentModel === "deepseek"
-                      ? "DeepSeek"
-                      : currentModel === "llama3"
-                        ? "LLaMA 3"
-                        : "Mistral"}
+                    {currentModel === "nemotron"
+                      ? "Nemotron"
+                      : currentModel === "liquid"
+                        ? "Liquid"
+                        : "Trinity"}
                   </span>
                 </div>
 

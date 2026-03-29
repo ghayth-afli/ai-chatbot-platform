@@ -53,9 +53,9 @@ export const ChatSidebar = ({
 
   const getModelIcon = (model) => {
     const icons = {
-      deepseek: "🧠",
-      llama3: "🦙",
-      mistral: "⚡",
+      nemotron: "🚀",
+      liquid: "💧",
+      trinity: "✨",
     };
     return icons[model] || "🤖";
   };

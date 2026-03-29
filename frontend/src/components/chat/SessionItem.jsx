@@ -25,12 +25,12 @@ export function SessionItem({
 
   const getModelIcon = (model) => {
     switch (model) {
-      case "deepseek":
-        return "🧠";
-      case "llama3":
-        return "🦙";
-      case "mistral":
-        return "⚡";
+      case "nemotron":
+        return "🚀";
+      case "liquid":
+        return "💧";
+      case "trinity":
+        return "✨";
       default:
         return "🤖";
     }
@@ -38,12 +38,12 @@ export function SessionItem({
 
   const getModelName = (model) => {
     switch (model) {
-      case "deepseek":
-        return "DeepSeek";
-      case "llama3":
-        return "LLaMA 3";
-      case "mistral":
-        return "Mistral";
+      case "nemotron":
+        return "Nemotron";
+      case "liquid":
+        return "Liquid";
+      case "trinity":
+        return "Trinity";
       default:
         return "Unknown";
     }

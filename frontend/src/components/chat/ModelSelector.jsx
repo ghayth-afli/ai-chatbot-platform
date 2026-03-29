@@ -11,7 +11,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export function ModelSelector({
-  selectedModel = "deepseek",
+  selectedModel = "nemotron",
   onModelChange,
   disabled = false,
 }) {
@@ -21,25 +21,25 @@ export function ModelSelector({
 
   const models = [
     {
-      id: "deepseek",
-      name: "DeepSeek",
-      icon: "🧠",
-      description: "Advanced reasoning with mixed MoE",
+      id: "nemotron",
+      name: "Nemotron",
+      icon: "🚀",
+      description: "NVIDIA's super 120B model with free tier",
       speed: "medium",
     },
     {
-      id: "llama3",
-      name: "LLaMA 3",
-      icon: "🦙",
-      description: "Fast, efficient, on-device capable",
+      id: "liquid",
+      name: "Liquid",
+      icon: "💧",
+      description: "Fast thinking with LFM 2.5 technology",
       speed: "fast",
     },
     {
-      id: "mistral",
-      name: "Mistral",
-      icon: "⚡",
-      description: "Balanced performance and reasoning",
-      speed: "medium",
+      id: "trinity",
+      name: "Trinity",
+      icon: "✨",
+      description: "Arcee AI's efficient mini model",
+      speed: "fast",
     },
   ];
 
