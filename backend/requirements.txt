@@ -6,3 +6,5 @@ python-dotenv==1.0.0
 requests==2.31.0
 pytest==7.4.3
 pytest-django==4.7.0
+channels==4.0.0
+channels-redis==4.1.0
