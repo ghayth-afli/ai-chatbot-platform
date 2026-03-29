@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../hooks/useAuth";
 import { useChat } from "../../hooks/useChat";
+import { useWebSocket } from "../../hooks/useWebSocket";
 import styles from "./ChatPage.module.css";
 
 // Sub-components
@@ -38,6 +39,10 @@ export default function ChatPage() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [profilePanelOpen, setProfilePanelOpen] = useState(false);
   const [selectedModel, setSelectedModel] = useState("nemotron");
+  const [authToken, setAuthToken] = useState(() =>
+    typeof window !== "undefined" ? localStorage.getItem("access_token") : null,
+  );
+  const sessionInitializedRef = useRef(false);
 
   // Handle RTL direction based on language
   useEffect(() => {
@@ -58,6 +63,63 @@ export default function ChatPage() {
       updateModel(currentSession, selectedModel);
     }
   }, [selectedModel, currentSession, updateModel]);
+
+  // Keep auth token in sync with localStorage updates and auth state changes
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const syncToken = () => {
+      setAuthToken(localStorage.getItem("access_token"));
+    };
+
+    sessionInitializedRef.current = false;
+    syncToken();
+    window.addEventListener("storage", syncToken);
+    return () => window.removeEventListener("storage", syncToken);
+  }, [user]);
+
+  // Auto-select or create a chat session so input is never disabled
+  useEffect(() => {
+    if (!user || isLoading) {
+      return;
+    }
+
+    if (!currentSession && chatSessions.length > 0) {
+      sessionInitializedRef.current = true;
+      loadChatHistory(chatSessions[0].id);
+    } else if (
+      !currentSession &&
+      chatSessions.length === 0 &&
+      !sessionInitializedRef.current
+    ) {
+      sessionInitializedRef.current = true;
+      createSession();
+    }
+  }, [
+    chatSessions,
+    currentSession,
+    isLoading,
+    loadChatHistory,
+    createSession,
+    user,
+  ]);
+
+  // Establish WebSocket connection when session + token available
+  useWebSocket(currentSession, authToken, {
+    onMessage: () => {
+      if (currentSession) {
+        loadChatHistory(currentSession);
+      }
+    },
+    onSession: () => {
+      loadSessions();
+    },
+    onError: (err) => {
+      console.error("WebSocket error:", err);
+    },
+  });
 
   // Close sidebar and profile panel on screen resize to larger viewports
   useEffect(() => {
