@@ -566,6 +566,7 @@ html[dir="rtl"] .sfBtn {
 /* Collapsed state (Desktop/Tablet only) */
 .collapsed {
   width: 70px;
+  min-width: 70px;
   transition:
     width 0.28s ease,
     transform 0.28s ease;
