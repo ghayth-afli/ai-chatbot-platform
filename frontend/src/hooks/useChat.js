@@ -15,7 +15,7 @@ export function useChat() {
 
   // Send a message to the backend
   const sendMessage = useCallback(
-    async (message, model = "deepseek-chat") => {
+    async (message, model = "nemotron") => {
       if (!currentSession) {
         setError("No active chat session");
         return;
