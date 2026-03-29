@@ -19,20 +19,20 @@ export default function ChatHeader({
 
   const models = [
     {
-      id: "deepseek-chat",
-      name: "deepseek-chat",
+      id: "nemotron",
+      name: "Nemotron",
       desc: t("m1d"),
       color: "var(--volt)",
     },
     {
-      id: "llama3-8b",
-      name: "llama3-8b",
+      id: "liquid",
+      name: "Liquid",
       desc: t("m2d"),
       color: "var(--plasma)",
     },
     {
-      id: "mistral-7b",
-      name: "mistral-7b",
+      id: "trinity",
+      name: "Trinity",
       desc: t("m3d"),
       color: "var(--ice)",
     },

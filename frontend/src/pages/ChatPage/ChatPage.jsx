@@ -37,7 +37,7 @@ export default function ChatPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [profilePanelOpen, setProfilePanelOpen] = useState(false);
-  const [selectedModel, setSelectedModel] = useState("deepseek-chat");
+  const [selectedModel, setSelectedModel] = useState("nemotron");
 
   // Handle RTL direction based on language
   useEffect(() => {
