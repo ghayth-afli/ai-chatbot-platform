@@ -31,6 +31,14 @@ export default function Sidebar({
     navigate("/login");
   };
 
+  const handleCollapseClick = () => {
+    // On mobile, also close the sidebar when collapsing
+    onToggleCollapse();
+    if (window.innerWidth <= 768) {
+      onClose();
+    }
+  };
+
   return (
     <aside
       className={`${styles.sidebar} ${isOpen ? styles.mobOpen : ""} ${isCollapsed ? styles.collapsed : ""}`}
@@ -58,7 +66,7 @@ export default function Sidebar({
           </button>
           <button
             className={styles.collapseBtn}
-            onClick={onToggleCollapse}
+            onClick={handleCollapseClick}
             title={isCollapsed ? "Expand" : "Collapse"}
           >
             {isCollapsed ? (
