@@ -67,6 +67,24 @@ class Profile(models.Model):
 		return f"{self.user.username}'s Profile"
 
 
+# Signal to auto-create Profile when User is created
+@receiver(post_save, sender=User)
+def create_profile(sender, instance, created, **kwargs):
+	"""Auto-create Profile when User is created."""
+	if created:
+		Profile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_profile(sender, instance, **kwargs):
+	"""Auto-save Profile when User is saved."""
+	try:
+		instance.profile.save()
+	except Profile.DoesNotExist:
+		# If profile doesn't exist, create it
+		Profile.objects.create(user=instance)
+
+
 class VerificationCode(models.Model):
 	"""
 	Temporary codes for email verification and password reset with 10-minute expiration.

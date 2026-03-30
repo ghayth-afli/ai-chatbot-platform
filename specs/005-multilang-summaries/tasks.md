@@ -92,7 +92,7 @@ Setup (T001-T005)
   - Set: language_tag='en'
   - Verify: `SELECT COUNT(*) FROM chats_chatmessage WHERE language_tag='en'` returns message count
 
-- [ ] T013 Write and run test: Schema validation in `backend/ai/tests/test_models.py`
+- [x] T013 Write and run test: Schema validation in `backend/ai/tests/test_models.py`
   - Test: User model has `language_preference` field with correct choices
   - Test: ChatMessage model has `language_tag` field with correct choices
   - Test: ChatSession model has `language_tag` and `message_count` fields
@@ -138,7 +138,7 @@ Setup (T001-T005)
   - Update: `UserSerializer` to include `language_preference` field
   - File: `backend/ai/serializers.py`
 
-- [ ] T020 Write unit tests for services in `backend/ai/tests/test_services.py`
+- [x] T020 Write unit tests for services in `backend/ai/tests/test_services.py`
   - Test: `validate_language_code('en')` returns True
   - Test: `validate_language_code('ar')` returns True
   - Test: `validate_language_code('ja')` raises ValueError
