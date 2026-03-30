@@ -16,7 +16,7 @@
 | Phase 1 | Setup & Project Initialization                | Day 1      | T001-T005 | Not Started |
 | Phase 2 | Foundational Infrastructure                   | Days 1-3   | T006-T020 | Not Started |
 | Phase 3 | User Story 1: View AI Summaries (P1)          | Days 4-5   | T021-T028 | ✅ Complete |
-| Phase 4 | User Story 2: Chat in Preferred Language (P1) | Days 5-6   | T029-T036 | Not Started |
+| Phase 4 | User Story 2: Chat in Preferred Language (P1) | Days 5-6   | T029-T036 | ✅ Complete |
 | Phase 5 | User Story 3: Rate-Limited API (P2)           | Days 7-8   | T037-T043 | Not Started |
 | Phase 6 | User Story 4: Auto Summary Generation (P2)    | Days 8-9   | T044-T050 | Not Started |
 | Phase 7 | User Story 5: Language-Filtered History (P3)  | Days 10-11 | T051-T057 | Not Started |
@@ -247,7 +247,7 @@ Setup (T001-T005)
 
 ### Backend: Language Context in Chat
 
-- [ ] T029 [P] [US2] Extend POST `/api/chat/send` endpoint in `backend/ai/views.py`
+- [x] T029 [P] [US2] Extend POST `/api/chat/send` endpoint in `backend/ai/views.py`
   - Modify: Get language_tag from request.language (set by language_context middleware)
   - On ChatMessage creation: Automatically set `language_tag = request.language`
   - On ChatSession creation: Automatically set `language_tag = user.language_preference`
@@ -255,7 +255,7 @@ Setup (T001-T005)
   - AI prompt: Pass language context to AI service (will be handled in summary_service.py)
   - File: `backend/ai/views.py` (modify ChatSendView or similar)
 
-- [ ] T030 [P] [US2] Create language preference setter endpoint in `backend/ai/views.py`
+- [x] T030 [P] [US2] Create language preference setter endpoint in `backend/ai/views.py`
   - Endpoint: `PATCH /api/users/{user_id}/language-preference`
   - Body: `{ "language_preference": "ar" }`
   - Validate: Only accept 'en' or 'ar'
@@ -265,16 +265,16 @@ Setup (T001-T005)
   - Authentication: User can only update own preference
   - File: `backend/ai/views.py` (add LanguagePreferenceUpdateView class)
 
-- [ ] T031 [US2] Add endpoint URLs in `backend/ai/urls.py`
+- [x] T031 [US2] Add endpoint URLs in `backend/ai/urls.py`
   - Route: `path('api/users/<int:user_id>/language-preference', LanguagePreferenceUpdateView.as_view())`
 
-- [ ] T032 [US2] Create localized error messages in `backend/ai/services/language_service.py`
+- [x] T032 [US2] Create localized error messages in `backend/ai/services/language_service.py`
   - Error: 'invalid_language': "Language not supported" (English), "اللغة غير مدعومة" (Arabic)
   - Error: 'chat_error': "Failed to process your message" (English), "فشل معالجة رسالتك" (Arabic)
   - Error: 'session_error': "Failed to create chat session" (English), "فشل إنشاء جلسة الدردشة" (Arabic)
   - Function: Hardcode errors as dict OR read from JSON files in backend/i18n/
 
-- [ ] T033 [P] [US2] Update error responses in POST `/api/chat/send` to use localized messages
+- [x] T033 [P] [US2] Update error responses in POST `/api/chat/send` to use localized messages
   - Catch exceptions; determine user.language_preference
   - Return error message in user's language
   - Example: User with language_preference='ar' receives Arabic error message
@@ -282,20 +282,20 @@ Setup (T001-T005)
 
 ### Frontend: Language Selection & Chat Interface
 
-- [ ] T034 [P] [US2] Create language preference hook: `frontend/src/hooks/useLanguagePreference.ts`
+- [x] T034 [P] [US2] Create language preference hook: `frontend/src/hooks/useLanguagePreference.ts`
   - Hook: `useLanguagePreference()` returns { language, setLanguage, loading, error }
   - Get: From user context or localStorage initially
   - Set: Call `PATCH /api/users/{user_id}/language-preference` on change
   - Side effect: Change i18next language with `i18n.changeLanguage(language)`
   - Side effect: Set `html.dir = language === 'ar' ? 'rtl' : 'ltr'`
 
-- [ ] T035 [P] [US2] Extend LanguageSelector component: `frontend/src/features/profile/LanguageSelector.tsx`
+- [x] T035 [P] [US2] Extend LanguageSelector component: `frontend/src/features/profile/LanguageSelector.tsx`
   - Component: Dropdown with options: English, العربية
   - On change: Call `setLanguage()` from useLanguagePreference hook
   - Display: Currently selected language
   - Location: Profile page header or settings section
 
-- [ ] T036 [US2] Test language switching in `frontend/tests/LanguageSwitching.test.tsx`
+- [x] T036 [US2] Test language switching in `frontend/tests/LanguageSwitching.test.tsx`
   - Test: Switch from English to Arabic
   - Test: UI text changes to Arabic
   - Test: dir="rtl" applied to HTML

@@ -181,7 +181,7 @@ class ChatService:
 
     @staticmethod
     def send_message(user: User, session_id: int, message_text: str, 
-                    model: str = None) -> Dict[str, Any]:
+                    model: str = None, language: str = 'en') -> Dict[str, Any]:
         """
         Send a message to AI and save both user message and response.
 
@@ -190,6 +190,7 @@ class ChatService:
             session_id: Session ID
             message_text: User's message
             model: Optional model override (if None, uses session model)
+            language: Language for this message ('en' or 'ar'), defaults to 'en'
 
         Returns:
             Dict with response and update info
@@ -201,6 +202,10 @@ class ChatService:
         if len(message_text) > ChatService.MAX_MESSAGE_LENGTH:
             raise ValueError(f'Message exceeds {ChatService.MAX_MESSAGE_LENGTH} character limit')
 
+        # Validate language
+        if language not in ChatService.VALID_LANGUAGES:
+            language = 'en'  # Default to English if invalid
+
         # Get session and verify access
         try:
             session = ChatSession.objects.get(id=session_id)
@@ -210,19 +215,24 @@ class ChatService:
         if session.user != user:
             raise PermissionDenied('Access denied to this session')
 
+        # Set session language_tag on first message
+        is_first_message = not session.messages.exists()
+        if is_first_message and not session.language_tag:
+            session.language_tag = language
+
         # Determine which model to use
         ai_model = model or session.ai_model
         if ai_model not in ChatService.VALID_MODELS:
             raise ValueError(f'Invalid model: {ai_model}')
 
-        # Save user message
-        is_first_message = not session.messages.exists()
+        # Save user message with language_tag
         user_message = Message.objects.create(
             session=session,
             role='user',
             content=message_text,
+            language_tag=language,
         )
-        logger.info(f'Saved user message {user_message.id} to session {session_id}')
+        logger.info(f'Saved user message {user_message.id} to session {session_id} with language {language}')
 
         if is_first_message:
             ChatService._maybe_update_session_title(session, message_text)
@@ -239,15 +249,16 @@ class ChatService:
             logger.error(f'AI provider error: {ai_result["error"]}')
             raise RuntimeError(f'AI provider error: {ai_result["error"]}')
 
-        # Save AI response
+        # Save AI response with language_tag
         ai_response = ai_result['response']
         ai_message = Message.objects.create(
             session=session,
             role='assistant',
             content=ai_response,
             ai_model=ai_model,
+            language_tag=language,
         )
-        logger.info(f'Saved AI message {ai_message.id} to session {session_id}')
+        logger.info(f'Saved AI message {ai_message.id} to session {session_id} with language {language}')
 
         # Update session timestamp
         session.save()
@@ -257,6 +268,7 @@ class ChatService:
             'ai_message_id': ai_message.id,
             'response': ai_response,
             'model': ai_model,
+            'language': language,
             'tokens_used': ai_result.get('tokens', 0),
             'session_updated_at': session.updated_at.isoformat(),
             'session_title': session.title,

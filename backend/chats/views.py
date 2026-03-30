@@ -21,6 +21,7 @@ from django.http import HttpResponse
 from .models import ChatSession, Message
 from .serializers import ChatSessionSerializer, ChatSessionListSerializer, MessageSerializer
 from .services import ChatService
+from ai.services.language_service import LanguageService
 
 logger = logging.getLogger(__name__)
 
@@ -162,10 +163,13 @@ class ChatSessionViewSet(viewsets.ModelViewSet):
         try:
             message_text = request.data.get('message', '').strip()
             model = request.data.get('model')
+            # Get language from context (set by language_context middleware)
+            language = getattr(request, 'language', 'en') or 'en'
 
             if not message_text:
+                error_msg = LanguageService.get_localized_error_message('empty_message', language)
                 return Response(
-                    {'error': 'Message cannot be empty'},
+                    {'error': error_msg},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
@@ -174,29 +178,51 @@ class ChatSessionViewSet(viewsets.ModelViewSet):
                 session_id=int(pk),
                 message_text=message_text,
                 model=model,
+                language=language,
             )
 
             logger.info(f'Message sent successfully. Response: {result}')
             return Response(result, status=status.HTTP_200_OK)
         except ValueError as e:
             logger.warning(f'Bad message data: {str(e)}')
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            error_str = str(e)
+            # Map specific error messages to localized versions
+            if 'exceeds' in error_str.lower() and 'character' in error_str.lower():
+                # Message too long
+                error_msg = LanguageService.get_localized_error_message(
+                    'message_too_long', 
+                    language,
+                    max_length=5000
+                )
+            elif 'not found' in error_str.lower():
+                error_msg = LanguageService.get_localized_error_message(
+                    'session_not_found',
+                    language,
+                    session_id=pk
+                )
+            else:
+                error_msg = LanguageService.get_localized_error_message('chat_error', language)
+            
+            return Response({'error': error_msg}, status=status.HTTP_400_BAD_REQUEST)
         except PermissionDenied:
             logger.warning(f'User {request.user.id} denied send access to session {pk}')
+            error_msg = LanguageService.get_localized_error_message('access_denied', language)
             return Response(
-                {'error': 'Access denied'},
+                {'error': error_msg},
                 status=status.HTTP_403_FORBIDDEN,
             )
         except RuntimeError as e:
             logger.error(f'AI provider error: {str(e)}')
+            error_msg = LanguageService.get_localized_error_message('ai_provider_error', language)
             return Response(
-                {'error': 'AI provider error - please try again'},
+                {'error': error_msg},
                 status=status.HTTP_503_SERVICE_UNAVAILABLE,
             )
         except Exception as e:
             logger.error(f'Unexpected error sending message: {str(e)}')
+            error_msg = LanguageService.get_localized_error_message('chat_error', language)
             return Response(
-                {'error': 'Failed to send message'},
+                {'error': error_msg},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 

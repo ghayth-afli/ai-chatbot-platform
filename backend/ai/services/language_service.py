@@ -44,6 +44,22 @@ class LanguageService:
             'en': 'Message cannot be empty.',
             'ar': 'الرسالة لا يمكن أن تكون فارغة.'
         },
+        'message_too_long': {
+            'en': 'Message is too long. Maximum {max_length} characters allowed.',
+            'ar': 'الرسالة طويلة جداً. الحد الأقصى المسموح به {max_length} حرف.'
+        },
+        'access_denied': {
+            'en': 'Access denied. You do not have permission to perform this action.',
+            'ar': 'تم رفض الوصول. ليس لديك إذن لإجراء هذا الإجراء.'
+        },
+        'session_not_found': {
+            'en': 'Chat session not found. Session ID: {session_id}',
+            'ar': 'لم يتم العثور على جلسة الدردشة. معرّف الجلسة: {session_id}'
+        },
+        'ai_provider_error': {
+            'en': 'AI provider error. Please try again later.',
+            'ar': 'خطأ في موفر الذكاء الاصطناعي. يرجى المحاولة لاحقاً.'
+        },
         'rate_limit_error': {
             'en': 'You have exceeded the rate limit. Maximum 100 requests per minute allowed. Please try again in {seconds} seconds.',
             'ar': 'لقد تجاوزت حد معدل الطلب. يُسمح بحد أقصى 100 طلب في الدقيقة. يرجى المحاولة مرة أخرى خلال {seconds} ثانية.'
