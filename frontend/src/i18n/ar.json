@@ -332,5 +332,29 @@
   "pref_lang_val_en": "العربية",
   "pref_model": "النموذج المفضل",
   "pref_plan": "حالة الاشتراك",
-  "pref_plan_val": "مميز"
+  "pref_plan_val": "مميز",
+  "profile": {
+    "summary_title": "ملخص تفاعلاتك",
+    "summary_subtitle": "رؤى سريعة حول أنماط محادثاتك",
+    "no_summaries": "لا توجد ملخصات متاحة حتى الآن. ابدأ بالمحادثة لترى أنماط تفاعلاتك!",
+    "summaries_count": "{{count}} ملخصات",
+    "summaries_note": "يتم تحديث الملخصات تلقائياً أثناء محادثتك",
+    "language_en": "الإنجليزية",
+    "language_ar": "العربية"
+  },
+  "summary": {
+    "archive": "أرشفة",
+    "relevance": "الملاءمة",
+    "archived": "مؤرشفة"
+  },
+  "settings": {
+    "language": "اللغة"
+  },
+  "common": {
+    "loading": "جاري التحميل...",
+    "retry": "حاول مرة أخرى"
+  },
+  "error": {
+    "fetchSummaries": "فشل تحميل الملخصات. يرجى المحاولة مرة أخرى."
+  }
 }

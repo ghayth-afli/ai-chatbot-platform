@@ -430,6 +430,43 @@ html[dir="rtl"] .profilePanel.open {
   }
 }
 
+/* ════════ SUMMARIES SECTION ════════ */
+
+.ppSummariesSection {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.ppSummariesSection :global(.profile-summary) {
+  max-width: 100%;
+  padding: 0;
+}
+
+.ppSummariesSection :global(.profile-summary-header) {
+  flex-direction: column;
+  gap: 12px;
+  border: none;
+  padding: 0;
+}
+
+.ppSummariesSection :global(.header-title h2) {
+  font-size: 14px;
+  margin: 0;
+}
+
+.ppSummariesSection :global(.header-title .subtitle) {
+  display: none;
+}
+
+.ppSummariesSection :global(.language-selector) {
+  min-width: unset;
+}
+
+.ppSummariesSection :global(.summary-card) {
+  margin-bottom: 8px;
+}
+
 /* ════════ RTL SUPPORT ════════ */
 
 html[dir="rtl"] .ppPref {

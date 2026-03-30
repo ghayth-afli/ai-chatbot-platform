@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import ProfileSummary from "../../../components/ProfileSummary/ProfileSummary";
 import styles from "./ProfilePanel.module.css";
 
 /**
@@ -109,6 +110,13 @@ export default function ProfilePanel({
             </div>
           </div>
         </div>
+
+        {/* AI Summaries Section */}
+        {user?.id && (
+          <div className={styles.ppSummariesSection}>
+            <ProfileSummary userId={user.id} showLanguageSelector={false} />
+          </div>
+        )}
 
         {/* Logout Button */}
         <button className={styles.ppLogout} onClick={onLogout}>

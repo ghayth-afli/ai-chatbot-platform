@@ -173,7 +173,7 @@ Setup (T001-T005)
 
 ### Frontend: Profile Summary Component
 
-- [ ] T024 [P] [US1] Create React component: `frontend/src/components/ProfileSummary/ProfileSummary.tsx`
+- [x] T024 [P] [US1] Create React component: `frontend/src/components/ProfileSummary/ProfileSummary.tsx`
   - Component receives user_id as prop or from context
   - Fetch data from GET `/api/users/{user_id}/profile/summary`
   - Display summaries in list (newest first)
@@ -183,19 +183,19 @@ Setup (T001-T005)
   - Use `useUserSummaries()` hook (to be created in T025)
   - CSS: `frontend/src/components/ProfileSummary/ProfileSummary.css` (or Tailwind classes)
 
-- [ ] T025 [P] [US1] Create React hook: `frontend/src/hooks/useUserSummaries.ts`
+- [x] T025 [P] [US1] Create React hook: `frontend/src/hooks/useUserSummaries.ts`
   - Hook: `useUserSummaries(user_id)` returns { summaries, loading, error }
   - Fetch: `GET /api/users/{user_id}/profile/summary`
   - Caching: Optional 5-minute TTL caching using React Query or manual state
   - Pagination: Handle limit/offset if backend returns paginated results
 
-- [ ] T026 [P] [US1] Create SummaryCard component: `frontend/src/components/ProfileSummary/SummaryCard.tsx`
+- [x] T026 [P] [US1] Create SummaryCard component: `frontend/src/components/ProfileSummary/SummaryCard.tsx`
   - Props: summary object with { id, summary_text, language_tag, date_generated, archived }
   - Display: summary_text, language_tag badge (en/ar flag), date_generated formatted
   - Button: Archive button with onClick handler (to be wired in T043)
   - CSS: Inline or Tailwind classes
 
-- [ ] T027 [US1] Add i18n translations for profile summary
+- [x] T027 [US1] Add i18n translations for profile summary
   - File additions to `frontend/src/i18n/en.json`:
     ```json
     {
@@ -235,7 +235,7 @@ Setup (T001-T005)
     }
     ```
 
-- [ ] T028 [US1] Integrate ProfileSummary component into profile page: `frontend/src/features/profile/ProfilePage.tsx`
+- [x] T028 [US1] Integrate ProfileSummary component into profile page: `frontend/src/features/profile/ProfilePage.tsx`
   - Add import: `import ProfileSummary from '@/components/ProfileSummary/ProfileSummary'`
   - Add component to JSX: `<ProfileSummary user_id={currentUser.id} />`
   - Section should appear after user info, before other sections
