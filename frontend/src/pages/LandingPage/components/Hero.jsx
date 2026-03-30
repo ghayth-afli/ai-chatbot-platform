@@ -46,11 +46,9 @@ export default function Hero({ onNavigateChat }) {
           </div>
 
           <div className={styles.heroChips}>
-            <span className={`${styles.chip} ${styles.chipV}`}>
-              deepseek-chat
-            </span>
-            <span className={`${styles.chip} ${styles.chipP}`}>llama3-8b</span>
-            <span className={`${styles.chip} ${styles.chipI}`}>mistral-7b</span>
+            <span className={`${styles.chip} ${styles.chipV}`}>Nemotron</span>
+            <span className={`${styles.chip} ${styles.chipP}`}>Liquid</span>
+            <span className={`${styles.chip} ${styles.chipI}`}>Trinity</span>
             <span className={styles.chip}>{t("chip_lang")}</span>
             <span className={styles.chip}>{t("chip_hist")}</span>
           </div>
@@ -70,12 +68,12 @@ export default function Hero({ onNavigateChat }) {
  */
 function ChatCardPreview() {
   const { t } = useTranslation();
-  const [activeModel, setActiveModel] = useState("deepseek-chat");
+  const [activeModel, setActiveModel] = useState("Nemotron");
 
   const models = [
-    { name: "deepseek-chat", label: "deepseek", color: "var(--volt)" },
-    { name: "llama3-8b", label: "llama3", color: "var(--plasma)" },
-    { name: "mistral-7b", label: "mistral", color: "var(--ice)" },
+    { name: "Nemotron", label: "deepseek", color: "var(--volt)" },
+    { name: "Liquid", label: "llama3", color: "var(--plasma)" },
+    { name: "Trinity", label: "mistral", color: "var(--ice)" },
   ];
 
   return (

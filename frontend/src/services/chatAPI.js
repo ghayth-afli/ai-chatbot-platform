@@ -21,13 +21,18 @@ function getHeaders() {
  * Create a new chat session
  */
 export async function createChatSession(title = null, model = "nemotron") {
+  const payload = {
+    model,
+  };
+
+  if (title) {
+    payload.title = title;
+  }
+
   const response = await fetch(`${API_BASE_URL}/chat/`, {
     method: "POST",
     headers: getHeaders(),
-    body: JSON.stringify({
-      title: title || `Chat ${new Date().toLocaleDateString()}`,
-      model,
-    }),
+    body: JSON.stringify(payload),
   });
 
   if (!response.ok) {
@@ -132,6 +137,47 @@ export async function deleteChatSession(sessionId) {
   }
 
   return response.json();
+}
+
+/**
+ * Export a chat session as text or PDF
+ */
+export async function exportChatSession(
+  sessionId,
+  format = "text",
+  language = "en",
+) {
+  const params = new URLSearchParams({
+    format,
+    language,
+  });
+
+  const response = await fetch(
+    `${API_BASE_URL}/chat/${sessionId}/export/?${params.toString()}`,
+    {
+      method: "GET",
+      headers: getHeaders(),
+    },
+  );
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || "Failed to export chat session");
+  }
+
+  const blob = await response.blob();
+  const disposition = response.headers.get("Content-Disposition") || "";
+  let filename = `chat-${sessionId}.${format === "pdf" ? "pdf" : "txt"}`;
+  const match = disposition.match(/filename="?([^";]+)"?/i);
+  if (match && match[1]) {
+    filename = match[1];
+  }
+
+  return {
+    blob,
+    filename,
+    contentType: response.headers.get("Content-Type"),
+  };
 }
 
 /**

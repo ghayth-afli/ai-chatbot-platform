@@ -1,6 +1,33 @@
 import { useState, useCallback } from "react";
 import * as chatAPI from "../services/chatAPI";
 
+const TITLE_MAX_LENGTH = 60;
+const PLACEHOLDER_PREFIXES = ["chat", "new chat"];
+
+const isPlaceholderTitle = (title = "") => {
+  const normalized = title.trim().toLowerCase();
+  if (!normalized) {
+    return true;
+  }
+  return PLACEHOLDER_PREFIXES.some((prefix) => normalized.startsWith(prefix));
+};
+
+const buildTitlePreview = (text = "") => {
+  const cleaned = text.replace(/\s+/g, " ").trim();
+  if (!cleaned) {
+    return null;
+  }
+
+  if (cleaned.length <= TITLE_MAX_LENGTH) {
+    return cleaned[0].toUpperCase() + cleaned.slice(1);
+  }
+
+  const truncated = cleaned.slice(0, TITLE_MAX_LENGTH).trimEnd();
+  const lastSpace = truncated.lastIndexOf(" ");
+  const finalSlice = lastSpace > 20 ? truncated.slice(0, lastSpace) : truncated;
+  return `${finalSlice}…`;
+};
+
 /**
  * useChat Hook
  * Manages chat state and API communication with the backend
@@ -15,8 +42,9 @@ export function useChat() {
 
   // Send a message to the backend
   const sendMessage = useCallback(
-    async (message, model = "nemotron") => {
-      if (!currentSession) {
+    async (message, model = "nemotron", sessionOverride = null) => {
+      const sessionId = sessionOverride || currentSession;
+      if (!sessionId) {
         setError("No active chat session");
         return;
       }
@@ -35,12 +63,19 @@ export function useChat() {
 
         setMessages((prev) => [...prev, userMessage]);
 
+        const previewTitle = buildTitlePreview(message);
+        if (previewTitle) {
+          setChatSessions((prev) =>
+            prev.map((session) =>
+              session.id === sessionId && isPlaceholderTitle(session.title)
+                ? { ...session, title: previewTitle }
+                : session,
+            ),
+          );
+        }
+
         // Send to backend API
-        const response = await chatAPI.sendMessage(
-          currentSession,
-          message,
-          model,
-        );
+        const response = await chatAPI.sendMessage(sessionId, message, model);
 
         // Backend returns `response` + metadata instead of `ai_message`
         const aiContent = response.ai_message?.content || response.response;
@@ -55,6 +90,16 @@ export function useChat() {
           };
 
           setMessages((prev) => [...prev, aiMessage]);
+        }
+
+        if (response.session_title) {
+          setChatSessions((prev) =>
+            prev.map((session) =>
+              session.id === sessionId
+                ? { ...session, title: response.session_title }
+                : session,
+            ),
+          );
         }
 
         return response;
@@ -83,13 +128,11 @@ export function useChat() {
       const response = await chatAPI.createChatSession(title);
       const sessionId = response.id;
 
-      setCurrentSession(sessionId);
+      setCurrentSession((prev) => prev || sessionId);
       setMessages([]);
+      setChatSessions((prev) => [{ ...response }, ...prev]);
 
-      // Reload sessions list
-      await loadSessions();
-
-      return sessionId;
+      return response;
     } catch (err) {
       const errorMsg = err.message || "Failed to create session";
       setError(errorMsg);
@@ -97,6 +140,11 @@ export function useChat() {
     } finally {
       setIsLoading(false);
     }
+  }, []);
+
+  const resetActiveSession = useCallback(() => {
+    setCurrentSession(null);
+    setMessages([]);
   }, []);
 
   // Load list of chat sessions
@@ -187,6 +235,13 @@ export function useChat() {
     }
   }, []);
 
+  const exportSession = useCallback(
+    async (sessionId, format = "text", language = "en") => {
+      return chatAPI.exportChatSession(sessionId, format, language);
+    },
+    [],
+  );
+
   return {
     messages,
     isLoading,
@@ -195,9 +250,11 @@ export function useChat() {
     chatSessions,
     sendMessage,
     createSession,
+    resetActiveSession,
     loadChatHistory,
     loadSessions,
     deleteSession,
     updateModel,
+    exportSession,
   };
 }

@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { useChat } from "../../hooks/useChat";
 import { useWebSocket } from "../../hooks/useWebSocket";
@@ -20,7 +21,9 @@ import ProfilePanel from "./components/ProfilePanel";
  */
 export default function ChatPage() {
   const { i18n } = useTranslation();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const { sessionId: routeSessionId } = useParams();
   const {
     messages,
     sendMessage,
@@ -28,10 +31,12 @@ export default function ChatPage() {
     currentSession,
     chatSessions,
     createSession,
+    resetActiveSession,
     loadSessions,
     loadChatHistory,
     deleteSession,
     updateModel,
+    exportSession,
   } = useChat();
 
   // UI State
@@ -42,9 +47,37 @@ export default function ChatPage() {
   const [authToken, setAuthToken] = useState(() =>
     typeof window !== "undefined" ? localStorage.getItem("access_token") : null,
   );
-  const sessionInitializedRef = useRef(false);
-  const currentChatIsEmpty = Boolean(currentSession) && messages.length === 0;
-  const canCreateNewChat = !currentSession || !currentChatIsEmpty;
+  const canCreateNewChat = true;
+  const skipNextHistoryLoadRef = useRef(false);
+  const hasMessages = messages.length > 0;
+  const [isExporting, setIsExporting] = useState(false);
+
+  const profileStats = useMemo(() => {
+    const modelsUsed = new Set(
+      messages.map((message) => message.model).filter(Boolean),
+    );
+
+    return {
+      chats: chatSessions.length,
+      messages: messages.length,
+      models: modelsUsed.size,
+    };
+  }, [chatSessions, messages]);
+
+  const profilePreferences = useMemo(() => {
+    const planLabel =
+      user?.plan_status || user?.subscription_plan || user?.plan || "Free";
+
+    const formattedModel = selectedModel
+      ? selectedModel.charAt(0).toUpperCase() + selectedModel.slice(1)
+      : "";
+
+    return {
+      language: i18n.language === "ar" ? "Arabic" : "English",
+      model: formattedModel,
+      plan: planLabel,
+    };
+  }, [i18n.language, selectedModel, user]);
 
   // Handle RTL direction based on language
   useEffect(() => {
@@ -76,37 +109,38 @@ export default function ChatPage() {
       setAuthToken(localStorage.getItem("access_token"));
     };
 
-    sessionInitializedRef.current = false;
     syncToken();
     window.addEventListener("storage", syncToken);
     return () => window.removeEventListener("storage", syncToken);
   }, [user]);
 
-  // Auto-select or create a chat session so input is never disabled
+  // Load session from URL param when needed
   useEffect(() => {
-    if (!user || isLoading) {
+    if (!routeSessionId) {
       return;
     }
 
-    if (!currentSession && chatSessions.length > 0) {
-      sessionInitializedRef.current = true;
-      loadChatHistory(chatSessions[0].id);
-    } else if (
-      !currentSession &&
-      chatSessions.length === 0 &&
-      !sessionInitializedRef.current
-    ) {
-      sessionInitializedRef.current = true;
-      createSession();
+    if (skipNextHistoryLoadRef.current) {
+      skipNextHistoryLoadRef.current = false;
+      return;
     }
-  }, [
-    chatSessions,
-    currentSession,
-    isLoading,
-    loadChatHistory,
-    createSession,
-    user,
-  ]);
+
+    if (routeSessionId !== currentSession) {
+      loadChatHistory(routeSessionId);
+      return;
+    }
+
+    if (!hasMessages) {
+      loadChatHistory(routeSessionId);
+    }
+  }, [routeSessionId, currentSession, loadChatHistory, hasMessages]);
+
+  // Clear active session when URL has no id
+  useEffect(() => {
+    if (!routeSessionId && currentSession) {
+      resetActiveSession();
+    }
+  }, [routeSessionId, currentSession, resetActiveSession]);
 
   // Establish WebSocket connection when session + token available
   useWebSocket(currentSession, authToken, {
@@ -135,40 +169,111 @@ export default function ChatPage() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleSendMessage = (content) => {
-    if (!currentSession) {
-      console.warn("No active chat session");
-      return;
-    }
-    sendMessage(content, selectedModel);
-  };
+  const handleSendMessage = useCallback(
+    async (content) => {
+      let sessionId = currentSession;
 
-  const handleNewChat = async () => {
-    if (!canCreateNewChat) {
-      console.warn("Cannot create a new chat while the current chat is empty");
-      return;
-    }
+      if (!sessionId) {
+        const newSession = await createSession();
+        sessionId = newSession?.id;
+        if (!sessionId) {
+          console.warn("Unable to create a chat session");
+          return;
+        }
+        skipNextHistoryLoadRef.current = true;
+        navigate(`/chat/${sessionId}`);
+      } else if (routeSessionId !== sessionId) {
+        navigate(`/chat/${sessionId}`);
+      }
+
+      sendMessage(content, selectedModel, sessionId);
+    },
+    [
+      createSession,
+      currentSession,
+      navigate,
+      routeSessionId,
+      selectedModel,
+      sendMessage,
+    ],
+  );
+
+  const handleLogout = useCallback(async () => {
     try {
-      const sessionId = await createSession();
-      if (sessionId) {
-        setSidebarOpen(false); // Close sidebar on mobile after creating new chat
+      const result = await logout();
+      if (result?.success !== false) {
+        setProfilePanelOpen(false);
+        navigate("/login");
+      } else {
+        console.error("Logout failed", result?.error);
       }
     } catch (error) {
-      console.error("Error creating new chat:", error);
+      console.error("Unexpected logout error", error);
     }
-  };
+  }, [logout, navigate]);
 
-  const handleSelectChat = async (chatId) => {
-    await loadChatHistory(chatId);
-    setSidebarOpen(false); // Close sidebar on mobile after selecting chat
-  };
+  const handleNewChat = useCallback(() => {
+    navigate("/chat");
+    resetActiveSession();
+    setSidebarOpen(false);
+  }, [navigate, resetActiveSession, setSidebarOpen]);
 
-  const handleDeleteChat = async (chatId) => {
-    await deleteSession(chatId);
-    if (currentSession === chatId) {
-      // If deleted chat was current, list will be reloaded and currentSession set to null
-    }
-  };
+  const handleSelectChat = useCallback(
+    (chatId) => {
+      if (!chatId) {
+        return;
+      }
+
+      if (chatId !== routeSessionId) {
+        navigate(`/chat/${chatId}`);
+      }
+
+      setSidebarOpen(false);
+    },
+    [navigate, routeSessionId, setSidebarOpen],
+  );
+
+  const handleDeleteChat = useCallback(
+    async (chatId) => {
+      const wasCurrent = currentSession === chatId;
+      await deleteSession(chatId);
+      if (wasCurrent) {
+        navigate("/chat");
+      }
+    },
+    [currentSession, deleteSession, navigate],
+  );
+
+  const handleExportChat = useCallback(
+    async ({ format, language }) => {
+      if (!currentSession || isExporting) {
+        return;
+      }
+
+      try {
+        setIsExporting(true);
+        const { blob, filename } = await exportSession(
+          currentSession,
+          format,
+          language,
+        );
+
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      } catch (error) {
+        console.error("Failed to export chat", error);
+      } finally {
+        setIsExporting(false);
+      }
+    },
+    [currentSession, exportSession, isExporting],
+  );
 
   return (
     <div className={styles.app}>
@@ -185,6 +290,10 @@ export default function ChatPage() {
         currentChatId={currentSession}
         onSelectChat={handleSelectChat}
         onDeleteChat={handleDeleteChat}
+        onExportChat={handleExportChat}
+        exportDisabled={!currentSession || isExporting}
+        exportLoading={isExporting}
+        user={user}
       />
 
       {/* Main Content Area */}
@@ -197,6 +306,7 @@ export default function ChatPage() {
           onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
           isSidebarCollapsed={sidebarCollapsed}
           onOpenProfile={() => setProfilePanelOpen(true)}
+          onLogout={handleLogout}
         />
 
         {/* Messages Area */}
@@ -206,7 +316,7 @@ export default function ChatPage() {
         <InputArea
           onSendMessage={handleSendMessage}
           isLoading={isLoading}
-          disabled={!user || !currentSession}
+          disabled={!user}
         />
       </main>
 
@@ -214,7 +324,10 @@ export default function ChatPage() {
       <ProfilePanel
         isOpen={profilePanelOpen}
         onClose={() => setProfilePanelOpen(false)}
+        onLogout={handleLogout}
         user={user}
+        stats={profileStats}
+        preferences={profilePreferences}
       />
     </div>
   );

@@ -9,13 +9,19 @@ Contains ChatService class for handling chat operations:
 """
 
 import logging
+import re
+import textwrap
+from io import BytesIO
 from typing import Dict, List, Any, Optional
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.core.exceptions import PermissionDenied
+from django.utils import timezone
 
 from .models import ChatSession, Message
 from .router import dispatch_to_provider
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
 logger = logging.getLogger(__name__)
 
@@ -27,6 +33,30 @@ class ChatService:
     VALID_LANGUAGES = ['en', 'ar']
     MAX_MESSAGE_LENGTH = 5000
     PAGE_SIZE = 50
+    TITLE_MAX_LENGTH = 60
+    EXPORT_FORMATS = {'text', 'pdf'}
+    EXPORT_LABELS = {
+        'en': {
+            'file_prefix': 'chat',
+            'title_heading': 'Chat Transcript',
+            'session_title': 'Session',
+            'model_label': 'Model',
+            'created_label': 'Created',
+            'exported_label': 'Exported',
+            'user_label': 'You',
+            'assistant_label': 'Assistant',
+        },
+        'ar': {
+            'file_prefix': 'محادثة',
+            'title_heading': 'سجل المحادثة',
+            'session_title': 'الجلسة',
+            'model_label': 'النموذج',
+            'created_label': 'تاريخ الإنشاء',
+            'exported_label': 'تاريخ التصدير',
+            'user_label': 'أنت',
+            'assistant_label': 'المساعد',
+        },
+    }
 
     @staticmethod
     def create_session(user: User, title: str = None, model: str = 'nemotron', 
@@ -186,12 +216,16 @@ class ChatService:
             raise ValueError(f'Invalid model: {ai_model}')
 
         # Save user message
+        is_first_message = not session.messages.exists()
         user_message = Message.objects.create(
             session=session,
             role='user',
             content=message_text,
         )
         logger.info(f'Saved user message {user_message.id} to session {session_id}')
+
+        if is_first_message:
+            ChatService._maybe_update_session_title(session, message_text)
 
         # Get response from AI provider
         system_prompt = (
@@ -225,6 +259,7 @@ class ChatService:
             'model': ai_model,
             'tokens_used': ai_result.get('tokens', 0),
             'session_updated_at': session.updated_at.isoformat(),
+            'session_title': session.title,
         }
 
     @staticmethod
@@ -260,6 +295,204 @@ class ChatService:
             'messages_deleted': message_count,
         }
 
+    @staticmethod
+    def _finalize_title_candidate(candidate: str) -> Optional[str]:
+        if not candidate:
+            return None
+
+        cleaned = re.sub(r'\s+', ' ', candidate).strip().strip('"“”')
+        if not cleaned:
+            return None
+
+        if len(cleaned) > ChatService.TITLE_MAX_LENGTH:
+            truncated = cleaned[:ChatService.TITLE_MAX_LENGTH].rstrip()
+            last_space = truncated.rfind(' ')
+            if last_space > 20:
+                truncated = truncated[:last_space]
+            cleaned = f'{truncated}…'
+
+        return cleaned[0].upper() + cleaned[1:] if cleaned else None
+
+    @staticmethod
+    def _generate_session_title(message_text: str) -> Optional[str]:
+        """Create a short descriptive title from the first user message."""
+        if not message_text:
+            return None
+
+        cleaned = re.sub(r'\s+', ' ', message_text).strip()
+        if not cleaned:
+            return None
+
+        sentence_split = re.split(r'(?<=[.!?])\s', cleaned, maxsplit=1)
+        candidate = sentence_split[0]
+        return ChatService._finalize_title_candidate(candidate)
+
+    @staticmethod
+    def _request_ai_generated_title(message_text: str, ai_model: str) -> Optional[str]:
+        """Ask the AI provider for a concise title describing the conversation."""
+        preview = (message_text or '').strip()
+        if not preview:
+            return None
+
+        preview = re.sub(r'\s+', ' ', preview)
+        if len(preview) > 400:
+            preview = preview[:400].rstrip()
+
+        system_prompt = (
+            'You craft concise, human-friendly chat titles. '
+            'Return only the title, no quotes, max 7 words.'
+        )
+        user_prompt = (
+            'Create a short title that summarizes this request: '
+            f'{preview}'
+        )
+
+        try:
+            ai_result = dispatch_to_provider(ai_model, user_prompt, system_prompt)
+        except Exception as exc:
+            logger.warning('Failed to generate AI title: %s', exc)
+            return None
+
+        candidate = (ai_result or {}).get('response')
+        if candidate:
+            candidate = candidate.splitlines()[0]
+        return ChatService._finalize_title_candidate(candidate)
+
+    @staticmethod
+    def _has_placeholder_title(session: ChatSession) -> bool:
+        current = (session.title or '').strip().lower()
+        return not current or current.startswith('chat') or current.startswith('new chat')
+
+    @staticmethod
+    def _maybe_update_session_title(session: ChatSession, message_text: str) -> None:
+        """Update session title after the first message if still using a placeholder."""
+        if not ChatService._has_placeholder_title(session):
+            return
+
+        generated = (
+            ChatService._request_ai_generated_title(message_text, session.ai_model)
+            or ChatService._generate_session_title(message_text)
+        )
+        if not generated:
+            return
+
+        session.title = generated
+        session.save(update_fields=['title', 'updated_at'])
+
+    @staticmethod
+    def _slugify(value: str) -> str:
+        value = (value or '').strip().lower()
+        value = re.sub(r'[^a-z0-9\-\s_]+', '', value)
+        value = re.sub(r'\s+', '-', value)
+        return value.strip('-')
+
+    @staticmethod
+    def _wrap_text(text: str, width: int = 90) -> List[str]:
+        if not text:
+            return ['']
+        return textwrap.wrap(text, width=width) or ['']
+
+    @staticmethod
+    def _get_export_labels(language: str) -> Dict[str, str]:
+        return ChatService.EXPORT_LABELS.get(language, ChatService.EXPORT_LABELS['en'])
+
+    @staticmethod
+    def _render_pdf_document(metadata_lines: List[str], message_blocks: List[str]) -> bytes:
+        buffer = BytesIO()
+        pdf = canvas.Canvas(buffer, pagesize=letter)
+        width, height = letter
+        x_margin = 40
+        y = height - 50
+        line_height = 14
+
+        def draw_line(text: str):
+            nonlocal y
+            if y <= 50:
+                pdf.showPage()
+                y = height - 50
+            pdf.drawString(x_margin, y, text)
+            y -= line_height
+
+        pdf.setFont('Helvetica-Bold', 14)
+        draw_line(metadata_lines[0])
+        pdf.setFont('Helvetica', 10)
+        for line in metadata_lines[1:]:
+            draw_line(line)
+
+        draw_line(' ')
+
+        for block in message_blocks:
+            pdf.setFont('Helvetica-Bold', 10)
+            draw_line(block['header'])
+            pdf.setFont('Helvetica', 10)
+            for line in block['body']:
+                draw_line(line)
+            draw_line(' ')
+
+        pdf.save()
+        buffer.seek(0)
+        return buffer.getvalue()
+
+    @staticmethod
+    def export_session(
+        user: User,
+        session_id: int,
+        export_format: str = 'text',
+        language: str = 'en',
+    ) -> Dict[str, Any]:
+        if export_format not in ChatService.EXPORT_FORMATS:
+            raise ValueError('Invalid export format')
+
+        try:
+            session = ChatSession.objects.get(id=session_id)
+        except ChatSession.DoesNotExist:
+            raise ValueError(f'Session {session_id} not found')
+
+        if session.user != user:
+            raise PermissionDenied('Access denied to this session')
+
+        labels = ChatService._get_export_labels(language)
+        messages = session.messages.order_by('created_at')
+        localized_created = timezone.localtime(session.created_at).strftime('%Y-%m-%d %H:%M')
+        exported_at = timezone.localtime().strftime('%Y-%m-%d %H:%M')
+
+        metadata_lines = [
+            labels['title_heading'],
+            f"{labels['session_title']}: {session.title}",
+            f"{labels['model_label']}: {session.ai_model}",
+            f"{labels['created_label']}: {localized_created}",
+            f"{labels['exported_label']}: {exported_at}",
+        ]
+
+        message_blocks = []
+        for message in messages:
+            role_label = labels['user_label'] if message.role == 'user' else labels['assistant_label']
+            timestamp = timezone.localtime(message.created_at).strftime('%Y-%m-%d %H:%M')
+            header = f"{role_label} · {timestamp}"
+            body_lines = ChatService._wrap_text(message.content, width=90)
+            message_blocks.append({'header': header, 'body': body_lines})
+
+        if export_format == 'text':
+            lines = metadata_lines + ['']
+            for block in message_blocks:
+                lines.append(block['header'])
+                lines.extend(block['body'])
+                lines.append('')
+            content = '\n'.join(lines).strip() + '\n'
+            filename = f"{ChatService._slugify(session.title) or labels['file_prefix']}-{session.id}.txt"
+            return {
+                'content': content.encode('utf-8'),
+                'content_type': 'text/plain; charset=utf-8',
+                'filename': filename,
+            }
+
+        pdf_bytes = ChatService._render_pdf_document(metadata_lines, message_blocks)
+        filename = f"{ChatService._slugify(session.title) or labels['file_prefix']}-{session.id}.pdf"
+        return {
+            'content': pdf_bytes,
+            'content_type': 'application/pdf',
+            'filename': filename,
+        }
     @staticmethod
     def update_session_model(user: User, session_id: int, model: str) -> Dict[str, Any]:
         """
