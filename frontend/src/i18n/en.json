@@ -320,6 +320,8 @@
     "retry": "Try Again"
   },
   "error": {
-    "fetchSummaries": "Failed to load summaries. Please try again."
+    "fetchSummaries": "Failed to load summaries. Please try again.",
+    "rate_limit": "You've sent too many messages. Please wait {seconds} seconds before trying again.",
+    "rate_limit_short": "Rate limited. Try again in {seconds}s."
   }
 }

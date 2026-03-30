@@ -17,7 +17,7 @@
 | Phase 2 | Foundational Infrastructure                   | Days 1-3   | T006-T020 | Not Started |
 | Phase 3 | User Story 1: View AI Summaries (P1)          | Days 4-5   | T021-T028 | ✅ Complete |
 | Phase 4 | User Story 2: Chat in Preferred Language (P1) | Days 5-6   | T029-T036 | ✅ Complete |
-| Phase 5 | User Story 3: Rate-Limited API (P2)           | Days 7-8   | T037-T043 | Not Started |
+| Phase 5 | User Story 3: Rate-Limited API (P2)           | Days 7-8   | T037-T043 | ✅ Complete |
 | Phase 6 | User Story 4: Auto Summary Generation (P2)    | Days 8-9   | T044-T050 | Not Started |
 | Phase 7 | User Story 5: Language-Filtered History (P3)  | Days 10-11 | T051-T057 | Not Started |
 | Phase 8 | Testing, Integration & Deployment             | Days 12-15 | T058-T068 | Not Started |
@@ -308,7 +308,7 @@ Setup (T001-T005)
 
 ### Backend: Rate Limit Enforcement
 
-- [ ] T037 [P] [US3] Complete rate limiter middleware in `backend/common/middleware/rate_limiter.py`
+- [x] T037 [P] [US3] Complete rate limiter middleware in `backend/common/middleware/rate_limiter.py`
   - Limit: 100 requests per minute per user_id
   - Window: Sliding 60-second window
   - Counter storage: Django cache (in-memory cache.set/cache.get)
@@ -318,12 +318,12 @@ Setup (T001-T005)
   - Headers: X-RateLimit-Limit: 100, X-RateLimit-Remaining: N, Retry-After: 60
   - Localization: Error message in request.language (set by language_context middleware)
 
-- [ ] T038 [P] [US3] Add rate limit error localization in `backend/ai/services/language_service.py`
+- [x] T038 [P] [US3] Add rate limit error localization in `backend/ai/services/language_service.py`
   - Key 'rate_limit_error':
     - English: "You have exceeded the rate limit. Maximum 100 requests per minute allowed. Please try again in {retry_after} seconds."
     - Arabic: "لقد تجاوزت حد معدل الطلب. يُسمح بحد أقصى 100 طلب في الدقيقة. يرجى المحاولة مرة أخرى خلال {retry_after} ثانية."
 
-- [ ] T039 [US3] Create unit tests for rate limiter in `backend/common/tests/test_rate_limiter.py`
+- [x] T039 [US3] Create unit tests for rate limiter in `backend/common/tests/test_rate_limiter.py`
   - Test: First 100 requests succeed (status 200)
   - Test: Request 101 returns 429
   - Test: After 60 seconds, counter resets and request succeeds
@@ -333,13 +333,13 @@ Setup (T001-T005)
 
 ### Frontend: Rate Limit Error Handling
 
-- [ ] T040 [P] [US3] Add rate limit error handling in chat service: `frontend/src/services/chatService.ts`
+- [x] T040 [P] [US3] Add rate limit error handling in chat service: `frontend/src/services/chatService.ts`
   - On 429 response: Extract retry_after from response header or body
   - Display: Error message from i18n with retry time
   - Button: Show "Try again in {retry_after}s" (countdown timer)
   - Disable: Disable chat input during cooldown period
 
-- [ ] T041 [US3] Add rate limit error i18n keys
+- [x] T041 [US3] Add rate limit error i18n keys
   - File `frontend/src/i18n/en.json`:
     ```json
     {
@@ -359,13 +359,13 @@ Setup (T001-T005)
     }
     ```
 
-- [ ] T042 [US3] Create rate limit error component: `frontend/src/components/RateLimitError.tsx`
+- [x] T042 [US3] Create rate limit error component: `frontend/src/components/RateLimitError.tsx`
   - Props: { retryAfter: number }
   - Display: Countdown timer "Try again in {seconds}s"
   - Update: Decrement every second until 0
   - Button: "Retry" button enabled when counter reaches 0
 
-- [ ] T043 [US3] Test rate limit UI in `frontend/tests/e2e/RateLimiting.e2e.ts` (Playwright)
+- [x] T043 [US3] Test rate limit UI in `frontend/tests/e2e/RateLimiting.e2e.ts` (Playwright)
   - Test: Send 100+ rapid requests (bash loop)
   - Test: UI shows rate limit error
   - Test: Countdown timer appears and counts down

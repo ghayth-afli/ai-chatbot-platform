@@ -11,6 +11,7 @@
 ## Executive Summary
 
 Phase 4 successfully implements **User Story 2: Chat in Preferred Language**, enabling users to:
+
 - Send messages with automatic language tagging (en/ar)
 - Receive localized error messages in their preferred language
 - Switch language preferences with backend persistence
@@ -25,15 +26,17 @@ Phase 4 successfully implements **User Story 2: Chat in Preferred Language**, en
 ### ✅ **T029: Backend - Add language_tag to chat endpoints** (Backend)
 
 **File**: `backend/chats/services.py`  
-**Status**: COMPLETE ✅  
+**Status**: COMPLETE ✅
 
 **Implementation**:
+
 - Modified `ChatService.send_message()` to accept `language` parameter
 - Automatically sets `language_tag` on both user and AI messages
 - Sets `session.language_tag` on first message to preserve session language
 - Returns `language` in response payload
 
 **Changes**:
+
 ```python
 def send_message(user, session_id, message_text, model=None, language='en'):
   # ...
@@ -97,6 +100,7 @@ ERROR_MESSAGES = {
 ```
 
 **Method**: `get_localized_error_message(error_key, language, **format_kwargs)`
+
 - Returns localized error in user's language
 - Supports format interpolation (e.g., {seconds}, {max_length})
 - Falls back to English if translation missing
@@ -109,12 +113,14 @@ ERROR_MESSAGES = {
 **Status**: COMPLETE ✅
 
 **Implementation**:
+
 - Import `LanguageService` for message localization
 - In `send()` method, get language from `request.language` (set by middleware)
 - Map validation exceptions to specific error keys
 - Return localized error messages in user's language
 
 **Example Error Mapping**:
+
 ```python
 try:
   # ...
@@ -139,6 +145,7 @@ except ValueError as e:
 **Status**: COMPLETE ✅
 
 **Features**:
+
 - GET language from localStorage/browser default
 - PATCH to `/api/ai/users/{userId}/language-preference`
 - i18n.changeLanguage() integration
@@ -149,7 +156,8 @@ except ValueError as e:
 
 ### ✅ **T035: Frontend - LanguageSelector component** (Frontend)
 
-**Files**: 
+**Files**:
+
 - `frontend/src/components/LanguageSelector/LanguageSelector.jsx` (created)
 - `frontend/src/components/LanguageSelector/LanguageSelector.css` (created)
 
@@ -158,14 +166,11 @@ except ValueError as e:
 **Implementation**:
 
 ```jsx
-<LanguageSelector 
-  userId={currentUser.id}
-  compact={false}
-  showLabel={true}
-/>
+<LanguageSelector userId={currentUser.id} compact={false} showLabel={true} />
 ```
 
 **Features**:
+
 - ✅ Dropdown select with English/Arabic options
 - ✅ Calls `setLanguage()` from useLanguagePreference hook
 - ✅ Displays current language selection
@@ -176,6 +181,7 @@ except ValueError as e:
 - ✅ Mobile responsive
 
 **Styling**:
+
 - Clean material-design dropdown
 - Gradient accent focus state
 - Smooth transitions and hover effects
@@ -191,17 +197,17 @@ except ValueError as e:
 
 **Test Coverage** (10 test cases):
 
-| Test | Purpose | Status |
-|------|---------|--------|
-| Should switch from English to Arabic | Basic language change | ✅ |
-| Should apply dir="rtl" when switching to Arabic | RTL document layout | ✅ |
-| Should send API call to PATCH endpoint | Backend persistence | ✅ |
-| Should persist language in localStorage | Page reload persistence | ✅ |
-| Should display error message if change fails | Error handling | ✅ |
-| Should update UI text when language changes | i18n integration | ✅ |
-| Should show disabled state while loading | Loading state UI | ✅ |
-| Should handle undefined userId gracefully | Edge case handling | ✅ |
-| Should support compact mode | Responsive variants | ✅ |
+| Test                                            | Purpose                 | Status |
+| ----------------------------------------------- | ----------------------- | ------ |
+| Should switch from English to Arabic            | Basic language change   | ✅     |
+| Should apply dir="rtl" when switching to Arabic | RTL document layout     | ✅     |
+| Should send API call to PATCH endpoint          | Backend persistence     | ✅     |
+| Should persist language in localStorage         | Page reload persistence | ✅     |
+| Should display error message if change fails    | Error handling          | ✅     |
+| Should update UI text when language changes     | i18n integration        | ✅     |
+| Should show disabled state while loading        | Loading state UI        | ✅     |
+| Should handle undefined userId gracefully       | Edge case handling      | ✅     |
+| Should support compact mode                     | Responsive variants     | ✅     |
 
 **Test Framework**: Jest + React Testing Library  
 **Mocks**: axios, useLanguagePreference hook, i18next
@@ -211,27 +217,30 @@ except ValueError as e:
 ## Quality Metrics
 
 ### Backend Modifications
-| Metric | Value | Status |
-|--------|-------|--------|
-| Files Modified | 3 | ✅ PASS |
-| Functions Enhanced | 2 | ✅ PASS |
-| Error Messages | 6 new | ✅ PASS |
+
+| Metric                | Value               | Status  |
+| --------------------- | ------------------- | ------- |
+| Files Modified        | 3                   | ✅ PASS |
+| Functions Enhanced    | 2                   | ✅ PASS |
+| Error Messages        | 6 new               | ✅ PASS |
 | Localization Coverage | 2 languages (en/ar) | ✅ PASS |
 
 ### Frontend Components
-| Metric | Value | Status |
-|--------|-------|--------|
-| Components Created | 1 (LanguageSelector) | ✅ PASS |
-| CSS Styling | Complete with 5 breakpoints | ✅ PASS |
-| Tests | 10 test cases | ✅ PASS |
-| Build Status | No critical errors | ✅ PASS |
-| Bundle Size | 165.88 kB (unchanged) | ✅ PASS |
+
+| Metric             | Value                       | Status  |
+| ------------------ | --------------------------- | ------- |
+| Components Created | 1 (LanguageSelector)        | ✅ PASS |
+| CSS Styling        | Complete with 5 breakpoints | ✅ PASS |
+| Tests              | 10 test cases               | ✅ PASS |
+| Build Status       | No critical errors          | ✅ PASS |
+| Bundle Size        | 165.88 kB (unchanged)       | ✅ PASS |
 
 ---
 
 ## Architecture Decisions
 
 ### Language Context Flow
+
 ```
 Request → LanguageContextMiddleware (sets request.language)
   ↓
@@ -247,6 +256,7 @@ Response with localized error + language_tag in successful response
 ```
 
 ### Frontend Language Sync Flow
+
 ```
 LanguageSelector (component)
   ↓
@@ -268,12 +278,14 @@ localStorage['user_{id}_language']
 ## Tech Stack Summary
 
 ### Backend Enhancements
+
 - **Language Tagging**: SQLite indexed fields on Message, ChatSession models
 - **Localization**: LanguageService dict-based error messages (en/ar)
 - **Validation**: Language code validation with fallback to 'en'
 - **API Response**: Include language_tag in ChatService.send_message() response
 
 ### Frontend Additions
+
 - **Hook**: useLanguagePreference with caching and persistence
 - **Component**: LanguageSelector with accessibility features
 - **Styling**: CSS Modules with RTL support
@@ -284,11 +296,13 @@ localStorage['user_{id}_language']
 ## Files Created/Modified
 
 ### Created Files (5 total)
+
 1. ✅ `frontend/src/components/LanguageSelector/LanguageSelector.jsx` - Selector component
 2. ✅ `frontend/src/components/LanguageSelector/LanguageSelector.css` - Styling
 3. ✅ `frontend/tests/LanguageSwitching.test.jsx` - 10 unit tests
 
 ### Modified Files (3 total)
+
 1. ✅ `backend/chats/services.py` - Enhanced send_message() with language parameter
 2. ✅ `backend/chats/views.py` - Import LanguageService, localize error messages
 3. ✅ `backend/ai/services/language_service.py` - Added error message entries
@@ -308,9 +322,9 @@ Date:   Fri Mar 30 2026
     - Backend: Localized error messages (en/ar) with LanguageService
     - Frontend: LanguageSelector component with useLanguagePreference hook
     - Frontend: 10 language switching unit tests
-    
+
     Frontend build: 165.88 kB (gzip)
-    
+
     8 files changed, 643 insertions(+), 91 deletions(-)
 ```
 
@@ -319,6 +333,7 @@ Date:   Fri Mar 30 2026
 ## Testing Instructions
 
 ### Backend Verification
+
 ```bash
 # Check ChatService accepts language parameter
 cd backend
@@ -329,6 +344,7 @@ python -c "from ai.services.language_service import LanguageService; print(Langu
 ```
 
 ### Frontend Build
+
 ```bash
 cd frontend
 npm run build              # Should complete with no critical errors
@@ -336,6 +352,7 @@ npm test                   # Run test suite including LanguageSwitching tests
 ```
 
 ### Manual Testing (Browser)
+
 1. Send a message in English → should see message with `language_tag='en'` in network tab
 2. Switch language to Arabic using LanguageSelector
 3. Verify `dir="rtl"` applied to document
@@ -371,6 +388,7 @@ npm test                   # Run test suite including LanguageSwitching tests
 - Language switching end-to-end functional
 
 **Pre-deployment Checklist**:
+
 - ✅ Backend changes backward compatible (language defaults to 'en')
 - ✅ API responses include language_tag (new field non-breaking)
 - ✅ Frontend builds successfully
@@ -381,15 +399,15 @@ npm test                   # Run test suite including LanguageSwitching tests
 
 ## Summary Stats
 
-| Category | Count | Status |
-|----------|-------|--------|
-| Tasks Completed | 8/8 | ✅ 100% |
-| Backend Files Modified | 3 | ✅ Complete |
-| Frontend Components Created | 1 | ✅ Complete |
-| Frontend Tests | 10 cases | ✅ Complete |
-| Error Messages Localized | 6 keys | ✅ Complete |
-| Git Commits | 1 | ✅ Complete |
-| **Total Changes** | **5 files created, 3 modified** | ✅ Complete |
+| Category                    | Count                           | Status      |
+| --------------------------- | ------------------------------- | ----------- |
+| Tasks Completed             | 8/8                             | ✅ 100%     |
+| Backend Files Modified      | 3                               | ✅ Complete |
+| Frontend Components Created | 1                               | ✅ Complete |
+| Frontend Tests              | 10 cases                        | ✅ Complete |
+| Error Messages Localized    | 6 keys                          | ✅ Complete |
+| Git Commits                 | 1                               | ✅ Complete |
+| **Total Changes**           | **5 files created, 3 modified** | ✅ Complete |
 
 ---
 
