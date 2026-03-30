@@ -15,7 +15,7 @@
 | ------- | --------------------------------------------- | ---------- | --------- | ----------- |
 | Phase 1 | Setup & Project Initialization                | Day 1      | T001-T005 | Not Started |
 | Phase 2 | Foundational Infrastructure                   | Days 1-3   | T006-T020 | Not Started |
-| Phase 3 | User Story 1: View AI Summaries (P1)          | Days 4-5   | T021-T028 | Not Started |
+| Phase 3 | User Story 1: View AI Summaries (P1)          | Days 4-5   | T021-T028 | ✅ Complete |
 | Phase 4 | User Story 2: Chat in Preferred Language (P1) | Days 5-6   | T029-T036 | Not Started |
 | Phase 5 | User Story 3: Rate-Limited API (P2)           | Days 7-8   | T037-T043 | Not Started |
 | Phase 6 | User Story 4: Auto Summary Generation (P2)    | Days 8-9   | T044-T050 | Not Started |
