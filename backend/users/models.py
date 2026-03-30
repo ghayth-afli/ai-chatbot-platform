@@ -59,6 +59,7 @@ class Profile(models.Model):
 		choices=LANGUAGE_CHOICES,
 		default='en',
 	)
+	language_preference_updated_at = models.DateTimeField(auto_now=True, null=True)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 
