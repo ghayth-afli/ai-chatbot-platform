@@ -1,4 +1,17 @@
 # =========================
+# Project-specific excludes
+# =========================
+.github/
+.specify/
+specs/
+DEPLOYMENT_GUIDE.md
+QUICK_REFERENCE.md
+QUICK_START_GUIDE.md
+QUICK_TEST_GUIDE.md
+pytest.ini
+run.bat
+
+# =========================
 # Environment / Secrets
 # =========================
 .env
