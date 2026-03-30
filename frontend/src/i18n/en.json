@@ -176,6 +176,23 @@
     "feature3": "Fast",
     "feature3Desc": "Instant authentication and response"
   },
+  "chat": {
+    "history_all": "All Conversations",
+    "history_en": "English",
+    "history_ar": "Arabic",
+    "history_count": "{{count}} conversations",
+    "history_empty_title": "No conversations yet",
+    "history_empty_subtitle": "Start a chat to see it appear here.",
+    "history_eyebrow": "Timeline Intelligence",
+    "history_title": "Language-filtered conversation history",
+    "history_subtitle": "Zoom into English or Arabic conversations instantly, surface patterns, and jump back into any thread in seconds.",
+    "history_stat_total": "Total Conversations",
+    "history_stat_language": "Active Language",
+    "history_stat_user": "Signed in",
+    "history_prev": "Previous",
+    "history_next": "Next",
+    "history_open": "Open session"
+  },
   "nav_feat": "Features",
   "nav_mod": "Models",
   "nav_about": "About",
@@ -267,7 +284,6 @@
   "hist_label": "CHAT HISTORY",
   "no_chats": "No conversations yet. Start a new chat to begin!",
   "export_chat": "Export",
-  "settings": "Settings",
   "qa1": "Summarize this topic",
   "qa2": "Write professional email",
   "qa3": "Explain step by step",
@@ -297,5 +313,35 @@
   "pref_lang_val_en": "English",
   "pref_model": "Preferred Model",
   "pref_plan": "Plan Status",
-  "pref_plan_val": "Premium"
+  "pref_plan_val": "Premium",
+  "profile": {
+    "summary_title": "Your Interaction Summary",
+    "summary_subtitle": "Quick insights into your chat patterns",
+    "no_summaries": "No summaries available yet. Start chatting to see your interaction patterns!",
+    "no_summaries_progress": "You've started {{chats}} chats and sent {{messages}} messages.",
+    "no_summaries_hint_more": "Keep one conversation going for about {{threshold}} messages to unlock your first AI summary.",
+    "no_summaries_hint_ready": "Great progress! Once any chat reaches {{threshold}}+ messages we'll drop your first summary here automatically.",
+    "summaries_count": "{{count}} summaries",
+    "summaries_note": "Summaries are updated automatically as you chat",
+    "language_en": "English",
+    "language_ar": "Arabic"
+  },
+  "summary": {
+    "archive": "Archive",
+    "relevance": "Relevance",
+    "archived": "Archived"
+  },
+  "settings": {
+    "label": "Settings",
+    "language": "Language"
+  },
+  "common": {
+    "loading": "Loading...",
+    "retry": "Try Again"
+  },
+  "error": {
+    "fetchSummaries": "Failed to load summaries. Please try again.",
+    "rate_limit": "You've sent too many messages. Please wait {seconds} seconds before trying again.",
+    "rate_limit_short": "Rate limited. Try again in {seconds}s."
+  }
 }

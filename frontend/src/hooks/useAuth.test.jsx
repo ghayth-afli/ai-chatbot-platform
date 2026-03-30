@@ -12,10 +12,10 @@
 
 import React from "react";
 import { renderHook, act } from "@testing-library/react";
-import { AuthProvider, useAuth } from "../useAuth";
-import * as authService from "../../services/authService";
+import { AuthProvider, useAuth } from "./useAuth";
+import * as authService from "../services/authService";
 
-jest.mock("../../services/authService");
+jest.mock("../services/authService");
 
 const wrapper = ({ children }) => <AuthProvider>{children}</AuthProvider>;
 
@@ -106,6 +106,12 @@ describe("useAuth Hook", () => {
       is_verified: false,
     };
 
+    // Mock login first to set user state
+    authService.login.mockResolvedValue({
+      success: true,
+      data: { user: mockUser },
+    });
+
     authService.verifyEmail.mockResolvedValue({
       success: true,
       data: { message: "Verified" },
@@ -113,11 +119,12 @@ describe("useAuth Hook", () => {
 
     const { result } = renderHook(() => useAuth(), { wrapper });
 
-    // Set user state
-    act(() => {
-      localStorage.setItem("user", JSON.stringify(mockUser));
+    // Login to set user state
+    await act(async () => {
+      await result.current.login("test@example.com", "password");
     });
 
+    // Now verify email
     await act(async () => {
       await result.current.verifyEmail("test@example.com", "123456");
     });

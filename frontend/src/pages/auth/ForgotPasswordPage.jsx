@@ -130,11 +130,12 @@ const ForgotPasswordPage = () => {
 
           {/* Email Input */}
           <div className="form-group">
-            <label className="form-label">
+            <label className="form-label" htmlFor="forgot-email">
               {t("forms.email") || "Email Address"}
               <span className="required">*</span>
             </label>
             <input
+              id="forgot-email"
               type="email"
               name="email"
               placeholder="name@example.com"

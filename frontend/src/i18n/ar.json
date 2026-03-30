@@ -209,7 +209,22 @@
     "online": "متصل",
     "offline": "غير متصل",
     "lastMessage": "آخر رسالة",
-    "chatWith": "دردشة مع"
+    "chatWith": "دردشة مع",
+    "history_all": "جميع المحادثات",
+    "history_en": "English",
+    "history_ar": "العربية",
+    "history_count": "{{count}} محادثة",
+    "history_empty_title": "لا توجد محادثات بعد",
+    "history_empty_subtitle": "ابدأ الدردشة لتظهر هنا.",
+    "history_eyebrow": "تحليل الزمن",
+    "history_title": "سجل محادثات مفلتر حسب اللغة",
+    "history_subtitle": "انتقل فوراً إلى المحادثات الإنجليزية أو العربية، واكتشف الأنماط، وعد إلى أي جلسة خلال ثوانٍ.",
+    "history_stat_total": "إجمالي المحادثات",
+    "history_stat_language": "اللغة النشطة",
+    "history_stat_user": "المستخدم الحالي",
+    "history_prev": "السابق",
+    "history_next": "التالي",
+    "history_open": "فتح الجلسة"
   },
   "nav_feat": "المميزات",
   "nav_mod": "النماذج",
@@ -302,7 +317,6 @@
   "hist_label": "سجل الدردشة",
   "no_chats": "لا توجد محادثات بعد. ابدأ دردشة جديدة!",
   "export_chat": "تصدير",
-  "settings": "الإعدادات",
   "qa1": "ملخص هذا الموضوع",
   "qa2": "كتابة رسالة احترافية",
   "qa3": "شرح خطوة بخطوة",
@@ -332,5 +346,35 @@
   "pref_lang_val_en": "العربية",
   "pref_model": "النموذج المفضل",
   "pref_plan": "حالة الاشتراك",
-  "pref_plan_val": "مميز"
+  "pref_plan_val": "مميز",
+  "profile": {
+    "summary_title": "ملخص تفاعلاتك",
+    "summary_subtitle": "رؤى سريعة حول أنماط محادثاتك",
+    "no_summaries": "لا توجد ملخصات متاحة حتى الآن. ابدأ بالمحادثة لترى أنماط تفاعلاتك!",
+    "no_summaries_progress": "لقد بدأت {{chats}} محادثة وأرسلت {{messages}} رسالة.",
+    "no_summaries_hint_more": "واصل نفس المحادثة لما يقارب {{threshold}} رسائل لتحصل على أول ملخص ذكي.",
+    "no_summaries_hint_ready": "تقدم رائع! عندما تتجاوز أي محادثة {{threshold}} رسالة سنعرض الملخص هنا تلقائياً.",
+    "summaries_count": "{{count}} ملخصات",
+    "summaries_note": "يتم تحديث الملخصات تلقائياً أثناء محادثتك",
+    "language_en": "الإنجليزية",
+    "language_ar": "العربية"
+  },
+  "summary": {
+    "archive": "أرشفة",
+    "relevance": "الملاءمة",
+    "archived": "مؤرشفة"
+  },
+  "settings": {
+    "label": "الإعدادات",
+    "language": "اللغة"
+  },
+  "common": {
+    "loading": "جاري التحميل...",
+    "retry": "حاول مرة أخرى"
+  },
+  "error": {
+    "fetchSummaries": "فشل تحميل الملخصات. يرجى المحاولة مرة أخرى.",
+    "rate_limit": "لقد أرسلت الكثير من الرسائل. يرجى الانتظار {seconds} ثانية قبل المحاولة مرة أخرى.",
+    "rate_limit_short": "حد معدل. حاول مرة أخرى في {seconds}ث."
+  }
 }

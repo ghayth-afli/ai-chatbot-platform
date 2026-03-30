@@ -181,6 +181,39 @@ export async function exportChatSession(
 }
 
 /**
+ * Fetch chat history across sessions with optional language filter
+ */
+export async function getChatHistory({
+  language = null,
+  limit = 20,
+  offset = 0,
+} = {}) {
+  const params = new URLSearchParams();
+  if (language && language !== "all") {
+    params.set("language_filter", language);
+  }
+  params.set("limit", limit);
+  params.set("offset", offset);
+
+  const response = await fetch(
+    `${API_BASE_URL}/chat/history/?${params.toString()}`,
+    {
+      method: "GET",
+      headers: getHeaders(),
+    },
+  );
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(
+      error.detail || error.error || "Failed to load chat history",
+    );
+  }
+
+  return response.json();
+}
+
+/**
  * Health check
  */
 export async function healthCheck() {

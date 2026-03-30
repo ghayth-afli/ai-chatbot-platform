@@ -10,14 +10,15 @@
 import { renderHook, act, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
-import i18n from "../../i18n/config";
-import { AuthProvider, useAuth } from "../useAuth";
-import * as authService from "../../services/authService";
+import i18n from "../i18n/config";
+import { AuthProvider, useAuth } from "./useAuth";
+import * as authService from "../services/authService";
 
 // Mock authService
-jest.mock("../../services/authService", () => ({
+jest.mock("../services/authService", () => ({
   getCurrentUser: jest.fn(),
   logout: jest.fn(),
+  login: jest.fn(),
 }));
 
 const renderWithProviders = (hook) => {
@@ -46,6 +47,11 @@ describe("useAuth - Multi-Tab Logout", () => {
     authService.logout.mockResolvedValue({
       success: true,
       message: "Logged out",
+    });
+
+    authService.login.mockResolvedValue({
+      success: true,
+      data: { user: { id: 1, email: "user@example.com", is_verified: true } },
     });
   });
 

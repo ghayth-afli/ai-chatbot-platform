@@ -10,6 +10,7 @@
 # =========================
 backend/venv/
 venv/
+.venv/
 __pycache__/
 *.pyc
 *.pyo
@@ -18,6 +19,8 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 .coverage
+dist/
+*.egg-info/
 
 # =========================
 # Frontend (Node)
@@ -27,6 +30,11 @@ frontend/node_modules/
 frontend/.env.local
 frontend/build/
 frontend/dist/
+frontend/coverage/
+frontend/playwright-report/
+frontend/test-results/
+build/
+dist/
 
 # =========================
 # Logs

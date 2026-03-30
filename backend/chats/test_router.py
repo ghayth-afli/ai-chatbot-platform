@@ -2,6 +2,7 @@
 Tests for chat router - AI provider routing logic
 """
 
+import time
 import pytest
 from unittest.mock import patch, MagicMock
 from django.test import TestCase
@@ -12,11 +13,15 @@ from chats.router import (
     MODEL_PROVIDER_MAP,
     OPENROUTER_BASE_URL,
     GROQ_BASE_URL,
+    reset_openrouter_rate_limit_state,
 )
 
 
 class TestRouteToOpenRouter(TestCase):
     """Test OpenRouter provider routing"""
+
+    def setUp(self):
+        reset_openrouter_rate_limit_state()
 
     @patch('chats.router.requests.post')
     def test_route_to_openrouter_success(self, mock_post):
@@ -69,6 +74,74 @@ class TestRouteToOpenRouter(TestCase):
         )
 
         assert result['error'] is not None
+
+    @patch('chats.router.requests.post')
+    def test_route_to_openrouter_rate_limit_response(self, mock_post):
+        """Test OpenRouter provider rate limit handling."""
+        reset_time = int(time.time()) + 60
+        mock_response = MagicMock()
+        mock_response.status_code = 429
+        mock_response.text = 'Rate limited'
+        mock_response.headers = {
+            'X-RateLimit-Limit': '50',
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': str(reset_time),
+        }
+        mock_response.json.return_value = {
+            'error': {
+                'message': 'Rate limit exceeded',
+                'metadata': {
+                    'headers': {
+                        'X-RateLimit-Limit': '50',
+                        'X-RateLimit-Remaining': '0',
+                        'X-RateLimit-Reset': str(reset_time),
+                    },
+                },
+            },
+        }
+        mock_post.return_value = mock_response
+
+        result = route_to_openrouter('Nemotron-chat', 'Hello', 'You are helpful')
+
+        assert result['error_code'] == 'provider_rate_limit_error'
+        assert result['status_code'] == 429
+        assert result['retry_after_seconds'] >= 1
+        assert result['rate_limit_reset_iso'] is not None
+
+    @patch('chats.router.requests.post')
+    def test_route_to_openrouter_skips_during_cooldown(self, mock_post):
+        """Subsequent requests should short-circuit while rate limited."""
+        reset_time = int(time.time()) + 120
+        mock_response = MagicMock()
+        mock_response.status_code = 429
+        mock_response.text = 'Rate limited'
+        mock_response.headers = {
+            'X-RateLimit-Limit': '50',
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': str(reset_time),
+        }
+        mock_response.json.return_value = {
+            'error': {
+                'message': 'Rate limit exceeded',
+                'metadata': {
+                    'headers': {
+                        'X-RateLimit-Limit': '50',
+                        'X-RateLimit-Remaining': '0',
+                        'X-RateLimit-Reset': str(reset_time),
+                    },
+                },
+            },
+        }
+        mock_post.return_value = mock_response
+
+        first_result = route_to_openrouter('Nemotron-chat', 'Hello', 'You are helpful')
+        assert first_result['error_code'] == 'provider_rate_limit_error'
+        mock_post.assert_called_once()
+
+        second_result = route_to_openrouter('Nemotron-chat', 'Hello again', 'You are helpful')
+        assert second_result['error_code'] == 'provider_rate_limit_error'
+        assert second_result['rate_limit_source'] == 'cooldown'
+        mock_post.assert_called_once()
 
 
 class TestRouteToGroq(TestCase):

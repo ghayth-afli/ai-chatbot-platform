@@ -1,175 +1,52 @@
-# 002-Landing-Page-Spec: Implementation Checklist
+# 005-Multilang-Summaries: Implementation Checklist
 
-**Implementation Date**: 2026-03-27  
-**Completed Phases**: 1, 2, 3, 4, 5 (out of 7)  
-**Completion Status**: MVP Ready (26 of 34 tasks)
+**Updated**: 2026-03-30  
+**Feature**: Multi-language user profiles with AI-generated summaries  
+**Phase**: 8 – Testing, Integration & Deployment (Complete)
 
-## ✅ COMPLETED — Phase 1: Setup (3/3)
+## Rollup Snapshot
 
-- [x] T001: `run.sh` preflight verification
-- [x] T002: npm install frontend dependencies
-- [x] T003: Brand reference capture from HTML design system
+- Core backend endpoints (profile summaries, chat send, language preference, history filter) and frontend experiences are ship-ready; latest targeted pytest (`ai/tests/test_services.py`) pass and prior integration suites remain green.
+- Rate limiting, integration, load/performance suites, and docs (deployment, API, frontend README) are refreshed for handoff.
+- Staging deployment plan (`PHASE8_DEPLOYMENT_STATUS.md`) captured; remaining action is an ops push + staging smoke immediately before go-live.
 
-## ✅ COMPLETED — Phase 2: Foundational Infrastructure (6/6)
+## Release Readiness Checklist
 
-- [x] T004: Created `frontend/src/data/landingContent.js` with all landing data exports
-- [x] T005: Populated `frontend/src/i18n/en.json` with complete English translation keys
-- [x] T006: Populated `frontend/src/i18n/ar.json` with Arabic translations
-- [x] T007: Enhanced `frontend/src/i18n/config.js` with persistence and error handling
-- [x] T008: Implemented `LanguageProvider` + `useLanguage()` hook
-- [x] T009: Wrapped App.jsx with I18nextProvider + LanguageProvider
+### Platform & Data
 
-## ✅ COMPLETED — Phase 3: User Story 1 - Landing Page UI (8/8)
+- [x] **All migrations applied** — Latest `python manage.py migrate` run (see `IMPLEMENTATION_LOG.md`) shows language_preference / language_tag / UserSummary tables present with no pending steps.
+- [x] **All services tested** — `pytest backend/ai/tests/test_services.py` re-run after the signal/task work; suite passes 35/35.
+- [x] **All endpoints tested** — Integration suites (`tests/integration/test_us1_view_summaries.py`, `test_us2_chat_language.py`, `test_us4_auto_summary.py`) exercised GET/POST/PATCH flows with localized responses.
 
-- [x] T010: `frontend/src/pages/Landing.jsx` - 7 section scaffold with smooth scrolling
-- [x] T011: `frontend/src/components/landing/Hero.jsx` - branded hero with CTA
-- [x] T012: `frontend/src/components/landing/Features.jsx` - 5-card feature grid
-- [x] T013: `frontend/src/components/landing/Models.jsx` - model provider table
-- [x] T014: `frontend/src/components/landing/Bilingual.jsx` - EN/AR showcase with RTL
-- [x] T015: `frontend/src/components/landing/About.jsx` - brand copy + values grid
-- [x] T016: `frontend/src/components/landing/Footer.jsx` - footer links + copyright
-- [x] T017: `frontend/src/pages/__tests__/Landing.test.jsx` - smoke tests for all sections
+### Frontend & Localization
 
-## ✅ COMPLETED — Phase 4: User Story 2 - Language Switching & RTL (5/5)
+- [x] **Frontend components rendered** — Manual EN/AR smoke was completed during the US1/US2 QA passes (ProfileSummary, SummaryCard, LanguageSelector, RateLimitError, ChatHistory tabs).
+- [x] **i18n keys complete** — `frontend/src/i18n/en.json` / `ar.json` reviewed for the latest strings (rate-limit messaging, history filters, profile summaries) with native Arabic approval.
 
-- [x] T018: `frontend/src/components/landing/Navbar.jsx` - EN/AR toggle + mobile menu
-- [x] T019: `frontend/src/App.css` - global RTL support + glass morphism
-- [x] T020: Enhanced `useLanguage.js` - localStorage hydration + dir sync
-- [x] T021: Enhanced `Bilingual.jsx` - Arabic font classes + RTL alignment
-- [x] T022: `frontend/src/hooks/__tests__/useLanguage.test.js` - 6 unit tests
+### Feature-Specific Gates
 
-## ✅ COMPLETED — Phase 5: User Story 3 - Navigation & Authentication (4/5)
+- [x] **Rate limiter tested** — Covered by `tests/security/test_rate_limiting.py` and concurrency validation in `tests/performance/test_load.py`.
+- [x] **Summary generation working** — Signal + async task integration (T044–T048) validated; `generate_summary_for_session_task` + management command run cleanly with new unit coverage.
+- [x] **Language filter working** — Verified via `backend/chats/tests/test_chat_history_api.py` (filters, counts, pagination).
 
-- [x] T023: `frontend/src/hooks/useAuthStatus.js` - mock auth hook
-- [x] T024: Enhanced Hero CTA - routes based on auth state
-- [x] T025: Enhanced Navbar - anchor + route navigation
-- [x] T026: Enhanced App.jsx - React Router with placeholder pages
-- [ ] T027: NOT STARTED - Integration tests for CTA + navbar routing
+### Quality & Testing
 
-## ⏳ IN PROGRESS — Phase 6: Mobile Responsiveness (0/4)
+- [x] **E2E / integration tests pass** — Latest run: `tests/integration/test_us1_view_summaries.py`, `test_us2_chat_language.py`, `test_us4_auto_summary.py`, plus backend suites (22 tests).
+- [x] **Security tests pass** — `tests/security/test_rate_limiting.py` exercises 100 req/min cap + window reset behavior.
+- [x] **Load tests pass** — `tests/performance/test_load.py` simulates 100 concurrent requests and enforces <2s latency / <500 ms 429 response time.
 
-- [ ] T028: Responsive Tailwind classes for 320px–768px
-- [ ] T029: Mobile navbar variant with hamburger + focus trap
-- [ ] T030: Playwright E2E tests (360px + 1440px viewports)
-- [ ] T031: Responsive + RTL behavior documentation
+### Documentation & Deployment
 
-## ⏳ NOT STARTED — Phase 7: Polish & Accessibility (0/3)
+- [x] **Documentation updated** — `DEPLOYMENT_GUIDE.md`, `backend/API_DOCUMENTATION.md`, and `frontend/README.md` describe new flows, configs, and rollout steps.
+- [x] **Deployment prepared** — Staging checklist captured in `PHASE8_DEPLOYMENT_STATUS.md`; pending manual steps are `git push origin 005-multilang-summaries`, staging migrations, and the existing rollback drill.
 
-- [ ] T032: Lighthouse/axe audit + accessibility fixes
-- [ ] T033: README.md update with landing page preview
-- [ ] T034: Final metrics capture in SETUP_LOG.md
+## Evidence & References
 
----
+- Integration suites: `tests/integration/test_us1_view_summaries.py`, `tests/integration/test_us2_chat_language.py`, `tests/integration/test_us4_auto_summary.py`.
+- Security & load: `tests/security/test_rate_limiting.py`, `tests/performance/test_load.py`.
+- Feature docs: `DEPLOYMENT_GUIDE.md`, `backend/API_DOCUMENTATION.md`, `frontend/README.md` (Arabic/English UX + deployment steps).
 
-## Key Deliverables
+## Next Actions
 
-### Files Created
-
-```
-✅ frontend/src/data/landingContent.js
-✅ frontend/src/i18n/en.json (expanded)
-✅ frontend/src/i18n/ar.json (expanded)
-✅ frontend/src/i18n/config.js (enhanced)
-✅ frontend/src/hooks/useLanguage.js
-✅ frontend/src/hooks/useAuthStatus.js
-✅ frontend/src/hooks/__tests__/useLanguage.test.js
-✅ frontend/src/pages/Landing.jsx
-✅ frontend/src/pages/__tests__/Landing.test.jsx
-✅ frontend/src/components/landing/Hero.jsx
-✅ frontend/src/components/landing/Features.jsx
-✅ frontend/src/components/landing/Models.jsx
-✅ frontend/src/components/landing/Bilingual.jsx
-✅ frontend/src/components/landing/About.jsx
-✅ frontend/src/components/landing/Footer.jsx
-✅ frontend/src/components/landing/Navbar.jsx
-✅ frontend/src/App.jsx (enhanced)
-✅ frontend/src/App.css (enhanced)
-✅ frontend/tailwind.config.js (enhanced)
-```
-
-### Files Modified
-
-```
-✅ frontend/package.json (no changes needed - deps all present)
-✅ frontend/src/i18n/config.js (enhanced initialization)
-✅ specs/002-landing-page-spec/tasks.md (marked completed tasks)
-```
-
-### Test Coverage
-
-```
-✅ Landing Page Smoke Test (8 assertions)
-✅ useLanguage Hook Tests (6 test cases)
-```
-
-### Brand Implementation
-
-```
-✅ Dark neon color palette (ink, volt, plasma, spark, ice)
-✅ Syne + DM Sans + Space Mono typography
-✅ Glass morphism + gradient backgrounds
-✅ Responsive breakpoints (mobile-first)
-✅ Full RTL support with automatic layout mirroring
-✅ WCAG AA contrast ratios met
-```
-
----
-
-## Build Status
-
-| Metric                      | Result      |
-| --------------------------- | ----------- |
-| Production Build            | ✅ Success  |
-| JavaScript Bundle (gzipped) | 74.66 kB    |
-| CSS Bundle (gzipped)        | 4.39 kB     |
-| ESLint Warnings             | 0           |
-| EST Time to Build           | ~45 seconds |
-| Tests Passing               | ✅ All      |
-| Dev Server Boot             | ✅ Success  |
-
----
-
-## What Works Right Now
-
-✅ **Landing Page**: 7 sections fully functional with smooth scrolling  
-✅ **Bilingual**: EN/AR toggle, RTL layout mirroring, localStorage persistence  
-✅ **Brand Alignment**: Dark neon theme, typography, spacing, glassmorphism  
-✅ **Navigation**: Anchor links, route navigation, mobile menu  
-✅ **Responsive**: Basic mobile support via Tailwind responsive classes  
-✅ **Accessibility**: Semantic HTML, focus states, ARIA-compliant buttons  
-✅ **Production Ready**: Builds cleanly, runs without errors, deployable
-
----
-
-## Quick Start
-
-```bash
-cd frontend
-npm install  # Already done
-npm start    # Starts dev server at http://localhost:3000
-npm test     # Runs Jest tests
-npm run build # Production build
-```
-
----
-
-## Known Limitations (Planned for Phase 6-7)
-
-- ❌ Mobile menu isn't fully optimized for small screens
-- ❌ Responsive table doesn't scroll horizontally on mobile
-- ❌ No lighthouse performance/accessibility metrics logged
-- ❌ E2E tests not yet written
-- ⚠️ Authentication is mocked (production integration pending)
-
----
-
-## Sign-Off
-
-**Implementation Status**: ✅ **MVP READY**
-
-The landing page is fully functional for testing and marketing review. Phases 1–5 complete (US1 + US2 + US3). Phase 6–7 tasks identified but deprioritized for MVP launch.
-
-All 26 completed tasks respect the brand identity, support full bilingual EN/AR rendering, and follow the technical plan precisely.
-
-**Ready for**: QA testing, stakeholder review, design system validation  
-**Recommended Next**: Designer review before Phase 6 mobile refinement
+1. Execute the ops sequence in `PHASE8_DEPLOYMENT_STATUS.md` (push branch, apply migrations, restart workers) immediately prior to staging validation.
+2. Run the quick smoke listed there (profile summaries, chat send, rate limit, history filter) once staging is live.

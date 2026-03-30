@@ -53,6 +53,24 @@ export const sendMessage = async (sessionId, message, model = null) => {
   } catch (error) {
     console.error("❌ Error sending message:", error);
     console.error("Error response:", error.response?.data);
+
+    // Handle rate limit (429) errors specifically
+    if (error.response?.status === 429) {
+      const retryAfter =
+        error.response?.data?.retry_after ||
+        error.response?.headers?.["retry-after"] ||
+        60;
+
+      return {
+        success: false,
+        isRateLimited: true,
+        retryAfter,
+        error:
+          error.response?.data?.detail ||
+          "Rate limited. Please try again later.",
+      };
+    }
+
     return {
       success: false,
       error: error.response?.data?.error || "Failed to send message",

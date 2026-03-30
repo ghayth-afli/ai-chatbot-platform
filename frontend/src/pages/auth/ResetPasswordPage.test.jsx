@@ -1,5 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import { AuthProvider } from "../../hooks/useAuth";
 import ResetPasswordPage from "./ResetPasswordPage";
@@ -9,10 +10,35 @@ jest.mock("../../services/authService");
 
 // Mock i18n
 jest.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key) => key,
-    i18n: { language: "en" },
-  }),
+  useTranslation: () => {
+    const translations = {
+      "forms.resetCode": "Reset Code",
+      "forms.newPassword": "New Password",
+      "forms.confirmPassword": "Confirm Password",
+      "forms.passwordTooShort": "Password must be at least 8 characters",
+      "forms.passwordReq.length": "At least 8 characters",
+      "forms.passwordReq.uppercase": "One uppercase letter",
+      "forms.passwordReq.lowercase": "One lowercase letter",
+      "forms.passwordReq.number": "One number",
+      "forms.passwordReq.special": "One special character",
+      "forms.passwordMismatch": "Passwords do not match",
+      "forms.codeSixDigits": "Code must be 6 digits",
+      "auth.resetPassword": "Reset Password",
+      "auth.resetPasswordDescription": "Enter the reset code",
+      "auth.security": "Security",
+      "auth.securityWarning": "Never share this code.",
+      "auth.didNotReceiveCode": "Didn't receive the code?",
+      "auth.resendIn": "Resend in",
+      "auth.invalidCode": "Code has already been used",
+      "auth.codeExpired": "Code has expired",
+      "auth.resendFailed": "Failed to resend code",
+    };
+
+    return {
+      t: (key) => translations[key] || key,
+      i18n: { language: "en" },
+    };
+  },
 }));
 
 describe("ResetPasswordPage", () => {
@@ -145,7 +171,9 @@ describe("ResetPasswordPage", () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/at least 8 characters/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/password must be at least 8 characters/i),
+      ).toBeInTheDocument();
     });
   });
 

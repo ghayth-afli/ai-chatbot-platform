@@ -10,15 +10,47 @@
  * - Google OAuth
  */
 
-import * as authService from "../authService";
-import axios from "axios";
+import * as authService from "./authService";
 
-jest.mock("axios");
+var mockAuthClient;
+
+jest.mock("axios", () => {
+  mockAuthClient = {
+    post: jest.fn(),
+    get: jest.fn(),
+    patch: jest.fn(),
+    delete: jest.fn(),
+    defaults: {
+      headers: {
+        common: {},
+      },
+    },
+    interceptors: {
+      request: { use: jest.fn() },
+      response: { use: jest.fn() },
+    },
+  };
+
+  return {
+    create: jest.fn(() => mockAuthClient),
+    post: jest.fn(),
+  };
+});
+
+const resetAuthClientMocks = () => {
+  mockAuthClient.post.mockReset();
+  mockAuthClient.get.mockReset();
+  mockAuthClient.patch.mockReset();
+  if (mockAuthClient.delete) {
+    mockAuthClient.delete.mockReset();
+  }
+};
 
 describe("Auth Service", () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
+    resetAuthClientMocks();
   });
 
   describe("Signup", () => {
@@ -35,7 +67,7 @@ describe("Auth Service", () => {
         },
       };
 
-      axios.post.mockResolvedValue(mockResponse);
+      mockAuthClient.post.mockResolvedValue(mockResponse);
 
       const result = await authService.signup(
         "test@example.com",
@@ -44,6 +76,15 @@ describe("Auth Service", () => {
         "User",
       );
 
+      expect(mockAuthClient.post).toHaveBeenCalledWith(
+        "/signup/",
+        expect.objectContaining({
+          email: "test@example.com",
+          first_name: "Test",
+          last_name: "User",
+          language: "en",
+        }),
+      );
       expect(result.success).toBe(true);
       expect(result.data.user.email).toBe("test@example.com");
     });
@@ -58,7 +99,7 @@ describe("Auth Service", () => {
         },
       };
 
-      axios.post.mockRejectedValue(mockError);
+      mockAuthClient.post.mockRejectedValue(mockError);
 
       const result = await authService.signup(
         "existing@example.com",
@@ -83,10 +124,11 @@ describe("Auth Service", () => {
             is_verified: true,
           },
           access_token: "mock_token_123",
+          refresh_token: "mock_refresh_456",
         },
       };
 
-      axios.post.mockResolvedValue(mockResponse);
+      mockAuthClient.post.mockResolvedValue(mockResponse);
 
       const result = await authService.login(
         "test@example.com",
@@ -96,6 +138,8 @@ describe("Auth Service", () => {
       expect(result.success).toBe(true);
       expect(result.data.user.email).toBe("test@example.com");
       expect(localStorage.getItem("user")).toBeDefined();
+      expect(localStorage.getItem("access_token")).toBe("mock_token_123");
+      expect(localStorage.getItem("refresh_token")).toBe("mock_refresh_456");
     });
 
     it("should handle invalid credentials", async () => {
@@ -108,7 +152,7 @@ describe("Auth Service", () => {
         },
       };
 
-      axios.post.mockRejectedValue(mockError);
+      mockAuthClient.post.mockRejectedValue(mockError);
 
       const result = await authService.login(
         "test@example.com",
@@ -128,7 +172,7 @@ describe("Auth Service", () => {
         },
       };
 
-      axios.post.mockResolvedValue(mockResponse);
+      mockAuthClient.post.mockResolvedValue(mockResponse);
 
       const result = await authService.verifyEmail(
         "test@example.com",
@@ -148,7 +192,7 @@ describe("Auth Service", () => {
         },
       };
 
-      axios.post.mockRejectedValue(mockError);
+      mockAuthClient.post.mockRejectedValue(mockError);
 
       const result = await authService.verifyEmail(
         "test@example.com",
@@ -168,12 +212,15 @@ describe("Auth Service", () => {
         },
       };
 
-      axios.post.mockResolvedValue(mockResponse);
+      mockAuthClient.post.mockResolvedValue(mockResponse);
 
       const result = await authService.forgotPassword("test@example.com");
 
       expect(result.success).toBe(true);
-      expect(localStorage.getItem("resetEmail")).toBe("test@example.com");
+      expect(mockAuthClient.post).toHaveBeenCalledWith(
+        "/forgot-password/",
+        expect.objectContaining({ email: "test@example.com", language: "en" }),
+      );
     });
 
     it("should reset password with valid code", async () => {
@@ -183,7 +230,7 @@ describe("Auth Service", () => {
         },
       };
 
-      axios.post.mockResolvedValue(mockResponse);
+      mockAuthClient.post.mockResolvedValue(mockResponse);
 
       const result = await authService.resetPassword(
         "test@example.com",

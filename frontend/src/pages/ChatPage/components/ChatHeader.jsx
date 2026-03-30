@@ -179,7 +179,7 @@ export default function ChatHeader({
         <button
           className={styles.profileBtn}
           onClick={onOpenProfile}
-          title="Profile"
+          title={t("nav.profile", "Profile")}
         >
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <circle
@@ -196,7 +196,7 @@ export default function ChatHeader({
               strokeLinecap="round"
             />
           </svg>
-          <span>{t("profile")}</span>
+          <span>{t("nav.profile", "Profile")}</span>
         </button>
       </div>
     </header>

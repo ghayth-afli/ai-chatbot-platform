@@ -216,19 +216,21 @@ const VerifyEmailPage = () => {
 
           {/* Code Input */}
           <div className="form-group">
-            <label className="form-label">
+            <label className="form-label" htmlFor="verification-code">
               {t("forms.verificationCode") || "Verification Code"}
               <span className="required">*</span>
             </label>
             <input
               type="text"
               name="code"
+              id="verification-code"
               placeholder="000000"
               value={code}
               onChange={handleCodeChange}
               className="form-input"
               maxLength="6"
               required
+              aria-label={t("forms.verificationCode") || "Verification Code"}
             />
             {errors.code && <span className="form-error">{errors.code}</span>}
           </div>

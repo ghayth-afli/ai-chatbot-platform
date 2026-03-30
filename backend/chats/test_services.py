@@ -6,6 +6,7 @@ import pytest
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+from django.core.exceptions import PermissionDenied
 from unittest.mock import patch, MagicMock
 
 from chats.models import ChatSession, Message
@@ -232,6 +233,35 @@ class TestChatService(TestCase):
         assert not result['success']
         assert 'error' in result
 
+    @patch('chats.services.dispatch_to_provider')
+    def test_send_message_ai_rate_limit_error(self, mock_dispatch):
+        """Test sending message when AI provider hits its rate limit."""
+        mock_dispatch.return_value = {
+            'error': 'Rate limit exceeded',
+            'error_code': 'provider_rate_limit_error',
+            'status_code': 429,
+            'retry_after_seconds': 120,
+            'rate_limit_reset_iso': '2026-03-31T00:00:00+00:00',
+        }
+
+        session = ChatSession.objects.create(
+            user=self.user,
+            title='Test',
+            ai_model='Nemotron',
+        )
+
+        result = self.service.send_message(
+            user=self.user,
+            session_id=session.id,
+            message_text='Hello',
+            model='Nemotron',
+        )
+
+        assert not result['success']
+        assert result['error_code'] == 'provider_rate_limit_error'
+        assert result['status_code'] == 429
+        assert result['retry_after_seconds'] == 120
+
     def test_delete_session(self):
         """Test deleting a session"""
         session = ChatSession.objects.create(
@@ -266,9 +296,9 @@ class TestChatService(TestCase):
             ai_model='Nemotron',
         )
 
-        result = self.service.delete_session(self.user, session.id)
+        with self.assertRaises(PermissionDenied):
+            self.service.delete_session(self.user, session.id)
 
-        assert not result['success']
         assert ChatSession.objects.filter(id=session.id).exists()
 
     def test_update_session_model(self):

@@ -29,7 +29,12 @@ logger = logging.getLogger(__name__)
 class ChatService:
     """Service class for chat operations."""
 
-    VALID_MODELS = ['nemotron', 'liquid', 'trinity']
+    MODEL_NAME_MAP = {
+        'nemotron': 'Nemotron',
+        'liquid': 'Liquid',
+        'trinity': 'Trinity',
+    }
+    VALID_MODELS = list(MODEL_NAME_MAP.values())
     VALID_LANGUAGES = ['en', 'ar']
     MAX_MESSAGE_LENGTH = 5000
     PAGE_SIZE = 50
@@ -58,6 +63,38 @@ class ChatService:
         },
     }
 
+    @classmethod
+    def _normalize_model_choice(cls, raw_model: Optional[str]) -> Optional[str]:
+        """Return canonical model name if supported (case-insensitive)."""
+        if raw_model is None:
+            return None
+        key = raw_model.strip().lower()
+        if not key:
+            return None
+        return cls.MODEL_NAME_MAP.get(key)
+
+    @classmethod
+    def _require_valid_model(cls, raw_model: Optional[str]) -> str:
+        """Validate and return canonical model name or raise ValueError."""
+        canonical = cls._normalize_model_choice(raw_model)
+        if not canonical:
+            raise ValueError(f'Invalid model: {raw_model}')
+        return canonical
+
+    @staticmethod
+    def _error_result(message: str, *, status_code: int = 400, error_code: Optional[str] = None, **extra: Any) -> Dict[str, Any]:
+        """Standard error payload for service operations."""
+        result: Dict[str, Any] = {
+            'success': False,
+            'error': message,
+            'status_code': status_code,
+        }
+        if error_code:
+            result['error_code'] = error_code
+        if extra:
+            result.update(extra)
+        return result
+
     @staticmethod
     def create_session(user: User, title: str = None, model: str = 'nemotron', 
                       language: str = 'en') -> Dict[str, Any]:
@@ -73,8 +110,7 @@ class ChatService:
         Returns:
             Dict with session data
         """
-        if model not in ChatService.VALID_MODELS:
-            raise ValueError(f'Invalid model: {model}')
+        canonical_model = ChatService._require_valid_model(model)
 
         if language not in ChatService.VALID_LANGUAGES:
             raise ValueError(f'Invalid language: {language}')
@@ -87,7 +123,7 @@ class ChatService:
         session = ChatSession.objects.create(
             user=user,
             title=title,
-            ai_model=model,
+            ai_model=canonical_model,
         )
 
         logger.info(f'Created chat session {session.id} for user {user.id}')
@@ -96,6 +132,7 @@ class ChatService:
             'id': session.id,
             'title': session.title,
             'model': session.ai_model,
+            'ai_model': session.ai_model,
             'language': language,
             'created_at': session.created_at.isoformat(),
             'updated_at': session.updated_at.isoformat(),
@@ -123,6 +160,7 @@ class ChatService:
                 'id': session.id,
                 'title': session.title,
                 'model': session.ai_model,
+                'ai_model': session.ai_model,
                 'created_at': session.created_at.isoformat(),
                 'updated_at': session.updated_at.isoformat(),
                 'message_count': session.messages.count(),
@@ -151,13 +189,31 @@ class ChatService:
         try:
             session = ChatSession.objects.get(id=session_id)
         except ChatSession.DoesNotExist:
-            raise ValueError(f'Session {session_id} not found')
+            return ChatService._error_result(
+                f'Session {session_id} not found',
+                status_code=404,
+                error_code='session_not_found',
+                session_id=session_id,
+                messages=[],
+                total_count=0,
+                total_pages=0,
+                page=1,
+            )
 
         # Verify user owns this session
         if session.user != user:
-            raise PermissionDenied('Access denied to this session')
+            return ChatService._error_result(
+                'Access denied to this session',
+                status_code=403,
+                error_code='access_denied',
+                session_id=session_id,
+                messages=[],
+                total_count=0,
+                total_pages=0,
+                page=1,
+            )
 
-        messages_qs = session.messages.all().order_by('created_at')
+        messages_qs = session.messages.all().order_by('created_at', 'id')
         paginator = Paginator(messages_qs, ChatService.PAGE_SIZE)
         page_obj = paginator.get_page(page)
 
@@ -168,6 +224,7 @@ class ChatService:
                 'role': message.role,
                 'content': message.content,
                 'model': message.ai_model,
+                'ai_model': message.ai_model,
                 'created_at': message.created_at.isoformat(),
             })
 
@@ -181,7 +238,7 @@ class ChatService:
 
     @staticmethod
     def send_message(user: User, session_id: int, message_text: str, 
-                    model: str = None) -> Dict[str, Any]:
+                    model: str = None, language: str = 'en') -> Dict[str, Any]:
         """
         Send a message to AI and save both user message and response.
 
@@ -190,39 +247,78 @@ class ChatService:
             session_id: Session ID
             message_text: User's message
             model: Optional model override (if None, uses session model)
+            language: Language for this message ('en' or 'ar'), defaults to 'en'
 
         Returns:
             Dict with response and update info
         """
+        message_text = (message_text or '').strip()
+
         # Validate message
-        if not message_text or not message_text.strip():
-            raise ValueError('Message cannot be empty')
+        if not message_text:
+            return ChatService._error_result(
+                'Message cannot be empty',
+                status_code=400,
+                error_code='message_empty',
+                language=language,
+            )
 
         if len(message_text) > ChatService.MAX_MESSAGE_LENGTH:
-            raise ValueError(f'Message exceeds {ChatService.MAX_MESSAGE_LENGTH} character limit')
+            return ChatService._error_result(
+                f'Message exceeds {ChatService.MAX_MESSAGE_LENGTH} character limit',
+                status_code=400,
+                error_code='message_too_long',
+                language=language,
+            )
+
+        # Validate language
+        if language not in ChatService.VALID_LANGUAGES:
+            language = 'en'  # Default to English if invalid
 
         # Get session and verify access
         try:
             session = ChatSession.objects.get(id=session_id)
         except ChatSession.DoesNotExist:
-            raise ValueError(f'Session {session_id} not found')
+            return ChatService._error_result(
+                f'Session {session_id} not found',
+                status_code=404,
+                error_code='session_not_found',
+                language=language,
+            )
 
         if session.user != user:
-            raise PermissionDenied('Access denied to this session')
+            return ChatService._error_result(
+                'Access denied to this session',
+                status_code=403,
+                error_code='access_denied',
+                language=language,
+            )
+
+        # Set session language_tag on first message
+        is_first_message = not session.messages.exists()
+        if is_first_message and not session.language_tag:
+            session.language_tag = language
 
         # Determine which model to use
-        ai_model = model or session.ai_model
-        if ai_model not in ChatService.VALID_MODELS:
-            raise ValueError(f'Invalid model: {ai_model}')
+        ai_model_input = model or session.ai_model
+        try:
+            canonical_model = ChatService._require_valid_model(ai_model_input)
+        except ValueError as exc:
+            return ChatService._error_result(
+                str(exc),
+                status_code=400,
+                error_code='invalid_model',
+                language=language,
+            )
 
-        # Save user message
-        is_first_message = not session.messages.exists()
+        # Save user message with language_tag
         user_message = Message.objects.create(
             session=session,
             role='user',
             content=message_text,
+            language_tag=language,
         )
-        logger.info(f'Saved user message {user_message.id} to session {session_id}')
+        logger.info(f'Saved user message {user_message.id} to session {session_id} with language {language}')
 
         if is_first_message:
             ChatService._maybe_update_session_title(session, message_text)
@@ -233,21 +329,34 @@ class ChatService:
             'Provide accurate information and admit when you don\'t know something.'
         )
 
-        ai_result = dispatch_to_provider(ai_model, message_text, system_prompt)
+        ai_result = dispatch_to_provider(canonical_model, message_text, system_prompt)
 
         if 'error' in ai_result:
             logger.error(f'AI provider error: {ai_result["error"]}')
-            raise RuntimeError(f'AI provider error: {ai_result["error"]}')
+            error_code = ai_result.get('error_code', 'ai_provider_error')
+            status_code = ai_result.get('status_code', 503)
+            extra_kwargs = {'language': language}
+            if 'retry_after_seconds' in ai_result:
+                extra_kwargs['retry_after_seconds'] = ai_result['retry_after_seconds']
+            if 'rate_limit_reset_iso' in ai_result:
+                extra_kwargs['rate_limit_reset_iso'] = ai_result['rate_limit_reset_iso']
+            return ChatService._error_result(
+                ai_result['error'],
+                status_code=status_code,
+                error_code=error_code,
+                **extra_kwargs,
+            )
 
-        # Save AI response
+        # Save AI response with language_tag
         ai_response = ai_result['response']
         ai_message = Message.objects.create(
             session=session,
             role='assistant',
             content=ai_response,
-            ai_model=ai_model,
+            ai_model=canonical_model,
+            language_tag=language,
         )
-        logger.info(f'Saved AI message {ai_message.id} to session {session_id}')
+        logger.info(f'Saved AI message {ai_message.id} to session {session_id} with language {language}')
 
         # Update session timestamp
         session.save()
@@ -256,10 +365,14 @@ class ChatService:
             'user_message_id': user_message.id,
             'ai_message_id': ai_message.id,
             'response': ai_response,
-            'model': ai_model,
+            'model': canonical_model,
+            'ai_model': canonical_model,
+            'language': language,
             'tokens_used': ai_result.get('tokens', 0),
             'session_updated_at': session.updated_at.isoformat(),
             'session_title': session.title,
+            'success': True,
+            'status_code': 200,
         }
 
     @staticmethod
@@ -276,8 +389,8 @@ class ChatService:
         """
         try:
             session = ChatSession.objects.get(id=session_id)
-        except ChatSession.DoesNotExist:
-            raise ValueError(f'Session {session_id} not found')
+        except ChatSession.DoesNotExist as exc:
+            raise ValueError(f'Session {session_id} not found') from exc
 
         if session.user != user:
             raise PermissionDenied('Access denied to this session')
@@ -289,6 +402,7 @@ class ChatService:
         logger.info(f'Deleted session {session_id} ({message_count} messages)')
 
         return {
+            'success': True,
             'status': 'deleted',
             'session_id': session_id,
             'session_title': session_title,
@@ -446,10 +560,18 @@ class ChatService:
         try:
             session = ChatSession.objects.get(id=session_id)
         except ChatSession.DoesNotExist:
-            raise ValueError(f'Session {session_id} not found')
+            return ChatService._error_result(
+                f'Session {session_id} not found',
+                status_code=404,
+                error_code='session_not_found',
+            )
 
         if session.user != user:
-            raise PermissionDenied('Access denied to this session')
+            return ChatService._error_result(
+                'Access denied to this session',
+                status_code=403,
+                error_code='access_denied',
+            )
 
         labels = ChatService._get_export_labels(language)
         messages = session.messages.order_by('created_at')
@@ -481,6 +603,7 @@ class ChatService:
             content = '\n'.join(lines).strip() + '\n'
             filename = f"{ChatService._slugify(session.title) or labels['file_prefix']}-{session.id}.txt"
             return {
+                'success': True,
                 'content': content.encode('utf-8'),
                 'content_type': 'text/plain; charset=utf-8',
                 'filename': filename,
@@ -489,6 +612,7 @@ class ChatService:
         pdf_bytes = ChatService._render_pdf_document(metadata_lines, message_blocks)
         filename = f"{ChatService._slugify(session.title) or labels['file_prefix']}-{session.id}.pdf"
         return {
+            'success': True,
             'content': pdf_bytes,
             'content_type': 'application/pdf',
             'filename': filename,
@@ -506,26 +630,35 @@ class ChatService:
         Returns:
             Dict with updated session info
         """
-        if model not in ChatService.VALID_MODELS:
-            raise ValueError(f'Invalid model: {model}')
+        canonical_model = ChatService._require_valid_model(model)
 
         try:
             session = ChatSession.objects.get(id=session_id)
         except ChatSession.DoesNotExist:
-            raise ValueError(f'Session {session_id} not found')
+            return ChatService._error_result(
+                f'Session {session_id} not found',
+                status_code=404,
+                error_code='session_not_found',
+            )
 
         if session.user != user:
-            raise PermissionDenied('Access denied to this session')
+            return ChatService._error_result(
+                'Access denied to this session',
+                status_code=403,
+                error_code='access_denied',
+            )
 
         old_model = session.ai_model
-        session.ai_model = model
+        session.ai_model = canonical_model
         session.save()
 
-        logger.info(f'Updated session {session_id} model from {old_model} to {model}')
+        logger.info(f'Updated session {session_id} model from {old_model} to {canonical_model}')
 
         return {
+            'success': True,
             'session_id': session.id,
             'model': session.ai_model,
+            'ai_model': session.ai_model,
             'updated_at': session.updated_at.isoformat(),
         }
 
@@ -555,6 +688,7 @@ class ChatService:
                 'role': message.role,
                 'content': message.content,
                 'model': message.ai_model,
+                'ai_model': message.ai_model,
                 'created_at': message.created_at.isoformat(),
             })
 
@@ -590,6 +724,7 @@ class ChatService:
             'id': session.id,
             'title': session.title,
             'model': session.ai_model,
+            'ai_model': session.ai_model,
             'message_count': session.messages.count(),
             'created_at': session.created_at.isoformat(),
             'updated_at': session.updated_at.isoformat(),
