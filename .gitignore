@@ -4,6 +4,7 @@
 .github/
 .specify/
 specs/
+tests/
 DEPLOYMENT_GUIDE.md
 QUICK_REFERENCE.md
 QUICK_START_GUIDE.md
