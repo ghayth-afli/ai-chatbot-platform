@@ -377,7 +377,7 @@ Setup (T001-T005)
 
 ### Backend: Summary Generation Service
 
-- [ ] T044 [P] [US4] Implement summary generation function in `backend/ai/services/summary_service.py`
+- [x] T044 [P] [US4] Implement summary generation function in `backend/ai/services/summary_service.py`
   - Function: `generate_summary_for_session(session_id: int) -> UserSummary`
   - Query: Get all ChatMessages for session (order by created_at)
   - Format: Create prompt with message history
@@ -392,33 +392,33 @@ Setup (T001-T005)
     - archived = False
   - Error handling: If AI call fails, log error, do NOT raise exception, skip summary
 
-- [ ] T045 [P] [US4] Implement batch summary generation function in `backend/ai/services/summary_service.py`
+- [x] T045 [P] [US4] Implement batch summary generation function in `backend/ai/services/summary_service.py`
   - Function: `batch_generate_summaries() -> List[UserSummary]`
   - Query: Find all ChatSession records where message_count >= 5 AND (no UserSummary exists OR flag summary_generated=False)
   - Loop: Call `generate_summary_for_session()` for each qualifying session
   - Concurrency: Option to use ThreadPoolExecutor to parallelize (optional for v1)
   - Return: List of created UserSummary objects
 
-- [ ] T046 [US4] Create async task trigger in `backend/ai/tasks.py` (Celery or APScheduler)
+- [x] T046 [US4] Create async task trigger in `backend/ai/tasks.py` (Celery or APScheduler)
   - Task: `summarize_completed_sessions()` calls `batch_generate_summaries()`
   - Trigger: On ChatMessage creation, if session.message_count reaches 5
   - OR: Periodic task every 1 minute via Celery beat
   - OR: Manual trigger via management command
 
-- [ ] T047 [US4] Create Django signal to increment message_count in `backend/ai/signals.py`
+- [x] T047 [US4] Create Django signal to increment message_count in `backend/ai/signals.py`
   - Signal: `post_save` on ChatMessage
   - Action: Increment session.message_count += 1
   - Action: If message_count == 5, trigger summary generation task
   - File: `backend/ai/signals.py`
   - Register: In `backend/ai/apps.py` AppConfig.ready() method
 
-- [ ] T048 [US4] Create management command for manual summary trigger: `backend/ai/management/commands/generate_summaries.py`
+- [x] T048 [US4] Create management command for manual summary trigger: `backend/ai/management/commands/generate_summaries.py`
   - Command: `python manage.py generate_summaries`
   - Action: Call `batch_generate_summaries()`
   - Output: Print count of summaries generated
   - Usage: For manual testing and backfilling
 
-- [ ] T049 [US4] Create unit tests for summary generation in `backend/ai/tests/test_summary_generation.py`
+- [x] T049 [US4] Create unit tests for summary generation in `backend/ai/tests/test_summary_generation.py`
   - Test: `generate_summary_for_session()` with 5+ messages creates UserSummary
   - Test: UserSummary.language_tag matches session.language_tag
   - Test: UserSummary.summary_text is not empty and <= 2000 chars
@@ -426,7 +426,7 @@ Setup (T001-T005)
   - Test: `batch_generate_summaries()` finds all sessions with message_count >= 5
   - Run: `pytest backend/ai/tests/test_summary_generation.py -v`
 
-- [ ] T050 [US4] Create end-to-end test for summary generation in `tests/integration/test_multilang_user_profile.py`
+- [x] T050 [US4] Create end-to-end test for summary generation in `tests/integration/test_multilang_user_profile.py`
   - Test scenario: User sends 5 messages → signal triggers → batch job runs → UserSummary appears → GET profile returns summary
   - Verify: Summary text is in correct language (English or Arabic based on session.language_tag)
   - File: `tests/integration/test_multilang_user_profile.py`
@@ -437,7 +437,7 @@ Setup (T001-T005)
 
 ### Backend: Language-Filtered History Endpoint
 
-- [ ] T051 [P] [US5] Extend GET `/api/chat/history` endpoint in `backend/ai/views.py` (or create new endpoint)
+- [x] T051 [P] [US5] Extend GET `/api/chat/history` endpoint in `backend/ai/views.py` (or create new endpoint)
   - Endpoint: `GET /api/chat/history?language_filter=ar` (optional query param)
   - Query default: Return all messages for user
   - Query with filter: `ChatMessage.objects.filter(user=user, language_tag='ar').order_by('-created_at')`
@@ -445,10 +445,10 @@ Setup (T001-T005)
   - Pagination: Support limit/offset query params
   - File: `backend/ai/views.py` (modify or create ChatHistoryListView)
 
-- [ ] T052 [US5] Update endpoint URL in `backend/ai/urls.py`
+- [x] T052 [US5] Update endpoint URL in `backend/ai/urls.py`
   - Route: `path('api/chat/history', ChatHistoryListView.as_view())`
 
-- [ ] T053 [US5] Create unit tests for chat history endpoint in `backend/ai/tests/test_views.py`
+- [x] T053 [US5] Create unit tests for chat history endpoint in `backend/ai/tests/test_views.py`
   - Test: GET returns all messages (unfiltered)
   - Test: GET with ?language_filter=en returns only English messages
   - Test: GET with ?language_filter=ar returns only Arabic messages
@@ -458,25 +458,25 @@ Setup (T001-T005)
 
 ### Frontend: Language Filter UI
 
-- [ ] T054 [P] [US5] Create language filter hook: `frontend/src/hooks/useLanguageFilter.ts`
+- [x] T054 [P] [US5] Create language filter hook: `frontend/src/hooks/useLanguageFilter.ts`
   - Hook: `useLanguageFilter()` returns { messages, language, setLanguage, loading }
   - Fetch: `GET /api/chat/history?language_filter={language}` when language changes
   - Initial: language = null (show all)
   - Options: null (all), 'en', 'ar'
 
-- [ ] T055 [P] [US5] Create language filter UI component: `frontend/src/components/ChatHistory/LanguageFilterTabs.tsx`
+- [x] T055 [P] [US5] Create language filter UI component: `frontend/src/components/ChatHistory/LanguageFilterTabs.tsx`
   - Tabs: "All Conversations", "English", "العربية"
   - On click: Update language filter
   - Display: Message count per language
   - Location: Above chat history list
 
-- [ ] T056 [US5] Integrate filter into ChatHistory component: `frontend/src/features/chat/ChatHistoryPanel.tsx`
+- [x] T056 [US5] Integrate filter into ChatHistory component: `frontend/src/features/chat/ChatHistoryPanel.tsx`
   - Add LanguageFilterTabs above history list
   - Wire setLanguage to hook
   - Pass filtered messages to display
   - Update: When language changes, re-fetch from API
 
-- [ ] T057 [US5] Add i18n keys for language filter
+- [x] T057 [US5] Add i18n keys for language filter
   - File `frontend/src/i18n/en.json`:
     ```json
     {
@@ -506,31 +506,31 @@ Setup (T001-T005)
 
 ### Integration Testing
 
-- [ ] T058 [P] Create end-to-end test: User Story 1 flow in `tests/integration/test_us1_view_summaries.py`
+- [x] T058 [P] Create end-to-end test: User Story 1 flow in `tests/integration/test_us1_view_summaries.py`
   - Flow: User logs in → navigates to profile → AI summaries displayed in preferred language
   - Verify: Summary text is in correct language (en or ar)
   - Verify: Multiple summaries displayed in reverse chronological order
   - Verify: Archive button present and functional
 
-- [ ] T059 [P] Create end-to-end test: User Story 2 flow in `tests/integration/test_us2_chat_language.py`
+- [x] T059 [P] Create end-to-end test: User Story 2 flow in `tests/integration/test_us2_chat_language.py`
   - Flow: User sets Arabic preference → sends message → receives response → sees Arabic UI
   - Verify: Message tagged with language_tag='ar'
   - Verify: Error messages in Arabic
   - Verify: i18n keys resolved to Arabic strings
 
-- [ ] T060 [P] Create security test: Rate limiting in `tests/security/test_rate_limiting.py`
+- [x] T060 [P] Create security test: Rate limiting in `tests/security/test_rate_limiting.py`
   - Test: Rapid request loop (101+ requests in 60 seconds)
   - Verify: Requests 1-100 succeed (200)
   - Verify: Request 101+ return 429
   - Verify: Different users have independent limits
 
-- [ ] T061 Create end-to-end test: User Story 4 flow in `tests/integration/test_us4_auto_summary.py`
+- [x] T061 Create end-to-end test: User Story 4 flow in `tests/integration/test_us4_auto_summary.py`
   - Flow: User sends 5 messages → system generates summary → appears on profile
   - Verify: UserSummary created after message_count reaches 5
   - Verify: Summary language matches session language
   - Wait: Accommodate async task delay (1-2 minutes for batch job)
 
-- [ ] T062 Create load test: Performance validation in `tests/performance/test_load.py`
+- [x] T062 Create load test: Performance validation in `tests/performance/test_load.py`
   - Load: Simulate 100 concurrent users
   - Endpoints: GET profile summaries, POST chat/send, GET chat/history
   - Verify: Response time <2 seconds for summary display
@@ -539,7 +539,7 @@ Setup (T001-T005)
 
 ### Documentation & Deployment
 
-- [ ] T063 [P] Write deployment documentation: `DEPLOYMENT_GUIDE.md`
+- [x] T063 [P] Write deployment documentation: `DEPLOYMENT_GUIDE.md`
   - Steps: Database migrations on production
   - Steps: Enable middleware in settings.py
   - Config: CACHE backend must be configured (Redis or in-memory)
@@ -547,19 +547,19 @@ Setup (T001-T005)
   - Steps: Load i18n translations (Arabic native review)
   - Rollback: Plan for rolling back migrations if needed
 
-- [ ] T064 Update API documentation: `backend/API_DOCUMENTATION.md` (or OpenAPI/Swagger)
+- [x] T064 Update API documentation: `backend/API_DOCUMENTATION.md` (or OpenAPI/Swagger)
   - New endpoints: GET /api/users/{user_id}/profile/summary
   - New endpoints: PATCH /api/users/{user_id}/language-preference
   - New endpoints: GET /api/chat/history?language_filter=
   - Updated endpoints: POST /api/chat/send (now includes language_tag in response)
   - Rate limit: 100 req/min per user documented
 
-- [ ] T065 Update frontend README: `frontend/README.md`
+- [x] T065 Update frontend README: `frontend/README.md`
   - i18n: How to add new translation keys
   - Components: ProfileSummary, SummaryCard, LanguageSelector usage
   - RTL: How RTL rendering works for Arabic
 
-- [ ] T066 [P] Create implementation checklist: `IMPLEMENTATION_CHECKLIST.md`
+- [x] T066 [P] Create implementation checklist: `IMPLEMENTATION_CHECKLIST.md`
   - Checkbox: All migrations applied
   - Checkbox: All services tested
   - Checkbox: All endpoints tested
@@ -574,14 +574,14 @@ Setup (T001-T005)
   - Checkbox: Documentation updated
   - Checkbox: Deployment prepared
 
-- [ ] T067 Final QA: Test all user stories end-to-end
+- [x] T067 Final QA: Test all user stories end-to-end
   - US1: View AI summaries → navigate to profile → see summaries in language
   - US2: Chat in language → send message → receive response in language
   - US3: Exceed rate limit → see 429 error in language
   - US4: Send 5 messages → auto summary generated → appears on profile
   - US5: Filter history by language → see only messages in selected language
 
-- [ ] T068 Deploy to staging: `git push origin 005-multilang-summaries`
+- [x] T068 Deploy to staging: `git push origin 005-multilang-summaries`
   - PR review: Code review for all changes
   - Merge: Merge to main branch (or staging)
   - Deploy: Run deployment checklist (T063)

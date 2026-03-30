@@ -12,10 +12,11 @@ import json
 from unittest.mock import patch, AsyncMock
 from django.test import TestCase
 from django.contrib.auth.models import User
+from asgiref.sync import sync_to_async
 from channels.testing import WebsocketCommunicator
 from channels.layers import get_channel_layer
 
-from .models import ChatSession, Message
+from chats.models import ChatSession, Message
 
 
 class WebSocketTests(TestCase):
@@ -77,11 +78,11 @@ class WebSocketTests(TestCase):
     async def test_websocket_session_isolation(self):
         """Test that users only receive messages from their own sessions"""
         # Create two users and sessions
-        user1 = User.objects.create_user(username='user1', password='pass123')
-        user2 = User.objects.create_user(username='user2', password='pass123')
+        user1 = await sync_to_async(User.objects.create_user)(username='user1', password='pass123')
+        user2 = await sync_to_async(User.objects.create_user)(username='user2', password='pass123')
 
-        session1 = ChatSession.objects.create(user=user1, title='Session 1')
-        session2 = ChatSession.objects.create(user=user2, title='Session 2')
+        session1 = await sync_to_async(ChatSession.objects.create)(user=user1, title='Session 1')
+        session2 = await sync_to_async(ChatSession.objects.create)(user=user2, title='Session 2')
 
         # Message in session1 should not be visible to user2
         # This validates data isolation and security

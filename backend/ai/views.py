@@ -72,7 +72,7 @@ class ProfileSummaryListView(APIView):
         summaries = UserSummary.objects.filter(
             user=user,
             archived=False
-        ).order_by('-date_generated')
+        ).order_by('-date_generated', '-id')
         
         # Paginate results
         paginator = self.pagination_class()

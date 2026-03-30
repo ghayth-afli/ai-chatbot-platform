@@ -15,6 +15,7 @@ import VerifyEmailPage from "./pages/auth/VerifyEmailPage";
 import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
 import ChatPageWrapper from "./pages/ChatPage/ChatPage";
+import HistoryPage from "./pages/HistoryPage/HistoryPage";
 
 // Components
 import PrivateRoute from "./components/PrivateRoute";
@@ -24,13 +25,6 @@ const ProfilePage = () => (
   <div className="p-8 text-center text-paper">
     <h1 className="text-4xl font-bold text-volt mb-4">Profile</h1>
     <p className="text-lg text-gray-400">Profile page under development</p>
-  </div>
-);
-
-const HistoryPage = () => (
-  <div className="p-8 text-center text-paper">
-    <h1 className="text-4xl font-bold text-volt mb-4">History</h1>
-    <p className="text-lg text-gray-400">Chat history page under development</p>
   </div>
 );
 

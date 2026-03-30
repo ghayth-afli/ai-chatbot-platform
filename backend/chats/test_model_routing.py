@@ -163,13 +163,15 @@ class TestModelRouting(TestCase):
     @pytest.mark.django_db
     def test_send_message_with_invalid_model(self):
         """Test sending message with invalid model raises error"""
-        with self.assertRaises(ValueError):
-            ChatService.send_message(
-                self.user,
-                self.session.id,
-                'Hello',
-                model='invalid_model'
-            )
+        result = ChatService.send_message(
+            self.user,
+            self.session.id,
+            'Hello',
+            model='invalid_model'
+        )
+
+        assert result['success'] is False
+        assert result.get('error_code') == 'invalid_model'
 
     @pytest.mark.django_db
     def test_update_session_model_valid(self):

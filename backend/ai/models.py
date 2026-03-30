@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 class AIModel(models.Model):
@@ -33,7 +34,7 @@ class UserSummary(models.Model):
 		choices=LANGUAGE_CHOICES,
 		db_index=True
 	)
-	date_generated = models.DateTimeField(auto_now_add=True)
+	date_generated = models.DateTimeField(default=timezone.now)
 	source_session_id = models.IntegerField(null=True, blank=True, help_text="ChatSession ID used to generate this summary")
 	relevance_score = models.FloatField(default=1.0, help_text="Confidence score [0.0-1.0] for future ranking")
 	archived = models.BooleanField(default=False, db_index=True, help_text="Soft delete flag; archived summaries remain in DB")

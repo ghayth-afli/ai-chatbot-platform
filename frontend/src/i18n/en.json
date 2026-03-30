@@ -176,6 +176,23 @@
     "feature3": "Fast",
     "feature3Desc": "Instant authentication and response"
   },
+  "chat": {
+    "history_all": "All Conversations",
+    "history_en": "English",
+    "history_ar": "Arabic",
+    "history_count": "{{count}} conversations",
+    "history_empty_title": "No conversations yet",
+    "history_empty_subtitle": "Start a chat to see it appear here.",
+    "history_eyebrow": "Timeline Intelligence",
+    "history_title": "Language-filtered conversation history",
+    "history_subtitle": "Zoom into English or Arabic conversations instantly, surface patterns, and jump back into any thread in seconds.",
+    "history_stat_total": "Total Conversations",
+    "history_stat_language": "Active Language",
+    "history_stat_user": "Signed in",
+    "history_prev": "Previous",
+    "history_next": "Next",
+    "history_open": "Open session"
+  },
   "nav_feat": "Features",
   "nav_mod": "Models",
   "nav_about": "About",

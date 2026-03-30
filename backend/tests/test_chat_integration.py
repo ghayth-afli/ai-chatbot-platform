@@ -46,7 +46,7 @@ class ChatAPIIntegrationTests(APITestCase):
         assert response.data['ai_model'] == 'Nemotron'
 
         session_id = response.data['id']
-        session_url = reverse(':chat-detail', args=[session_id])
+        session_url = reverse('chats:chat-detail', args=[session_id])
 
         # Step 2: List sessions to verify creation
         list_response = self.client.get(self.chat_list_url)
@@ -106,7 +106,8 @@ class ChatAPIIntegrationTests(APITestCase):
         delete_url = reverse('chats:chat-detail', args=[session_id])
         delete_response = self.client.delete(delete_url)
 
-        assert delete_response.status_code == status.HTTP_204_NO_CONTENT
+        assert delete_response.status_code == status.HTTP_200_OK
+        assert delete_response.data['status'] == 'deleted'
 
         # Verify session is deleted
         final_list = self.client.get(self.chat_list_url)

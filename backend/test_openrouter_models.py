@@ -20,6 +20,7 @@ from chats.router import (
     dispatch_to_provider,
     MODEL_PROVIDER_MAP,
     OPENROUTER_MODELS,
+    GROQ_MODELS,
     get_api_keys,
 )
 
@@ -41,14 +42,23 @@ def test_models_configuration():
     # Verify all models are in the map
     assert len(MODEL_PROVIDER_MAP) == 3, f"Expected 3 models, got {len(MODEL_PROVIDER_MAP)}"
     assert set(MODEL_PROVIDER_MAP.keys()) == {'nemotron', 'liquid', 'trinity'}
-    
-    # Verify all models map to openrouter
-    for model, provider in MODEL_PROVIDER_MAP.items():
-        assert provider == 'openrouter', f"Model {model} should map to 'openrouter', got {provider}"
-    
-    # Verify all models are in OPENROUTER_MODELS
-    for model in MODEL_PROVIDER_MAP.keys():
-        assert model in OPENROUTER_MODELS, f"Model {model} not found in OPENROUTER_MODELS"
+
+    expected_providers = {
+        'Nemotron': 'openrouter',
+        'Liquid': 'groq',
+        'Trinity': 'openrouter',
+    }
+
+    for model_name, expected_provider in expected_providers.items():
+        provider = MODEL_PROVIDER_MAP[model_name]
+        assert provider == expected_provider, (
+            f"Model {model_name} should map to '{expected_provider}', got {provider}"
+        )
+
+    # Verify provider-specific model registries
+    for model_id, provider in (('nemotron', 'openrouter'), ('trinity', 'openrouter')):
+        assert model_id in OPENROUTER_MODELS, f"Model {model_id} missing from OPENROUTER_MODELS"
+    assert 'liquid' in GROQ_MODELS, 'Liquid mapping missing from GROQ_MODELS'
     
     print("\n✅ Configuration test passed!")
 
@@ -75,8 +85,8 @@ def test_model_validation():
     print("\n🧪 Testing Model Validation")
     print("=" * 50)
     
-    valid_models = ['nemotron', 'liquid', 'trinity']
-    invalid_models = ['Nemotron', 'Trinity', 'Liquid', 'gpt-4', 'unknown']
+    valid_models = ['nemotron', 'Nemotron', 'liquid', 'Liquid', 'trinity', 'Trinity']
+    invalid_models = ['gpt-4', 'unknown']
     
     print("\nTesting valid models:")
     for model in valid_models:

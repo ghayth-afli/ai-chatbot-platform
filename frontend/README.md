@@ -26,6 +26,8 @@ Modern React 18 frontend for Nexus Chatbot application with focus on:
 - International support (English/Arabic)
 - Accessibility (a11y)
 - Performance optimization
+- Profile page renders AI summaries with RTL-aware cards
+- Chat workflow honors user language preference end-to-end
 
 ---
 
@@ -141,6 +143,9 @@ Modern React 18 frontend for Nexus Chatbot application with focus on:
 - RTL support for Arabic
 - Language switcher
 - Persistent language preference
+- Profile summaries with archive actions
+- Chat history language filter tabs
+- Rate limit banner with localized countdown
 
 ---
 

@@ -6,6 +6,7 @@ import pytest
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+from django.core.exceptions import PermissionDenied
 from unittest.mock import patch, MagicMock
 
 from chats.models import ChatSession, Message
@@ -266,9 +267,9 @@ class TestChatService(TestCase):
             ai_model='Nemotron',
         )
 
-        result = self.service.delete_session(self.user, session.id)
+        with self.assertRaises(PermissionDenied):
+            self.service.delete_session(self.user, session.id)
 
-        assert not result['success']
         assert ChatSession.objects.filter(id=session.id).exists()
 
     def test_update_session_model(self):
