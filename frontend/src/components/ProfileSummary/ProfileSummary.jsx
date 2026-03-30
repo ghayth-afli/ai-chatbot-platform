@@ -5,6 +5,8 @@ import { useLanguagePreference } from "../../hooks/useLanguagePreference";
 import SummaryCard from "./SummaryCard";
 import "./ProfileSummary.css";
 
+const SUMMARY_TRIGGER_MESSAGES = 5; // Matches backend SummaryService threshold
+
 /**
  * ProfileSummary Component
  *
@@ -19,12 +21,20 @@ import "./ProfileSummary.css";
  * - userId: numeric user ID (required)
  * - showLanguageSelector: boolean (default: true)
  */
-const ProfileSummary = ({ userId, showLanguageSelector = true }) => {
+const ProfileSummary = ({
+  userId,
+  showLanguageSelector = true,
+  activityStats = null,
+}) => {
   const { t, i18n } = useTranslation();
   const { summaries, loading, error, refetch } = useUserSummaries(userId);
   const { language, setLanguage, available } = useLanguagePreference(userId);
   const [archivedItems, setArchivedItems] = useState(new Set());
   const isArabic = i18n.language === "ar";
+  const activityChats = activityStats?.chats ?? 0;
+  const activityMessages = activityStats?.messages ?? 0;
+  const hasActivity = activityChats > 0 || activityMessages > 0;
+  const readyForSummary = activityMessages >= SUMMARY_TRIGGER_MESSAGES;
 
   const handleArchive = async (summaryId) => {
     // Mark as archived locally
@@ -38,6 +48,10 @@ const ProfileSummary = ({ userId, showLanguageSelector = true }) => {
   const activeSummaries = summaries.filter(
     (summary) => !archivedItems.has(summary.id) && !summary.archived,
   );
+  const showProgressEmptyState =
+    !loading && !error && activeSummaries.length === 0 && hasActivity;
+  const showDefaultEmptyState =
+    !loading && !error && activeSummaries.length === 0 && !hasActivity;
 
   return (
     <div
@@ -97,7 +111,34 @@ const ProfileSummary = ({ userId, showLanguageSelector = true }) => {
             </div>
           )}
 
-          {!loading && !error && activeSummaries.length === 0 && (
+          {showProgressEmptyState && (
+            <div className="empty-state">
+              <div className="empty-icon">✨</div>
+              <p className="empty-message">
+                {t(
+                  "profile.no_summaries_progress",
+                  "You've started {{chats}} chats and sent {{messages}} messages.",
+                  {
+                    chats: activityChats,
+                    messages: activityMessages,
+                  },
+                )}
+              </p>
+              <p className="empty-detail">
+                {t(
+                  readyForSummary
+                    ? "profile.no_summaries_hint_ready"
+                    : "profile.no_summaries_hint_more",
+                  readyForSummary
+                    ? "Great progress! Once any chat reaches {{threshold}}+ messages we'll drop your first summary here automatically."
+                    : "Keep one conversation going for about {{threshold}} messages to unlock your first AI summary.",
+                  { threshold: SUMMARY_TRIGGER_MESSAGES },
+                )}
+              </p>
+            </div>
+          )}
+
+          {showDefaultEmptyState && (
             <div className="empty-state">
               <div className="empty-icon">📝</div>
               <p className="empty-message">

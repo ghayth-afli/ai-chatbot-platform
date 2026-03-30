@@ -5,13 +5,173 @@ Routes messages to OpenRouter API provider
 based on selected model and handles API calls.
 """
 
+import math
 import os
+import time
 import logging
 import requests
+from datetime import datetime, timezone
+from threading import Lock
 from typing import Dict, Any, Optional
 from dotenv import load_dotenv
 
 logger = logging.getLogger(__name__)
+DEFAULT_RATE_LIMIT_COOLDOWN = 900  # seconds
+
+
+class RateLimitGuard:
+    """Cache provider rate limit windows to avoid hammering APIs during cooldowns."""
+
+    def __init__(self):
+        self._lock = Lock()
+        self._state: Dict[str, Any] = {}
+
+    def _purge_if_expired_unlocked(self) -> None:
+        if self._state and self._state.get('reset_ts', 0) <= time.time():
+            self._state = {}
+
+    def is_limited(self) -> bool:
+        with self._lock:
+            self._purge_if_expired_unlocked()
+            return bool(self._state)
+
+    def get_state(self) -> Dict[str, Any]:
+        with self._lock:
+            self._purge_if_expired_unlocked()
+            return dict(self._state)
+
+    def retry_after_seconds(self) -> int:
+        with self._lock:
+            self._purge_if_expired_unlocked()
+            if not self._state:
+                return 0
+            remaining = self._state['reset_ts'] - time.time()
+            return max(1, int(math.ceil(remaining)))
+
+    def register(self, *, reset_ts: float, limit: Optional[int], remaining: Optional[int]) -> None:
+        reset_ts = max(reset_ts, time.time() + 1)
+        with self._lock:
+            self._state = {
+                'reset_ts': reset_ts,
+                'limit': limit,
+                'remaining': remaining,
+                'reset_iso': datetime.fromtimestamp(reset_ts, tz=timezone.utc).isoformat(),
+            }
+
+    def clear(self) -> None:
+        with self._lock:
+            self._state = {}
+
+
+OPENROUTER_RATE_LIMIT_GUARD = RateLimitGuard()
+
+
+def reset_openrouter_rate_limit_state() -> None:
+    """Reset cached OpenRouter rate limit window (primarily used in tests)."""
+    OPENROUTER_RATE_LIMIT_GUARD.clear()
+
+
+def _safe_int(value: Any) -> Optional[int]:
+    if value is None:
+        return None
+    try:
+        return int(float(str(value).strip()))
+    except (TypeError, ValueError):
+        return None
+
+
+def _parse_reset_timestamp(raw_value: Any) -> Optional[float]:
+    if raw_value is None:
+        return None
+    raw_str = str(raw_value).strip()
+    if not raw_str:
+        return None
+    try:
+        value = float(raw_str)
+    except ValueError:
+        try:
+            normalized = raw_str.replace('Z', '+00:00') if raw_str.endswith('Z') else raw_str
+            dt = datetime.fromisoformat(normalized)
+            return dt.timestamp()
+        except ValueError:
+            return None
+    if value > 1_000_000_000_000:  # milliseconds since epoch
+        value /= 1000
+    return value
+
+
+def _extract_rate_limit_info(response, error_body: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    headers = getattr(response, 'headers', {}) or {}
+    limit = headers.get('X-RateLimit-Limit')
+    remaining = headers.get('X-RateLimit-Remaining')
+    reset_raw = headers.get('X-RateLimit-Reset')
+    retry_after_raw = headers.get('Retry-After')
+
+    metadata_headers = {}
+    if error_body:
+        metadata = (error_body.get('error') or {}).get('metadata') or {}
+        metadata_headers = metadata.get('headers') or {}
+        limit = limit or metadata_headers.get('X-RateLimit-Limit')
+        remaining = remaining or metadata_headers.get('X-RateLimit-Remaining')
+        reset_raw = reset_raw or metadata_headers.get('X-RateLimit-Reset')
+        retry_after_raw = retry_after_raw or metadata.get('retry_after')
+
+    return {
+        'limit': _safe_int(limit),
+        'remaining': _safe_int(remaining),
+        'reset_ts': _parse_reset_timestamp(reset_raw),
+        'retry_after': _safe_int(retry_after_raw),
+    }
+
+
+def _build_rate_limit_error(message: str, *, retry_after_seconds: int, state_snapshot: Dict[str, Any], source: str) -> Dict[str, Any]:
+    state_snapshot = state_snapshot or {}
+    retry_after = max(1, retry_after_seconds or DEFAULT_RATE_LIMIT_COOLDOWN)
+    return {
+        'error': message or 'OpenRouter rate limit exceeded. Please try again later.',
+        'error_code': 'provider_rate_limit_error',
+        'status_code': 429,
+        'rate_limited': True,
+        'retry_after_seconds': retry_after,
+        'rate_limit_reset_iso': state_snapshot.get('reset_iso'),
+        'rate_limit_limit': state_snapshot.get('limit'),
+        'rate_limit_remaining': state_snapshot.get('remaining'),
+        'rate_limit_source': source,
+    }
+
+
+def _handle_openrouter_rate_limit(response, error_body) -> Dict[str, Any]:
+    rate_info = _extract_rate_limit_info(response, error_body)
+    reset_ts = rate_info.get('reset_ts')
+    fallback_seconds = rate_info.get('retry_after') or DEFAULT_RATE_LIMIT_COOLDOWN
+    if reset_ts:
+        OPENROUTER_RATE_LIMIT_GUARD.register(
+            reset_ts=reset_ts,
+            limit=rate_info.get('limit'),
+            remaining=rate_info.get('remaining'),
+        )
+    else:
+        OPENROUTER_RATE_LIMIT_GUARD.register(
+            reset_ts=time.time() + fallback_seconds,
+            limit=rate_info.get('limit'),
+            remaining=rate_info.get('remaining'),
+        )
+
+    state_snapshot = OPENROUTER_RATE_LIMIT_GUARD.get_state()
+    retry_after = OPENROUTER_RATE_LIMIT_GUARD.retry_after_seconds() or fallback_seconds
+    provider_message = ((error_body or {}).get('error') or {}).get('message')
+    logger.warning(
+        'OpenRouter rate limit hit. limit=%s remaining=%s reset=%s',
+        state_snapshot.get('limit') or rate_info.get('limit'),
+        state_snapshot.get('remaining') or rate_info.get('remaining'),
+        state_snapshot.get('reset_iso'),
+    )
+    return _build_rate_limit_error(
+        provider_message or 'OpenRouter rate limit exceeded. Please try again later.',
+        retry_after_seconds=retry_after,
+        state_snapshot=state_snapshot,
+        source='provider',
+    )
 
 def _is_test_environment() -> bool:
     """Return True when running under pytest (allows safe fallbacks)."""
@@ -93,7 +253,7 @@ class CaseInsensitiveModelMap(dict):
 
 MODEL_PROVIDER_MAP = CaseInsensitiveModelMap({
     'nemotron': 'openrouter',
-    'liquid': 'groq',
+    'liquid': 'openrouter',
     'trinity': 'openrouter',
 })
 
@@ -105,13 +265,13 @@ MODEL_PROVIDER_ALIASES = {
 OPENROUTER_MODEL_ALIASES = {
     'nemotron': 'nemotron',
     'nemotron-chat': 'nemotron',
+    'liquid': 'liquid',
+    'liquid-8b': 'liquid',
     'trinity': 'trinity',
     'trinity-mini': 'trinity',
 }
 
 GROQ_MODEL_ALIASES = {
-    'liquid': 'liquid',
-    'liquid-8b': 'liquid',
 }
 
 # Model IDs for each provider
@@ -160,6 +320,20 @@ def route_to_openrouter(model_id: str, message: str, system_prompt: str = None) 
     if USE_MOCK_RESPONSES:
         logger.info(f'Using MOCK response for {model_id} (set USE_MOCK_RESPONSES=False to use real API)')
         return get_mock_response(model_id, message)
+
+    if OPENROUTER_RATE_LIMIT_GUARD.is_limited():
+        retry_after = OPENROUTER_RATE_LIMIT_GUARD.retry_after_seconds()
+        state_snapshot = OPENROUTER_RATE_LIMIT_GUARD.get_state()
+        logger.warning(
+            'Skipping OpenRouter request because provider is still rate limited (%s seconds remaining)',
+            retry_after,
+        )
+        return _build_rate_limit_error(
+            'OpenRouter rate limit is still in effect. Please wait before retrying.',
+            retry_after_seconds=retry_after or DEFAULT_RATE_LIMIT_COOLDOWN,
+            state_snapshot=state_snapshot,
+            source='cooldown',
+        )
     
     api_keys = get_api_keys()
     openrouter_api_key = _resolve_api_key(api_keys.get('openrouter'), 'OPENROUTER_API_KEY')
@@ -215,16 +389,25 @@ def route_to_openrouter(model_id: str, message: str, system_prompt: str = None) 
         if response.status_code != 200:
             logger.error(f'❌ OpenRouter API Error {response.status_code}')
             logger.error(f'   Response body: {response.text}')
+            error_data = None
             try:
                 error_data = response.json()
                 logger.error(f'   Error details: {error_data}')
-            except:
-                pass
+            except Exception:  # noqa: BLE001 - logging only
+                error_data = None
+
+            if response.status_code == 429:
+                return _handle_openrouter_rate_limit(response, error_data)
+
             if response.status_code == 401:
                 logger.error('   → 401 Unauthorized: Check API key validity and format')
             elif response.status_code == 405:
                 logger.error('   → 405 Method Not Allowed: Check endpoint URL')
-            return {'error': f'OpenRouter API error (status {response.status_code}): {response.text[:200]}'}
+
+            return {
+                'error': f'OpenRouter API error (status {response.status_code}): {response.text[:200]}',
+                'status_code': response.status_code,
+            }
         
         response.raise_for_status()
         
@@ -241,14 +424,15 @@ def route_to_openrouter(model_id: str, message: str, system_prompt: str = None) 
             'model': requested_model,
         }
     except requests.exceptions.RequestException as e:
+        status_code = getattr(getattr(e, 'response', None), 'status_code', 503)
         logger.error(f'OpenRouter API error: {str(e)}')
-        return {'error': f'API error: {str(e)}'}
+        return {'error': f'API error: {str(e)}', 'status_code': status_code}
     except (KeyError, IndexError) as e:
         logger.error(f'OpenRouter response parsing error: {str(e)}')
-        return {'error': f'Failed to parse API response: {str(e)}'}
+        return {'error': f'Failed to parse API response: {str(e)}', 'status_code': 502}
     except Exception as e:
         logger.exception(f'Unexpected error in OpenRouter call: {str(e)}')
-        return {'error': f'Unexpected error: {str(e)}'}
+        return {'error': f'Unexpected error: {str(e)}', 'status_code': 500}
 
 
 def route_to_groq(model_id: str, message: str, system_prompt: str = None) -> Dict[str, Any]:
@@ -295,7 +479,10 @@ def route_to_groq(model_id: str, message: str, system_prompt: str = None) -> Dic
 
         if response.status_code != 200:
             logger.error('Groq API error %s: %s', response.status_code, response.text[:200])
-            return {'error': f'Groq API error (status {response.status_code}): {response.text[:200]}'}
+            return {
+                'error': f'Groq API error (status {response.status_code}): {response.text[:200]}',
+                'status_code': response.status_code,
+            }
 
         data = response.json()
         content = data['choices'][0]['message']['content']
@@ -307,14 +494,15 @@ def route_to_groq(model_id: str, message: str, system_prompt: str = None) -> Dic
             'model': requested_model,
         }
     except requests.exceptions.RequestException as exc:
+        status_code = getattr(getattr(exc, 'response', None), 'status_code', 503)
         logger.error('Groq API error: %s', exc)
-        return {'error': f'API error: {exc}'}
+        return {'error': f'API error: {exc}', 'status_code': status_code}
     except (KeyError, IndexError) as exc:
         logger.error('Groq response parsing error: %s', exc)
-        return {'error': f'Failed to parse API response: {exc}'}
+        return {'error': f'Failed to parse API response: {exc}', 'status_code': 502}
     except Exception as exc:  # pragma: no cover - defensive branch
         logger.exception('Unexpected Groq error: %s', exc)
-        return {'error': f'Unexpected error: {exc}'}
+        return {'error': f'Unexpected error: {exc}', 'status_code': 500}
 
 
 def dispatch_to_provider(model_id: str, message: str, system_prompt: str = None) -> Dict[str, Any]:

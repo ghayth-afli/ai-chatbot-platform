@@ -100,6 +100,20 @@ class LanguageServiceLocalizationTests(TestCase):
         self.assertIsInstance(msg, str)
         self.assertGreater(len(msg), 0)
 
+    def test_get_localized_error_message_provider_rate_limit_en(self):
+        """Verify provider rate limit message exists in English."""
+        msg = LanguageService.get_localized_error_message('provider_rate_limit_error', 'en', minutes=5)
+        self.assertIsNotNone(msg)
+        self.assertIsInstance(msg, str)
+        self.assertIn('OpenRouter', msg)
+
+    def test_get_localized_error_message_provider_rate_limit_ar(self):
+        """Verify provider rate limit message exists in Arabic."""
+        msg = LanguageService.get_localized_error_message('provider_rate_limit_error', 'ar', minutes=5)
+        self.assertIsNotNone(msg)
+        self.assertIsInstance(msg, str)
+        self.assertGreater(len(msg), 0)
+
     def test_get_localized_error_message_invalid_error_en(self):
         """Verify invalid error code returns default English message."""
         msg = LanguageService.get_localized_error_message('invalid_error_code_xyz', 'en')

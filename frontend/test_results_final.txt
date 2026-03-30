@@ -1,0 +1,2237 @@
+
+> nexus-chatbot-frontend@0.1.0 test
+> react-scripts test
+
+PASS src/services/authService.test.js
+PASS src/hooks/useAuth.test.jsx
+FAIL src/pages/auth/VerifyEmailPage.test.jsx
+  ÔùÅ VerifyEmailPage ÔÇ║ renders form with email and code input
+
+    TypeError: Cannot redefine property: useLocation
+        at Function.defineProperty (<anonymous>)
+
+      47 |     jest.clearAllMocks();
+      48 |     // Mock useLocation for all tests
+    > 49 |     jest.spyOn(require("react-router-dom"), "useLocation").mockReturnValue(mockLocation);
+         |          ^
+      50 |     // Mock useNavigate
+      51 |     jest.spyOn(require("react-router-dom"), "useNavigate").mockReturnValue(jest.fn());
+      52 |   });
+
+      at ModuleMocker.spyOn (node_modules/jest-environment-jsdom/node_modules/jest-mock/build/index.js:835:16)
+      at Object.spyOn (src/pages/auth/VerifyEmailPage.test.jsx:49:10)
+
+  ÔùÅ VerifyEmailPage ÔÇ║ code entry and submission works
+
+    TypeError: Cannot redefine property: useLocation
+        at Function.defineProperty (<anonymous>)
+
+      47 |     jest.clearAllMocks();
+      48 |     // Mock useLocation for all tests
+    > 49 |     jest.spyOn(require("react-router-dom"), "useLocation").mockReturnValue(mockLocation);
+         |          ^
+      50 |     // Mock useNavigate
+      51 |     jest.spyOn(require("react-router-dom"), "useNavigate").mockReturnValue(jest.fn());
+      52 |   });
+
+      at ModuleMocker.spyOn (node_modules/jest-environment-jsdom/node_modules/jest-mock/build/index.js:835:16)
+      at Object.spyOn (src/pages/auth/VerifyEmailPage.test.jsx:49:10)
+
+  ÔùÅ VerifyEmailPage ÔÇ║ displays error message for invalid code
+
+    TypeError: Cannot redefine property: useLocation
+        at Function.defineProperty (<anonymous>)
+
+      47 |     jest.clearAllMocks();
+      48 |     // Mock useLocation for all tests
+    > 49 |     jest.spyOn(require("react-router-dom"), "useLocation").mockReturnValue(mockLocation);
+         |          ^
+      50 |     // Mock useNavigate
+      51 |     jest.spyOn(require("react-router-dom"), "useNavigate").mockReturnValue(jest.fn());
+      52 |   });
+
+      at ModuleMocker.spyOn (node_modules/jest-environment-jsdom/node_modules/jest-mock/build/index.js:835:16)
+      at Object.spyOn (src/pages/auth/VerifyEmailPage.test.jsx:49:10)
+
+  ÔùÅ VerifyEmailPage ÔÇ║ displays error message for expired code
+
+    TypeError: Cannot redefine property: useLocation
+        at Function.defineProperty (<anonymous>)
+
+      47 |     jest.clearAllMocks();
+      48 |     // Mock useLocation for all tests
+    > 49 |     jest.spyOn(require("react-router-dom"), "useLocation").mockReturnValue(mockLocation);
+         |          ^
+      50 |     // Mock useNavigate
+      51 |     jest.spyOn(require("react-router-dom"), "useNavigate").mockReturnValue(jest.fn());
+      52 |   });
+
+      at ModuleMocker.spyOn (node_modules/jest-environment-jsdom/node_modules/jest-mock/build/index.js:835:16)
+      at Object.spyOn (src/pages/auth/VerifyEmailPage.test.jsx:49:10)
+
+PASS src/hooks/__tests__/useLanguage.test.js
+FAIL src/hooks/useAuth.multiTab.test.jsx
+  ÔùÅ Console
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+
+      22 |
+      23 | const renderWithProviders = (hook) => {
+    > 24 |   return renderHook(hook, {
+         |                    ^
+      25 |     wrapper: ({ children }) => (
+      26 |       <I18nextProvider i18n={i18n}>
+      27 |         <BrowserRouter>
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at Object.logDeprecation [as UNSAFE_logV6DeprecationWarnings] (node_modules/react-router/lib/deprecations.ts:26:5)
+      at logV6DeprecationWarnings (node_modules/react-router-dom/index.tsx:816:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at renderHook (node_modules/@testing-library/react/dist/pure.js:318:7)
+      at renderWithProviders (src/hooks/useAuth.multiTab.test.jsx:24:20)
+      at Object.renderWithProviders (src/hooks/useAuth.multiTab.test.jsx:53:24)
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+      22 |
+      23 | const renderWithProviders = (hook) => {
+    > 24 |   return renderHook(hook, {
+         |                    ^
+      25 |     wrapper: ({ children }) => (
+      26 |       <I18nextProvider i18n={i18n}>
+      27 |         <BrowserRouter>
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at Object.logDeprecation [as UNSAFE_logV6DeprecationWarnings] (node_modules/react-router/lib/deprecations.ts:37:5)
+      at logV6DeprecationWarnings (node_modules/react-router-dom/index.tsx:816:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at renderHook (node_modules/@testing-library/react/dist/pure.js:318:7)
+      at renderWithProviders (src/hooks/useAuth.multiTab.test.jsx:24:20)
+      at Object.renderWithProviders (src/hooks/useAuth.multiTab.test.jsx:53:24)
+
+  ÔùÅ useAuth - Multi-Tab Logout ÔÇ║ User state clears when storage cleared in another tab
+
+    TypeError: authService.login is not a function
+
+      125 |     setError(null);
+      126 |
+    > 127 |     const result = await authService.login(email, password);
+          |                                      ^
+      128 |
+      129 |     if (result.success) {
+      130 |       setUser(result.data.user);
+
+      at Object.login (src/hooks/useAuth.jsx:127:38)
+      at login (src/hooks/useAuth.multiTab.test.jsx:95:22)
+      at node_modules/@testing-library/react/dist/act-compat.js:48:24
+      at act (node_modules/react/cjs/react.development.js:2512:16)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at Object.<anonymous> (src/hooks/useAuth.multiTab.test.jsx:87:14)
+
+PASS src/pages/auth/ForgotPasswordPage.test.jsx
+  ÔùÅ Console
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+
+      43 |
+      44 |   test("renders form with email input", () => {
+    > 45 |     render(
+         |           ^
+      46 |       <Router>
+      47 |         <AuthProvider>
+      48 |           <ForgotPasswordPage />
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at Object.logDeprecation [as UNSAFE_logV6DeprecationWarnings] (node_modules/react-router/lib/deprecations.ts:26:5)
+      at logV6DeprecationWarnings (node_modules/react-router-dom/index.tsx:816:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at Object.<anonymous> (src/pages/auth/ForgotPasswordPage.test.jsx:45:11)
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+      43 |
+      44 |   test("renders form with email input", () => {
+    > 45 |     render(
+         |           ^
+      46 |       <Router>
+      47 |         <AuthProvider>
+      48 |           <ForgotPasswordPage />
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at Object.logDeprecation [as UNSAFE_logV6DeprecationWarnings] (node_modules/react-router/lib/deprecations.ts:37:5)
+      at logV6DeprecationWarnings (node_modules/react-router-dom/index.tsx:816:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at Object.<anonymous> (src/pages/auth/ForgotPasswordPage.test.jsx:45:11)
+
+FAIL src/pages/auth/GoogleOAuth.test.jsx
+  ÔùÅ Console
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+
+      19 |
+      20 | const renderWithProviders = (component) => {
+    > 21 |   return render(
+         |                ^
+      22 |     <GoogleOAuthProvider clientId="test-client-id">
+      23 |       <I18nextProvider i18n={i18n}>
+      24 |         <BrowserRouter>
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at Object.logDeprecation [as UNSAFE_logV6DeprecationWarnings] (node_modules/react-router/lib/deprecations.ts:26:5)
+      at logV6DeprecationWarnings (node_modules/react-router-dom/index.tsx:816:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at renderWithProviders (src/pages/auth/GoogleOAuth.test.jsx:21:16)
+      at Object.renderWithProviders (src/pages/auth/GoogleOAuth.test.jsx:34:5)
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+      19 |
+      20 | const renderWithProviders = (component) => {
+    > 21 |   return render(
+         |                ^
+      22 |     <GoogleOAuthProvider clientId="test-client-id">
+      23 |       <I18nextProvider i18n={i18n}>
+      24 |         <BrowserRouter>
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at Object.logDeprecation [as UNSAFE_logV6DeprecationWarnings] (node_modules/react-router/lib/deprecations.ts:37:5)
+      at logV6DeprecationWarnings (node_modules/react-router-dom/index.tsx:816:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at renderWithProviders (src/pages/auth/GoogleOAuth.test.jsx:21:16)
+      at Object.renderWithProviders (src/pages/auth/GoogleOAuth.test.jsx:34:5)
+
+  ÔùÅ LoginPage - Google OAuth Integration ÔÇ║ Error message displays on failed Google auth
+
+    TestingLibraryElementError: Found multiple elements with the text: /log in/i
+
+    Here are the matching elements:
+
+    Ignored nodes: comments, script, style
+    <h1>
+      Log In
+    </h1>
+
+    Ignored nodes: comments, script, style
+    <button
+      class="
+          px-4 py-3 rounded-lg font-medium transition-all duration-200
+          disabled:opacity-50 disabled:cursor-not-allowed
+          flex items-center justify-center gap-2
+          w-full
+          bg-volt hover:bg-volt/90 text-ink font-syne font-bold shadow-lg hover:shadow-xl hover:shadow-volt/30 transition-all duration-200
+         mt-2"
+      dir="ltr"
+      type="submit"
+    >
+      Log In
+    </button>
+
+    (If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+    Ignored nodes: comments, script, style
+    <body>
+      <div>
+        <div
+          class="auth-container"
+          dir="ltr"
+        >
+          <div
+            class="auth-bg"
+          />
+          <div
+            class="auth-card"
+          >
+            <div
+              style="margin-bottom: 1.5rem; display: flex; justify-content: center;"
+            >
+              <div
+                style="display: flex; align-items: center; gap: 12px; cursor: default; transition: none;"
+              >
+                <div
+                  style="width: 48px; height: 48px; background: rgba(123, 92, 255, 0.15); border: 2px solid rgba(123, 92, 255, 0.4); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"
+                >
+                  <svg
+                    fill="none"
+                    height="36"
+                    viewBox="0 0 28 28"
+                    width="36"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M7 14C7 10.134 10.134 7 14 7C17.866 7 21 10.134 21 14"
+                      stroke="#C8FF00"
+                      stroke-linecap="round"
+                      stroke-width="2.2"
+                    />
+                    <path
+                      d="M14 21L14 14"
+                      stroke="#7B5CFF"
+                      stroke-linecap="round"
+                      stroke-width="2.2"
+                    />
+                    <circle
+                      cx="14"
+                      cy="21"
+                      fill="#C8FF00"
+                      r="2"
+                    />
+                    <path
+                      d="M10 11.5L14 7L18 11.5"
+                      stroke="#C8FF00"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                    />
+                  </svg>
+                </div>
+                <div
+                  style="display: flex; flex-direction: column; gap: 4px;"
+                >
+                  <div
+                    style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.02em; color: rgb(245, 243, 239); display: flex; align-items: baseline; gap: 2px;"
+                  >
+                    nexus
+                    <span
+                      style="color: rgb(200, 255, 0);"
+                    >
+                      .
+                    </span>
+                  </div>
+                  <div
+                    style="font-family: 'Space Mono', monospace; font-size: 8px; font-weight: 700; background: rgba(123, 92, 255, 0.2); border: 1px solid rgba(123, 92, 255, 0.4); color: rgb(123, 92, 255); padding: 3px 8px; border-radius: 100px; letter-spacing: 0.08em; display: inline-flex;"
+                  >
+                    AI PLATFORM
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="auth-header"
+            >
+              <h1>
+                Log In
+              </h1>
+              <p>
+                Welcome back! Sign in to your account
+              </p>
+            </div>
+            <form
+              class="auth-form"
+            >
+              <div
+                class="form-group"
+              >
+                <label
+                  class="form-label"
+                >
+                  Email Address
+                  <span
+                    class="required"
+                  >
+                    *
+                  </span>
+                </label>
+                <input
+                  autocomplete="email"
+                  class="form-input"
+                  name="email"
+                  placeholder="name@example.com"
+                  required=""
+                  type="email"
+                  value=""
+                />
+              </div>
+              <div
+                class="form-group password-relative"
+              >
+                <label
+                  class="form-label"
+                >
+                  Password
+                  <span
+                    class="required"
+                  >
+                    *
+                  </span>
+                </label>
+                <input
+                  autocomplete="current-password"
+                  class="form-input"
+                  name="password"
+                  placeholder="ÔÇóÔÇóÔÇóÔÇóÔÇóÔÇóÔÇóÔÇó"
+                  required=""
+                  type="password"
+                  value=""
+                />
+                <button
+                  class="password-toggle"
+                  type="button"
+                >
+                  ­ƒæü´©ÅÔÇì­ƒù¿´©Å
+                </button>
+              </div>
+              <div
+                class="helper-text"
+              >
+                <label
+                  class="checkbox-group"
+                >
+                  <input
+                    class="checkbox-input"
+                    type="checkbox"
+                  />
+                  <span
+                    class="checkbox-label"
+                  >
+                    Remember me
+                  </span>
+                </label>
+                <a
+                  class="helper-link"
+                  href="/auth/forgot-password"
+                >
+                  Forgot password?
+                </a>
+              </div>
+              <button
+                class="
+          px-4 py-3 rounded-lg font-medium transition-all duration-200
+          disabled:opacity-50 disabled:cursor-not-allowed
+          flex items-center justify-center gap-2
+          w-full
+          bg-volt hover:bg-volt/90 text-ink font-syne font-bold shadow-lg hover:shadow-xl hover:shadow-volt/30 transition-all duration-200
+         mt-2"
+                dir="ltr"
+                type="submit"
+              >
+                Log In
+              </button>
+            </form>
+            <div
+              class="divider"
+            >
+              <span
+                class="divider-text"
+              >
+                Or
+              </span>
+            </div>
+            <div
+              class="mb-6"
+            >
+              <button
+                data-testid="mock-google-login"
+                style="width: 100%; padding: 0.875rem 1rem; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 10px; color: rgb(245, 243, 239); font-family: 'Syne', sans-serif; font-size: 0.9375rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 0.75rem; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden;"
+                theme="outline"
+                width="100%"
+              >
+                <svg
+                  fill="none"
+                  height="18"
+                  style="flex-shrink: 0;"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                    fill="#4285F4"
+                  />
+                  <path
+                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                    fill="#34A853"
+                  />
+                  <path
+                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                    fill="#FBBC05"
+                  />
+                  <path
+                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                    fill="#EA4335"
+                  />
+                </svg>
+                <span>
+                  Sign in with Google
+                </span>
+              </button>
+            </div>
+            <div
+              class="auth-footer"
+            >
+              <p>
+                Don't have an account?
+                 
+                <a
+                  class="auth-footer-link"
+                  href="/auth/signup"
+                >
+                  Sign Up
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+
+      52 |     // The GoogleLogin error handler should be triggered on error
+      53 |     // This would require mocking the GoogleLogin component
+    > 54 |     expect(screen.getByText(/log in/i)).toBeInTheDocument();
+         |                   ^
+      55 |   });
+      56 | });
+      57 |
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at getElementError (node_modules/@testing-library/dom/dist/query-helpers.js:20:35)
+      at getMultipleElementsFoundError (node_modules/@testing-library/dom/dist/query-helpers.js:23:10)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:55:13
+      at node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+      at Object.getByText (src/pages/auth/GoogleOAuth.test.jsx:54:19)
+
+  ÔùÅ SignupPage - Google OAuth Integration ÔÇ║ Google OAuth auto-creates account and redirects to chat
+
+    TestingLibraryElementError: Found multiple elements with the text: /sign up/i
+
+    Here are the matching elements:
+
+    Ignored nodes: comments, script, style
+    <h1>
+      Sign Up
+    </h1>
+
+    Ignored nodes: comments, script, style
+    <button
+      class="
+          px-4 py-3 rounded-lg font-medium transition-all duration-200
+          disabled:opacity-50 disabled:cursor-not-allowed
+          flex items-center justify-center gap-2
+          w-full
+          bg-volt hover:bg-volt/90 text-ink font-syne font-bold shadow-lg hover:shadow-xl hover:shadow-volt/30 transition-all duration-200
+         mt-2"
+      dir="ltr"
+      type="submit"
+    >
+      Sign Up
+    </button>
+
+    Ignored nodes: comments, script, style
+    <span>
+      Sign up with Google
+    </span>
+
+    (If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+    Ignored nodes: comments, script, style
+    <body>
+      <div>
+        <div
+          class="auth-container"
+          dir="ltr"
+        >
+          <div
+            class="auth-bg"
+          />
+          <div
+            class="auth-card"
+          >
+            <div
+              style="margin-bottom: 1.5rem; display: flex; justify-content: center;"
+            >
+              <div
+                style="display: flex; align-items: center; gap: 12px; cursor: default; transition: none;"
+              >
+                <div
+                  style="width: 48px; height: 48px; background: rgba(123, 92, 255, 0.15); border: 2px solid rgba(123, 92, 255, 0.4); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"
+                >
+                  <svg
+                    fill="none"
+                    height="36"
+                    viewBox="0 0 28 28"
+                    width="36"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M7 14C7 10.134 10.134 7 14 7C17.866 7 21 10.134 21 14"
+                      stroke="#C8FF00"
+                      stroke-linecap="round"
+                      stroke-width="2.2"
+                    />
+                    <path
+                      d="M14 21L14 14"
+                      stroke="#7B5CFF"
+                      stroke-linecap="round"
+                      stroke-width="2.2"
+                    />
+                    <circle
+                      cx="14"
+                      cy="21"
+                      fill="#C8FF00"
+                      r="2"
+                    />
+                    <path
+                      d="M10 11.5L14 7L18 11.5"
+                      stroke="#C8FF00"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                    />
+                  </svg>
+                </div>
+                <div
+                  style="display: flex; flex-direction: column; gap: 4px;"
+                >
+                  <div
+                    style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.02em; color: rgb(245, 243, 239); display: flex; align-items: baseline; gap: 2px;"
+                  >
+                    nexus
+                    <span
+                      style="color: rgb(200, 255, 0);"
+                    >
+                      .
+                    </span>
+                  </div>
+                  <div
+                    style="font-family: 'Space Mono', monospace; font-size: 8px; font-weight: 700; background: rgba(123, 92, 255, 0.2); border: 1px solid rgba(123, 92, 255, 0.4); color: rgb(123, 92, 255); padding: 3px 8px; border-radius: 100px; letter-spacing: 0.08em; display: inline-flex;"
+                  >
+                    AI PLATFORM
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="auth-header"
+            >
+              <h1>
+                Sign Up
+              </h1>
+              <p>
+                Create your account to get started with Nexus Chat
+              </p>
+            </div>
+            <form
+              class="auth-form"
+            >
+              <div
+                class="form-group side-by-side"
+              >
+                <div>
+                  <label
+                    class="form-label"
+                  >
+                    First Name
+                    <span
+                      class="required"
+                    >
+                      *
+                    </span>
+                  </label>
+                  <input
+                    class="form-input"
+                    name="firstName"
+                    placeholder="John"
+                    required=""
+                    type="text"
+                    value=""
+                  />
+                </div>
+                <div>
+                  <label
+                    class="form-label"
+                  >
+                    Last Name
+                    <span
+                      class="required"
+                    >
+                      *
+                    </span>
+                  </label>
+                  <input
+                    class="form-input"
+                    name="lastName"
+                    placeholder="Doe"
+                    required=""
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+              <div
+                class="form-group"
+              >
+                <label
+                  class="form-label"
+                >
+                  Email Address
+                  <span
+                    class="required"
+                  >
+                    *
+                  </span>
+                </label>
+                <input
+                  class="form-input"
+                  name="email"
+                  placeholder="name@example.com"
+                  required=""
+                  type="email"
+                  value=""
+                />
+              </div>
+              <div
+                class="form-group password-relative"
+              >
+                <label
+                  class="form-label"
+                >
+                  Password
+                  <span
+                    class="required"
+                  >
+                    *
+                  </span>
+                </label>
+                <input
+                  class="form-input"
+                  name="password"
+                  placeholder="ÔÇóÔÇóÔÇóÔÇóÔÇóÔÇóÔÇóÔÇó"
+                  required=""
+                  type="password"
+                  value=""
+                />
+                <button
+                  class="password-toggle"
+                  type="button"
+                >
+                  ­ƒæü´©ÅÔÇì­ƒù¿´©Å
+                </button>
+              </div>
+              <div
+                class="form-group"
+              >
+                <label
+                  class="form-label"
+                >
+                  Confirm Password
+                  <span
+                    class="required"
+                  >
+                    *
+                  </span>
+                </label>
+                <input
+                  class="form-input"
+                  name="passwordConfirm"
+                  placeholder="ÔÇóÔÇóÔÇóÔÇóÔÇóÔÇóÔÇóÔÇó"
+                  required=""
+                  type="password"
+                  value=""
+                />
+              </div>
+              <button
+                class="
+          px-4 py-3 rounded-lg font-medium transition-all duration-200
+          disabled:opacity-50 disabled:cursor-not-allowed
+          flex items-center justify-center gap-2
+          w-full
+          bg-volt hover:bg-volt/90 text-ink font-syne font-bold shadow-lg hover:shadow-xl hover:shadow-volt/30 transition-all duration-200
+         mt-2"
+                dir="ltr"
+                type="submit"
+              >
+                Sign Up
+              </button>
+            </form>
+            <div
+              class="divider"
+            >
+              <span
+                class="divider-text"
+              >
+                Or
+              </span>
+            </div>
+            <div
+              class="mb-6"
+            >
+              <button
+                data-testid="mock-google-login"
+                style="width: 100%; padding: 0.875rem 1rem; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 10px; color: rgb(245, 243, 239); font-family: 'Syne', sans-serif; font-size: 0.9375rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 0.75rem; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden;"
+                theme="outline"
+                width="100%"
+              >
+                <svg
+                  fill="none"
+                  height="18"
+                  style="flex-shrink: 0;"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                    fill="#4285F4"
+                  />
+                  <path
+                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                    fill="#34A853"
+                  />
+                  <path
+                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                    fill="#FBBC05"
+                  />
+                  <path
+                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                    fill="#EA4335"
+                  />
+                </svg>
+                <span>
+                  Sign up with Google
+                </span>
+              </button>
+            </div>
+            <div
+              class="auth-footer"
+            >
+              <p>
+                Already have an account?
+                 
+                <a
+                  class="auth-footer-link"
+                  href="/auth/login"
+                >
+                  Log In
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+
+      69 |
+      70 |     // Google sign up should eventually redirect to /chat (skipping verification)
+    > 71 |     expect(screen.getByText(/sign up/i)).toBeInTheDocument();
+         |                   ^
+      72 |   });
+      73 |
+      74 |   test("Google OAuth error handled gracefully", async () => {
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at getElementError (node_modules/@testing-library/dom/dist/query-helpers.js:20:35)
+      at getMultipleElementsFoundError (node_modules/@testing-library/dom/dist/query-helpers.js:23:10)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:55:13
+      at node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+      at Object.getByText (src/pages/auth/GoogleOAuth.test.jsx:71:19)
+
+  ÔùÅ SignupPage - Google OAuth Integration ÔÇ║ Google OAuth error handled gracefully
+
+    TestingLibraryElementError: Found multiple elements with the text: /sign up/i
+
+    Here are the matching elements:
+
+    Ignored nodes: comments, script, style
+    <h1>
+      Sign Up
+    </h1>
+
+    Ignored nodes: comments, script, style
+    <button
+      class="
+          px-4 py-3 rounded-lg font-medium transition-all duration-200
+          disabled:opacity-50 disabled:cursor-not-allowed
+          flex items-center justify-center gap-2
+          w-full
+          bg-volt hover:bg-volt/90 text-ink font-syne font-bold shadow-lg hover:shadow-xl hover:shadow-volt/30 transition-all duration-200
+         mt-2"
+      dir="ltr"
+      type="submit"
+    >
+      Sign Up
+    </button>
+
+    Ignored nodes: comments, script, style
+    <span>
+      Sign up with Google
+    </span>
+
+    (If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+    Ignored nodes: comments, script, style
+    <body>
+      <div>
+        <div
+          class="auth-container"
+          dir="ltr"
+        >
+          <div
+            class="auth-bg"
+          />
+          <div
+            class="auth-card"
+          >
+            <div
+              style="margin-bottom: 1.5rem; display: flex; justify-content: center;"
+            >
+              <div
+                style="display: flex; align-items: center; gap: 12px; cursor: default; transition: none;"
+              >
+                <div
+                  style="width: 48px; height: 48px; background: rgba(123, 92, 255, 0.15); border: 2px solid rgba(123, 92, 255, 0.4); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"
+                >
+                  <svg
+                    fill="none"
+                    height="36"
+                    viewBox="0 0 28 28"
+                    width="36"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M7 14C7 10.134 10.134 7 14 7C17.866 7 21 10.134 21 14"
+                      stroke="#C8FF00"
+                      stroke-linecap="round"
+                      stroke-width="2.2"
+                    />
+                    <path
+                      d="M14 21L14 14"
+                      stroke="#7B5CFF"
+                      stroke-linecap="round"
+                      stroke-width="2.2"
+                    />
+                    <circle
+                      cx="14"
+                      cy="21"
+                      fill="#C8FF00"
+                      r="2"
+                    />
+                    <path
+                      d="M10 11.5L14 7L18 11.5"
+                      stroke="#C8FF00"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                    />
+                  </svg>
+                </div>
+                <div
+                  style="display: flex; flex-direction: column; gap: 4px;"
+                >
+                  <div
+                    style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.02em; color: rgb(245, 243, 239); display: flex; align-items: baseline; gap: 2px;"
+                  >
+                    nexus
+                    <span
+                      style="color: rgb(200, 255, 0);"
+                    >
+                      .
+                    </span>
+                  </div>
+                  <div
+                    style="font-family: 'Space Mono', monospace; font-size: 8px; font-weight: 700; background: rgba(123, 92, 255, 0.2); border: 1px solid rgba(123, 92, 255, 0.4); color: rgb(123, 92, 255); padding: 3px 8px; border-radius: 100px; letter-spacing: 0.08em; display: inline-flex;"
+                  >
+                    AI PLATFORM
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="auth-header"
+            >
+              <h1>
+                Sign Up
+              </h1>
+              <p>
+                Create your account to get started with Nexus Chat
+              </p>
+            </div>
+            <form
+              class="auth-form"
+            >
+              <div
+                class="form-group side-by-side"
+              >
+                <div>
+                  <label
+                    class="form-label"
+                  >
+                    First Name
+                    <span
+                      class="required"
+                    >
+                      *
+                    </span>
+                  </label>
+                  <input
+                    class="form-input"
+                    name="firstName"
+                    placeholder="John"
+                    required=""
+                    type="text"
+                    value=""
+                  />
+                </div>
+                <div>
+                  <label
+                    class="form-label"
+                  >
+                    Last Name
+                    <span
+                      class="required"
+                    >
+                      *
+                    </span>
+                  </label>
+                  <input
+                    class="form-input"
+                    name="lastName"
+                    placeholder="Doe"
+                    required=""
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+              <div
+                class="form-group"
+              >
+                <label
+                  class="form-label"
+                >
+                  Email Address
+                  <span
+                    class="required"
+                  >
+                    *
+                  </span>
+                </label>
+                <input
+                  class="form-input"
+                  name="email"
+                  placeholder="name@example.com"
+                  required=""
+                  type="email"
+                  value=""
+                />
+              </div>
+              <div
+                class="form-group password-relative"
+              >
+                <label
+                  class="form-label"
+                >
+                  Password
+                  <span
+                    class="required"
+                  >
+                    *
+                  </span>
+                </label>
+                <input
+                  class="form-input"
+                  name="password"
+                  placeholder="ÔÇóÔÇóÔÇóÔÇóÔÇóÔÇóÔÇóÔÇó"
+                  required=""
+                  type="password"
+                  value=""
+                />
+                <button
+                  class="password-toggle"
+                  type="button"
+                >
+                  ­ƒæü´©ÅÔÇì­ƒù¿´©Å
+                </button>
+              </div>
+              <div
+                class="form-group"
+              >
+                <label
+                  class="form-label"
+                >
+                  Confirm Password
+                  <span
+                    class="required"
+                  >
+                    *
+                  </span>
+                </label>
+                <input
+                  class="form-input"
+                  name="passwordConfirm"
+                  placeholder="ÔÇóÔÇóÔÇóÔÇóÔÇóÔÇóÔÇóÔÇó"
+                  required=""
+                  type="password"
+                  value=""
+                />
+              </div>
+              <button
+                class="
+          px-4 py-3 rounded-lg font-medium transition-all duration-200
+          disabled:opacity-50 disabled:cursor-not-allowed
+          flex items-center justify-center gap-2
+          w-full
+          bg-volt hover:bg-volt/90 text-ink font-syne font-bold shadow-lg hover:shadow-xl hover:shadow-volt/30 transition-all duration-200
+         mt-2"
+                dir="ltr"
+                type="submit"
+              >
+                Sign Up
+              </button>
+            </form>
+            <div
+              class="divider"
+            >
+              <span
+                class="divider-text"
+              >
+                Or
+              </span>
+            </div>
+            <div
+              class="mb-6"
+            >
+              <button
+                data-testid="mock-google-login"
+                style="width: 100%; padding: 0.875rem 1rem; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 10px; color: rgb(245, 243, 239); font-family: 'Syne', sans-serif; font-size: 0.9375rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 0.75rem; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden;"
+                theme="outline"
+                width="100%"
+              >
+                <svg
+                  fill="none"
+                  height="18"
+                  style="flex-shrink: 0;"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                    fill="#4285F4"
+                  />
+                  <path
+                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                    fill="#34A853"
+                  />
+                  <path
+                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                    fill="#FBBC05"
+                  />
+                  <path
+                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                    fill="#EA4335"
+                  />
+                </svg>
+                <span>
+                  Sign up with Google
+                </span>
+              </button>
+            </div>
+            <div
+              class="auth-footer"
+            >
+              <p>
+                Already have an account?
+                 
+                <a
+                  class="auth-footer-link"
+                  href="/auth/login"
+                >
+                  Log In
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+
+      76 |
+      77 |     // Check that signup form is present
+    > 78 |     expect(screen.getByText(/sign up/i)).toBeInTheDocument();
+         |                   ^
+      79 |   });
+      80 | });
+      81 |
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at getElementError (node_modules/@testing-library/dom/dist/query-helpers.js:20:35)
+      at getMultipleElementsFoundError (node_modules/@testing-library/dom/dist/query-helpers.js:23:10)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:55:13
+      at node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+      at Object.getByText (src/pages/auth/GoogleOAuth.test.jsx:78:19)
+
+PASS src/pages/auth/ResetPasswordPage.test.jsx
+  ÔùÅ Console
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+
+      54 |
+      55 |   test("renders form with code and password inputs", () => {
+    > 56 |     render(
+         |           ^
+      57 |       <Router>
+      58 |         <AuthProvider>
+      59 |           <ResetPasswordPage />
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at Object.logDeprecation [as UNSAFE_logV6DeprecationWarnings] (node_modules/react-router/lib/deprecations.ts:26:5)
+      at logV6DeprecationWarnings (node_modules/react-router-dom/index.tsx:816:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at Object.<anonymous> (src/pages/auth/ResetPasswordPage.test.jsx:56:11)
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+      54 |
+      55 |   test("renders form with code and password inputs", () => {
+    > 56 |     render(
+         |           ^
+      57 |       <Router>
+      58 |         <AuthProvider>
+      59 |           <ResetPasswordPage />
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at Object.logDeprecation [as UNSAFE_logV6DeprecationWarnings] (node_modules/react-router/lib/deprecations.ts:37:5)
+      at logV6DeprecationWarnings (node_modules/react-router-dom/index.tsx:816:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at Object.<anonymous> (src/pages/auth/ResetPasswordPage.test.jsx:56:11)
+
+FAIL src/App.test.jsx
+  ÔùÅ Console
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+
+      47 |
+      48 | const renderLanding = () =>
+    > 49 |   render(
+         |         ^
+      50 |     <I18nextProvider i18n={i18n}>
+      51 |       <LanguageProvider>
+      52 |         <MemoryRouter initialEntries={["/"]}>
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at logDeprecation (node_modules/react-router/lib/deprecations.ts:26:5)
+      at logV6DeprecationWarnings (node_modules/react-router/lib/components.tsx:257:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at renderLanding (src/App.test.jsx:49:9)
+      at renderLanding (src/App.test.jsx:61:18)
+      at Object.<anonymous> (node_modules/react-scripts/node_modules/expect/build/toThrowMatchers.js:83:11)
+      at Object.throwingMatcher [as toThrow] (node_modules/react-scripts/node_modules/expect/build/index.js:382:21)
+      at Object.toThrow (src/App.test.jsx:61:39)
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+      47 |
+      48 | const renderLanding = () =>
+    > 49 |   render(
+         |         ^
+      50 |     <I18nextProvider i18n={i18n}>
+      51 |       <LanguageProvider>
+      52 |         <MemoryRouter initialEntries={["/"]}>
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at logDeprecation (node_modules/react-router/lib/deprecations.ts:37:5)
+      at logV6DeprecationWarnings (node_modules/react-router/lib/components.tsx:257:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at renderLanding (src/App.test.jsx:49:9)
+      at renderLanding (src/App.test.jsx:61:18)
+      at Object.<anonymous> (node_modules/react-scripts/node_modules/expect/build/toThrowMatchers.js:83:11)
+      at Object.throwingMatcher [as toThrow] (node_modules/react-scripts/node_modules/expect/build/index.js:382:21)
+      at Object.toThrow (src/App.test.jsx:61:39)
+
+  ÔùÅ Landing Page Integration ÔÇ║ navbar exposes login and chat entry points
+
+    TestingLibraryElementError: Found multiple elements with the role "link" and name `/sign in/i`
+
+    Here are the matching elements:
+
+    Ignored nodes: comments, script, style
+    <a
+      class="btn btnGhost"
+      href="/auth/login"
+    >
+      Sign In
+    </a>
+
+    Ignored nodes: comments, script, style
+    <a
+      class="btn btnGhost"
+      href="/auth/login"
+    >
+      Sign In
+    </a>
+
+    (If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+    Ignored nodes: comments, script, style
+    <body>
+      <div>
+        <div
+          class="landingPageContainer"
+        >
+          <nav
+            class="navbar "
+          >
+            <div
+              class="navInner"
+            >
+              <a
+                class="navLogo"
+                href="/"
+              >
+                nexus
+                <span
+                  class="dot"
+                >
+                  .
+                </span>
+                <span
+                  class="badge"
+                >
+                  AI
+                </span>
+              </a>
+              <ul
+                class="navLinks"
+              >
+                <li>
+                  <a
+                    href="#features"
+                  >
+                    Features
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#models"
+                  >
+                    Models
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#about"
+                  >
+                    About
+                  </a>
+                </li>
+              </ul>
+              <div
+                class="navRight"
+              >
+                <div
+                  class="langToggle"
+                >
+                  <button
+                    class="langBtn active"
+                  >
+                    EN
+                  </button>
+                  <button
+                    class="langBtn "
+                  >
+                    Ï╣Ï▒
+                  </button>
+                </div>
+                <a
+                  class="btn btnGhost"
+                  href="/auth/login"
+                >
+                  Sign In
+                </a>
+                <a
+                  class="btn btnPrimary"
+                  href="/chat"
+                >
+                  Start Chat
+                </a>
+                <button
+                  aria-label="Toggle menu"
+                  class="hamburger "
+                >
+                  <span />
+                  <span />
+                  <span />
+                </button>
+              </div>
+            </div>
+          </nav>
+          <div
+            class="mobMenu "
+          >
+            <a
+              href="#features"
+            >
+              Features
+            </a>
+            <a
+              href="#models"
+            >
+              Models
+            </a>
+            <a
+              href="#about"
+            >
+              About
+            </a>
+            <div
+              class="mobBtns"
+            >
+              <a
+                class="btn btnGhost"
+                href="/auth/login"
+              >
+                Sign In
+              </a>
+              <a
+                class="btn btnPrimary"
+                href="/chat"
+              >
+                Start Chat
+              </a>
+            </div>
+          </div>
+          <main
+            class="mainContent"
+          >
+            <section
+              class="hero"
+              id="hero"
+            >
+              <div
+                class="heroBg"
+              />
+              <div
+                class="heroGrid"
+              />
+              <div
+                class="heroInner"
+              >
+                <div
+                  class="heroLeft"
+                >
+                  <div
+                    class="heroEyebrow"
+                  >
+                    <span
+                      class="liveDot"
+                    />
+                    <span>
+                      LIVE NOW
+                    </span>
+                  </div>
+                  <h1
+                    class="heroTitle"
+                  >
+                    nexus
+                    <span
+                      class="dot"
+                    >
+                      .
+                    </span>
+                    <span
+                      class="sub"
+                    >
+                      AI
+                    </span>
+                  </h1>
+                  <p
+                    class="heroBody"
+                  >
+                    Meet nexus ÔÇö the intelligent multi-model chat platform where Nemotron meets LLaMA, Arabic meets English. Experience seamless conversations, instant model switching, and powerful AI at your fingertips.
+                  </p>
+                  <div
+                    class="heroCta"
+                  >
+                    <a
+                      class="btn btnPrimary"
+                      href="/chat"
+                    >
+                      Start Chatting
+                    </a>
+                    <a
+                      class="btn btnSecondary"
+                      href="#features"
+                    >
+                      Learn More
+                    </a>
+                  </div>
+                  <div
+                    class="heroChips"
+                  >
+                    <span
+                      class="chip chipV"
+                    >
+                      Nemotron
+                    </span>
+                    <span
+                      class="chip chipP"
+                    >
+                      Liquid
+                    </span>
+                    <span
+                      class="chip chipI...
+
+      71 |   test("navbar exposes login and chat entry points", () => {
+      72 |     renderLanding();
+    > 73 |     expect(screen.getByRole("link", { name: /sign in/i })).toHaveAttribute(
+         |                   ^
+      74 |       "href",
+      75 |       expect.stringMatching(/auth\/login/i),
+      76 |     );
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at getElementError (node_modules/@testing-library/dom/dist/query-helpers.js:20:35)
+      at getMultipleElementsFoundError (node_modules/@testing-library/dom/dist/query-helpers.js:23:10)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:55:13
+      at node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+      at Object.getByRole (src/App.test.jsx:73:19)
+
+  ÔùÅ Landing Page Integration ÔÇ║ core sections are mounted
+
+    expect(received).toBeInTheDocument()
+
+    received value must be an HTMLElement or an SVGElement.
+    Received has value: null
+
+      92 |     renderLanding();
+      93 |     SECTION_IDS.forEach((id) => {
+    > 94 |       expect(document.getElementById(id)).toBeInTheDocument();
+         |                                           ^
+      95 |     });
+      96 |   });
+      97 |
+
+      at __EXTERNAL_MATCHER_TRAP__ (node_modules/react-scripts/node_modules/expect/build/index.js:386:30)
+      at Object.throwingMatcher [as toBeInTheDocument] (node_modules/react-scripts/node_modules/expect/build/index.js:387:15)
+      at toBeInTheDocument (src/App.test.jsx:94:43)
+          at Array.forEach (<anonymous>)
+      at Object.forEach (src/App.test.jsx:93:17)
+
+  ÔùÅ Landing Page Integration ÔÇ║ bilingual callout and footer render
+
+    expect(received).toBeInTheDocument()
+
+    received value must be an HTMLElement or an SVGElement.
+    Received has value: null
+
+      111 |     renderLanding();
+      112 |     expect(document.querySelector("#bilingual")).toBeInTheDocument();
+    > 113 |     expect(document.querySelector("#footer")).toBeInTheDocument();
+          |                                               ^
+      114 |   });
+      115 |
+      116 |   test("hero chips render provider badges", () => {
+
+      at __EXTERNAL_MATCHER_TRAP__ (node_modules/react-scripts/node_modules/expect/build/index.js:386:30)
+      at Object.throwingMatcher [as toBeInTheDocument] (node_modules/react-scripts/node_modules/expect/build/index.js:387:15)
+      at Object.toBeInTheDocument (src/App.test.jsx:113:47)
+
+FAIL src/pages/__tests__/Landing.test.jsx
+  ÔùÅ Console
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+
+      29 | describe("Landing Page", () => {
+      30 |   const renderLanding = () => {
+    > 31 |     return render(
+         |                  ^
+      32 |       <BrowserRouter>
+      33 |         <I18nextProvider i18n={i18n}>
+      34 |           <LanguageProvider>
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at Object.logDeprecation [as UNSAFE_logV6DeprecationWarnings] (node_modules/react-router/lib/deprecations.ts:26:5)
+      at logV6DeprecationWarnings (node_modules/react-router-dom/index.tsx:816:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at renderLanding (src/pages/__tests__/Landing.test.jsx:31:18)
+      at Object.renderLanding (src/pages/__tests__/Landing.test.jsx:45:5)
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+      29 | describe("Landing Page", () => {
+      30 |   const renderLanding = () => {
+    > 31 |     return render(
+         |                  ^
+      32 |       <BrowserRouter>
+      33 |         <I18nextProvider i18n={i18n}>
+      34 |           <LanguageProvider>
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at Object.logDeprecation [as UNSAFE_logV6DeprecationWarnings] (node_modules/react-router/lib/deprecations.ts:37:5)
+      at logV6DeprecationWarnings (node_modules/react-router-dom/index.tsx:816:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at renderLanding (src/pages/__tests__/Landing.test.jsx:31:18)
+      at Object.renderLanding (src/pages/__tests__/Landing.test.jsx:45:5)
+
+  ÔùÅ Landing Page ÔÇ║ renders all seven sections in order
+
+    expect(received).toBeInTheDocument()
+
+    received value must be an HTMLElement or an SVGElement.
+    Received has value: null
+
+      62 |     expect(bilingual).toBeInTheDocument();
+      63 |     expect(about).toBeInTheDocument();
+    > 64 |     expect(footer).toBeInTheDocument();
+         |                    ^
+      65 |   });
+      66 |
+      67 |   test("hero section contains main CTA", () => {
+
+      at __EXTERNAL_MATCHER_TRAP__ (node_modules/react-scripts/node_modules/expect/build/index.js:386:30)
+      at Object.throwingMatcher [as toBeInTheDocument] (node_modules/react-scripts/node_modules/expect/build/index.js:387:15)
+      at Object.toBeInTheDocument (src/pages/__tests__/Landing.test.jsx:64:20)
+
+  ÔùÅ Landing Page ÔÇ║ hero section contains main CTA
+
+    TestingLibraryElementError: Unable to find an accessible element with the role "button" and name `/start chatting|ÏºÏ¿Ï»Ïú Ïº┘äÏ»Ï▒Ï»Ï┤Ï®/i`
+
+    Here are the accessible roles:
+
+      navigation:
+
+      Name "":
+      <nav
+        class="navbar "
+      />
+
+      --------------------------------------------------
+      link:
+
+      Name "nexus . AI":
+      <a
+        class="navLogo"
+        href="/"
+      />
+
+      Name "Features":
+      <a
+        href="#features"
+      />
+
+      Name "Models":
+      <a
+        href="#models"
+      />
+
+      Name "About":
+      <a
+        href="#about"
+      />
+
+      Name "Sign In":
+      <a
+        class="btn btnGhost"
+        href="/auth/login"
+      />
+
+      Name "Start Chat":
+      <a
+        class="btn btnPrimary"
+        href="/chat"
+      />
+
+      Name "Features":
+      <a
+        href="#features"
+      />
+
+      Name "Models":
+      <a
+        href="#models"
+      />
+
+      Name "About":
+      <a
+        href="#about"
+      />
+
+      Name "Sign In":
+      <a
+        class="btn btnGhost"
+        href="/auth/login"
+      />
+
+      Name "Start Chat":
+      <a
+        class="btn btnPrimary"
+        href="/chat"
+      />
+
+      Name "Start Chatting":
+      <a
+        class="btn btnPrimary"
+        href="/chat"
+      />
+
+      Name "Learn More":
+      <a
+        class="btn btnSecondary"
+        href="#features"
+      />
+
+      --------------------------------------------------
+      list:
+
+      Name "":
+      <ul
+        class="navLinks"
+      />
+
+      --------------------------------------------------
+      listitem:
+
+      Name "":
+      <li />
+
+      Name "":
+      <li />
+
+      Name "":
+      <li />
+
+      --------------------------------------------------
+      button:
+
+      Name "EN":
+      <button
+        class="langBtn active"
+      />
+
+      Name "Ï╣Ï▒":
+      <button
+        class="langBtn "
+      />
+
+      Name "Toggle menu":
+      <button
+        aria-label="Toggle menu"
+        class="hamburger "
+      />
+
+      Name "Nemotron":
+      <button
+        class="msw on"
+      />
+
+      Name "Liquid":
+      <button
+        class="msw "
+      />
+
+      Name "Trinity":
+      <button
+        class="msw "
+      />
+
+      Name "Create Account":
+      <button
+        class="btn btnCp"
+      />
+
+      Name "Sign In":
+      <button
+        class="btn btnCg"
+      />
+
+      --------------------------------------------------
+      main:
+
+      Name "":
+      <main
+        class="mainContent"
+      />
+
+      --------------------------------------------------
+      heading:
+
+      Name "nexus . AI":
+      <h1
+        class="heroTitle"
+      />
+
+      Name "Engineered for excellence":
+      <h2
+        class="sTitle"
+      />
+
+      Name "Powered by the best open-source models":
+      <h2
+        class="sTitle"
+      />
+
+      Name "Designed for the world ÔÇö in your language":
+      <h2
+        class="sTitle"
+      />
+
+      Name "Built with choice , transparency, and speed":
+      <h2
+        class="sTitle"
+      />
+
+      Name "Start exploring the future of collaborative AI":
+      <h2
+        class="ctaTtl"
+      />
+
+      --------------------------------------------------
+      contentinfo:
+
+      Name "":
+      <footer
+        class="footer"
+      />
+
+      --------------------------------------------------
+
+    Ignored nodes: comments, script, style
+    <body>
+      <div>
+        <div
+          class="landingPageContainer"
+        >
+          <nav
+            class="navbar "
+          >
+            <div
+              class="navInner"
+            >
+              <a
+                class="navLogo"
+                href="/"
+              >
+                nexus
+                <span
+                  class="dot"
+                >
+                  .
+                </span>
+                <span
+                  class="badge"
+                >
+                  AI
+                </span>
+              </a>
+              <ul
+                class="navLinks"
+              >
+                <li>
+                  <a
+                    href="#features"
+                  >
+                    Features
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#models"
+                  >
+                    Models
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#about"
+                  >
+                    About
+                  </a>
+                </li>
+              </ul>
+              <div
+                class="navRight"
+              >
+                <div
+                  class="langToggle"
+                >
+                  <button
+                    class="langBtn active"
+                  >
+                    EN
+                  </button>
+                  <button
+                    class="langBtn "
+                  >
+                    Ï╣Ï▒
+                  </button>
+                </div>
+                <a
+                  class="btn btnGhost"
+                  href="/auth/login"
+                >
+                  Sign In
+                </a>
+                <a
+                  class="btn btnPrimary"
+                  href="/chat"
+                >
+                  Start Chat
+                </a>
+                <button
+                  aria-label="Toggle menu"
+                  class="hamburger "
+                >
+                  <span />
+                  <span />
+                  <span />
+                </button>
+              </div>
+            </div>
+          </nav>
+          <div
+            class="mobMenu "
+          >
+            <a
+              href="#features"
+            >
+              Features
+            </a>
+            <a
+              href="#models"
+            >
+              Models
+            </a>
+            <a
+              href="#about"
+            >
+              About
+            </a>
+            <div
+              class="mobBtns"
+            >
+              <a
+                class="btn btnGhost"
+                href="/auth/login"
+              >
+                Sign In
+              </a>
+              <a
+                class="btn btnPrimary"
+                href="/chat"
+              >
+                Start Chat
+              </a>
+            </div>
+          </div>
+          <main
+            class="mainContent"
+          >
+            <section
+              class="hero"
+              id="hero"
+            >
+              <div
+                class="heroBg"
+              />
+              <div
+                class="heroGrid"
+              />
+              <div
+                class="heroInner"
+              >
+                <div
+                  class="heroLeft"
+                >
+                  <div
+                    class="heroEyebrow"
+                  >
+                    <span
+                      class="liveDot"
+                    />
+                    <span>
+                      LIVE NOW
+                    </span>
+                  </div>
+                  <h1
+                    class="heroTitle"
+                  >
+                    nexus
+                    <span
+                      class="dot"
+                    >
+                      .
+                    </span>
+                    <span
+                      class="sub"
+                    >
+                      AI
+                    </span>
+                  </h1>
+                  <p
+                    class="heroBody"
+                  >
+                    Meet nexus ÔÇö the intelligent multi-model chat platform where Nemotron meets LLaMA, Arabic meets English. Experience seamless conversations, instant model switching, and powerful AI at your fingertips.
+                  </p>
+                  <div
+                    class="heroCta"
+                  >
+                    <a
+                      class="btn btnPrimary"
+                      href="/chat"
+                    >
+                      Start Chatting
+                    </a>
+                    <a
+                      class="btn btnSecondary"
+                      href="#features"
+                    >
+                      Learn More
+                    </a>
+                  </div>
+                  <div
+                    class="heroChips"
+                  >
+                    <span
+                      class="chip chipV"
+                    >
+                      Nemotron
+                    </span>
+                    <span
+                      class="chip chipP"
+                    >
+                      Liquid
+                    </span>
+                    <span
+                      class="chip chipI...
+
+      67 |   test("hero section contains main CTA", () => {
+      68 |     renderLanding();
+    > 69 |     const cta = screen.getByRole("button", {
+         |                        ^
+      70 |       name: /start chatting|ÏºÏ¿Ï»Ïú Ïº┘äÏ»Ï▒Ï»Ï┤Ï®/i,
+      71 |     });
+      72 |     expect(cta).toBeInTheDocument();
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+      at Object.getByRole (src/pages/__tests__/Landing.test.jsx:69:24)
+
+  ÔùÅ Landing Page ÔÇ║ models section renders models table
+
+    expect(received).toBeInTheDocument()
+
+    received value must be an HTMLElement or an SVGElement.
+    Received has value: null
+
+      83 |     renderLanding();
+      84 |     const table = document.querySelector("#models table");
+    > 85 |     expect(table).toBeInTheDocument();
+         |                   ^
+      86 |   });
+      87 |
+      88 |   test("bilingual section renders both language showcases", () => {
+
+      at __EXTERNAL_MATCHER_TRAP__ (node_modules/react-scripts/node_modules/expect/build/index.js:386:30)
+      at Object.throwingMatcher [as toBeInTheDocument] (node_modules/react-scripts/node_modules/expect/build/index.js:387:15)
+      at Object.toBeInTheDocument (src/pages/__tests__/Landing.test.jsx:85:19)
+
+  ÔùÅ Landing Page ÔÇ║ bilingual section renders both language showcases
+
+    expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 1
+    Received:    0
+
+      90 |     const bilingual = document.querySelector("#bilingual");
+      91 |     const showcases = bilingual.querySelectorAll("[dir]");
+    > 92 |     expect(showcases.length).toBeGreaterThanOrEqual(1);
+         |                              ^
+      93 |   });
+      94 |
+      95 |   test("footer contains brand and language indicator", () => {
+
+      at Object.toBeGreaterThanOrEqual (src/pages/__tests__/Landing.test.jsx:92:30)
+
+  ÔùÅ Landing Page ÔÇ║ footer contains brand and language indicator
+
+    expect(received).toBeInTheDocument()
+
+    received value must be an HTMLElement or an SVGElement.
+    Received has value: null
+
+       96 |     renderLanding();
+       97 |     const footer = document.querySelector("#footer");
+    >  98 |     expect(footer).toBeInTheDocument();
+          |                    ^
+       99 |   });
+      100 |
+      101 |   test("responds to language changes", async () => {
+
+      at __EXTERNAL_MATCHER_TRAP__ (node_modules/react-scripts/node_modules/expect/build/index.js:386:30)
+      at Object.throwingMatcher [as toBeInTheDocument] (node_modules/react-scripts/node_modules/expect/build/index.js:387:15)
+      at Object.toBeInTheDocument (src/pages/__tests__/Landing.test.jsx:98:20)
+
+Test Suites: 5 failed, 5 passed, 10 total
+Tests:       16 failed, 47 passed, 63 total
+Snapshots:   0 total
+Time:        5.94 s
+Ran all test suites.

@@ -253,11 +253,12 @@ const ResetPasswordPage = () => {
 
           {/* Code Input */}
           <div className="form-group">
-            <label className="form-label">
+            <label className="form-label" htmlFor="reset-code">
               {t("forms.resetCode") || "Reset Code"}
               <span className="required">*</span>
             </label>
             <input
+              id="reset-code"
               type="text"
               name="code"
               placeholder="000000"
@@ -291,11 +292,12 @@ const ResetPasswordPage = () => {
 
           {/* New Password */}
           <div className="form-group password-relative">
-            <label className="form-label">
+            <label className="form-label" htmlFor="new-password">
               {t("forms.newPassword") || "New Password"}
               <span className="required">*</span>
             </label>
             <input
+              id="new-password"
               type={showPassword ? "text" : "password"}
               name="newPassword"
               placeholder="••••••••"
@@ -356,11 +358,12 @@ const ResetPasswordPage = () => {
 
           {/* Confirm Password */}
           <div className="form-group">
-            <label className="form-label">
+            <label className="form-label" htmlFor="confirm-password">
               {t("forms.confirmPassword") || "Confirm Password"}
               <span className="required">*</span>
             </label>
             <input
+              id="confirm-password"
               type="password"
               name="newPasswordConfirm"
               placeholder="••••••••"

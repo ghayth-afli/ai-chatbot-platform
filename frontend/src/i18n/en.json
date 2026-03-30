@@ -284,7 +284,6 @@
   "hist_label": "CHAT HISTORY",
   "no_chats": "No conversations yet. Start a new chat to begin!",
   "export_chat": "Export",
-  "settings": "Settings",
   "qa1": "Summarize this topic",
   "qa2": "Write professional email",
   "qa3": "Explain step by step",
@@ -319,6 +318,9 @@
     "summary_title": "Your Interaction Summary",
     "summary_subtitle": "Quick insights into your chat patterns",
     "no_summaries": "No summaries available yet. Start chatting to see your interaction patterns!",
+    "no_summaries_progress": "You've started {{chats}} chats and sent {{messages}} messages.",
+    "no_summaries_hint_more": "Keep one conversation going for about {{threshold}} messages to unlock your first AI summary.",
+    "no_summaries_hint_ready": "Great progress! Once any chat reaches {{threshold}}+ messages we'll drop your first summary here automatically.",
     "summaries_count": "{{count}} summaries",
     "summaries_note": "Summaries are updated automatically as you chat",
     "language_en": "English",
@@ -330,6 +332,7 @@
     "archived": "Archived"
   },
   "settings": {
+    "label": "Settings",
     "language": "Language"
   },
   "common": {

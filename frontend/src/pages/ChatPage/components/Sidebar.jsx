@@ -328,7 +328,10 @@ export default function Sidebar({
             </div>
           )}
         </div>
-        <button className={styles.sfBtn} title="Settings">
+        <button
+          className={styles.sfBtn}
+          title={t("settings.label", "Settings")}
+        >
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
             <circle
               cx="6.5"
@@ -344,7 +347,7 @@ export default function Sidebar({
               strokeLinecap="round"
             />
           </svg>
-          <span>{t("settings")}</span>
+          <span>{t("settings.label", "Settings")}</span>
         </button>
       </div>
     </aside>

@@ -9,6 +9,7 @@ Provides REST endpoints for:
 - Updating session models
 """
 
+import math
 import logging
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
@@ -189,6 +190,7 @@ class ChatSessionViewSet(viewsets.ModelViewSet):
             if not result.get('success'):
                 status_code = result.get('status_code', status.HTTP_400_BAD_REQUEST)
                 error_code = result.get('error_code')
+                retry_after_seconds = None
 
                 if error_code == 'message_too_long':
                     error_msg = LanguageService.get_localized_error_message(
@@ -206,6 +208,14 @@ class ChatSessionViewSet(viewsets.ModelViewSet):
                     error_msg = LanguageService.get_localized_error_message('access_denied', language)
                 elif error_code == 'ai_provider_error':
                     error_msg = LanguageService.get_localized_error_message('ai_provider_error', language)
+                elif error_code == 'provider_rate_limit_error':
+                    retry_after_seconds = max(1, int(result.get('retry_after_seconds', 60)))
+                    minutes = max(1, math.ceil(retry_after_seconds / 60))
+                    error_msg = LanguageService.get_localized_error_message(
+                        'provider_rate_limit_error',
+                        language,
+                        minutes=minutes,
+                    )
                 elif error_code == 'message_empty':
                     error_msg = LanguageService.get_localized_error_message('empty_message', language)
                 elif error_code == 'invalid_model':
@@ -214,7 +224,13 @@ class ChatSessionViewSet(viewsets.ModelViewSet):
                     error_msg = LanguageService.get_localized_error_message('chat_error', language)
 
                 logger.warning('Send message failed for session %s: %s', pk, result.get('error'))
-                return Response({'error': error_msg}, status=status_code)
+                response = Response({'error': error_msg}, status=status_code)
+                if error_code == 'provider_rate_limit_error' and retry_after_seconds:
+                    response['Retry-After'] = str(retry_after_seconds)
+                    reset_iso = result.get('rate_limit_reset_iso')
+                    if reset_iso:
+                        response['X-RateLimit-Reset'] = reset_iso
+                return response
 
             logger.info(f'Message sent successfully. Response: {result}')
             return Response(result, status=status.HTTP_200_OK)
@@ -275,6 +291,11 @@ class ChatSessionViewSet(viewsets.ModelViewSet):
                 export_format=export_format,
                 language=language,
             )
+
+            if not export_data.get('success', True):
+                status_code = export_data.get('status_code', status.HTTP_400_BAD_REQUEST)
+                error_message = export_data.get('error', 'Failed to export session')
+                return Response({'error': error_message}, status=status_code)
 
             response = HttpResponse(
                 export_data['content'],

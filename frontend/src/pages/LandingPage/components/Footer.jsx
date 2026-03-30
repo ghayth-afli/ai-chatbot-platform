@@ -9,7 +9,7 @@ export default function Footer() {
   const { t } = useTranslation();
 
   return (
-    <footer className={styles.footer}>
+    <footer className={styles.footer} id="footer">
       <div className={styles.footIn}>
         <div className={styles.footLogo}>
           nexus<span className={styles.dot}>.</span>

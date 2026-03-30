@@ -333,11 +333,18 @@ class ChatService:
 
         if 'error' in ai_result:
             logger.error(f'AI provider error: {ai_result["error"]}')
+            error_code = ai_result.get('error_code', 'ai_provider_error')
+            status_code = ai_result.get('status_code', 503)
+            extra_kwargs = {'language': language}
+            if 'retry_after_seconds' in ai_result:
+                extra_kwargs['retry_after_seconds'] = ai_result['retry_after_seconds']
+            if 'rate_limit_reset_iso' in ai_result:
+                extra_kwargs['rate_limit_reset_iso'] = ai_result['rate_limit_reset_iso']
             return ChatService._error_result(
                 ai_result['error'],
-                status_code=503,
-                error_code='ai_provider_error',
-                language=language,
+                status_code=status_code,
+                error_code=error_code,
+                **extra_kwargs,
             )
 
         # Save AI response with language_tag
@@ -596,6 +603,7 @@ class ChatService:
             content = '\n'.join(lines).strip() + '\n'
             filename = f"{ChatService._slugify(session.title) or labels['file_prefix']}-{session.id}.txt"
             return {
+                'success': True,
                 'content': content.encode('utf-8'),
                 'content_type': 'text/plain; charset=utf-8',
                 'filename': filename,
@@ -604,6 +612,7 @@ class ChatService:
         pdf_bytes = ChatService._render_pdf_document(metadata_lines, message_blocks)
         filename = f"{ChatService._slugify(session.title) or labels['file_prefix']}-{session.id}.pdf"
         return {
+            'success': True,
             'content': pdf_bytes,
             'content_type': 'application/pdf',
             'filename': filename,

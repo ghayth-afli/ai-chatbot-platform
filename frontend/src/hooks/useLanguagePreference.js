@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import axios from "axios";
+import api from "../services/api";
 
 /**
  * useLanguagePreference Hook
@@ -83,19 +83,10 @@ export const useLanguagePreference = (userId) => {
     setError(null);
 
     try {
-      const token = localStorage.getItem("auth_token");
-
       // Update on backend
-      await axios.patch(
-        `/api/ai/users/${userId}/language-preference`,
-        { language_preference: newLanguage },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        },
-      );
+      await api.patch(`/ai/users/${userId}/language-preference`, {
+        language_preference: newLanguage,
+      });
 
       // Update local state and i18n
       setLanguageState(newLanguage);

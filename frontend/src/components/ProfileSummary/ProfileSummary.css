@@ -205,6 +205,14 @@
   line-height: 1.5;
 }
 
+.empty-detail {
+  color: #1e3a8a;
+  font-size: 13px;
+  margin: 0;
+  max-width: 420px;
+  line-height: 1.5;
+}
+
 /* Summaries List */
 .summaries-list {
   display: flex;

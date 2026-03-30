@@ -6,7 +6,7 @@
  */
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../services/api";
 
 export const useUserSummaries = (userId) => {
   const [summaries, setSummaries] = useState([]);
@@ -35,15 +35,7 @@ export const useUserSummaries = (userId) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get(
-        `/api/ai/users/${userId}/profile/summary`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
-            "Content-Type": "application/json",
-          },
-        },
-      );
+      const response = await api.get(`/ai/users/${userId}/profile/summary`);
 
       const data = response.data.results || [];
       setSummaries(data);

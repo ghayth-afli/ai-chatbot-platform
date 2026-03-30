@@ -63,6 +63,10 @@ class LanguageService:
         'rate_limit_error': {
             'en': 'You have exceeded the rate limit. Maximum 100 requests per minute allowed. Please try again in {seconds} seconds.',
             'ar': 'لقد تجاوزت حد معدل الطلب. يُسمح بحد أقصى 100 طلب في الدقيقة. يرجى المحاولة مرة أخرى خلال {seconds} ثانية.'
+        },
+        'provider_rate_limit_error': {
+            'en': 'Daily OpenRouter quota reached. Please wait about {minutes} minutes or add credits to your OpenRouter account.',
+            'ar': 'تم الوصول إلى الحصة اليومية لموفر OpenRouter. يرجى الانتظار حوالي {minutes} دقيقة أو إضافة رصيد إلى حساب OpenRouter.'
         }
     }
 

@@ -1,0 +1,1180 @@
+
+> nexus-chatbot-frontend@0.1.0 test
+> react-scripts test
+
+PASS src/services/authService.test.js
+PASS src/hooks/useAuth.test.jsx
+PASS src/hooks/__tests__/useLanguage.test.js
+PASS src/pages/auth/VerifyEmailPage.test.jsx
+  ÔùÅ Console
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+
+      58 |
+      59 |   test("renders form with email and code input", () => {
+    > 60 |     render(
+         |           ^
+      61 |       <Router>
+      62 |         <AuthProvider>
+      63 |           <VerifyEmailPage />
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at Object.logDeprecation [as UNSAFE_logV6DeprecationWarnings] (node_modules/react-router/lib/deprecations.ts:26:5)
+      at logV6DeprecationWarnings (node_modules/react-router-dom/index.tsx:816:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at Object.<anonymous> (src/pages/auth/VerifyEmailPage.test.jsx:60:11)
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+      58 |
+      59 |   test("renders form with email and code input", () => {
+    > 60 |     render(
+         |           ^
+      61 |       <Router>
+      62 |         <AuthProvider>
+      63 |           <VerifyEmailPage />
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at Object.logDeprecation [as UNSAFE_logV6DeprecationWarnings] (node_modules/react-router/lib/deprecations.ts:37:5)
+      at logV6DeprecationWarnings (node_modules/react-router-dom/index.tsx:816:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at Object.<anonymous> (src/pages/auth/VerifyEmailPage.test.jsx:60:11)
+
+PASS src/pages/auth/ForgotPasswordPage.test.jsx
+  ÔùÅ Console
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+
+      43 |
+      44 |   test("renders form with email input", () => {
+    > 45 |     render(
+         |           ^
+      46 |       <Router>
+      47 |         <AuthProvider>
+      48 |           <ForgotPasswordPage />
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at Object.logDeprecation [as UNSAFE_logV6DeprecationWarnings] (node_modules/react-router/lib/deprecations.ts:26:5)
+      at logV6DeprecationWarnings (node_modules/react-router-dom/index.tsx:816:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at Object.<anonymous> (src/pages/auth/ForgotPasswordPage.test.jsx:45:11)
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+      43 |
+      44 |   test("renders form with email input", () => {
+    > 45 |     render(
+         |           ^
+      46 |       <Router>
+      47 |         <AuthProvider>
+      48 |           <ForgotPasswordPage />
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at Object.logDeprecation [as UNSAFE_logV6DeprecationWarnings] (node_modules/react-router/lib/deprecations.ts:37:5)
+      at logV6DeprecationWarnings (node_modules/react-router-dom/index.tsx:816:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at Object.<anonymous> (src/pages/auth/ForgotPasswordPage.test.jsx:45:11)
+
+PASS src/pages/auth/ResetPasswordPage.test.jsx
+  ÔùÅ Console
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+
+      54 |
+      55 |   test("renders form with code and password inputs", () => {
+    > 56 |     render(
+         |           ^
+      57 |       <Router>
+      58 |         <AuthProvider>
+      59 |           <ResetPasswordPage />
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at Object.logDeprecation [as UNSAFE_logV6DeprecationWarnings] (node_modules/react-router/lib/deprecations.ts:26:5)
+      at logV6DeprecationWarnings (node_modules/react-router-dom/index.tsx:816:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at Object.<anonymous> (src/pages/auth/ResetPasswordPage.test.jsx:56:11)
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+      54 |
+      55 |   test("renders form with code and password inputs", () => {
+    > 56 |     render(
+         |           ^
+      57 |       <Router>
+      58 |         <AuthProvider>
+      59 |           <ResetPasswordPage />
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at Object.logDeprecation [as UNSAFE_logV6DeprecationWarnings] (node_modules/react-router/lib/deprecations.ts:37:5)
+      at logV6DeprecationWarnings (node_modules/react-router-dom/index.tsx:816:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at Object.<anonymous> (src/pages/auth/ResetPasswordPage.test.jsx:56:11)
+
+PASS src/hooks/useAuth.multiTab.test.jsx
+  ÔùÅ Console
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+
+      23 |
+      24 | const renderWithProviders = (hook) => {
+    > 25 |   return renderHook(hook, {
+         |                    ^
+      26 |     wrapper: ({ children }) => (
+      27 |       <I18nextProvider i18n={i18n}>
+      28 |         <BrowserRouter>
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at Object.logDeprecation [as UNSAFE_logV6DeprecationWarnings] (node_modules/react-router/lib/deprecations.ts:26:5)
+      at logV6DeprecationWarnings (node_modules/react-router-dom/index.tsx:816:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at renderHook (node_modules/@testing-library/react/dist/pure.js:318:7)
+      at renderWithProviders (src/hooks/useAuth.multiTab.test.jsx:25:20)
+      at Object.renderWithProviders (src/hooks/useAuth.multiTab.test.jsx:59:24)
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+      23 |
+      24 | const renderWithProviders = (hook) => {
+    > 25 |   return renderHook(hook, {
+         |                    ^
+      26 |     wrapper: ({ children }) => (
+      27 |       <I18nextProvider i18n={i18n}>
+      28 |         <BrowserRouter>
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at Object.logDeprecation [as UNSAFE_logV6DeprecationWarnings] (node_modules/react-router/lib/deprecations.ts:37:5)
+      at logV6DeprecationWarnings (node_modules/react-router-dom/index.tsx:816:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at renderHook (node_modules/@testing-library/react/dist/pure.js:318:7)
+      at renderWithProviders (src/hooks/useAuth.multiTab.test.jsx:25:20)
+      at Object.renderWithProviders (src/hooks/useAuth.multiTab.test.jsx:59:24)
+
+PASS src/pages/auth/GoogleOAuth.test.jsx
+  ÔùÅ Console
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+
+      19 |
+      20 | const renderWithProviders = (component) => {
+    > 21 |   return render(
+         |                ^
+      22 |     <GoogleOAuthProvider clientId="test-client-id">
+      23 |       <I18nextProvider i18n={i18n}>
+      24 |         <BrowserRouter>
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at Object.logDeprecation [as UNSAFE_logV6DeprecationWarnings] (node_modules/react-router/lib/deprecations.ts:26:5)
+      at logV6DeprecationWarnings (node_modules/react-router-dom/index.tsx:816:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at renderWithProviders (src/pages/auth/GoogleOAuth.test.jsx:21:16)
+      at Object.renderWithProviders (src/pages/auth/GoogleOAuth.test.jsx:34:5)
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+      19 |
+      20 | const renderWithProviders = (component) => {
+    > 21 |   return render(
+         |                ^
+      22 |     <GoogleOAuthProvider clientId="test-client-id">
+      23 |       <I18nextProvider i18n={i18n}>
+      24 |         <BrowserRouter>
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at Object.logDeprecation [as UNSAFE_logV6DeprecationWarnings] (node_modules/react-router/lib/deprecations.ts:37:5)
+      at logV6DeprecationWarnings (node_modules/react-router-dom/index.tsx:816:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at renderWithProviders (src/pages/auth/GoogleOAuth.test.jsx:21:16)
+      at Object.renderWithProviders (src/pages/auth/GoogleOAuth.test.jsx:34:5)
+
+FAIL src/App.test.jsx
+  ÔùÅ Console
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+
+      47 |
+      48 | const renderLanding = () =>
+    > 49 |   render(
+         |         ^
+      50 |     <I18nextProvider i18n={i18n}>
+      51 |       <LanguageProvider>
+      52 |         <MemoryRouter initialEntries={["/"]}>
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at logDeprecation (node_modules/react-router/lib/deprecations.ts:26:5)
+      at logV6DeprecationWarnings (node_modules/react-router/lib/components.tsx:257:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at renderLanding (src/App.test.jsx:49:9)
+      at renderLanding (src/App.test.jsx:61:18)
+      at Object.<anonymous> (node_modules/react-scripts/node_modules/expect/build/toThrowMatchers.js:83:11)
+      at Object.throwingMatcher [as toThrow] (node_modules/react-scripts/node_modules/expect/build/index.js:382:21)
+      at Object.toThrow (src/App.test.jsx:61:39)
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+      47 |
+      48 | const renderLanding = () =>
+    > 49 |   render(
+         |         ^
+      50 |     <I18nextProvider i18n={i18n}>
+      51 |       <LanguageProvider>
+      52 |         <MemoryRouter initialEntries={["/"]}>
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at logDeprecation (node_modules/react-router/lib/deprecations.ts:37:5)
+      at logV6DeprecationWarnings (node_modules/react-router/lib/components.tsx:257:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at renderLanding (src/App.test.jsx:49:9)
+      at renderLanding (src/App.test.jsx:61:18)
+      at Object.<anonymous> (node_modules/react-scripts/node_modules/expect/build/toThrowMatchers.js:83:11)
+      at Object.throwingMatcher [as toThrow] (node_modules/react-scripts/node_modules/expect/build/index.js:382:21)
+      at Object.toThrow (src/App.test.jsx:61:39)
+
+  ÔùÅ Landing Page Integration ÔÇ║ navbar exposes login and chat entry points
+
+    TestingLibraryElementError: Found multiple elements with the role "link" and name `/sign in/i`
+
+    Here are the matching elements:
+
+    Ignored nodes: comments, script, style
+    <a
+      class="btn btnGhost"
+      href="/auth/login"
+    >
+      Sign In
+    </a>
+
+    Ignored nodes: comments, script, style
+    <a
+      class="btn btnGhost"
+      href="/auth/login"
+    >
+      Sign In
+    </a>
+
+    (If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+    Ignored nodes: comments, script, style
+    <body>
+      <div>
+        <div
+          class="landingPageContainer"
+        >
+          <nav
+            class="navbar "
+          >
+            <div
+              class="navInner"
+            >
+              <a
+                class="navLogo"
+                href="/"
+              >
+                nexus
+                <span
+                  class="dot"
+                >
+                  .
+                </span>
+                <span
+                  class="badge"
+                >
+                  AI
+                </span>
+              </a>
+              <ul
+                class="navLinks"
+              >
+                <li>
+                  <a
+                    href="#features"
+                  >
+                    Features
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#models"
+                  >
+                    Models
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#about"
+                  >
+                    About
+                  </a>
+                </li>
+              </ul>
+              <div
+                class="navRight"
+              >
+                <div
+                  class="langToggle"
+                >
+                  <button
+                    class="langBtn active"
+                  >
+                    EN
+                  </button>
+                  <button
+                    class="langBtn "
+                  >
+                    Ï╣Ï▒
+                  </button>
+                </div>
+                <a
+                  class="btn btnGhost"
+                  href="/auth/login"
+                >
+                  Sign In
+                </a>
+                <a
+                  class="btn btnPrimary"
+                  href="/chat"
+                >
+                  Start Chat
+                </a>
+                <button
+                  aria-label="Toggle menu"
+                  class="hamburger "
+                >
+                  <span />
+                  <span />
+                  <span />
+                </button>
+              </div>
+            </div>
+          </nav>
+          <div
+            class="mobMenu "
+          >
+            <a
+              href="#features"
+            >
+              Features
+            </a>
+            <a
+              href="#models"
+            >
+              Models
+            </a>
+            <a
+              href="#about"
+            >
+              About
+            </a>
+            <div
+              class="mobBtns"
+            >
+              <a
+                class="btn btnGhost"
+                href="/auth/login"
+              >
+                Sign In
+              </a>
+              <a
+                class="btn btnPrimary"
+                href="/chat"
+              >
+                Start Chat
+              </a>
+            </div>
+          </div>
+          <main
+            class="mainContent"
+          >
+            <section
+              class="hero"
+              id="hero"
+            >
+              <div
+                class="heroBg"
+              />
+              <div
+                class="heroGrid"
+              />
+              <div
+                class="heroInner"
+              >
+                <div
+                  class="heroLeft"
+                >
+                  <div
+                    class="heroEyebrow"
+                  >
+                    <span
+                      class="liveDot"
+                    />
+                    <span>
+                      LIVE NOW
+                    </span>
+                  </div>
+                  <h1
+                    class="heroTitle"
+                  >
+                    nexus
+                    <span
+                      class="dot"
+                    >
+                      .
+                    </span>
+                    <span
+                      class="sub"
+                    >
+                      AI
+                    </span>
+                  </h1>
+                  <p
+                    class="heroBody"
+                  >
+                    Meet nexus ÔÇö the intelligent multi-model chat platform where Nemotron meets LLaMA, Arabic meets English. Experience seamless conversations, instant model switching, and powerful AI at your fingertips.
+                  </p>
+                  <div
+                    class="heroCta"
+                  >
+                    <a
+                      class="btn btnPrimary"
+                      href="/chat"
+                    >
+                      Start Chatting
+                    </a>
+                    <a
+                      class="btn btnSecondary"
+                      href="#features"
+                    >
+                      Learn More
+                    </a>
+                  </div>
+                  <div
+                    class="heroChips"
+                  >
+                    <span
+                      class="chip chipV"
+                    >
+                      Nemotron
+                    </span>
+                    <span
+                      class="chip chipP"
+                    >
+                      Liquid
+                    </span>
+                    <span
+                      class="chip chipI...
+
+      71 |   test("navbar exposes login and chat entry points", () => {
+      72 |     renderLanding();
+    > 73 |     expect(screen.getByRole("link", { name: /sign in/i })).toHaveAttribute(
+         |                   ^
+      74 |       "href",
+      75 |       expect.stringMatching(/auth\/login/i),
+      76 |     );
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at getElementError (node_modules/@testing-library/dom/dist/query-helpers.js:20:35)
+      at getMultipleElementsFoundError (node_modules/@testing-library/dom/dist/query-helpers.js:23:10)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:55:13
+      at node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+      at Object.getByRole (src/App.test.jsx:73:19)
+
+FAIL src/pages/__tests__/Landing.test.jsx
+  ÔùÅ Console
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+
+      29 | describe("Landing Page", () => {
+      30 |   const renderLanding = () => {
+    > 31 |     return render(
+         |                  ^
+      32 |       <BrowserRouter>
+      33 |         <I18nextProvider i18n={i18n}>
+      34 |           <LanguageProvider>
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at Object.logDeprecation [as UNSAFE_logV6DeprecationWarnings] (node_modules/react-router/lib/deprecations.ts:26:5)
+      at logV6DeprecationWarnings (node_modules/react-router-dom/index.tsx:816:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at renderLanding (src/pages/__tests__/Landing.test.jsx:31:18)
+      at Object.renderLanding (src/pages/__tests__/Landing.test.jsx:45:5)
+
+    console.warn
+      ÔÜá´©Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+      29 | describe("Landing Page", () => {
+      30 |   const renderLanding = () => {
+    > 31 |     return render(
+         |                  ^
+      32 |       <BrowserRouter>
+      33 |         <I18nextProvider i18n={i18n}>
+      34 |           <LanguageProvider>
+
+      at warn (node_modules/react-router/lib/deprecations.ts:9:13)
+      at warnOnce (node_modules/react-router/lib/deprecations.ts:14:3)
+      at Object.logDeprecation [as UNSAFE_logV6DeprecationWarnings] (node_modules/react-router/lib/deprecations.ts:37:5)
+      at logV6DeprecationWarnings (node_modules/react-router-dom/index.tsx:816:25)
+      at commitHookEffectListMount (node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+      at commitPassiveMountOnFiber (node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+      at commitPassiveMountEffects_complete (node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+      at commitPassiveMountEffects_begin (node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+      at commitPassiveMountEffects (node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+      at flushPassiveEffectsImpl (node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+      at flushPassiveEffects (node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+      at node_modules/react-dom/cjs/react-dom.development.js:26808:9
+      at flushActQueue (node_modules/react/cjs/react.development.js:2667:24)
+      at act (node_modules/react/cjs/react.development.js:2582:11)
+      at node_modules/@testing-library/react/dist/act-compat.js:47:25
+      at renderRoot (node_modules/@testing-library/react/dist/pure.js:180:26)
+      at render (node_modules/@testing-library/react/dist/pure.js:271:10)
+      at renderLanding (src/pages/__tests__/Landing.test.jsx:31:18)
+      at Object.renderLanding (src/pages/__tests__/Landing.test.jsx:45:5)
+
+  ÔùÅ Landing Page ÔÇ║ hero section contains main CTA
+
+    TestingLibraryElementError: Unable to find an accessible element with the role "button" and name `/start chatting|ÏºÏ¿Ï»Ïú Ïº┘äÏ»Ï▒Ï»Ï┤Ï®/i`
+
+    Here are the accessible roles:
+
+      navigation:
+
+      Name "":
+      <nav
+        class="navbar "
+      />
+
+      --------------------------------------------------
+      link:
+
+      Name "nexus . AI":
+      <a
+        class="navLogo"
+        href="/"
+      />
+
+      Name "Features":
+      <a
+        href="#features"
+      />
+
+      Name "Models":
+      <a
+        href="#models"
+      />
+
+      Name "About":
+      <a
+        href="#about"
+      />
+
+      Name "Sign In":
+      <a
+        class="btn btnGhost"
+        href="/auth/login"
+      />
+
+      Name "Start Chat":
+      <a
+        class="btn btnPrimary"
+        href="/chat"
+      />
+
+      Name "Features":
+      <a
+        href="#features"
+      />
+
+      Name "Models":
+      <a
+        href="#models"
+      />
+
+      Name "About":
+      <a
+        href="#about"
+      />
+
+      Name "Sign In":
+      <a
+        class="btn btnGhost"
+        href="/auth/login"
+      />
+
+      Name "Start Chat":
+      <a
+        class="btn btnPrimary"
+        href="/chat"
+      />
+
+      Name "Start Chatting":
+      <a
+        class="btn btnPrimary"
+        href="/chat"
+      />
+
+      Name "Learn More":
+      <a
+        class="btn btnSecondary"
+        href="#features"
+      />
+
+      --------------------------------------------------
+      list:
+
+      Name "":
+      <ul
+        class="navLinks"
+      />
+
+      --------------------------------------------------
+      listitem:
+
+      Name "":
+      <li />
+
+      Name "":
+      <li />
+
+      Name "":
+      <li />
+
+      --------------------------------------------------
+      button:
+
+      Name "EN":
+      <button
+        class="langBtn active"
+      />
+
+      Name "Ï╣Ï▒":
+      <button
+        class="langBtn "
+      />
+
+      Name "Toggle menu":
+      <button
+        aria-label="Toggle menu"
+        class="hamburger "
+      />
+
+      Name "Nemotron":
+      <button
+        class="msw on"
+      />
+
+      Name "Liquid":
+      <button
+        class="msw "
+      />
+
+      Name "Trinity":
+      <button
+        class="msw "
+      />
+
+      Name "Create Account":
+      <button
+        class="btn btnCp"
+      />
+
+      Name "Sign In":
+      <button
+        class="btn btnCg"
+      />
+
+      --------------------------------------------------
+      main:
+
+      Name "":
+      <main
+        class="mainContent"
+      />
+
+      --------------------------------------------------
+      heading:
+
+      Name "nexus . AI":
+      <h1
+        class="heroTitle"
+      />
+
+      Name "Engineered for excellence":
+      <h2
+        class="sTitle"
+      />
+
+      Name "Powered by the best open-source models":
+      <h2
+        class="sTitle"
+      />
+
+      Name "Designed for the world ÔÇö in your language":
+      <h2
+        class="sTitle"
+      />
+
+      Name "Built with choice , transparency, and speed":
+      <h2
+        class="sTitle"
+      />
+
+      Name "Start exploring the future of collaborative AI":
+      <h2
+        class="ctaTtl"
+      />
+
+      --------------------------------------------------
+      contentinfo:
+
+      Name "":
+      <footer
+        class="footer"
+        id="footer"
+      />
+
+      --------------------------------------------------
+
+    Ignored nodes: comments, script, style
+    <body>
+      <div>
+        <div
+          class="landingPageContainer"
+        >
+          <nav
+            class="navbar "
+          >
+            <div
+              class="navInner"
+            >
+              <a
+                class="navLogo"
+                href="/"
+              >
+                nexus
+                <span
+                  class="dot"
+                >
+                  .
+                </span>
+                <span
+                  class="badge"
+                >
+                  AI
+                </span>
+              </a>
+              <ul
+                class="navLinks"
+              >
+                <li>
+                  <a
+                    href="#features"
+                  >
+                    Features
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#models"
+                  >
+                    Models
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#about"
+                  >
+                    About
+                  </a>
+                </li>
+              </ul>
+              <div
+                class="navRight"
+              >
+                <div
+                  class="langToggle"
+                >
+                  <button
+                    class="langBtn active"
+                  >
+                    EN
+                  </button>
+                  <button
+                    class="langBtn "
+                  >
+                    Ï╣Ï▒
+                  </button>
+                </div>
+                <a
+                  class="btn btnGhost"
+                  href="/auth/login"
+                >
+                  Sign In
+                </a>
+                <a
+                  class="btn btnPrimary"
+                  href="/chat"
+                >
+                  Start Chat
+                </a>
+                <button
+                  aria-label="Toggle menu"
+                  class="hamburger "
+                >
+                  <span />
+                  <span />
+                  <span />
+                </button>
+              </div>
+            </div>
+          </nav>
+          <div
+            class="mobMenu "
+          >
+            <a
+              href="#features"
+            >
+              Features
+            </a>
+            <a
+              href="#models"
+            >
+              Models
+            </a>
+            <a
+              href="#about"
+            >
+              About
+            </a>
+            <div
+              class="mobBtns"
+            >
+              <a
+                class="btn btnGhost"
+                href="/auth/login"
+              >
+                Sign In
+              </a>
+              <a
+                class="btn btnPrimary"
+                href="/chat"
+              >
+                Start Chat
+              </a>
+            </div>
+          </div>
+          <main
+            class="mainContent"
+          >
+            <section
+              class="hero"
+              id="hero"
+            >
+              <div
+                class="heroBg"
+              />
+              <div
+                class="heroGrid"
+              />
+              <div
+                class="heroInner"
+              >
+                <div
+                  class="heroLeft"
+                >
+                  <div
+                    class="heroEyebrow"
+                  >
+                    <span
+                      class="liveDot"
+                    />
+                    <span>
+                      LIVE NOW
+                    </span>
+                  </div>
+                  <h1
+                    class="heroTitle"
+                  >
+                    nexus
+                    <span
+                      class="dot"
+                    >
+                      .
+                    </span>
+                    <span
+                      class="sub"
+                    >
+                      AI
+                    </span>
+                  </h1>
+                  <p
+                    class="heroBody"
+                  >
+                    Meet nexus ÔÇö the intelligent multi-model chat platform where Nemotron meets LLaMA, Arabic meets English. Experience seamless conversations, instant model switching, and powerful AI at your fingertips.
+                  </p>
+                  <div
+                    class="heroCta"
+                  >
+                    <a
+                      class="btn btnPrimary"
+                      href="/chat"
+                    >
+                      Start Chatting
+                    </a>
+                    <a
+                      class="btn btnSecondary"
+                      href="#features"
+                    >
+                      Learn More
+                    </a>
+                  </div>
+                  <div
+                    class="heroChips"
+                  >
+                    <span
+                      class="chip chipV"
+                    >
+                      Nemotron
+                    </span>
+                    <span
+                      class="chip chipP"
+                    >
+                      Liquid
+                    </span>
+                    <span
+                      class="chip chipI...
+
+      67 |   test("hero section contains main CTA", () => {
+      68 |     renderLanding();
+    > 69 |     const cta = screen.getByRole("button", {
+         |                        ^
+      70 |       name: /start chatting|ÏºÏ¿Ï»Ïú Ïº┘äÏ»Ï▒Ï»Ï┤Ï®/i,
+      71 |     });
+      72 |     expect(cta).toBeInTheDocument();
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+      at Object.getByRole (src/pages/__tests__/Landing.test.jsx:69:24)
+
+  ÔùÅ Landing Page ÔÇ║ models section renders models table
+
+    expect(received).toBeInTheDocument()
+
+    received value must be an HTMLElement or an SVGElement.
+    Received has value: null
+
+      83 |     renderLanding();
+      84 |     const table = document.querySelector("#models table");
+    > 85 |     expect(table).toBeInTheDocument();
+         |                   ^
+      86 |   });
+      87 |
+      88 |   test("bilingual section renders both language showcases", () => {
+
+      at __EXTERNAL_MATCHER_TRAP__ (node_modules/react-scripts/node_modules/expect/build/index.js:386:30)
+      at Object.throwingMatcher [as toBeInTheDocument] (node_modules/react-scripts/node_modules/expect/build/index.js:387:15)
+      at Object.toBeInTheDocument (src/pages/__tests__/Landing.test.jsx:85:19)
+
+  ÔùÅ Landing Page ÔÇ║ bilingual section renders both language showcases
+
+    expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 1
+    Received:    0
+
+      90 |     const bilingual = document.querySelector("#bilingual");
+      91 |     const showcases = bilingual.querySelectorAll("[dir]");
+    > 92 |     expect(showcases.length).toBeGreaterThanOrEqual(1);
+         |                              ^
+      93 |   });
+      94 |
+      95 |   test("footer contains brand and language indicator", () => {
+
+      at Object.toBeGreaterThanOrEqual (src/pages/__tests__/Landing.test.jsx:92:30)
+
+Test Suites: 2 failed, 8 passed, 10 total
+Tests:       4 failed, 59 passed, 63 total
+Snapshots:   0 total
+Time:        6.414 s
+Ran all test suites.

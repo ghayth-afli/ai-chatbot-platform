@@ -114,7 +114,11 @@ export default function ProfilePanel({
         {/* AI Summaries Section */}
         {user?.id && (
           <div className={styles.ppSummariesSection}>
-            <ProfileSummary userId={user.id} showLanguageSelector={false} />
+            <ProfileSummary
+              userId={user.id}
+              showLanguageSelector={false}
+              activityStats={stats}
+            />
           </div>
         )}
 
