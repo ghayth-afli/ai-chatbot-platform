@@ -60,7 +60,37 @@ frontend.log
 Thumbs.db
 
 # =========================
+# Test outputs & temp files
+# =========================
+*_results.txt
+*_output*.txt
+e2e_*.txt
+test_*.txt
+*_test_*.txt
+*.backup.*
+tmp_*.py
+check_*.py
+debug_*.py
+verify_*.py
+test-*.js
+
+# =========================
 # Internal / Docs (not for repo)
 # =========================
 constitution.md
 brand_identity_chatbot_genz.html
+*.html
+!frontend/public/index.html
+PHASE*.md
+IMPLEMENTATION*.md
+*_COMPLETE.md
+*_COMPLETION*.md
+*_STATUS*.md
+*_CHECKLIST.md
+*_LOG.md
+*_SUMMARY.md
+*_ANALYSIS.md
+*_REPORT.md
+*_TROUBLESHOOTING.md
+HANDOFF.md
+INDEX.md
