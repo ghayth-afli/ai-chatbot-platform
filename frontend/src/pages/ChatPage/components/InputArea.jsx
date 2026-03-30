@@ -80,20 +80,26 @@ export default function InputArea({ onSendMessage, isLoading, disabled }) {
             disabled={disabled || isLoading}
           ></textarea>
           <button
-            className={styles.sendBtn}
+            className={`${styles.sendBtn} ${isLoading ? styles.sendBtnBusy : ""}`}
             onClick={handleSend}
             disabled={disabled || isLoading || !message.trim()}
-            title="Send message"
+            title={isLoading ? "AI is responding" : "Send message"}
+            aria-label={isLoading ? "AI is responding" : "Send message"}
+            aria-live="polite"
           >
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-              <path
-                d="M2 7.5H13M13 7.5L8.5 3M13 7.5L8.5 12"
-                stroke="currentColor"
-                strokeWidth="1.7"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            {isLoading ? (
+              <span className={styles.sendSpinner} aria-hidden="true"></span>
+            ) : (
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                <path
+                  d="M2 7.5H13M13 7.5L8.5 3M13 7.5L8.5 12"
+                  stroke="currentColor"
+                  strokeWidth="1.7"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            )}
           </button>
         </div>
 

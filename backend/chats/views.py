@@ -16,6 +16,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.core.exceptions import PermissionDenied
 from django.db.models import Prefetch
+from django.http import HttpResponse
 
 from .models import ChatSession, Message
 from .serializers import ChatSessionSerializer, ChatSessionListSerializer, MessageSerializer
@@ -237,5 +238,45 @@ class ChatSessionViewSet(viewsets.ModelViewSet):
             logger.error(f'Error updating session model: {str(e)}')
             return Response(
                 {'error': 'Failed to update model'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+    @action(detail=True, methods=['get'])
+    def export(self, request, pk=None):
+        """GET /api/chat/{id}/export/?format=pdf&language=en - Export a chat transcript."""
+        export_format = request.query_params.get('format', 'text').lower()
+        language = request.query_params.get('language', 'en').lower()
+
+        try:
+            export_data = ChatService.export_session(
+                user=request.user,
+                session_id=int(pk),
+                export_format=export_format,
+                language=language,
+            )
+
+            response = HttpResponse(
+                export_data['content'],
+                content_type=export_data['content_type'],
+            )
+            response['Content-Disposition'] = (
+                f'attachment; filename="{export_data["filename"]}"'
+            )
+            return response
+        except ValueError as e:
+            logger.warning(f'Export error: {str(e)}')
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except PermissionDenied:
+            logger.warning(
+                f'User {request.user.id} denied export access to session {pk}'
+            )
+            return Response(
+                {'error': 'Access denied'},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        except Exception as e:
+            logger.error(f'Failed to export session {pk}: {str(e)}')
+            return Response(
+                {'error': 'Failed to export session'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )

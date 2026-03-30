@@ -12,8 +12,9 @@
 import axios from "axios";
 
 // Get API base URL from environment or default
-const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
-const AUTH_API = `${API_BASE_URL}/api/auth`;
+const API_BASE_URL =
+  process.env.REACT_APP_API_URL || "http://localhost:8000/api";
+const AUTH_API = `${API_BASE_URL}/auth`;
 
 // Create axios instance with base config
 const authClient = axios.create({
@@ -96,7 +97,7 @@ authClient.interceptors.response.use(
         try {
           // Try to refresh the token
           const refreshResponse = await axios.post(
-            `${API_BASE_URL}/api/auth/refresh/`,
+            `${API_BASE_URL}/auth/refresh/`,
             { refresh_token: refreshToken },
             { headers: { "Content-Type": "application/json" } },
           );

@@ -5,10 +5,39 @@ import styles from "./ProfilePanel.module.css";
  * ProfilePanel Component
  * Slide-out panel showing user profile info, stats, preferences, and logout
  */
-export default function ProfilePanel({ isOpen, onClose, user }) {
+export default function ProfilePanel({
+  isOpen,
+  onClose,
+  onLogout = () => {},
+  user,
+  stats = {},
+  preferences = {},
+}) {
   const { t } = useTranslation();
 
   if (!user) return null;
+
+  const fullName = [user.first_name, user.last_name]
+    .map((part) => part?.trim())
+    .filter(Boolean)
+    .join(" ")
+    .trim();
+  const displayName = fullName || user.name || user.email || "User";
+  const avatarLabel = (displayName.charAt(0) || "A").toUpperCase();
+  const email = user.email || "";
+
+  const activeChats = Number(stats.chats ?? 0);
+  const totalMessages = Number(stats.messages ?? 0);
+  const modelsUsed = Number(stats.models ?? 0);
+
+  const languagePref =
+    preferences.language ||
+    (user.language_preference === "ar"
+      ? t("pref_lang_val_ar")
+      : t("pref_lang_val_en"));
+  const preferredModel = preferences.model || "—";
+  const planStatus = preferences.plan || "Free";
+  const isPremiumPlan = planStatus.toLowerCase().includes("pro");
 
   return (
     <div className={`${styles.profilePanel} ${isOpen ? styles.open : ""}`}>
@@ -27,24 +56,24 @@ export default function ProfilePanel({ isOpen, onClose, user }) {
       {/* Body */}
       <div className={styles.ppBody}>
         {/* Avatar */}
-        <div className={styles.ppAvatarBig}>{user.name?.charAt(0) || "A"}</div>
+        <div className={styles.ppAvatarBig}>{avatarLabel}</div>
 
         {/* Name & Email */}
-        <div className={styles.ppName}>{user.name || "Alex Johnson"}</div>
-        <div className={styles.ppEmail}>{user.email || "alex@example.com"}</div>
+        <div className={styles.ppName}>{displayName}</div>
+        <div className={styles.ppEmail}>{email}</div>
 
         {/* Stats Row */}
         <div className={styles.ppStatRow}>
           <div className={styles.ppStat}>
-            <div className={styles.ppStatN}>12</div>
+            <div className={styles.ppStatN}>{activeChats}</div>
             <div className={styles.ppStatL}>{t("stat_chats")}</div>
           </div>
           <div className={styles.ppStat}>
-            <div className={styles.ppStatN}>84</div>
+            <div className={styles.ppStatN}>{totalMessages}</div>
             <div className={styles.ppStatL}>{t("stat_msgs")}</div>
           </div>
           <div className={styles.ppStat}>
-            <div className={styles.ppStatN}>3</div>
+            <div className={styles.ppStatN}>{modelsUsed}</div>
             <div className={styles.ppStatL}>{t("stat_models")}</div>
           </div>
         </div>
@@ -64,21 +93,25 @@ export default function ProfilePanel({ isOpen, onClose, user }) {
           <div className={styles.ppPref}>
             <div className={styles.ppPrefRow}>
               <span className={styles.ppPrefLabel}>{t("pref_lang")}</span>
-              <span className={styles.ppPrefVal}>{t("pref_lang_val_en")}</span>
+              <span className={styles.ppPrefVal}>{languagePref}</span>
             </div>
             <div className={styles.ppPrefRow}>
               <span className={styles.ppPrefLabel}>{t("pref_model")}</span>
-              <span className={styles.ppPrefVal}>deepseek-chat</span>
+              <span className={styles.ppPrefVal}>{preferredModel}</span>
             </div>
             <div className={styles.ppPrefRow}>
               <span className={styles.ppPrefLabel}>{t("pref_plan")}</span>
-              <span className={`${styles.ppPrefVal} ${styles.pro}`}>PRO</span>
+              <span
+                className={`${styles.ppPrefVal} ${isPremiumPlan ? styles.pro : ""}`}
+              >
+                {planStatus}
+              </span>
             </div>
           </div>
         </div>
 
         {/* Logout Button */}
-        <button className={styles.ppLogout}>
+        <button className={styles.ppLogout} onClick={onLogout}>
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
             <path
               d="M9 4l3 2.5-3 2.5M6 6.5h6M7.5 2H2.5A.5.5 0 002 2.5v8a.5.5 0 00.5.5h5"

@@ -72,6 +72,14 @@ function App() {
                     }
                   />
                   <Route
+                    path="/chat/:sessionId"
+                    element={
+                      <PrivateRoute>
+                        <ChatPageWrapper />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
                     path="/profile"
                     element={
                       <PrivateRoute>

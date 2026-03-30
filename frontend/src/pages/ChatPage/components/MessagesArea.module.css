@@ -1,12 +1,13 @@
 /* ════════ MESSAGES AREA STYLES ════════ */
 
 .messagesWrap {
-  flex: 1;
+  width: 100%;
+  height: calc(100vh - var(--header-h) - 150px);
+  min-height: calc(100vh - var(--header-h) - 150px);
+  max-height: calc(100vh - var(--header-h) - 150px);
   overflow-y: auto;
   overflow-x: hidden;
   padding: 24px 0;
-  display: flex;
-  flex-direction: column;
 }
 
 .messagesInner {
@@ -207,6 +208,150 @@ html[dir="rtl"] .msg.user .msgBubble {
   margin-left: 0;
 }
 
+.markdown {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: inherit;
+  color: inherit;
+}
+
+.markdown > * {
+  margin: 0;
+}
+
+.markdown p + p {
+  margin-top: 4px;
+}
+
+.markdown strong {
+  color: #fff;
+}
+
+.msg.ai .markdown strong {
+  color: var(--paper);
+}
+
+.markdown ul,
+.markdown ol {
+  margin: 4px 0 4px 18px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+html[dir="rtl"] .markdown ul,
+html[dir="rtl"] .markdown ol {
+  margin-left: 0;
+  margin-right: 18px;
+}
+
+.markdown li {
+  line-height: 1.6;
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  margin: 6px 0;
+  font-weight: 700;
+  color: var(--paper);
+}
+
+.markdown h1 {
+  font-size: 22px;
+}
+
+.markdown h2 {
+  font-size: 18px;
+}
+
+.markdown h3 {
+  font-size: 16px;
+}
+
+.markdown blockquote {
+  border-left: 3px solid rgba(123, 92, 255, 0.5);
+  padding-left: 16px;
+  margin: 8px 0;
+  color: rgba(245, 243, 239, 0.75);
+}
+
+html[dir="rtl"] .markdown blockquote {
+  border-left: 0;
+  border-right: 3px solid rgba(123, 92, 255, 0.5);
+  padding-left: 0;
+  padding-right: 16px;
+}
+
+.markdown a {
+  color: var(--volt);
+  text-decoration: none;
+}
+
+.markdown a:hover {
+  text-decoration: underline;
+}
+
+.markdown pre {
+  background: rgba(123, 92, 255, 0.12);
+  border: 1px solid rgba(123, 92, 255, 0.25);
+  border-radius: 12px;
+  padding: 12px 14px;
+  overflow-x: auto;
+  font-family: "Space Mono", monospace;
+  font-size: 13px;
+}
+
+.markdown pre code {
+  background: transparent;
+  padding: 0;
+  border: 0;
+}
+
+.markdown :not(pre) > code {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 0 5px;
+  font-family: "Space Mono", monospace;
+  font-size: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.msg.ai .markdown :not(pre) > code {
+  background: rgba(123, 92, 255, 0.12);
+  border-color: rgba(123, 92, 255, 0.25);
+}
+
+.markdown table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 6px 0;
+  font-size: 13px;
+}
+
+.markdown th,
+.markdown td {
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  text-align: left;
+}
+
+html[dir="rtl"] .markdown th,
+html[dir="rtl"] .markdown td {
+  text-align: right;
+}
+
+.markdown hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 12px 0;
+}
+
 .msgActions {
   display: flex;
   gap: 6px;
@@ -268,8 +413,9 @@ html[dir="rtl"] .typingBubble {
   height: 5px;
   border-radius: 50%;
   background: var(--plasma);
-  animation: bounce 1.2s ease infinite;
+  animation: typingDot 1.2s ease-in-out infinite;
   display: inline-block;
+  opacity: 0.35;
 }
 
 .td:nth-child(2) {
@@ -278,6 +424,25 @@ html[dir="rtl"] .typingBubble {
 
 .td:nth-child(3) {
   animation-delay: 0.36s;
+}
+
+@keyframes typingDot {
+  0% {
+    transform: translateY(0px) scale(0.9);
+    opacity: 0.25;
+  }
+  40% {
+    transform: translateY(-3px) scale(1);
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(1px) scale(0.95);
+    opacity: 0.45;
+  }
+  100% {
+    transform: translateY(0px) scale(0.9);
+    opacity: 0.25;
+  }
 }
 
 /* ════════ RESPONSIVE ════════ */
@@ -304,6 +469,12 @@ html[dir="rtl"] .typingBubble {
 
 /* Tablet/Mobile Transition */
 @media (max-width: 768px) {
+  .messagesWrap {
+    height: calc(100vh - var(--header-h) - 130px);
+    min-height: calc(100vh - var(--header-h) - 130px);
+    max-height: calc(100vh - var(--header-h) - 130px);
+  }
+
   .messagesWrap {
     padding: 14px 0;
   }
@@ -351,6 +522,12 @@ html[dir="rtl"] .typingBubble {
 
 /* Mobile */
 @media (max-width: 480px) {
+  .messagesWrap {
+    height: calc(100vh - var(--header-h) - 110px);
+    min-height: calc(100vh - var(--header-h) - 110px);
+    max-height: calc(100vh - var(--header-h) - 110px);
+  }
+
   .messagesWrap {
     padding: 10px 0;
   }

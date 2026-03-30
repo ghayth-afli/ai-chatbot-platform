@@ -8,32 +8,29 @@ import styles from "./Models.module.css";
  */
 export default function Models() {
   const { t } = useTranslation();
-  const [selectedModel, setSelectedModel] = useState("deepseek-chat");
+  const [selectedModel, setSelectedModel] = useState("nemotron");
 
   const models = [
     {
-      id: "deepseek-chat",
-      name: "deepseek-chat",
+      id: "nemotron",
+      name: "Nemotron",
       descKey: "m1d",
-      badgeKey: "m1b",
-      color: "var(--volt)",
       badge: "v",
+      color: "var(--volt)",
     },
     {
-      id: "llama3-8b",
-      name: "llama3-8b",
+      id: "liquid",
+      name: "Liquid",
       descKey: "m2d",
-      badge: "Meta",
-      color: "var(--plasma)",
       badge: "p",
+      color: "var(--plasma)",
     },
     {
-      id: "mistral-7b",
-      name: "mistral-7b",
+      id: "trinity",
+      name: "Trinity",
       descKey: "m3d",
-      badge: "Mistral AI",
-      color: "var(--ice)",
       badge: "i",
+      color: "var(--ice)",
     },
   ];
 
@@ -85,15 +82,15 @@ export default function Models() {
 
             <div className={styles.pillRow}>
               <div className={`${styles.pill} ${styles.pillV}`}>
-                <div className={styles.pl}>DEEPSEEK</div>
+                <div className={styles.pl}>NEMOTRON</div>
                 <div className={styles.pd}>{t("p1")}</div>
               </div>
               <div className={`${styles.pill} ${styles.pillP}`}>
-                <div className={styles.pl}>LLAMA3</div>
+                <div className={styles.pl}>LIQUID</div>
                 <div className={styles.pd}>{t("p2")}</div>
               </div>
               <div className={`${styles.pill} ${styles.pillI}`}>
-                <div className={styles.pl}>MISTRAL</div>
+                <div className={styles.pl}>TRINITY</div>
                 <div className={styles.pd}>{t("p3")}</div>
               </div>
             </div>

@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 
 /**
@@ -13,23 +12,61 @@ export default function Sidebar({
   onClose,
   onOpenProfile,
   onNewChat,
+  canCreateNewChat = true,
   onToggleCollapse,
   chatHistory,
   currentChatId,
   onSelectChat,
+  onDeleteChat,
+  onExportChat = null,
+  exportDisabled = false,
+  exportLoading = false,
+  user,
 }) {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
+  const [exportMenuOpen, setExportMenuOpen] = useState(false);
+  const [exportFormat, setExportFormat] = useState("pdf");
+  const [exportLanguage, setExportLanguage] = useState("en");
+  const exportWrapperRef = useRef(null);
+
+  useEffect(() => {
+    setExportMenuOpen(false);
+  }, [currentChatId]);
+
+  useEffect(() => {
+    if (!exportMenuOpen) {
+      return undefined;
+    }
+
+    const handleClick = (event) => {
+      if (
+        exportWrapperRef.current &&
+        !exportWrapperRef.current.contains(event.target)
+      ) {
+        setExportMenuOpen(false);
+      }
+    };
+
+    const handleKey = (event) => {
+      if (event.key === "Escape") {
+        setExportMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, [exportMenuOpen]);
+
+  const exportButtonDisabled = exportDisabled || !currentChatId;
 
   const filteredHistory = chatHistory.filter((chat) =>
     chat.title.toLowerCase().includes(searchValue.toLowerCase()),
   );
-
-  const handleLogout = () => {
-    // Handle logout logic
-    navigate("/login");
-  };
 
   const handleCollapseClick = () => {
     // On mobile, also close the sidebar when collapsing
@@ -38,6 +75,34 @@ export default function Sidebar({
       onClose();
     }
   };
+
+  const handleExportSubmit = async () => {
+    if (!onExportChat || exportButtonDisabled) {
+      return;
+    }
+
+    await onExportChat({ format: exportFormat, language: exportLanguage });
+    setExportMenuOpen(false);
+  };
+
+  const languageOptions = [
+    { value: "en", label: "English" },
+    { value: "ar", label: "العربية" },
+  ];
+
+  const formatOptions = [
+    { value: "pdf", label: "PDF" },
+    { value: "text", label: t("text", "Text") },
+  ];
+
+  const exportButtonLabel = useMemo(() => {
+    if (exportLoading) {
+      return t("exporting", "Exporting…");
+    }
+    return exportFormat === "pdf"
+      ? t("download_pdf", "Download PDF")
+      : t("download_text", "Download Text");
+  }, [exportFormat, exportLoading, t]);
 
   return (
     <aside
@@ -53,7 +118,13 @@ export default function Sidebar({
           <button
             className={styles.newChatBtn}
             onClick={onNewChat}
-            title="New Chat"
+            title={
+              canCreateNewChat
+                ? "New Chat"
+                : "Finish current chat to create new"
+            }
+            disabled={!canCreateNewChat}
+            aria-disabled={!canCreateNewChat}
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path
@@ -95,16 +166,31 @@ export default function Sidebar({
       </div>
 
       {/* User Card */}
-      <div className={styles.userCard} onClick={onOpenProfile}>
-        <div className={styles.userCardInner}>
-          <div className={styles.avatar}>A</div>
-          <div>
-            <div className={styles.userName}>Alex Johnson</div>
-            <div className={styles.userSub}>{t("sidebar_sub_en")}</div>
+      {user && (
+        <div className={styles.userCard} onClick={onOpenProfile}>
+          <div className={styles.userCardInner}>
+            <div className={styles.avatar}>
+              {(
+                user.first_name?.charAt(0) ||
+                user.email?.charAt(0) ||
+                "A"
+              ).toUpperCase()}
+            </div>
+            <div>
+              <div className={styles.userName}>
+                {[user.first_name, user.last_name]
+                  .map((part) => part?.trim())
+                  .filter(Boolean)
+                  .join(" ") || user.email}
+              </div>
+              <div className={styles.userSub}>
+                {user.title || t("sidebar_sub_en")}
+              </div>
+            </div>
+            <span className={styles.userChevron}>▾</span>
           </div>
-          <span className={styles.userChevron}>▾</span>
         </div>
-      </div>
+      )}
 
       {/* AI Summary */}
       <div className={styles.aiSummary}>
@@ -152,18 +238,96 @@ export default function Sidebar({
 
       {/* Sidebar Footer */}
       <div className={styles.sidebarFooter}>
-        <button className={styles.sfBtn} title="Export Chat">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-            <path
-              d="M6.5 1v7M3.5 5l3 3 3-3M1.5 10h10"
-              stroke="currentColor"
-              strokeWidth="1.4"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <span>{t("export_chat")}</span>
-        </button>
+        <div className={styles.exportWrapper} ref={exportWrapperRef}>
+          <button
+            className={styles.sfBtn}
+            title="Export Chat"
+            onClick={() => {
+              if (exportButtonDisabled) {
+                return;
+              }
+              setExportMenuOpen((prev) => !prev);
+            }}
+            disabled={exportButtonDisabled}
+          >
+            <div className={styles.exportControl}>
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                <path
+                  d="M6.5 1v7M3.5 5l3 3 3-3M1.5 10h10"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <span>{t("export_chat")}</span>
+            </div>
+          </button>
+          {exportMenuOpen && (
+            <div className={styles.exportPanel}>
+              <div className={styles.exportHeader}>
+                <div>
+                  <div className={styles.exportTitle}>{t("export_chat")}</div>
+                  <div className={styles.exportHint}>
+                    {t("export_hint", "Choose format & language")}
+                  </div>
+                </div>
+                <button
+                  className={styles.exportClose}
+                  type="button"
+                  onClick={() => setExportMenuOpen(false)}
+                >
+                  ×
+                </button>
+              </div>
+              <div className={styles.exportSection}>
+                <span className={styles.exportLabel}>
+                  {t("format", "Format")}
+                </span>
+                <div className={styles.segmentedControl}>
+                  {formatOptions.map((opt) => (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      className={`${styles.segmentOption} ${exportFormat === opt.value ? styles.segmentOptionActive : ""}`}
+                      onClick={() => setExportFormat(opt.value)}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className={styles.exportSection}>
+                <span className={styles.exportLabel}>
+                  {t("language", "Language")}
+                </span>
+                <div className={styles.segmentedControl}>
+                  {languageOptions.map((opt) => (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      className={`${styles.segmentOption} ${exportLanguage === opt.value ? styles.segmentOptionActive : ""}`}
+                      onClick={() => setExportLanguage(opt.value)}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className={styles.exportShortcuts}>
+                <span>⌘ + ⇧ + E</span>
+                <span>{t("instant_export", "Instant export")}</span>
+              </div>
+              <button
+                className={styles.exportSubmit}
+                onClick={handleExportSubmit}
+                disabled={exportButtonDisabled || exportLoading}
+              >
+                {exportButtonLabel}
+              </button>
+            </div>
+          )}
+        </div>
         <button className={styles.sfBtn} title="Settings">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
             <circle

@@ -5,9 +5,7 @@
  * across multiple devices/windows via Django Channels
  */
 
-const WS_URL = process.env.REACT_APP_WS_URL || "http://localhost:8000";
-const WS_PROTOCOL = WS_URL.startsWith("https") ? "wss" : "ws";
-const WS_BASE = `${WS_PROTOCOL}://${WS_URL.split("://")[1]}`;
+const WS_BASE_URL = process.env.REACT_APP_WS_URL || "ws://localhost:8000";
 
 let sockets = {}; // Map of session_id -> WebSocket connection
 
@@ -33,7 +31,7 @@ export const initializeWebSocket = async (sessionId, token) => {
     };
 
     try {
-      const wsUrl = `${WS_BASE}/ws/chat/${sessionId}/?token=${token}`;
+      const wsUrl = `${WS_BASE_URL}/ws/chat/${sessionId}/?token=${token}`;
       console.log(`[WebSocket] Connecting to ${wsUrl}`);
       const ws = new WebSocket(wsUrl);
 
@@ -95,14 +93,17 @@ export const onMessageReceived = (ws, callback) => {
     return () => {}; // No-op if WebSocket not available
   }
 
+  const messageEventTypes = [
+    "message",
+    "message.new",
+    "message.updated",
+    "message.deleted",
+  ];
+
   const handleMessage = (event) => {
     try {
       const data = JSON.parse(event.data);
-      if (
-        data.type === "message.new" ||
-        data.type === "message.updated" ||
-        data.type === "message.deleted"
-      ) {
+      if (messageEventTypes.includes(data.type)) {
         callback(data);
       }
     } catch (error) {
@@ -127,10 +128,17 @@ export const onSessionEvent = (ws, callback) => {
     return () => {}; // No-op if WebSocket not available
   }
 
+  const sessionEventTypes = [
+    "session.updated",
+    "session.deleted",
+    "user_join",
+    "user_leave",
+  ];
+
   const handleMessage = (event) => {
     try {
       const data = JSON.parse(event.data);
-      if (data.type === "session.updated" || data.type === "session.deleted") {
+      if (sessionEventTypes.includes(data.type)) {
         callback(data);
       }
     } catch (error) {

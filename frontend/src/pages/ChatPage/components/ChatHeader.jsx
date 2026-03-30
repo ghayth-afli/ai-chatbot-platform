@@ -13,26 +13,27 @@ export default function ChatHeader({
   onToggleCollapse,
   isSidebarCollapsed,
   onOpenProfile,
+  onLogout,
 }) {
   const { t, i18n } = useTranslation();
   const [modelDropdownOpen, setModelDropdownOpen] = useState(false);
 
   const models = [
     {
-      id: "deepseek-chat",
-      name: "deepseek-chat",
+      id: "nemotron",
+      name: "Nemotron",
       desc: t("m1d"),
       color: "var(--volt)",
     },
     {
-      id: "llama3-8b",
-      name: "llama3-8b",
+      id: "liquid",
+      name: "Liquid",
       desc: t("m2d"),
       color: "var(--plasma)",
     },
     {
-      id: "mistral-7b",
-      name: "mistral-7b",
+      id: "trinity",
+      name: "Trinity",
       desc: t("m3d"),
       color: "var(--ice)",
     },
@@ -157,7 +158,11 @@ export default function ChatHeader({
         </div>
 
         {/* Logout Button */}
-        <button className={styles.logoutBtn} title="Sign Out">
+        <button
+          className={styles.logoutBtn}
+          title="Sign Out"
+          onClick={onLogout}
+        >
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <path
               d="M8 4l3 2-3 2M5 6h6M7 2H2.5A.5.5 0 002 2.5v7a.5.5 0 00.5.5H7"

@@ -114,6 +114,11 @@ body[dir="rtl"] .chatTextarea {
   transition: all 0.12s;
 }
 
+.sendBtnBusy {
+  background: var(--surf2);
+  color: var(--paper);
+}
+
 .sendBtn:hover:not(:disabled) {
   background: #d4ff1a;
   transform: scale(1.04);
@@ -126,6 +131,29 @@ body[dir="rtl"] .chatTextarea {
   transform: none;
   box-shadow: none;
   cursor: not-allowed;
+}
+
+.sendSpinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(15, 15, 20, 0.2);
+  border-top-color: var(--ink);
+  animation: sendSpin 0.75s linear infinite;
+}
+
+.sendBtn:disabled .sendSpinner {
+  border-color: rgba(255, 255, 255, 0.15);
+  border-top-color: var(--paper);
+}
+
+@keyframes sendSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ════════ INPUT FOOTER ════════ */
