@@ -63,9 +63,9 @@ Props: session, isActive, onSelect, onDelete, loading
 
 Available models:
 
-- DeepSeek (🧠) - Advanced reasoning via OpenRouter
+- Nemotron (🧠) - Advanced reasoning via OpenRouter
 - LLaMA 3 (🦙) - Fast efficient via Groq
-- Mistral (⚡) - Balanced performance via OpenRouter
+- Trinity (⚡) - Balanced performance via OpenRouter
 
 ### 4. Backend Test Suite ✅
 
@@ -78,9 +78,9 @@ Available models:
 ✓ route_to_groq_success
 ✓ route_to_groq_rate_limit
 ✓ model_provider_map_coverage
-✓ dispatch_deepseek → OpenRouter
-✓ dispatch_mistral → OpenRouter
-✓ dispatch_llama3 → Groq
+✓ dispatch_Nemotron → OpenRouter
+✓ dispatch_Trinity → OpenRouter
+✓ dispatch_Liquid → Groq
 ✓ dispatch_unsupported_model
 ✓ dispatch_with_empty_message
 ```
@@ -230,8 +230,8 @@ Coverage: User interactions, state management, accessibility, internationalizati
 
 **Model Switching Workflow:**
 
-- Send with deepseek
-- Switch to llama3
+- Send with Nemotron
+- Switch to Liquid
 - Send with new model
 - Verify both models' responses preserved
 
@@ -362,7 +362,7 @@ WebSocket broadcasts to other devices [Real-time sync]
 id: UUID
 user_id: FK(User)
 title: VARCHAR(255)
-ai_model: ENUM(deepseek|llama3|mistral)
+ai_model: ENUM(Nemotron|Liquid|Trinity)
 created_at: TIMESTAMP
 updated_at: TIMESTAMP
 
@@ -400,7 +400,7 @@ created_at: TIMESTAMP
 - [x] Send message with model selection
 - [x] Receive AI response
 - [x] Display conversation history
-- [x] Support DeepSeek, LLaMA 3, Mistral
+- [x] Support Nemotron, LLaMA 3, Trinity
 - [x] Real-time message sync via WebSocket
 
 ### User Story 2: Session Management ✅ COMPLETE

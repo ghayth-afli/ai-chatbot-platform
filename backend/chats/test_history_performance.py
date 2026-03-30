@@ -35,7 +35,7 @@ class HistoryPerformanceTests(TestCase):
         session = ChatSession.objects.create(
             user=self.user,
             title='Large Conversation',
-            ai_model='deepseek',
+            ai_model='Nemotron',
         )
 
         # Create 500+ messages
@@ -47,7 +47,7 @@ class HistoryPerformanceTests(TestCase):
                     session=session,
                     role=role,
                     content=f'Message {i}: This is a test message with some content.',
-                    ai_model='deepseek',
+                    ai_model='Nemotron',
                 )
             )
 
@@ -81,7 +81,7 @@ class HistoryPerformanceTests(TestCase):
         session = ChatSession.objects.create(
             user=self.user,
             title='Memory Test Session',
-            ai_model='deepseek',
+            ai_model='Nemotron',
         )
 
         # Create 1000 messages
@@ -93,7 +93,7 @@ class HistoryPerformanceTests(TestCase):
                     session=session,
                     role=role,
                     content=f'Message {i}',
-                    ai_model='deepseek',
+                    ai_model='Nemotron',
                 )
             )
 
@@ -121,7 +121,7 @@ class HistoryPerformanceTests(TestCase):
         session = ChatSession.objects.create(
             user=self.user,
             title='API Test Session',
-            ai_model='deepseek',
+            ai_model='Nemotron',
         )
 
         # Create 100 messages
@@ -133,7 +133,7 @@ class HistoryPerformanceTests(TestCase):
                     session=session,
                     role=role,
                     content=f'API Test Message {i}',
-                    ai_model='deepseek',
+                    ai_model='Nemotron',
                 )
             )
 
@@ -160,7 +160,7 @@ class HistoryPerformanceTests(TestCase):
                 ChatSession(
                     user=self.user,
                     title=f'Session {i}',
-                    ai_model='deepseek',
+                    ai_model='Nemotron',
                 )
             )
 
@@ -186,7 +186,7 @@ class HistoryPerformanceTests(TestCase):
         session = ChatSession.objects.create(
             user=self.user,
             title='Nav Test Session',
-            ai_model='deepseek',
+            ai_model='Nemotron',
         )
 
         # Create 200 messages (enough for 4 pages of 50 each)
@@ -198,7 +198,7 @@ class HistoryPerformanceTests(TestCase):
                     session=session,
                     role=role,
                     content=f'Nav Test {i}',
-                    ai_model='deepseek',
+                    ai_model='Nemotron',
                 )
             )
 
@@ -227,7 +227,7 @@ class HistoryPerformanceTests(TestCase):
         session = ChatSession.objects.create(
             user=self.user,
             title='Index Test',
-            ai_model='deepseek',
+            ai_model='Nemotron',
         )
 
         messages = []
@@ -238,7 +238,7 @@ class HistoryPerformanceTests(TestCase):
                     session=session,
                     role=role,
                     content=f'Index Test {i}',
-                    ai_model='deepseek',
+                    ai_model='Nemotron',
                 )
             )
 

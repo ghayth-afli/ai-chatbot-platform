@@ -7,7 +7,7 @@
 
 ## Summary
 
-**Primary Requirement**: Implement core chat system enabling authenticated users to send messages to multiple AI models (DeepSeek via OpenRouter, LLaMA 3 via Groq, Mistral via OpenRouter), receive responses, maintain chat history, access previous conversations, delete sessions, and receive AI-generated profile summaries. System must support English and Arabic with RTL layout, real-time multi-device sync via WebSocket, and chat export in JSON/CSV/PDF formats.
+**Primary Requirement**: Implement core chat system enabling authenticated users to send messages to multiple AI models (Nemotron via OpenRouter, LLaMA 3 via Groq, Trinity via OpenRouter), receive responses, maintain chat history, access previous conversations, delete sessions, and receive AI-generated profile summaries. System must support English and Arabic with RTL layout, real-time multi-device sync via WebSocket, and chat export in JSON/CSV/PDF formats.
 
 **Technical Approach**:
 
@@ -135,7 +135,7 @@ frontend/
 │   │   │   ├── Chat.jsx         # Main chat container (session + messages + input)
 │   │   │   ├── ChatMessages.jsx # Message list display
 │   │   │   ├── MessageInput.jsx # Message input + send button
-│   │   │   ├── ModelSelector.jsx # Model dropdown (DeepSeek, LLaMA3, Mistral)
+│   │   │   ├── ModelSelector.jsx # Model dropdown (Nemotron, Liquid, Trinity)
 │   │   │   ├── ChatSidebar.jsx  # Session history sidebar
 │   │   │   ├── SessionItem.jsx  # Individual session in history
 │   │   │   └── ChatExport.jsx   # Export dialog (JSON/CSV/PDF)
@@ -204,7 +204,7 @@ frontend/
 **Research Tasks** (to be detailed in research.md):
 
 1. **AI Provider Integration Research**
-   - OpenRouter authentication, model IDs, request/response format (DeepSeek, Mistral)
+   - OpenRouter authentication, model IDs, request/response format (Nemotron, Trinity)
    - Groq authentication, model IDs, request/response format (LLaMA 3)
    - Error handling, rate limits, latency profiles for each provider
    - Cost estimation per model per message

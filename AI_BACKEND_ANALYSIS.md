@@ -15,16 +15,16 @@
    - Returns response or error dict
 
 2. **`route_to_openrouter(model_id, message, system_prompt)`**
-   - Calls OpenRouter API for models: DeepSeek, Mistral, Nemotron
+   - Calls OpenRouter API for models: Nemotron, Trinity, Nemotron
    - Handles authentication with Bearer token
    - Constructs proper REST request with headers and payload
    - Parses JSON response and extracts AI response + token count
    - Error handling for 405, timeout, parsing errors
 
 3. **`route_to_groq(model_id, message, system_prompt)`**
-   - Calls Groq API for models: LLaMA3
+   - Calls Groq API for models: Liquid
    - Similar authentication and request handling as OpenRouter
-   - Note: LLaMA3 models appear decommissioned on user's Groq account
+   - Note: Liquid models appear decommissioned on user's Groq account
 
 4. **`get_mock_response(model_id, message)`**
    - Fallback mock response system for testing
@@ -35,20 +35,20 @@
 
 ```python
 MODEL_PROVIDER_MAP = {
-    'deepseek': 'openrouter',
-    'mistral': 'openrouter',
+    'Nemotron': 'openrouter',
+    'Trinity': 'openrouter',
     'nemotron': 'openrouter',
-    'llama3': 'groq',
+    'Liquid': 'groq',
 }
 
 OPENROUTER_MODELS = {
-    'deepseek': 'deepseek/deepseek-chat',
-    'mistral': 'mistral/mistral-7b-instruct',
+    'Nemotron': 'Nemotron/Nemotron-chat',
+    'Trinity': 'Trinity/Trinity-7b-instruct',
     'nemotron': 'nvidia/nemotron-3-super-120b-a12b:free',
 }
 
 GROQ_MODELS = {
-    'llama3': 'llama3-70b-8192',
+    'Liquid': 'Liquid-70b-8192',
 }
 ```
 
@@ -91,7 +91,7 @@ GROQ_MODELS = {
 #### Supported Models:
 
 ```python
-VALID_MODELS = ['deepseek', 'llama3', 'mistral', 'nemotron']
+VALID_MODELS = ['Nemotron', 'Liquid', 'Trinity', 'nemotron']
 ```
 
 ### 3. Views/Endpoints (`backend/chats/views.py`)
@@ -122,7 +122,7 @@ VALID_MODELS = ['deepseek', 'llama3', 'mistral', 'nemotron']
 
 ### 4. Current API Status
 
-#### OpenRouter (DeepSeek, Mistral, Nemotron)
+#### OpenRouter (Nemotron, Trinity, Nemotron)
 
 **Status: ⚠️ 405 ERROR**
 
@@ -130,7 +130,7 @@ VALID_MODELS = ['deepseek', 'llama3', 'mistral', 'nemotron']
 - Suggests authentication or endpoint configuration issue
 - API key may be invalid or access revoked
 
-#### Groq (LLaMA3)
+#### Groq (Liquid)
 
 **Status: ⚠️ DECOMMISSIONED**
 

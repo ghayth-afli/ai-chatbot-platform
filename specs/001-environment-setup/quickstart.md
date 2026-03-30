@@ -381,7 +381,7 @@ OPENROUTER_API_KEY=            # Your OpenRouter API key
 GROQ_API_KEY=                  # Your Groq API key
 TOGETHER_API_KEY=              # Your Together API key
 JWT_SECRET=development-secret  # JWT signing key
-DEFAULT_MODEL=deepseek         # Default AI model
+DEFAULT_MODEL=Nemotron         # Default AI model
 ```
 
 Get API keys from:

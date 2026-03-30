@@ -30,14 +30,14 @@ class TestRouteToOpenRouter(TestCase):
         mock_post.return_value = mock_response
 
         result = route_to_openrouter(
-            'deepseek-chat',
+            'Nemotron-chat',
             'Hello',
             'You are helpful',
         )
 
         assert result['response'] == 'Test response'
         assert result['tokens'] == 50
-        assert result['model'] == 'deepseek-chat'
+        assert result['model'] == 'Nemotron-chat'
         mock_post.assert_called_once()
 
     @patch('chats.router.requests.post')
@@ -46,7 +46,7 @@ class TestRouteToOpenRouter(TestCase):
         mock_post.side_effect = Exception('Connection error')
 
         result = route_to_openrouter(
-            'deepseek-chat',
+            'Nemotron-chat',
             'Hello',
             'You are helpful',
         )
@@ -63,7 +63,7 @@ class TestRouteToOpenRouter(TestCase):
         mock_post.return_value = mock_response
 
         result = route_to_openrouter(
-            'deepseek-chat',
+            'Nemotron-chat',
             'Hello',
             'You are helpful',
         )
@@ -86,14 +86,14 @@ class TestRouteToGroq(TestCase):
         mock_post.return_value = mock_response
 
         result = route_to_groq(
-            'llama3-8b',
+            'Liquid-8b',
             'Hello',
             'Be concise',
         )
 
         assert result['response'] == 'Groq response'
         assert result['tokens'] == 30
-        assert result['model'] == 'llama3-8b'
+        assert result['model'] == 'Liquid-8b'
 
     @patch('chats.router.requests.post')
     def test_route_to_groq_rate_limit(self, mock_post):
@@ -104,7 +104,7 @@ class TestRouteToGroq(TestCase):
         mock_post.return_value = mock_response
 
         result = route_to_groq(
-            'llama3-8b',
+            'Liquid-8b',
             'Hello',
             'Be concise',
         )
@@ -117,62 +117,62 @@ class TestDispatchToProvider(TestCase):
 
     def test_model_provider_map_coverage(self):
         """Verify all supported models are in provider map"""
-        supported_models = ['deepseek', 'mistral', 'llama3']
+        supported_models = ['Nemotron', 'Trinity', 'Liquid']
         for model in supported_models:
             assert model in MODEL_PROVIDER_MAP
 
     @patch('chats.router.route_to_openrouter')
-    def test_dispatch_deepseek(self, mock_route):
-        """Test dispatch routes deepseek to OpenRouter"""
+    def test_dispatch_Nemotron(self, mock_route):
+        """Test dispatch routes Nemotron to OpenRouter"""
         mock_route.return_value = {
             'response': 'test',
             'tokens': 20,
-            'model': 'deepseek-chat',
+            'model': 'Nemotron-chat',
         }
 
         result = dispatch_to_provider(
-            'deepseek',
+            'Nemotron',
             'Hello',
             'You are helpful',
         )
 
-        assert result['model'] == 'deepseek-chat'
+        assert result['model'] == 'Nemotron-chat'
         mock_route.assert_called_once()
 
     @patch('chats.router.route_to_openrouter')
-    def test_dispatch_mistral(self, mock_route):
-        """Test dispatch routes mistral to OpenRouter"""
+    def test_dispatch_Trinity(self, mock_route):
+        """Test dispatch routes Trinity to OpenRouter"""
         mock_route.return_value = {
             'response': 'test',
             'tokens': 20,
-            'model': 'mistral-small',
+            'model': 'Trinity-small',
         }
 
         result = dispatch_to_provider(
-            'mistral',
+            'Trinity',
             'Hello',
             'Be helpful',
         )
 
-        assert result['model'] == 'mistral-small'
+        assert result['model'] == 'Trinity-small'
         mock_route.assert_called_once()
 
     @patch('chats.router.route_to_groq')
-    def test_dispatch_llama3(self, mock_route):
-        """Test dispatch routes llama3 to Groq"""
+    def test_dispatch_Liquid(self, mock_route):
+        """Test dispatch routes Liquid to Groq"""
         mock_route.return_value = {
             'response': 'test',
             'tokens': 20,
-            'model': 'llama3-8b',
+            'model': 'Liquid-8b',
         }
 
         result = dispatch_to_provider(
-            'llama3',
+            'Liquid',
             'Hello',
             'Be concise',
         )
 
-        assert result['model'] == 'llama3-8b'
+        assert result['model'] == 'Liquid-8b'
         mock_route.assert_called_once()
 
     def test_dispatch_unsupported_model(self):
@@ -192,11 +192,11 @@ class TestDispatchToProvider(TestCase):
         mock_route.return_value = {
             'response': '',
             'tokens': 0,
-            'model': 'deepseek-chat',
+            'model': 'Nemotron-chat',
         }
 
         result = dispatch_to_provider(
-            'deepseek',
+            'Nemotron',
             '',
             'You are helpful',
         )

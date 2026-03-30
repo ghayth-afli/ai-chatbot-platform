@@ -156,7 +156,7 @@ class ChatSessionViewSet(viewsets.ModelViewSet):
         
         Body: {
             "message": "What is Python?",
-            "model": "deepseek"  // optional, uses session model if not provided
+            "model": "Nemotron"  // optional, uses session model if not provided
         }
         """
         try:
@@ -206,7 +206,7 @@ class ChatSessionViewSet(viewsets.ModelViewSet):
         PUT /api/chat/{id}/update_model/ - Change the AI model for a session
         
         Body: {
-            "model": "llama3"  // 'deepseek', 'llama3', or 'mistral'
+            "model": "Liquid"  // 'Nemotron', 'Liquid', or 'Trinity'
         }
         """
         try:

@@ -67,7 +67,7 @@ Be concise and focus on patterns and themes. Format as plain text, not bullet po
 
         # Call AI provider to generate summary
         result = dispatch_to_provider(
-            'deepseek',  # Use DeepSeek for summary generation
+            'Nemotron',  # Use Nemotron for summary generation
             prompt,
             system_prompt='You are a helpful assistant that analyzes user chat patterns to create brief, insightful profile summaries.'
         )

@@ -66,7 +66,7 @@ class WebSocketTests(TestCase):
         #     "id": 456,
         #     "role": "assistant",
         #     "content": "...",
-        #     "model": "deepseek",
+        #     "model": "Nemotron",
         #     "created_at": "..."
         #   }
         # }
@@ -130,7 +130,7 @@ class RealtimeSyncTests(TestCase):
         self.session = ChatSession.objects.create(
             user=self.user1,
             title='Shared Session',
-            ai_model='deepseek',
+            ai_model='Nemotron',
         )
 
     @pytest.mark.asyncio

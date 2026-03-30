@@ -217,7 +217,7 @@ GROQ_API_KEY=
 TOGETHER_API_KEY=
 
 # Default Model Selection (Phase 1)
-DEFAULT_MODEL=deepseek
+DEFAULT_MODEL=Nemotron
 
 # CORS Settings
 CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000

@@ -54,7 +54,7 @@ Successfully implemented a fully bilingual, dark-themed landing page for nexus.a
 - ✅ **T011**: `frontend/src/components/landing/Hero.jsx`
   - Gradient background with brand colors (plasma, volt, ice)
   - Wordmark with volt accent dot
-  - Model chips (DeepSeek Chat, LLaMA 3, Mistral 7B)
+  - Model chips (Nemotron Chat, LLaMA 3, Trinity 7B)
   - Primary CTA buttons with auth-aware labels
   - Translated headline + subheadline
 
@@ -65,7 +65,7 @@ Successfully implemented a fully bilingual, dark-themed landing page for nexus.a
   - Hover effects and smooth transitions
 
 - ✅ **T013**: `frontend/src/components/landing/Models.jsx`
-  - Provider table (DeepSeek, LLaMA 3, Mistral 7B)
+  - Provider table (Nemotron, LLaMA 3, Trinity 7B)
   - Status badges (green "available")
   - Responsive table with translated descriptions
   - Professional glass-morphism styling

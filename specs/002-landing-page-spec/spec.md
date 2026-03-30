@@ -96,10 +96,10 @@ A mobile visitor on a 360px wide device can read every section, toggle languages
 - **FR-002**: The navbar MUST include the nexus. wordmark positioned left, optional anchor links (Features, About) in the center, and LOGIN/SIGNUP buttons positioned on the RIGHT side with high visual contrast using neon accent colors (Volt recommended) and prominent sizing. The buttons MUST be clearly separated from other nav items, easily scannable, and distinctive in styling (Signup primary/filled, Login secondary/outline).
 - **FR-003**: The language switch MUST toggle between English and Arabic text by reading from `src/i18n/en.json` and `src/i18n/ar.json`, update visible copy without reloading, and store the selected locale in `localStorage`.
 - **FR-004**: Selecting Arabic MUST update the document direction to RTL and mirror alignment, spacing, and icon ordering for every section, including cards and chat bubble mockups.
-- **FR-005**: The hero section MUST include a headline, subtitle, three model chips (DeepSeek, LLaMA3, Mistral), a gradient/dark background, and a “Start Chatting” CTA styled with neon accents.
+- **FR-005**: The hero section MUST include a headline, subtitle, three model chips (Nemotron, Liquid, Trinity), a gradient/dark background, and a “Start Chatting” CTA styled with neon accents.
 - **FR-006**: The hero CTA MUST route authenticated users to `/chat` and unauthenticated users to `/login`, using the existing auth context or a feature flag stub defined for this phase.
 - **FR-007**: The Features section MUST surface at least five cards highlighting multi-model chat, chat history, bilingual support, AI-generated summaries, and model switching, each with an icon and translation-backed copy.
-- **FR-008**: The Models section MUST display cards for DeepSeek Chat (OpenRouter), LLaMA 3 (Groq), and Mistral 7B (Together AI) including provider name and a short human-readable description.
+- **FR-008**: The Models section MUST display cards for Nemotron Chat (OpenRouter), LLaMA 3 (Groq), and Trinity 7B (Together AI) including provider name and a short human-readable description.
 - **FR-009**: The Bilingual / RTL section MUST visually demonstrate English and Arabic UI snippets (e.g., chat bubbles, interface labels) and explain language switching, RTL layout, and font considerations.
 - **FR-010**: The About section MUST describe the platform purpose, multi-model interface, chat history, AI summaries, and productivity focus in both languages, sourcing copy from the translation files.
 - **FR-011**: The footer MUST include the brand name, “AI Platform” context, language indicator, copyright statement, and an optional GitHub link/icon consistent with brand contrast rules.
@@ -138,6 +138,6 @@ A mobile visitor on a 360px wide device can read every section, toggle languages
 - **A-003**: Landing page copy is static marketing content authored by the product team; no CMS integration is required in Phase 1.
 - **A-004**: Browser localStorage is available; if blocked, the system silently falls back to English each load per the Edge Case guidance.
 - **A-005**: Brand fonts (Syne, DM Sans, Space Mono) are delivered via web fonts referenced in brand_identity_chatbot_genz.html and may be loaded from Google Fonts.
-- **A-006**: The list of highlighted AI models (DeepSeek Chat, LLaMA 3, Mistral 7B) will not change during Phase 1; future updates will reuse the same component structure.
+- **A-006**: The list of highlighted AI models (Nemotron Chat, LLaMA 3, Trinity 7B) will not change during Phase 1; future updates will reuse the same component structure.
 - **A-007**: Analytics, SEO meta tags, or blog content are out of scope for this phase and may be handled in later marketing initiatives.
 - **A-008**: Backend services are not required for the landing page beyond existing routing; any dynamic data (e.g., hero login state) comes from front-end context only.

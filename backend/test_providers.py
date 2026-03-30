@@ -54,7 +54,7 @@ openrouter_headers = {
 }
 
 payload = {
-    'model': 'deepseek/deepseek-chat',
+    'model': 'Nemotron/Nemotron-chat',
     'messages': [
         {'role': 'system', 'content': 'You are a helpful AI assistant.'},
         {'role': 'user', 'content': 'Say "OpenRouter API is working!" and nothing else.'}
@@ -65,7 +65,7 @@ payload = {
 
 try:
     print(f"URL: {openrouter_url}")
-    print(f"Model: deepseek/deepseek-chat")
+    print(f"Model: Nemotron/Nemotron-chat")
     print("Sending request...")
     response = requests.post(openrouter_url, json=payload, headers=openrouter_headers, timeout=30)
     print(f"Status: {response.status_code}")
@@ -95,7 +95,7 @@ groq_headers = {
 }
 
 payload = {
-    'model': 'llama3-70b-8192',
+    'model': 'Liquid-70b-8192',
     'messages': [
         {'role': 'system', 'content': 'You are a helpful AI assistant.'},
         {'role': 'user', 'content': 'Say "Groq API is working!" and nothing else.'}
@@ -106,7 +106,7 @@ payload = {
 
 try:
     print(f"URL: {groq_url}")
-    print(f"Model: llama3-70b-8192")
+    print(f"Model: Liquid-70b-8192")
     print("Sending request...")
     response = requests.post(groq_url, json=payload, headers=groq_headers, timeout=30)
     print(f"Status: {response.status_code}")
@@ -131,8 +131,8 @@ print("="*60)
 try:
     from chats.router import dispatch_to_provider
     
-    print("Testing dispatch_to_provider with DeepSeek...")
-    result = dispatch_to_provider('deepseek', 'Say "Router test successful!" in one sentence.')
+    print("Testing dispatch_to_provider with Nemotron...")
+    result = dispatch_to_provider('Nemotron', 'Say "Router test successful!" in one sentence.')
     
     if 'error' in result:
         print(f"✗ ERROR: {result['error']}")
@@ -141,8 +141,8 @@ try:
         print(f"  Response: {result['response']}")
         print(f"  Tokens: {result.get('tokens', 'N/A')}")
     
-    print("\nTesting dispatch_to_provider with LLaMA3...")
-    result = dispatch_to_provider('llama3', 'Say "Router test successful!" in one sentence.')
+    print("\nTesting dispatch_to_provider with Liquid...")
+    result = dispatch_to_provider('Liquid', 'Say "Router test successful!" in one sentence.')
     
     if 'error' in result:
         print(f"✗ ERROR: {result['error']}")

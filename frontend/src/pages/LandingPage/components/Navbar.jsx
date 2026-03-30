@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "../../../hooks/useAuth";
 import styles from "./Navbar.module.css";
 
 /**
@@ -14,6 +15,7 @@ export default function Navbar({
   onNavigateChat,
 }) {
   const { t, i18n } = useTranslation();
+  const { isAuthenticated } = useAuth();
 
   const handleLanguageToggle = (lang) => {
     i18n.changeLanguage(lang);
@@ -58,9 +60,14 @@ export default function Navbar({
                 عر
               </button>
             </div>
-            <a href="/login" className={`${styles.btn} ${styles.btnGhost}`}>
-              {t("nav_signin")}
-            </a>
+            {!isAuthenticated && (
+              <Link
+                to="/auth/login"
+                className={`${styles.btn} ${styles.btnGhost}`}
+              >
+                {t("nav_signin")}
+              </Link>
+            )}
             <a
               href="/chat"
               onClick={(e) => {
@@ -98,9 +105,15 @@ export default function Navbar({
           {t("nav_about")}
         </a>
         <div className={styles.mobBtns}>
-          <a href="/login" className={`${styles.btn} ${styles.btnGhost}`}>
-            {t("nav_signin")}
-          </a>
+          {!isAuthenticated && (
+            <Link
+              to="/auth/login"
+              className={`${styles.btn} ${styles.btnGhost}`}
+              onClick={onMobileMenuClose}
+            >
+              {t("nav_signin")}
+            </Link>
+          )}
           <a
             href="/chat"
             onClick={(e) => {

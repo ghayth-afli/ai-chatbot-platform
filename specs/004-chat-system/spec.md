@@ -13,17 +13,17 @@ Authenticated user opens the chat interface, selects an AI model from a dropdown
 
 **Why this priority**: Core functionality—the fundamental capability that defines the platform. Without this, there is no chatbot.
 
-**Independent Test**: Can be fully tested by: Creating a chat session, sending a message to each model (DeepSeek, LLaMA 3, Mistral), and verifying the response appears and is saved. Delivers immediate value: users can chat with AI.
+**Independent Test**: Can be fully tested by: Creating a chat session, sending a message to each model (Nemotron, LLaMA 3, Trinity), and verifying the response appears and is saved. Delivers immediate value: users can chat with AI.
 
 **Acceptance Scenarios**:
 
-1. **Given** user is authenticated and on the chat interface, **When** user selects "DeepSeek" model and sends "Explain REST APIs", **Then** message appears instantly in chat, backend receives it, routes to OpenRouter, and AI response displays within reasonable time (< 15 seconds) and is saved to database.
+1. **Given** user is authenticated and on the chat interface, **When** user selects "Nemotron" model and sends "Explain REST APIs", **Then** message appears instantly in chat, backend receives it, routes to OpenRouter, and AI response displays within reasonable time (< 15 seconds) and is saved to database.
 
 2. **Given** user has an active chat session, **When** user sends a message in Arabic, **Then** the message is saved with language="ar", sent to the selected AI model, and the response is returned correctly.
 
 3. **Given** user selects model "LLaMA 3", **When** user sends a message, **Then** request is routed to Groq API (not OpenRouter) and response is returned from Groq.
 
-4. **Given** user is in an active chat, **When** they switch from DeepSeek to Mistral mid-conversation, **Then** the new model selection takes effect for subsequent messages and model preference is visible in the UI.
+4. **Given** user is in an active chat, **When** they switch from Nemotron to Trinity mid-conversation, **Then** the new model selection takes effect for subsequent messages and model preference is visible in the UI.
 
 ---
 
@@ -97,13 +97,13 @@ User can select which AI model to use from a dropdown menu. Model selection pers
 
 **Acceptance Scenarios**:
 
-1. **Given** user is in a chat session, **When** they click the model dropdown, **Then** they see three options: "DeepSeek", "LLaMA 3", and "Mistral" with current selection highlighted.
+1. **Given** user is in a chat session, **When** they click the model dropdown, **Then** they see three options: "Nemotron", "LLaMA 3", and "Trinity" with current selection highlighted.
 
-2. **Given** user selects "DeepSeek", **When** they send a message, **Then** the request routes to OpenRouter with model_id="deepseek-chat".
+2. **Given** user selects "Nemotron", **When** they send a message, **Then** the request routes to OpenRouter with model_id="Nemotron-chat".
 
-3. **Given** user changes to "LLaMA 3", **When** they send a message, **Then** the request routes to Groq with model_id="llama3-8b-8192".
+3. **Given** user changes to "LLaMA 3", **When** they send a message, **Then** the request routes to Groq with model_id="Liquid-8b-8192".
 
-4. **Given** user selects "Mistral", **When** they send a message, **Then** the request routes to OpenRouter with model_id="mistral-7b".
+4. **Given** user selects "Trinity", **When** they send a message, **Then** the request routes to OpenRouter with model_id="Trinity-7b".
 
 ---
 
@@ -168,9 +168,9 @@ The chat interface, messages, and summaries support both English and Arabic. Use
 - **FR-003**: System MUST accept user messages and store them with: `id` (UUID), `session_id` (UUID), `sender` (user/ai), `message` (text), `language` (en/ar), `created_at` (DateTime).
 
 - **FR-004**: System MUST route AI requests to the correct API provider based on model selection:
-  - If model="deepseek" → OpenRouter API with model_id="deepseek-chat"
-  - If model="llama3" → Groq API with model_id="llama3-8b-8192"
-  - If model="mistral" → OpenRouter API with model_id="mistral-7b"
+  - If model="Nemotron" → OpenRouter API with model_id="Nemotron-chat"
+  - If model="Liquid" → Groq API with model_id="Liquid-8b-8192"
+  - If model="Trinity" → OpenRouter API with model_id="Trinity-7b"
 
 - **FR-005**: System MUST receive AI response from provider, save AI message to database, and return response to frontend within a reasonable timeout (< 60 seconds per API call).
 
@@ -212,7 +212,7 @@ The chat interface, messages, and summaries support both English and Arabic. Use
 
 ### Key Entities _(include if feature involves data)_
 
-- **ChatSession**: Represents a conversation between user and AI. Attributes: `id` (UUID, primary key), `user_id` (UUID, foreign key to User), `title` (string, auto-generated or user-provided), `model` (string, one of: "deepseek", "llama3", "mistral"), `language` (enum: "en", "ar"), `created_at` (DateTime), `updated_at` (DateTime). Relationships: One session has many Messages; one User has many ChatSessions.
+- **ChatSession**: Represents a conversation between user and AI. Attributes: `id` (UUID, primary key), `user_id` (UUID, foreign key to User), `title` (string, auto-generated or user-provided), `model` (string, one of: "Nemotron", "Liquid", "Trinity"), `language` (enum: "en", "ar"), `created_at` (DateTime), `updated_at` (DateTime). Relationships: One session has many Messages; one User has many ChatSessions.
 
 - **Message**: Represents an individual message in a session. Attributes: `id` (UUID, primary key), `session_id` (UUID, foreign key to ChatSession), `sender` (enum: "user", "ai"), `message` (text, up to 10,000 characters), `language` (enum: "en", "ar"), `created_at` (DateTime). Relationships: Many messages belong to one ChatSession.
 
@@ -272,7 +272,7 @@ The chat interface, messages, and summaries support both English and Arabic. Use
 
 - **Error handling is user-centric**: Error messages are in plain language (user-friendly) not technical jargon; users understand what went wrong and how to recover.
 
-- **Summary generation uses the default model**: User summaries are generated using the `DEFAULT_MODEL` (currently "deepseek"); changes to this config apply to all future summaries.
+- **Summary generation uses the default model**: User summaries are generated using the `DEFAULT_MODEL` (currently "Nemotron"); changes to this config apply to all future summaries.
 
 - **Message length limits are enforced**: Messages are limited to a reasonable length (e.g., 5,000 characters) to prevent abuse and excessive API costs.
 
