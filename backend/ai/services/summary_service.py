@@ -1,185 +1,244 @@
-"""
-Summary Service
+"""Utilities for generating AI-backed user summaries."""
 
-Provides utilities for:
-- AI summary generation from chat history
-- Batch summary processing
-- Summary storage and retrieval
-
-This service integrates with existing AI backend to generate
-user interaction summaries in their preferred language.
-"""
+from __future__ import annotations
 
 import logging
+from typing import Callable, Iterable, List, Optional
+
+from django.db.models import Exists, OuterRef
 from django.utils import timezone
-from chats.models import ChatSession, Message
+
 from ai.models import UserSummary
 from ai.services.language_service import LanguageService
+from chats.models import ChatSession, Message
+from chats.router import dispatch_to_provider
 
 logger = logging.getLogger(__name__)
 
 
 class SummaryService:
-    """Service for generating and managing user summaries."""
+    """Service helpers for summary generation and storage."""
 
     MIN_MESSAGES_FOR_SUMMARY = 5
     MAX_SUMMARY_LENGTH = 2000
+    DEFAULT_MODEL = 'nemotron'
 
     @staticmethod
-    def generate_summary_for_session(session_id, ai_client=None):
-        """
-        Generate an AI summary for a specific chat session.
-        
-        Args:
-            session_id: ChatSession.id
-            ai_client: Optional AI client instance (defaults to platform's AI service)
-            
-        Returns:
-            UserSummary instance if successful, None if failed
-        """
+    def generate_summary_for_session(
+        session_id: int,
+        ai_client: Optional[Callable[[str, str, str], str]] = None,
+    ) -> Optional[UserSummary]:
+        """Create or return a summary for the provided chat session."""
         try:
-            session = ChatSession.objects.get(id=session_id)
+            session = ChatSession.objects.select_related('user').get(id=session_id)
         except ChatSession.DoesNotExist:
-            logger.error(f"ChatSession {session_id} not found")
+            logger.error("ChatSession %s not found", session_id)
             return None
 
-        # Retrieve session messages
-        messages = Message.objects.filter(
-            session=session
-        ).order_by('created_at')
-
-        if messages.count() < SummaryService.MIN_MESSAGES_FOR_SUMMARY:
-            logger.warning(f"Session {session_id} has insufficient messages ({messages.count()}) for summary")
+        messages = list(
+            Message.objects.filter(session=session).order_by('created_at')
+        )
+        if len(messages) < SummaryService.MIN_MESSAGES_FOR_SUMMARY:
+            logger.debug(
+                "Session %s has %s messages; skipping summary",
+                session_id,
+                len(messages),
+            )
             return None
 
-        # Build message history for AI prompt
-        history = SummaryService._format_message_history(messages)
-
-        # Prepare AI prompt
-        prompt = SummaryService._build_summary_prompt(history, session.language_tag)
-
-        # Call AI service (TODO: integrate with actual AI backend)
-        try:
-            # This is a placeholder - replace with actual AI client call
-            # summary_text = ai_client.generate(prompt, language=session.language_tag)
-            summary_text = "[PLACEHOLDER: AI summary would be generated here]"
-            
-            if not summary_text or len(summary_text) == 0:
-                logger.warning(f"AI generated empty summary for session {session_id}")
+        language = SummaryService._resolve_language(session, messages)
+        existing_summary = (
+            UserSummary.objects.filter(source_session_id=session_id)
+            .order_by('-date_generated')
+            .first()
+        )
+        if existing_summary:
+            already_in_language = existing_summary.language_tag == language
+            has_content = bool((existing_summary.summary_text or '').strip())
+            if already_in_language and has_content:
+                logger.debug(
+                    "Session %s already summarized in %s; skipping",
+                    session_id,
+                    language,
+                )
                 return None
 
-            # Truncate if necessary
-            if len(summary_text) > SummaryService.MAX_SUMMARY_LENGTH:
-                summary_text = summary_text[:SummaryService.MAX_SUMMARY_LENGTH]
+        prompt = SummaryService._build_summary_prompt(messages, language)
+        ai_client = ai_client or SummaryService._call_model_completion
 
-            # Create and store UserSummary
-            user_summary = UserSummary(
-                user=session.user,
-                summary_text=summary_text,
-                language_tag=session.language_tag or 'en',
-                date_generated=timezone.now(),
-                source_session_id=session_id,
-                relevance_score=1.0,
-                archived=False
+        try:
+            summary_text = ai_client(prompt, language, session.ai_model or SummaryService.DEFAULT_MODEL)
+        except Exception as exc:  # pragma: no cover - fallback path tested separately
+            logger.warning(
+                "AI provider failed for session %s (%s). Falling back to heuristic summary: %s",
+                session_id,
+                type(exc).__name__,
+                exc,
             )
-            user_summary.save()
+            summary_text = SummaryService._fallback_summary(messages, language)
 
-            logger.info(f"Generated summary for session {session_id} for user {session.user.id}")
-            return user_summary
+        if not summary_text:
+            summary_text = SummaryService._fallback_summary(messages, language)
 
-        except Exception as e:
-            logger.error(f"Error generating summary for session {session_id}: {e}")
-            return None
+        if len(summary_text) > SummaryService.MAX_SUMMARY_LENGTH:
+            summary_text = summary_text[: SummaryService.MAX_SUMMARY_LENGTH]
+
+        normalized_text = summary_text.strip()
+
+        if existing_summary:
+            existing_summary.summary_text = normalized_text
+            existing_summary.language_tag = language
+            existing_summary.date_generated = timezone.now()
+            existing_summary.relevance_score = 1.0
+            existing_summary.archived = False
+            existing_summary.save(
+                update_fields=[
+                    'summary_text',
+                    'language_tag',
+                    'date_generated',
+                    'relevance_score',
+                    'archived',
+                ]
+            )
+            logger.info(
+                "Updated summary %s for session %s to match latest language",
+                existing_summary.id,
+                session_id,
+            )
+            return existing_summary
+
+        summary = UserSummary.objects.create(
+            user=session.user,
+            summary_text=normalized_text,
+            language_tag=language,
+            date_generated=timezone.now(),
+            source_session_id=session.id,
+            relevance_score=1.0,
+            archived=False,
+        )
+        logger.info("Generated summary %s for session %s", summary.id, session_id)
+        return summary
 
     @staticmethod
-    def batch_generate_summaries():
-        """
-        Generate summaries for all sessions that need them.
-        
-        Sessions that qualify:
-        - message_count >= MIN_MESSAGES_FOR_SUMMARY
-        - No corresponding UserSummary exists yet
-        
-        Returns:
-            List of created UserSummary instances
-        """
-        created_summaries = []
-
-        # Find sessions with 5+ messages that don't have summaries yet
-        sessions_needing_summary = ChatSession.objects.filter(
-            message_count__gte=SummaryService.MIN_MESSAGES_FOR_SUMMARY
-        ).exclude(
-            id__in=UserSummary.objects.filter(
-                source_session_id__isnull=False
-            ).values_list('source_session_id', flat=True)
+    def batch_generate_summaries(
+        ai_client: Optional[Callable[[str, str, str], str]] = None,
+        limit: Optional[int] = None,
+    ) -> List[UserSummary]:
+        """Generate summaries for every qualifying session, up to the provided limit."""
+        sessions = (
+            ChatSession.objects.select_related('user')
+            .filter(message_count__gte=SummaryService.MIN_MESSAGES_FOR_SUMMARY)
+            .annotate(
+                has_summary=Exists(
+                    UserSummary.objects.filter(source_session_id=OuterRef('pk'))
+                )
+            )
+            .filter(has_summary=False)
+            .order_by('created_at')
         )
 
-        logger.info(f"Found {sessions_needing_summary.count()} sessions needing summaries")
+        if limit:
+            sessions = sessions[:limit]
 
-        for session in sessions_needing_summary:
-            summary = SummaryService.generate_summary_for_session(session.id)
+        created: List[UserSummary] = []
+        for session in sessions:
+            summary = SummaryService.generate_summary_for_session(
+                session.id,
+                ai_client=ai_client,
+            )
             if summary:
-                created_summaries.append(summary)
+                created.append(summary)
 
-        logger.info(f"Batch generated {len(created_summaries)} summaries")
-        return created_summaries
+        logger.info("Batch generated %s summaries", len(created))
+        return created
+
+    # ------------------------------------------------------------------
+    # Internal helpers
+    # ------------------------------------------------------------------
+    @staticmethod
+    def _resolve_language(session: ChatSession, messages: Iterable[Message]) -> str:
+        if session.language_tag:
+            return session.language_tag
+        for message in messages:
+            if message.language_tag:
+                return message.language_tag
+        return 'en'
 
     @staticmethod
-    def _format_message_history(messages):
-        """
-        Format message history for AI summarization prompt.
-        
-        Args:
-            messages: QuerySet of Message objects
-            
-        Returns:
-            Formatted string of conversation history
-        """
-        formatted = []
-        for msg in messages:
-            role = "User" if msg.role == 'user' else "Assistant"
-            formatted.append(f"{role}: {msg.content}")
-        
-        return "\n".join(formatted)
+    def _build_summary_prompt(messages: Iterable[Message], language: str) -> str:
+        history = SummaryService._format_message_history(messages)
+        if not history:
+            history = 'No conversation history provided.'
 
-    @staticmethod
-    def _build_summary_prompt(history, language='en'):
-        """
-        Build AI prompt for summarization.
-        
-        Args:
-            history: Formatted message history
-            language: Language code ('en' or 'ar')
-            
-        Returns:
-            Complete AI prompt string
-        """
         if language == 'ar':
-            system_instruction = LanguageService.get_msa_prompt_instruction()
-            user_prompt = f"""قم بتلخيص محادثة المستخدم التالية بـ 1-3 جمل قصيرة.
-ركز على:
-- المواضيع الرئيسية التي سأل عنها المستخدم
-- أنماط الاهتمامات
-- أي رؤى حول أسلوب الاستخدام
+            return (
+                "قم بتلخيص المحادثة التالية في 2-3 جمل رسمية باللغة العربية الفصحى.\n"
+                "- اذكر المواضيع الأبرز.\n"
+                "- صف أسلوب الاستخدام أو النمط المتكرر.\n"
+                "- كن موجزاً وواضحاً.\n\n"
+                f"المحادثة:\n{history}\n\nالملخص:" 
+            )
 
-المحادثة:
-{history}
+        return (
+            "Summarize the conversation below in 2-3 concise sentences.\n"
+            "- Highlight the primary topics.\n"
+            "- Describe usage patterns or goals.\n"
+            "- Maintain a professional tone.\n\n"
+            f"Conversation:\n{history}\n\nSummary:" 
+        )
 
-الملخص:"""
+    @staticmethod
+    def _call_model_completion(prompt: str, language: str, model: str) -> str:
+        system_prompt = (
+            LanguageService.get_msa_prompt_instruction()
+            if language == 'ar'
+            else "You are an assistant that produces structured, professional summaries."
+        )
+        model_id = model or SummaryService.DEFAULT_MODEL
+        result = dispatch_to_provider(model_id, prompt, system_prompt)
+        if not result or 'error' in result:
+            raise RuntimeError(result.get('error') if isinstance(result, dict) else 'AI call failed')
+        return (result.get('response') or '').strip()
+
+    @staticmethod
+    def _fallback_summary(messages: Iterable[Message], language: str) -> str:
+        user_topics = [msg.content for msg in messages if msg.role == 'user']
+        assistant_notes = [msg.content for msg in messages if msg.role == 'assistant']
+
+        if language == 'ar':
+            intro = "تركزت المحادثة حول"
+            tail = "وقد قدم النظام إرشادات متتابعة بناءً على هذه الأسئلة."
         else:
-            system_instruction = "You are a helpful assistant that summarizes user interactions."
-            user_prompt = f"""Please summarize the following conversation in 1-3 brief sentences.
-Focus on:
-- Main topics the user asked about
-- Patterns of interests
-- Any insights about usage patterns
+            intro = "The conversation focused on"
+            tail = "and the assistant responded with guidance tailored to those themes."
 
-Conversation:
-{history}
+        if user_topics:
+            topic_slice = ', '.join(user_topics[:2])
+        else:
+            topic_slice = 'general inquiries'
 
-Summary:"""
+        if assistant_notes:
+            support_slice = assistant_notes[0][:140].strip()
+        else:
+            support_slice = ''
 
-        return f"{system_instruction}\n\n{user_prompt}"
+        parts = [f"{intro} {topic_slice}"]
+        if support_slice:
+            parts.append(support_slice)
+        parts.append(tail)
+        return ' '.join(parts)
+
+    @staticmethod
+    def _format_message_history(messages: Iterable[Message]) -> str:
+        """Return a normalized transcript ready for LLM prompts."""
+        lines: List[str] = []
+        for message in messages:
+            content = (message.content or '').strip()
+            if not content:
+                continue
+            role = 'User' if message.role == 'user' else 'Assistant'
+            lines.append(f"{role}: {content}")
+        return "\n".join(lines)
 
 
 __all__ = ['SummaryService']

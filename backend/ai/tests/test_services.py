@@ -14,12 +14,37 @@ Tests verify:
 import pytest
 from django.test import TestCase
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 from datetime import datetime
 
 from chats.models import ChatSession, Message
 from ai.models import UserSummary
 from ai.services.language_service import LanguageService
 from ai.services.summary_service import SummaryService
+from ai import signals as ai_signals
+
+
+class DisableSummarySignalsMixin:
+    """Temporarily disable summary generation signals for deterministic tests."""
+
+    _signals_disconnected = False
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls._signals_disconnected = post_save.disconnect(
+            ai_signals.increment_session_message_count,
+            sender=Message,
+        )
+
+    @classmethod
+    def tearDownClass(cls):
+        if cls._signals_disconnected:
+            post_save.connect(
+                ai_signals.increment_session_message_count,
+                sender=Message,
+            )
+        super().tearDownClass()
 
 
 class LanguageServiceValidationTests(TestCase):
@@ -188,7 +213,7 @@ class SummaryServiceMessageFormattingTests(TestCase):
         self.assertIn('HiThere', result)
 
 
-class SummaryServiceGenerationTests(TestCase):
+class SummaryServiceGenerationTests(DisableSummarySignalsMixin, TestCase):
     """Test summary generation logic."""
 
     def setUp(self):
@@ -256,7 +281,7 @@ class SummaryServiceGenerationTests(TestCase):
         self.assertEqual(result.source_session_id, self.session.id)
 
 
-class SummaryServiceBatchProcessingTests(TestCase):
+class SummaryServiceBatchProcessingTests(DisableSummarySignalsMixin, TestCase):
     """Test batch summary generation."""
 
     def setUp(self):
@@ -341,6 +366,24 @@ class SummaryServiceBatchProcessingTests(TestCase):
         
         result = SummaryService.batch_generate_summaries()
         self.assertEqual(len(result), 2)
+
+    def test_batch_generate_summaries_respects_limit(self):
+        """Verify optional limit restricts the number of processed sessions."""
+        for j in range(3):
+            session = ChatSession.objects.create(
+                user=self.user,
+                title=f'Limited Chat {j}',
+                message_count=SummaryService.MIN_MESSAGES_FOR_SUMMARY,
+            )
+            for i in range(SummaryService.MIN_MESSAGES_FOR_SUMMARY):
+                Message.objects.create(
+                    session=session,
+                    role='user' if i % 2 == 0 else 'assistant',
+                    content=f'Limited session {j} message {i}',
+                )
+
+        result = SummaryService.batch_generate_summaries(limit=1)
+        self.assertEqual(len(result), 1)
 
 
 class ServiceExceptionHandlingTests(TestCase):
