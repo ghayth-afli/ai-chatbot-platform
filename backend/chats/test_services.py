@@ -33,12 +33,12 @@ class TestChatService(TestCase):
         session = self.service.create_session(
             user=self.user,
             title='Test Chat',
-            model='deepseek',
+            model='Nemotron',
             language='en',
         )
 
         assert session['title'] == 'Test Chat'
-        assert session['ai_model'] == 'deepseek'
+        assert session['ai_model'] == 'Nemotron'
         assert 'id' in session
         assert ChatSession.objects.filter(id=session['id']).exists()
 
@@ -47,7 +47,7 @@ class TestChatService(TestCase):
         session = self.service.create_session(
             user=self.user,
             title='',
-            model='deepseek',
+            model='Nemotron',
             language='en',
         )
 
@@ -60,12 +60,12 @@ class TestChatService(TestCase):
         ChatSession.objects.create(
             user=self.user,
             title='Session 1',
-            ai_model='deepseek',
+            ai_model='Nemotron',
         )
         ChatSession.objects.create(
             user=self.user,
             title='Session 2',
-            ai_model='llama3',
+            ai_model='Liquid',
         )
 
         # Retrieve sessions
@@ -82,7 +82,7 @@ class TestChatService(TestCase):
             ChatSession.objects.create(
                 user=self.user,
                 title=f'Session {i}',
-                ai_model='deepseek',
+                ai_model='Nemotron',
             )
 
         # Get page 1
@@ -102,12 +102,12 @@ class TestChatService(TestCase):
         ChatSession.objects.create(
             user=self.user,
             title='My Session',
-            ai_model='deepseek',
+            ai_model='Nemotron',
         )
         ChatSession.objects.create(
             user=other_user,
             title='Other Session',
-            ai_model='deepseek',
+            ai_model='Nemotron',
         )
 
         result = self.service.get_user_sessions(self.user)
@@ -120,7 +120,7 @@ class TestChatService(TestCase):
         session = ChatSession.objects.create(
             user=self.user,
             title='Test',
-            ai_model='deepseek',
+            ai_model='Nemotron',
         )
 
         # Create messages
@@ -151,7 +151,7 @@ class TestChatService(TestCase):
         session = ChatSession.objects.create(
             user=other_user,
             title='Test',
-            ai_model='deepseek',
+            ai_model='Nemotron',
         )
 
         result = self.service.get_session_messages(self.user, session.id)
@@ -163,7 +163,7 @@ class TestChatService(TestCase):
         session = ChatSession.objects.create(
             user=self.user,
             title='Test',
-            ai_model='deepseek',
+            ai_model='Nemotron',
         )
 
         # Create 10 messages
@@ -185,20 +185,20 @@ class TestChatService(TestCase):
         mock_dispatch.return_value = {
             'response': 'AI response',
             'tokens': 50,
-            'model': 'deepseek-chat',
+            'model': 'Nemotron-chat',
         }
 
         session = ChatSession.objects.create(
             user=self.user,
             title='Test',
-            ai_model='deepseek',
+            ai_model='Nemotron',
         )
 
         result = self.service.send_message(
             user=self.user,
             session_id=session.id,
             message_text='Hello',
-            model='deepseek',
+            model='Nemotron',
         )
 
         assert result['success']
@@ -219,14 +219,14 @@ class TestChatService(TestCase):
         session = ChatSession.objects.create(
             user=self.user,
             title='Test',
-            ai_model='deepseek',
+            ai_model='Nemotron',
         )
 
         result = self.service.send_message(
             user=self.user,
             session_id=session.id,
             message_text='Hello',
-            model='deepseek',
+            model='Nemotron',
         )
 
         assert not result['success']
@@ -237,7 +237,7 @@ class TestChatService(TestCase):
         session = ChatSession.objects.create(
             user=self.user,
             title='Test',
-            ai_model='deepseek',
+            ai_model='Nemotron',
         )
         session_id = session.id
 
@@ -263,7 +263,7 @@ class TestChatService(TestCase):
         session = ChatSession.objects.create(
             user=other_user,
             title='Test',
-            ai_model='deepseek',
+            ai_model='Nemotron',
         )
 
         result = self.service.delete_session(self.user, session.id)
@@ -276,21 +276,21 @@ class TestChatService(TestCase):
         session = ChatSession.objects.create(
             user=self.user,
             title='Test',
-            ai_model='deepseek',
+            ai_model='Nemotron',
         )
 
         result = self.service.update_session_model(
             self.user,
             session.id,
-            'llama3',
+            'Liquid',
         )
 
         assert result['success']
-        assert result['model'] == 'llama3'
+        assert result['model'] == 'Liquid'
 
         # Verify in database
         session.refresh_from_db()
-        assert session.ai_model == 'llama3'
+        assert session.ai_model == 'Liquid'
 
     def test_update_session_model_access_control(self):
         """Test that users can't update other user's sessions"""
@@ -302,18 +302,18 @@ class TestChatService(TestCase):
         session = ChatSession.objects.create(
             user=other_user,
             title='Test',
-            ai_model='deepseek',
+            ai_model='Nemotron',
         )
 
         result = self.service.update_session_model(
             self.user,
             session.id,
-            'llama3',
+            'Liquid',
         )
 
         assert not result['success']
         session.refresh_from_db()
-        assert session.ai_model == 'deepseek'
+        assert session.ai_model == 'Nemotron'
 
     def test_send_message_invalid_session(self):
         """Test sending message to non-existent session"""
@@ -321,7 +321,7 @@ class TestChatService(TestCase):
             user=self.user,
             session_id=99999,
             message_text='Hello',
-            model='deepseek',
+            model='Nemotron',
         )
 
         assert not result['success']
@@ -331,14 +331,14 @@ class TestChatService(TestCase):
         session = ChatSession.objects.create(
             user=self.user,
             title='Test',
-            ai_model='deepseek',
+            ai_model='Nemotron',
         )
 
         result = self.service.send_message(
             user=self.user,
             session_id=session.id,
             message_text='',
-            model='deepseek',
+            model='Nemotron',
         )
 
         assert not result['success']

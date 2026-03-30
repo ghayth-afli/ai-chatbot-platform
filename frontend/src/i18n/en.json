@@ -12,22 +12,22 @@
   },
   "hero": {
     "headline": "nexus.",
-    "subhead": "Experience multi-model chat in English and Arabic. Seamlessly switch between DeepSeek, LLaMA, and Mistral.",
+    "subhead": "Experience multi-model chat in English and Arabic. Seamlessly switch between Nemotron, LLaMA, and Trinity.",
     "cta": {
       "default": "Start Chatting",
       "authenticated": "Resume Chat"
     },
     "chips": {
-      "deepseek": "DeepSeek Chat",
+      "Nemotron": "Nemotron Chat",
       "llama": "LLaMA 3",
-      "mistral": "Mistral 7B"
+      "Trinity": "Trinity 7B"
     }
   },
   "features": {
     "title": "Powerful Features",
     "multiModel": {
       "title": "Multi-Model",
-      "body": "Access the latest open-source models in one interface. Switch between DeepSeek, LLaMA, and Mistral with a single click."
+      "body": "Access the latest open-source models in one interface. Switch between Nemotron, LLaMA, and Trinity with a single click."
     },
     "chatHistory": {
       "title": "Chat History",
@@ -49,13 +49,13 @@
   "models": {
     "title": "Available Models",
     "rows": {
-      "deepseek": {
+      "Nemotron": {
         "description": "Fast, accurate reasoning model optimized for practical tasks and coding."
       },
       "llama": {
         "description": "Meta's powerful open-source model with excellent general knowledge and creativity."
       },
-      "mistral": {
+      "Trinity": {
         "description": "Efficient and lightweight model with strong instruction-following capabilities."
       }
     }
@@ -183,7 +183,7 @@
   "nav_start": "Start Chat",
   "hero_eye": "LIVE NOW",
   "hero_sub": "AI",
-  "hero_body": "Meet nexus — the intelligent multi-model chat platform where DeepSeek meets LLaMA, Arabic meets English. Experience seamless conversations, instant model switching, and powerful AI at your fingertips.",
+  "hero_body": "Meet nexus — the intelligent multi-model chat platform where Nemotron meets LLaMA, Arabic meets English. Experience seamless conversations, instant model switching, and powerful AI at your fingertips.",
   "hero_cta1": "Start Chatting",
   "hero_cta2": "Learn More",
   "chip_lang": "EN / AR",
@@ -193,7 +193,7 @@
   "f_title_a": "excellence",
   "f_body": "Everything you need for intelligent conversations in one powerful platform",
   "f1t": "Multi-Model Access",
-  "f1d": "Switch between DeepSeek, LLaMA, and Mistral instantly. Get the best response for every question.",
+  "f1d": "Switch between Nemotron, LLaMA, and Trinity instantly. Get the best response for every question.",
   "f1b": "Latest Tech",
   "f2t": "Conversation Memory",
   "f2d": "Every chat is saved automatically. Pick up where you left off, anytime, anywhere.",

@@ -154,7 +154,7 @@
 ### Backend
 
 - ✅ Django Channels + WebSocket infrastructure
-- ✅ AI provider routing (OpenRouter for DeepSeek/Mistral, Groq for LLaMA 3)
+- ✅ AI provider routing (OpenRouter for Nemotron/Trinity, Groq for LLaMA 3)
 - ✅ Message storage and retrieval
 - ✅ Session management (CRUD operations)
 - ✅ JWT authentication

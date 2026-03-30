@@ -100,7 +100,7 @@ project/
     TOGETHER_API_KEY=
 
     # Default Model
-    DEFAULT_MODEL=deepseek
+    DEFAULT_MODEL=Nemotron
 
     # CORS
     CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
@@ -239,6 +239,7 @@ project/
 - [ ] T013 Update `backend/config/settings.py` - INSTALLED_APPS
   - **Path**: `backend/config/settings.py`
   - **Action**: Find the INSTALLED_APPS list and add these apps:
+
     ```python
     INSTALLED_APPS = [
         'django.contrib.admin',
@@ -260,6 +261,7 @@ project/
         'api.apps.ApiConfig',
     ]
     ```
+
   - **Verify**: Settings file updated without syntax errors
 
 - [ ] T014 [P] Update `backend/config/settings.py` - MIDDLEWARE
@@ -410,7 +412,7 @@ project/
         """Chat session container"""
         user = models.ForeignKey(User, on_delete=models.CASCADE)
         title = models.CharField(max_length=255, default='New Chat')
-        ai_model = models.CharField(max_length=50, default='deepseek')
+        ai_model = models.CharField(max_length=50, default='Nemotron')
         created_at = models.DateTimeField(auto_now_add=True)
         updated_at = models.DateTimeField(auto_now=True)
 

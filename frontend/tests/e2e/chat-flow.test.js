@@ -174,7 +174,7 @@ test.describe("Chat System E2E", () => {
     const modelSelector = page.locator(
       '[data-testid="model-selector"]' +
         ", select[name='model']," +
-        " button:has-text('DeepSeek')",
+        " button:has-text('Nemotron')",
     );
 
     if (await modelSelector.isVisible()) {
@@ -182,9 +182,9 @@ test.describe("Chat System E2E", () => {
       await modelSelector.click();
 
       // Select different model (e.g., LLaMA 3)
-      const llama3Option = page.locator("text=LLaMA 3, text=Llama").first();
-      if (await llama3Option.isVisible()) {
-        await llama3Option.click();
+      const LiquidOption = page.locator("text=LLaMA 3, text=Llama").first();
+      if (await LiquidOption.isVisible()) {
+        await LiquidOption.click();
       }
 
       // Verify selection changed

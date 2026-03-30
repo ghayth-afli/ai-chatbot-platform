@@ -2,9 +2,9 @@
 Tests for AI Model Routing
 
 Validates that messages are routed to correct providers:
-- DeepSeek → OpenRouter
+- Nemotron → OpenRouter
 - LLaMA 3 → Groq
-- Mistral → OpenRouter
+- Trinity → OpenRouter
 - Invalid models rejected
 """
 
@@ -27,56 +27,56 @@ class TestModelRouting(TestCase):
         self.session = ChatSession.objects.create(
             user=self.user,
             title='Test Session',
-            ai_model='deepseek',
+            ai_model='Nemotron',
         )
 
     def test_model_provider_mapping(self):
         """Test that all models are mapped to a provider"""
         # Verify all models have a provider
-        self.assertIn('deepseek', MODEL_PROVIDER_MAP)
-        self.assertIn('llama3', MODEL_PROVIDER_MAP)
-        self.assertIn('mistral', MODEL_PROVIDER_MAP)
+        self.assertIn('Nemotron', MODEL_PROVIDER_MAP)
+        self.assertIn('Liquid', MODEL_PROVIDER_MAP)
+        self.assertIn('Trinity', MODEL_PROVIDER_MAP)
         
         # Verify provider values are valid
-        self.assertEqual(MODEL_PROVIDER_MAP['deepseek'], 'openrouter')
-        self.assertEqual(MODEL_PROVIDER_MAP['llama3'], 'groq')
-        self.assertEqual(MODEL_PROVIDER_MAP['mistral'], 'openrouter')
+        self.assertEqual(MODEL_PROVIDER_MAP['Nemotron'], 'openrouter')
+        self.assertEqual(MODEL_PROVIDER_MAP['Liquid'], 'groq')
+        self.assertEqual(MODEL_PROVIDER_MAP['Trinity'], 'openrouter')
 
     @pytest.mark.django_db
-    def test_dispatch_deepseek_to_openrouter(self):
-        """Test that deepseek messages go to OpenRouter"""
+    def test_dispatch_Nemotron_to_openrouter(self):
+        """Test that Nemotron messages go to OpenRouter"""
         with patch('chats.router.route_to_openrouter') as mock_openrouter:
             mock_openrouter.return_value = {'response': 'Test response', 'tokens': 100}
             
-            result = dispatch_to_provider('deepseek', 'Hello', 'system')
+            result = dispatch_to_provider('Nemotron', 'Hello', 'system')
             
             # Verify OpenRouter was called
             mock_openrouter.assert_called_once()
             assert result['response'] == 'Test response'
 
     @pytest.mark.django_db
-    def test_dispatch_llama3_to_groq(self):
-        """Test that llama3 messages go to Groq"""
+    def test_dispatch_Liquid_to_groq(self):
+        """Test that Liquid messages go to Groq"""
         with patch('chats.router.route_to_groq') as mock_groq:
             mock_groq.return_value = {'response': 'Groq response', 'tokens': 150}
             
-            result = dispatch_to_provider('llama3', 'Hello', 'system')
+            result = dispatch_to_provider('Liquid', 'Hello', 'system')
             
             # Verify Groq was called
             mock_groq.assert_called_once()
             assert result['response'] == 'Groq response'
 
     @pytest.mark.django_db
-    def test_dispatch_mistral_to_openrouter(self):
-        """Test that mistral messages go to OpenRouter"""
+    def test_dispatch_Trinity_to_openrouter(self):
+        """Test that Trinity messages go to OpenRouter"""
         with patch('chats.router.route_to_openrouter') as mock_openrouter:
-            mock_openrouter.return_value = {'response': 'Mistral response', 'tokens': 200}
+            mock_openrouter.return_value = {'response': 'Trinity response', 'tokens': 200}
             
-            result = dispatch_to_provider('mistral', 'Hello', 'system')
+            result = dispatch_to_provider('Trinity', 'Hello', 'system')
             
             # Verify OpenRouter was called
             mock_openrouter.assert_called_once()
-            assert result['response'] == 'Mistral response'
+            assert result['response'] == 'Trinity response'
 
     @pytest.mark.django_db
     def test_dispatch_invalid_model(self):
@@ -90,7 +90,7 @@ class TestModelRouting(TestCase):
     @pytest.mark.django_db
     def test_dispatch_empty_message(self):
         """Test that empty messages are rejected"""
-        result = dispatch_to_provider('deepseek', '', 'system')
+        result = dispatch_to_provider('Nemotron', '', 'system')
         
         # Should return error
         assert 'error' in result
@@ -99,15 +99,15 @@ class TestModelRouting(TestCase):
     def test_dispatch_oversized_message(self):
         """Test that messages > 5000 chars are rejected"""
         large_message = 'x' * 5001
-        result = dispatch_to_provider('deepseek', large_message, 'system')
+        result = dispatch_to_provider('Nemotron', large_message, 'system')
         
         # Should return error about length
         assert 'error' in result
         assert 'exceeds' in result['error'].lower()
 
     @pytest.mark.django_db
-    def test_send_message_with_model_deepseek(self):
-        """Test sending message with deepseek model"""
+    def test_send_message_with_model_Nemotron(self):
+        """Test sending message with Nemotron model"""
         with patch('chats.services.dispatch_to_provider') as mock_dispatch:
             mock_dispatch.return_value = {'response': 'AI response', 'tokens': 100}
             
@@ -115,36 +115,36 @@ class TestModelRouting(TestCase):
                 self.user,
                 self.session.id,
                 'What is AI?',
-                model='deepseek'
+                model='Nemotron'
             )
             
-            # Verify dispatch was called with deepseek
+            # Verify dispatch was called with Nemotron
             mock_dispatch.assert_called_once()
             call_args = mock_dispatch.call_args
-            assert call_args[0][0] == 'deepseek'
+            assert call_args[0][0] == 'Nemotron'
             assert 'response' in result
 
     @pytest.mark.django_db
-    def test_send_message_with_model_mistral(self):
-        """Test sending message with mistral model"""
+    def test_send_message_with_model_Trinity(self):
+        """Test sending message with Trinity model"""
         with patch('chats.services.dispatch_to_provider') as mock_dispatch:
-            mock_dispatch.return_value = {'response': 'Mistral response', 'tokens': 150}
+            mock_dispatch.return_value = {'response': 'Trinity response', 'tokens': 150}
             
             result = ChatService.send_message(
                 self.user,
                 self.session.id,
                 'Explain ML',
-                model='mistral'
+                model='Trinity'
             )
             
-            # Verify dispatch was called with mistral
+            # Verify dispatch was called with Trinity
             mock_dispatch.assert_called_once()
             call_args = mock_dispatch.call_args
-            assert call_args[0][0] == 'mistral'
+            assert call_args[0][0] == 'Trinity'
 
     @pytest.mark.django_db
-    def test_send_message_with_model_llama3(self):
-        """Test sending message with llama3 model"""
+    def test_send_message_with_model_Liquid(self):
+        """Test sending message with Liquid model"""
         with patch('chats.services.dispatch_to_provider') as mock_dispatch:
             mock_dispatch.return_value = {'response': 'LLaMA response', 'tokens': 120}
             
@@ -152,13 +152,13 @@ class TestModelRouting(TestCase):
                 self.user,
                 self.session.id,
                 'Tell a joke',
-                model='llama3'
+                model='Liquid'
             )
             
-            # Verify dispatch was called with llama3
+            # Verify dispatch was called with Liquid
             mock_dispatch.assert_called_once()
             call_args = mock_dispatch.call_args
-            assert call_args[0][0] == 'llama3'
+            assert call_args[0][0] == 'Liquid'
 
     @pytest.mark.django_db
     def test_send_message_with_invalid_model(self):
@@ -174,19 +174,19 @@ class TestModelRouting(TestCase):
     @pytest.mark.django_db
     def test_update_session_model_valid(self):
         """Test updating session to valid model"""
-        result = ChatService.update_session_model(self.user, self.session.id, 'llama3')
+        result = ChatService.update_session_model(self.user, self.session.id, 'Liquid')
         
         # Verify model was updated
-        assert result['model'] == 'llama3'
+        assert result['model'] == 'Liquid'
         
         # Verify in database
         session = ChatSession.objects.get(id=self.session.id)
-        assert session.ai_model == 'llama3'
+        assert session.ai_model == 'Liquid'
 
     @pytest.mark.django_db
     def test_update_session_model_all_valid(self):
         """Test updating to each valid model"""
-        for model in ['deepseek', 'llama3', 'mistral']:
+        for model in ['Nemotron', 'Liquid', 'Trinity']:
             result = ChatService.update_session_model(self.user, self.session.id, model)
             assert result['model'] == model
             

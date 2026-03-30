@@ -33,13 +33,13 @@ class DeleteSessionTests(TestCase):
         self.session1 = ChatSession.objects.create(
             user=self.user1,
             title='User1 Session',
-            ai_model='deepseek',
+            ai_model='Nemotron',
         )
 
         self.session2 = ChatSession.objects.create(
             user=self.user2,
             title='User2 Session',
-            ai_model='deepseek',
+            ai_model='Nemotron',
         )
 
         # Add messages to session1
@@ -48,7 +48,7 @@ class DeleteSessionTests(TestCase):
                 session=self.session1,
                 role='user' if i % 2 == 0 else 'assistant',
                 content=f'Message {i}',
-                ai_model='deepseek',
+                ai_model='Nemotron',
             )
 
     @pytest.mark.django_db

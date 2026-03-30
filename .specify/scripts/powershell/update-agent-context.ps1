@@ -410,7 +410,7 @@ function Update-SpecificAgent {
         'kiro-cli' { Update-AgentFile -TargetFile $KIRO_FILE     -AgentName 'Kiro CLI' }
         'agy'      { Update-AgentFile -TargetFile $AGY_FILE      -AgentName 'Antigravity' }
         'bob'      { Update-AgentFile -TargetFile $BOB_FILE      -AgentName 'IBM Bob' }
-        'vibe'     { Update-AgentFile -TargetFile $VIBE_FILE     -AgentName 'Mistral Vibe' }
+        'vibe'     { Update-AgentFile -TargetFile $VIBE_FILE     -AgentName 'Trinity Vibe' }
         'kimi'     { Update-AgentFile -TargetFile $KIMI_FILE     -AgentName 'Kimi Code' }
         'trae'     { Update-AgentFile -TargetFile $TRAE_FILE     -AgentName 'Trae' }
         'pi'       { Update-AgentFile -TargetFile $AGENTS_FILE   -AgentName 'Pi Coding Agent' }
@@ -441,7 +441,7 @@ function Update-AllExistingAgents {
     if (Test-Path $KIRO_FILE)     { if (-not (Update-AgentFile -TargetFile $KIRO_FILE     -AgentName 'Kiro CLI')) { $ok = $false }; $found = $true }
     if (Test-Path $AGY_FILE)      { if (-not (Update-AgentFile -TargetFile $AGY_FILE      -AgentName 'Antigravity')) { $ok = $false }; $found = $true }
     if (Test-Path $BOB_FILE)      { if (-not (Update-AgentFile -TargetFile $BOB_FILE      -AgentName 'IBM Bob')) { $ok = $false }; $found = $true }
-    if (Test-Path $VIBE_FILE)     { if (-not (Update-AgentFile -TargetFile $VIBE_FILE     -AgentName 'Mistral Vibe')) { $ok = $false }; $found = $true }
+    if (Test-Path $VIBE_FILE)     { if (-not (Update-AgentFile -TargetFile $VIBE_FILE     -AgentName 'Trinity Vibe')) { $ok = $false }; $found = $true }
     if (Test-Path $KIMI_FILE)     { if (-not (Update-AgentFile -TargetFile $KIMI_FILE     -AgentName 'Kimi Code')) { $ok = $false }; $found = $true }
     if (Test-Path $TRAE_FILE)     { if (-not (Update-AgentFile -TargetFile $TRAE_FILE     -AgentName 'Trae')) { $ok = $false }; $found = $true }
     if (Test-Path $IFLOW_FILE)    { if (-not (Update-AgentFile -TargetFile $IFLOW_FILE    -AgentName 'iFlow CLI')) { $ok = $false }; $found = $true }

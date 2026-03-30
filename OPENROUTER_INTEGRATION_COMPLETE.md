@@ -57,20 +57,20 @@ OPENROUTER_MODELS = {
 **Changes Made:**
 
 - ✅ Updated `VALID_MODELS` to `['nemotron', 'liquid', 'trinity']`
-- ✅ Changed default model from 'deepseek' to 'nemotron'
+- ✅ Changed default model from 'Nemotron' to 'nemotron'
 - ✅ Updated docstrings to reflect new model names
 
 ### 3. Django Models (`backend/chats/models.py`)
 
 **Changes Made:**
 
-- ✅ Updated default `ai_model` from 'deepseek' to 'nemotron'
+- ✅ Updated default `ai_model` from 'Nemotron' to 'nemotron'
 
 ### 4. API Views (`backend/chats/views.py`)
 
 **Changes Made:**
 
-- ✅ Updated default model in `create()` method from 'deepseek' to 'nemotron'
+- ✅ Updated default model in `create()` method from 'Nemotron' to 'nemotron'
 - ✅ Updated docstring to reflect new models
 
 ### 5. Test Files
@@ -118,7 +118,7 @@ OPENROUTER_MODELS = {
 
 **`frontend/src/features/chat/useChat.js`**
 
-- ✅ Changed default `currentModel` from "deepseek" to "nemotron"
+- ✅ Changed default `currentModel` from "Nemotron" to "nemotron"
 - ✅ Updated `handleCreateSession()` default model
 
 **`frontend/src/services/chatService.js`**
@@ -204,7 +204,7 @@ OPENROUTER_MODELS = {
 ### Before (Old)
 
 ```
-Backend: DeepSeek, Mistral (OpenRouter) + LLaMA3 (Groq)
+Backend: Nemotron, Trinity (OpenRouter) + Liquid (Groq)
 Frontend: 4 model options
 Models: Spread across 2 providers
 ```
@@ -339,9 +339,9 @@ No additional setup is needed! The API key you tested in Google Colab is already
 ⚠️ **Important Changes:**
 
 - Groq support has been completely removed
-- LLaMA3 model is no longer available
+- Liquid model is no longer available
 - All models now go through OpenRouter
-- Old sessions with "deepseek", "mistral", or "llama3" models will default to "nemotron" on first load
+- Old sessions with "Nemotron", "Trinity", or "Liquid" models will default to "nemotron" on first load
 
 ✨ **Benefits:**
 

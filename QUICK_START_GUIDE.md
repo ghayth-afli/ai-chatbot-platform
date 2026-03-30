@@ -139,7 +139,7 @@ Data removed immediately ✅
 4. Start Django + Channels server
 5. Start React dev server or build production
 
-# Result: Full chat with DeepSeek/Mistral/LLaMA3 support
+# Result: Full chat with Nemotron/Trinity/Liquid support
 ```
 
 ### Option B: Continue Development (Remaining Features)
@@ -247,7 +247,7 @@ Authorization: Bearer {token}
 
 {
   "title": "Optional title",
-  "ai_model": "deepseek|llama3|mistral",
+  "ai_model": "Nemotron|Liquid|Trinity",
   "language": "en|ar"
 }
 
@@ -262,7 +262,7 @@ Authorization: Bearer {token}
 
 {
   "message_text": "Hello AI",
-  "model": "deepseek"
+  "model": "Nemotron"
 }
 
 Response: {
@@ -339,7 +339,7 @@ Response: {
   messages={[]}
   loading={false}
   error={null}
-  currentModel="deepseek"
+  currentModel="Nemotron"
 />
 ```
 
@@ -349,7 +349,7 @@ Response: {
 <MessageInput
   onSendMessage={(text, model) => {}}
   onModelChange={(model) => {}}
-  selectedModel="deepseek"
+  selectedModel="Nemotron"
   disabled={false}
   loading={false}
 />
@@ -359,7 +359,7 @@ Response: {
 
 ```javascript
 <ModelSelector
-  selectedModel="deepseek"
+  selectedModel="Nemotron"
   onModelChange={(model) => {}}
   disabled={false}
 />

@@ -31,12 +31,13 @@ export default function Hero({ onNavigateChat }) {
           <p className={styles.heroBody}>{t("hero_body")}</p>
 
           <div className={styles.heroCta}>
-            <button
+            <Link
+              to="/chat"
               onClick={onNavigateChat}
               className={`${styles.btn} ${styles.btnPrimary}`}
             >
               {t("hero_cta1")}
-            </button>
+            </Link>
             <a
               href="#features"
               className={`${styles.btn} ${styles.btnSecondary}`}
@@ -71,9 +72,9 @@ function ChatCardPreview() {
   const [activeModel, setActiveModel] = useState("Nemotron");
 
   const models = [
-    { name: "Nemotron", label: "deepseek", color: "var(--volt)" },
-    { name: "Liquid", label: "llama3", color: "var(--plasma)" },
-    { name: "Trinity", label: "mistral", color: "var(--ice)" },
+    { name: "Nemotron", label: "Nemotron", color: "var(--volt)" },
+    { name: "Liquid", label: "Liquid", color: "var(--plasma)" },
+    { name: "Trinity", label: "Trinity", color: "var(--ice)" },
   ];
 
   return (

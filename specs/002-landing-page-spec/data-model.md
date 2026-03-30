@@ -61,7 +61,7 @@
 
 - **Represents**: Each AI model showcased in the Models section.
 - **Fields**:
-  - `modelName`: string (`"DeepSeek Chat"`, `"LLaMA 3"`, `"Mistral 7B"`).
+  - `modelName`: string (`"Nemotron Chat"`, `"LLaMA 3"`, `"Trinity 7B"`).
   - `provider`: string, also translated (e.g., `OpenRouter`).
   - `descriptionKey`: translation key summarizing differentiator.
   - `badge`: optional visual indicator (e.g., provider tag, "Coming Soon").

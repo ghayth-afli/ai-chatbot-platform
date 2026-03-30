@@ -1,1262 +1,2363 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" dir="ltr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>nexus. — Chat</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:wght@400;700&family=Noto+Sans+Arabic:wght@300;400;500;700&display=swap" rel="stylesheet">
-<style>
-/* ═══════════════════════════════════════
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nexus. — Chat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:wght@400;700&family=Noto+Sans+Arabic:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ═══════════════════════════════════════
    TOKENS
 ═══════════════════════════════════════ */
-:root {
-  --ink:     #0D0D12;
-  --paper:   #F5F3EF;
-  --volt:    #C8FF00;
-  --plasma:  #7B5CFF;
-  --spark:   #FF4D6D;
-  --ice:     #00D4E8;
-  --muted:   #6B6878;
-  --surface: #1A1825;
-  --surf2:   #211F2E;
-  --glass:   rgba(255,255,255,0.04);
-  --border:  rgba(255,255,255,0.09);
-  --sidebar-w: 280px;
-  --header-h:  56px;
-}
+      :root {
+        --ink: #0d0d12;
+        --paper: #f5f3ef;
+        --volt: #c8ff00;
+        --plasma: #7b5cff;
+        --spark: #ff4d6d;
+        --ice: #00d4e8;
+        --muted: #6b6878;
+        --surface: #1a1825;
+        --surf2: #211f2e;
+        --glass: rgba(255, 255, 255, 0.04);
+        --border: rgba(255, 255, 255, 0.09);
+        --sidebar-w: 280px;
+        --header-h: 56px;
+      }
 
-*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
-html,body { height:100%; overflow:hidden; }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+      }
 
-body {
-  background:var(--ink); color:var(--paper);
-  font-family:'DM Sans',sans-serif; font-size:14px; line-height:1.6;
-}
-body[dir="rtl"] { font-family:'Noto Sans Arabic','DM Sans',sans-serif; }
+      body {
+        background: var(--ink);
+        color: var(--paper);
+        font-family: "DM Sans", sans-serif;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+      body[dir="rtl"] {
+        font-family: "Noto Sans Arabic", "DM Sans", sans-serif;
+      }
 
-::-webkit-scrollbar { width:4px; height:4px; }
-::-webkit-scrollbar-track { background:transparent; }
-::-webkit-scrollbar-thumb { background:rgba(123,92,255,.4); border-radius:2px; }
+      ::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(123, 92, 255, 0.4);
+        border-radius: 2px;
+      }
 
-/* ═══ KEYFRAMES ═══ */
-@keyframes fadeUp    { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
-@keyframes pulse     { 0%,100%{opacity:1} 50%{opacity:.4} }
-@keyframes bounce    { 0%,100%{opacity:.3;transform:translateY(0)} 50%{opacity:1;transform:translateY(-3px)} }
-@keyframes spin      { to{transform:rotate(360deg)} }
-@keyframes msgIn     { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
-@keyframes shimmer   { 0%{background-position:-400px 0} 100%{background-position:400px 0} }
+      /* ═══ KEYFRAMES ═══ */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.4;
+        }
+      }
+      @keyframes bounce {
+        0%,
+        100% {
+          opacity: 0.3;
+          transform: translateY(0);
+        }
+        50% {
+          opacity: 1;
+          transform: translateY(-3px);
+        }
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes msgIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @keyframes shimmer {
+        0% {
+          background-position: -400px 0;
+        }
+        100% {
+          background-position: 400px 0;
+        }
+      }
 
-/* ═══ LAYOUT ═══ */
-.app { display:flex; height:100vh; width:100vw; overflow:hidden; }
+      /* ═══ LAYOUT ═══ */
+      .app {
+        display: flex;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+      }
 
-/* ═══ SIDEBAR ═══ */
-.sidebar {
-  width:var(--sidebar-w); height:100%;
-  background:var(--surface); border-right:1px solid var(--border);
-  display:flex; flex-direction:column; flex-shrink:0;
-  transition:transform .28s ease, width .28s ease;
-  z-index:50;
-}
-html[dir="rtl"] .sidebar { border-right:none; border-left:1px solid var(--border); }
+      /* ═══ SIDEBAR ═══ */
+      .sidebar {
+        width: var(--sidebar-w);
+        height: 100%;
+        background: var(--surface);
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        transition:
+          transform 0.28s ease,
+          width 0.28s ease;
+        z-index: 50;
+      }
+      html[dir="rtl"] .sidebar {
+        border-right: none;
+        border-left: 1px solid var(--border);
+      }
 
-.sidebar-head {
-  height:var(--header-h); display:flex; align-items:center; justify-content:space-between;
-  padding:0 16px; border-bottom:1px solid var(--border); flex-shrink:0;
-}
-.logo {
-  font-family:'Syne',sans-serif; font-weight:800; font-size:18px;
-  letter-spacing:-.03em; color:var(--paper); text-decoration:none;
-  display:flex; align-items:center; gap:2px;
-}
-.logo .dot { color:var(--volt); }
-.logo .badge {
-  font-family:'Space Mono',monospace; font-size:8px; font-weight:700;
-  background:var(--plasma); color:#fff; padding:2px 5px; border-radius:3px;
-  letter-spacing:.05em; margin-left:5px; align-self:center;
-}
+      .sidebar-head {
+        height: var(--header-h);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        border-bottom: 1px solid var(--border);
+        flex-shrink: 0;
+      }
+      .logo {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 18px;
+        letter-spacing: -0.03em;
+        color: var(--paper);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 2px;
+      }
+      .logo .dot {
+        color: var(--volt);
+      }
+      .logo .badge {
+        font-family: "Space Mono", monospace;
+        font-size: 8px;
+        font-weight: 700;
+        background: var(--plasma);
+        color: #fff;
+        padding: 2px 5px;
+        border-radius: 3px;
+        letter-spacing: 0.05em;
+        margin-left: 5px;
+        align-self: center;
+      }
 
-.new-chat-btn {
-  width:30px; height:30px; border-radius:8px; border:1px solid var(--border);
-  background:var(--glass); color:var(--muted); cursor:pointer;
-  display:flex; align-items:center; justify-content:center; transition:all .12s;
-  flex-shrink:0;
-}
-.new-chat-btn:hover { background:rgba(200,255,0,.08); border-color:rgba(200,255,0,.3); color:var(--volt); }
+      .new-chat-btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--glass);
+        color: var(--muted);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.12s;
+        flex-shrink: 0;
+      }
+      .new-chat-btn:hover {
+        background: rgba(200, 255, 0, 0.08);
+        border-color: rgba(200, 255, 0, 0.3);
+        color: var(--volt);
+      }
 
-/* User profile card */
-.user-card {
-  margin:12px; border-radius:12px; padding:12px;
-  background:var(--surf2); border:1px solid var(--border); cursor:pointer;
-  transition:all .15s;
-}
-.user-card:hover { border-color:rgba(123,92,255,.35); }
-.user-card-inner { display:flex; align-items:center; gap:10px; }
-.avatar {
-  width:34px; height:34px; border-radius:10px; flex-shrink:0;
-  background:linear-gradient(135deg,var(--plasma) 0%,var(--ice) 100%);
-  display:flex; align-items:center; justify-content:center;
-  font-family:'Syne',sans-serif; font-weight:800; font-size:13px; color:#fff;
-}
-.user-name { font-family:'Syne',sans-serif; font-weight:700; font-size:13px; color:var(--paper); }
-.user-sub  { font-family:'Space Mono',monospace; font-size:8px; letter-spacing:.08em; color:var(--muted); margin-top:1px; }
-.user-chevron { margin-left:auto; color:var(--muted); font-size:10px; transition:transform .2s; }
-html[dir="rtl"] .user-chevron { margin-left:0; margin-right:auto; }
-.user-card.open .user-chevron { transform:rotate(180deg); }
+      /* User profile card */
+      .user-card {
+        margin: 12px;
+        border-radius: 12px;
+        padding: 12px;
+        background: var(--surf2);
+        border: 1px solid var(--border);
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .user-card:hover {
+        border-color: rgba(123, 92, 255, 0.35);
+      }
+      .user-card-inner {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        flex-shrink: 0;
+        background: linear-gradient(135deg, var(--plasma) 0%, var(--ice) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 13px;
+        color: #fff;
+      }
+      .user-name {
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 13px;
+        color: var(--paper);
+      }
+      .user-sub {
+        font-family: "Space Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        margin-top: 1px;
+      }
+      .user-chevron {
+        margin-left: auto;
+        color: var(--muted);
+        font-size: 10px;
+        transition: transform 0.2s;
+      }
+      html[dir="rtl"] .user-chevron {
+        margin-left: 0;
+        margin-right: auto;
+      }
+      .user-card.open .user-chevron {
+        transform: rotate(180deg);
+      }
 
-/* AI Summary panel */
-.ai-summary {
-  margin:0 12px 10px; border-radius:10px; padding:12px;
-  background:rgba(123,92,255,.06); border:1px solid rgba(123,92,255,.2);
-  display:none; animation:fadeUp .3s ease both;
-}
-.ai-summary.visible { display:block; }
-.summary-tag {
-  font-family:'Space Mono',monospace; font-size:8px; letter-spacing:.12em;
-  text-transform:uppercase; color:var(--plasma); margin-bottom:6px;
-  display:flex; align-items:center; gap:6px;
-}
-.summary-dot { width:5px; height:5px; border-radius:50%; background:var(--plasma); animation:pulse 2s ease infinite; }
-.summary-text { font-size:12px; color:rgba(245,243,239,.65); line-height:1.65; }
+      /* AI Summary panel */
+      .ai-summary {
+        margin: 0 12px 10px;
+        border-radius: 10px;
+        padding: 12px;
+        background: rgba(123, 92, 255, 0.06);
+        border: 1px solid rgba(123, 92, 255, 0.2);
+        display: none;
+        animation: fadeUp 0.3s ease both;
+      }
+      .ai-summary.visible {
+        display: block;
+      }
+      .summary-tag {
+        font-family: "Space Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--plasma);
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .summary-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--plasma);
+        animation: pulse 2s ease infinite;
+      }
+      .summary-text {
+        font-size: 12px;
+        color: rgba(245, 243, 239, 0.65);
+        line-height: 1.65;
+      }
 
-/* Search */
-.sidebar-search {
-  margin:0 12px 10px; position:relative;
-}
-.sidebar-search input {
-  width:100%; background:var(--surf2); border:1px solid var(--border);
-  border-radius:8px; padding:7px 10px 7px 30px; color:var(--paper);
-  font-family:'DM Sans',sans-serif; font-size:12px; outline:none; transition:border-color .15s;
-}
-html[dir="rtl"] .sidebar-search input { padding:7px 30px 7px 10px; }
-.sidebar-search input::placeholder { color:var(--muted); }
-.sidebar-search input:focus { border-color:rgba(123,92,255,.4); }
-.search-icon {
-  position:absolute; left:9px; top:50%; transform:translateY(-50%);
-  color:var(--muted); font-size:12px; pointer-events:none;
-}
-html[dir="rtl"] .search-icon { left:auto; right:9px; }
+      /* Search */
+      .sidebar-search {
+        margin: 0 12px 10px;
+        position: relative;
+      }
+      .sidebar-search input {
+        width: 100%;
+        background: var(--surf2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 7px 10px 7px 30px;
+        color: var(--paper);
+        font-family: "DM Sans", sans-serif;
+        font-size: 12px;
+        outline: none;
+        transition: border-color 0.15s;
+      }
+      html[dir="rtl"] .sidebar-search input {
+        padding: 7px 30px 7px 10px;
+      }
+      .sidebar-search input::placeholder {
+        color: var(--muted);
+      }
+      .sidebar-search input:focus {
+        border-color: rgba(123, 92, 255, 0.4);
+      }
+      .search-icon {
+        position: absolute;
+        left: 9px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--muted);
+        font-size: 12px;
+        pointer-events: none;
+      }
+      html[dir="rtl"] .search-icon {
+        left: auto;
+        right: 9px;
+      }
 
-/* Chat history list */
-.history-label {
-  font-family:'Space Mono',monospace; font-size:8px; letter-spacing:.14em;
-  text-transform:uppercase; color:var(--muted); padding:0 16px 8px;
-}
-.history-list { flex:1; overflow-y:auto; padding:0 8px; }
-.hist-item {
-  padding:9px 10px; border-radius:8px; cursor:pointer; margin-bottom:2px;
-  transition:background .12s; display:flex; align-items:flex-start; gap:8px;
-  position:relative;
-}
-.hist-item:hover { background:var(--surf2); }
-.hist-item.active { background:rgba(123,92,255,.1); }
-.hist-item.active::before {
-  content:''; position:absolute; left:0; top:8px; bottom:8px;
-  width:2px; background:var(--plasma); border-radius:0 2px 2px 0;
-}
-html[dir="rtl"] .hist-item.active::before { left:auto; right:0; border-radius:2px 0 0 2px; }
-.hist-icon { font-size:13px; margin-top:1px; flex-shrink:0; }
-.hist-content { flex:1; min-width:0; }
-.hist-title { font-size:12px; font-weight:500; color:var(--paper); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.hist-meta  { font-family:'Space Mono',monospace; font-size:8px; letter-spacing:.06em; color:var(--muted); margin-top:2px; }
-.hist-model-dot { width:5px; height:5px; border-radius:50%; flex-shrink:0; margin-top:6px; }
+      /* Chat history list */
+      .history-label {
+        font-family: "Space Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+        padding: 0 16px 8px;
+      }
+      .history-list {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0 8px;
+      }
+      .hist-item {
+        padding: 9px 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-bottom: 2px;
+        transition: background 0.12s;
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        position: relative;
+      }
+      .hist-item:hover {
+        background: var(--surf2);
+      }
+      .hist-item.active {
+        background: rgba(123, 92, 255, 0.1);
+      }
+      .hist-item.active::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 8px;
+        bottom: 8px;
+        width: 2px;
+        background: var(--plasma);
+        border-radius: 0 2px 2px 0;
+      }
+      html[dir="rtl"] .hist-item.active::before {
+        left: auto;
+        right: 0;
+        border-radius: 2px 0 0 2px;
+      }
+      .hist-icon {
+        font-size: 13px;
+        margin-top: 1px;
+        flex-shrink: 0;
+      }
+      .hist-content {
+        flex: 1;
+        min-width: 0;
+      }
+      .hist-title {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--paper);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .hist-meta {
+        font-family: "Space Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .hist-model-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        margin-top: 6px;
+      }
 
-/* Sidebar footer */
-.sidebar-footer {
-  border-top:1px solid var(--border); padding:10px 12px;
-  display:flex; flex-direction:column; gap:4px; flex-shrink:0;
-}
-.sf-btn {
-  display:flex; align-items:center; gap:9px; padding:8px 10px;
-  border-radius:8px; cursor:pointer; transition:background .12s;
-  color:var(--muted); font-size:12px; border:none; background:none; width:100%; text-align:left;
-}
-html[dir="rtl"] .sf-btn { text-align:right; }
-.sf-btn:hover { background:var(--surf2); color:var(--paper); }
-.sf-btn svg { flex-shrink:0; }
+      /* Sidebar footer */
+      .sidebar-footer {
+        border-top: 1px solid var(--border);
+        padding: 10px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex-shrink: 0;
+      }
+      .sf-btn {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 8px 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.12s;
+        color: var(--muted);
+        font-size: 12px;
+        border: none;
+        background: none;
+        width: 100%;
+        text-align: left;
+      }
+      html[dir="rtl"] .sf-btn {
+        text-align: right;
+      }
+      .sf-btn:hover {
+        background: var(--surf2);
+        color: var(--paper);
+      }
+      .sf-btn svg {
+        flex-shrink: 0;
+      }
 
-/* ═══ MAIN AREA ═══ */
-.main { flex:1; display:flex; flex-direction:column; overflow:hidden; position:relative; }
+      /* ═══ MAIN AREA ═══ */
+      .main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        position: relative;
+      }
 
-/* Header */
-.chat-header {
-  height:var(--header-h); display:flex; align-items:center;
-  justify-content:space-between; padding:0 20px;
-  border-bottom:1px solid var(--border); flex-shrink:0;
-  background:rgba(13,13,18,.6); backdrop-filter:blur(12px);
-}
-.header-left  { display:flex; align-items:center; gap:12px; }
-.header-right { display:flex; align-items:center; gap:10px; }
+      /* Header */
+      .chat-header {
+        height: var(--header-h);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        border-bottom: 1px solid var(--border);
+        flex-shrink: 0;
+        background: rgba(13, 13, 18, 0.6);
+        backdrop-filter: blur(12px);
+      }
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
 
-/* Model selector */
-.model-select-wrap { position:relative; }
-.model-select {
-  display:flex; align-items:center; gap:8px;
-  background:var(--surf2); border:1px solid var(--border);
-  border-radius:10px; padding:6px 12px; cursor:pointer; transition:all .15s;
-  user-select:none;
-}
-.model-select:hover { border-color:rgba(123,92,255,.4); }
-.model-select.open  { border-color:var(--plasma); }
-.model-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
-.model-name-label {
-  font-family:'Space Mono',monospace; font-size:10px; letter-spacing:.06em;
-  color:var(--paper); white-space:nowrap;
-}
-.model-chevron { font-size:10px; color:var(--muted); margin-left:4px; transition:transform .2s; }
-html[dir="rtl"] .model-chevron { margin-left:0; margin-right:4px; }
-.model-select.open .model-chevron { transform:rotate(180deg); }
+      /* Model selector */
+      .model-select-wrap {
+        position: relative;
+      }
+      .model-select {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--surf2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 6px 12px;
+        cursor: pointer;
+        transition: all 0.15s;
+        user-select: none;
+      }
+      .model-select:hover {
+        border-color: rgba(123, 92, 255, 0.4);
+      }
+      .model-select.open {
+        border-color: var(--plasma);
+      }
+      .model-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .model-name-label {
+        font-family: "Space Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.06em;
+        color: var(--paper);
+        white-space: nowrap;
+      }
+      .model-chevron {
+        font-size: 10px;
+        color: var(--muted);
+        margin-left: 4px;
+        transition: transform 0.2s;
+      }
+      html[dir="rtl"] .model-chevron {
+        margin-left: 0;
+        margin-right: 4px;
+      }
+      .model-select.open .model-chevron {
+        transform: rotate(180deg);
+      }
 
-.model-dropdown {
-  position:absolute; top:calc(100% + 6px); left:0;
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:12px; min-width:220px; overflow:hidden;
-  box-shadow:0 16px 40px rgba(0,0,0,.5);
-  display:none; z-index:200; animation:fadeUp .18s ease both;
-}
-html[dir="rtl"] .model-dropdown { left:auto; right:0; }
-.model-dropdown.open { display:block; }
-.model-opt {
-  display:flex; align-items:center; gap:10px; padding:11px 14px;
-  cursor:pointer; transition:background .12s;
-}
-.model-opt:hover { background:var(--surf2); }
-.model-opt.selected { background:rgba(123,92,255,.1); }
-.model-opt-info { flex:1; }
-.model-opt-name { font-family:'Syne',sans-serif; font-weight:700; font-size:13px; color:var(--paper); }
-.model-opt-desc { font-size:11px; color:var(--muted); margin-top:1px; }
-.model-check { font-size:12px; color:var(--volt); }
+      .model-dropdown {
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 0;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        min-width: 220px;
+        overflow: hidden;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: 200;
+        animation: fadeUp 0.18s ease both;
+      }
+      html[dir="rtl"] .model-dropdown {
+        left: auto;
+        right: 0;
+      }
+      .model-dropdown.open {
+        display: block;
+      }
+      .model-opt {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 11px 14px;
+        cursor: pointer;
+        transition: background 0.12s;
+      }
+      .model-opt:hover {
+        background: var(--surf2);
+      }
+      .model-opt.selected {
+        background: rgba(123, 92, 255, 0.1);
+      }
+      .model-opt-info {
+        flex: 1;
+      }
+      .model-opt-name {
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 13px;
+        color: var(--paper);
+      }
+      .model-opt-desc {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 1px;
+      }
+      .model-check {
+        font-size: 12px;
+        color: var(--volt);
+      }
 
-/* Lang toggle */
-.lang-tog {
-  display:flex; background:var(--surf2); border:1px solid var(--border);
-  border-radius:8px; padding:3px; gap:2px;
-}
-.lt-btn {
-  font-family:'Space Mono',monospace; font-size:9px; letter-spacing:.07em;
-  padding:4px 10px; border-radius:5px; border:none;
-  background:transparent; color:var(--muted); cursor:pointer; transition:all .15s;
-}
-.lt-btn.on { background:var(--plasma); color:#fff; }
+      /* Lang toggle */
+      .lang-tog {
+        display: flex;
+        background: var(--surf2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 3px;
+        gap: 2px;
+      }
+      .lt-btn {
+        font-family: "Space Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.07em;
+        padding: 4px 10px;
+        border-radius: 5px;
+        border: none;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .lt-btn.on {
+        background: var(--plasma);
+        color: #fff;
+      }
 
-/* Mobile sidebar toggle */
-.mob-toggle {
-  display:none; width:34px; height:34px; border-radius:8px;
-  border:1px solid var(--border); background:var(--glass);
-  color:var(--paper); cursor:pointer; align-items:center; justify-content:center;
-}
+      /* Mobile sidebar toggle */
+      .mob-toggle {
+        display: none;
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--glass);
+        color: var(--paper);
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+      }
 
-/* Logout */
-.logout-btn {
-  display:flex; align-items:center; gap:6px;
-  font-family:'Space Mono',monospace; font-size:9px; letter-spacing:.07em;
-  padding:6px 12px; border-radius:8px; border:1px solid var(--border);
-  background:var(--glass); color:var(--muted); cursor:pointer; transition:all .12s;
-}
-.logout-btn:hover { border-color:rgba(255,77,109,.4); color:var(--spark); }
+      /* Logout */
+      .logout-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-family: "Space Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.07em;
+        padding: 6px 12px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--glass);
+        color: var(--muted);
+        cursor: pointer;
+        transition: all 0.12s;
+      }
+      .logout-btn:hover {
+        border-color: rgba(255, 77, 109, 0.4);
+        color: var(--spark);
+      }
 
-/* ═══ MESSAGES AREA ═══ */
-.messages-wrap {
-  flex:1; overflow-y:auto; padding:24px 0;
-  display:flex; flex-direction:column;
-}
-.messages-inner { max-width:720px; width:100%; margin:0 auto; padding:0 20px; display:flex; flex-direction:column; gap:6px; }
+      /* ═══ MESSAGES AREA ═══ */
+      .messages-wrap {
+        flex: 1;
+        overflow-y: auto;
+        padding: 24px 0;
+        display: flex;
+        flex-direction: column;
+      }
+      .messages-inner {
+        max-width: 720px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
 
-/* Welcome screen */
-.welcome {
-  flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:0; padding:40px 20px; animation:fadeUp .5s ease both;
-}
-.welcome-logo { font-family:'Syne',sans-serif; font-weight:800; font-size:40px; letter-spacing:-.03em; color:var(--paper); }
-.welcome-logo .dot { color:var(--volt); }
-.welcome-sub { font-size:15px; font-weight:300; color:var(--muted); margin-top:6px; margin-bottom:32px; }
-.welcome-sub em { font-style:italic; color:rgba(245,243,239,.45); }
-.suggestion-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; width:100%; max-width:540px; }
-.sug-card {
-  background:var(--surf2); border:1px solid var(--border); border-radius:12px;
-  padding:14px 16px; cursor:pointer; transition:all .15s;
-}
-.sug-card:hover { border-color:rgba(123,92,255,.4); background:rgba(123,92,255,.06); transform:translateY(-1px); }
-.sug-icon  { font-size:18px; margin-bottom:6px; }
-.sug-title { font-family:'Syne',sans-serif; font-weight:700; font-size:12px; color:var(--paper); margin-bottom:3px; }
-.sug-desc  { font-size:11px; color:var(--muted); line-height:1.5; }
+      /* Welcome screen */
+      .welcome {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        padding: 40px 20px;
+        animation: fadeUp 0.5s ease both;
+      }
+      .welcome-logo {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 40px;
+        letter-spacing: -0.03em;
+        color: var(--paper);
+      }
+      .welcome-logo .dot {
+        color: var(--volt);
+      }
+      .welcome-sub {
+        font-size: 15px;
+        font-weight: 300;
+        color: var(--muted);
+        margin-top: 6px;
+        margin-bottom: 32px;
+      }
+      .welcome-sub em {
+        font-style: italic;
+        color: rgba(245, 243, 239, 0.45);
+      }
+      .suggestion-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        width: 100%;
+        max-width: 540px;
+      }
+      .sug-card {
+        background: var(--surf2);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 16px;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .sug-card:hover {
+        border-color: rgba(123, 92, 255, 0.4);
+        background: rgba(123, 92, 255, 0.06);
+        transform: translateY(-1px);
+      }
+      .sug-icon {
+        font-size: 18px;
+        margin-bottom: 6px;
+      }
+      .sug-title {
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 12px;
+        color: var(--paper);
+        margin-bottom: 3px;
+      }
+      .sug-desc {
+        font-size: 11px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
 
-/* Messages */
-.msg { display:flex; gap:10px; animation:msgIn .3s ease both; max-width:100%; }
-.msg.user { flex-direction:row-reverse; }
-html[dir="rtl"] .msg.ai   { flex-direction:row-reverse; }
-html[dir="rtl"] .msg.user { flex-direction:row; }
+      /* Messages */
+      .msg {
+        display: flex;
+        gap: 10px;
+        animation: msgIn 0.3s ease both;
+        max-width: 100%;
+      }
+      .msg.user {
+        flex-direction: row-reverse;
+      }
+      html[dir="rtl"] .msg.ai {
+        flex-direction: row-reverse;
+      }
+      html[dir="rtl"] .msg.user {
+        flex-direction: row;
+      }
 
-.msg-avatar {
-  width:28px; height:28px; border-radius:8px; flex-shrink:0; margin-top:2px;
-  display:flex; align-items:center; justify-content:center; font-size:12px;
-}
-.msg.ai   .msg-avatar { background:rgba(123,92,255,.15); border:1px solid rgba(123,92,255,.25); }
-.msg.user .msg-avatar { background:rgba(200,255,0,.12); border:1px solid rgba(200,255,0,.25); }
+      .msg-avatar {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        flex-shrink: 0;
+        margin-top: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+      }
+      .msg.ai .msg-avatar {
+        background: rgba(123, 92, 255, 0.15);
+        border: 1px solid rgba(123, 92, 255, 0.25);
+      }
+      .msg.user .msg-avatar {
+        background: rgba(200, 255, 0, 0.12);
+        border: 1px solid rgba(200, 255, 0, 0.25);
+      }
 
-.msg-body { flex:1; min-width:0; }
-.msg-meta {
-  font-family:'Space Mono',monospace; font-size:8px; letter-spacing:.09em;
-  color:var(--muted); text-transform:uppercase; margin-bottom:5px;
-  display:flex; align-items:center; gap:6px;
-}
-.msg.user .msg-meta { justify-content:flex-end; }
-html[dir="rtl"] .msg.ai   .msg-meta { justify-content:flex-end; }
-html[dir="rtl"] .msg.user .msg-meta { justify-content:flex-start; }
-.meta-model { color:var(--plasma); }
+      .msg-body {
+        flex: 1;
+        min-width: 0;
+      }
+      .msg-meta {
+        font-family: "Space Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.09em;
+        color: var(--muted);
+        text-transform: uppercase;
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .msg.user .msg-meta {
+        justify-content: flex-end;
+      }
+      html[dir="rtl"] .msg.ai .msg-meta {
+        justify-content: flex-end;
+      }
+      html[dir="rtl"] .msg.user .msg-meta {
+        justify-content: flex-start;
+      }
+      .meta-model {
+        color: var(--plasma);
+      }
 
-.msg-bubble {
-  padding:12px 16px; border-radius:16px; font-size:14px; line-height:1.7;
-  max-width:100%; word-break:break-word;
-}
-.msg.ai   .msg-bubble {
-  background:var(--surf2); border:1px solid var(--border);
-  color:var(--paper); border-radius:4px 16px 16px 16px;
-}
-.msg.user .msg-bubble {
-  background:var(--plasma); color:#fff;
-  border-radius:16px 4px 16px 16px; margin-left:auto;
-}
-html[dir="rtl"] .msg.ai   .msg-bubble { border-radius:16px 4px 16px 16px; margin-left:auto; margin-right:0; }
-html[dir="rtl"] .msg.user .msg-bubble { border-radius:4px 16px 16px 16px; margin-left:0; }
+      .msg-bubble {
+        padding: 12px 16px;
+        border-radius: 16px;
+        font-size: 14px;
+        line-height: 1.7;
+        max-width: 100%;
+        word-break: break-word;
+      }
+      .msg.ai .msg-bubble {
+        background: var(--surf2);
+        border: 1px solid var(--border);
+        color: var(--paper);
+        border-radius: 4px 16px 16px 16px;
+      }
+      .msg.user .msg-bubble {
+        background: var(--plasma);
+        color: #fff;
+        border-radius: 16px 4px 16px 16px;
+        margin-left: auto;
+      }
+      html[dir="rtl"] .msg.ai .msg-bubble {
+        border-radius: 16px 4px 16px 16px;
+        margin-left: auto;
+        margin-right: 0;
+      }
+      html[dir="rtl"] .msg.user .msg-bubble {
+        border-radius: 4px 16px 16px 16px;
+        margin-left: 0;
+      }
 
-.msg-actions {
-  display:flex; gap:6px; margin-top:6px; opacity:0; transition:opacity .15s;
-}
-.msg:hover .msg-actions { opacity:1; }
-.msg-act-btn {
-  font-family:'Space Mono',monospace; font-size:8px; letter-spacing:.07em;
-  padding:3px 8px; border-radius:5px; border:1px solid var(--border);
-  background:var(--glass); color:var(--muted); cursor:pointer; transition:all .12s;
-}
-.msg-act-btn:hover { border-color:rgba(255,255,255,.2); color:var(--paper); }
+      .msg-actions {
+        display: flex;
+        gap: 6px;
+        margin-top: 6px;
+        opacity: 0;
+        transition: opacity 0.15s;
+      }
+      .msg:hover .msg-actions {
+        opacity: 1;
+      }
+      .msg-act-btn {
+        font-family: "Space Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.07em;
+        padding: 3px 8px;
+        border-radius: 5px;
+        border: 1px solid var(--border);
+        background: var(--glass);
+        color: var(--muted);
+        cursor: pointer;
+        transition: all 0.12s;
+      }
+      .msg-act-btn:hover {
+        border-color: rgba(255, 255, 255, 0.2);
+        color: var(--paper);
+      }
 
-/* Typing indicator */
-.typing-msg { display:flex; gap:10px; animation:msgIn .3s ease both; }
-html[dir="rtl"] .typing-msg { flex-direction:row-reverse; }
-.typing-bubble {
-  display:flex; gap:4px; align-items:center;
-  background:var(--surf2); border:1px solid var(--border);
-  border-radius:4px 16px 16px 16px; padding:12px 16px;
-}
-html[dir="rtl"] .typing-bubble { border-radius:16px 4px 16px 16px; }
-.td { width:5px; height:5px; border-radius:50%; background:var(--plasma); animation:bounce 1.2s ease infinite; }
-.td:nth-child(2){animation-delay:.18s} .td:nth-child(3){animation-delay:.36s}
+      /* Typing indicator */
+      .typing-msg {
+        display: flex;
+        gap: 10px;
+        animation: msgIn 0.3s ease both;
+      }
+      html[dir="rtl"] .typing-msg {
+        flex-direction: row-reverse;
+      }
+      .typing-bubble {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+        background: var(--surf2);
+        border: 1px solid var(--border);
+        border-radius: 4px 16px 16px 16px;
+        padding: 12px 16px;
+      }
+      html[dir="rtl"] .typing-bubble {
+        border-radius: 16px 4px 16px 16px;
+      }
+      .td {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--plasma);
+        animation: bounce 1.2s ease infinite;
+      }
+      .td:nth-child(2) {
+        animation-delay: 0.18s;
+      }
+      .td:nth-child(3) {
+        animation-delay: 0.36s;
+      }
 
-/* Date separator */
-.date-sep {
-  display:flex; align-items:center; gap:10px; padding:8px 0;
-  font-family:'Space Mono',monospace; font-size:8px; letter-spacing:.12em;
-  text-transform:uppercase; color:var(--muted);
-}
-.date-sep::before,.date-sep::after { content:''; flex:1; height:1px; background:var(--border); }
+      /* Date separator */
+      .date-sep {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 0;
+        font-family: "Space Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .date-sep::before,
+      .date-sep::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
 
-/* ═══ INPUT AREA ═══ */
-.input-area {
-  padding:16px 20px 20px; border-top:1px solid var(--border);
-  background:rgba(13,13,18,.5); backdrop-filter:blur(12px); flex-shrink:0;
-}
-.input-wrap { max-width:720px; margin:0 auto; }
+      /* ═══ INPUT AREA ═══ */
+      .input-area {
+        padding: 16px 20px 20px;
+        border-top: 1px solid var(--border);
+        background: rgba(13, 13, 18, 0.5);
+        backdrop-filter: blur(12px);
+        flex-shrink: 0;
+      }
+      .input-wrap {
+        max-width: 720px;
+        margin: 0 auto;
+      }
 
-/* Quick actions */
-.quick-actions {
-  display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap;
-}
-.qa-pill {
-  font-family:'Space Mono',monospace; font-size:8px; letter-spacing:.08em;
-  padding:5px 11px; border-radius:100px; border:1px solid var(--border);
-  color:var(--muted); background:var(--glass); cursor:pointer; transition:all .12s; white-space:nowrap;
-}
-.qa-pill:hover { border-color:rgba(200,255,0,.35); color:var(--volt); background:rgba(200,255,0,.05); }
+      /* Quick actions */
+      .quick-actions {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+      }
+      .qa-pill {
+        font-family: "Space Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.08em;
+        padding: 5px 11px;
+        border-radius: 100px;
+        border: 1px solid var(--border);
+        color: var(--muted);
+        background: var(--glass);
+        cursor: pointer;
+        transition: all 0.12s;
+        white-space: nowrap;
+      }
+      .qa-pill:hover {
+        border-color: rgba(200, 255, 0, 0.35);
+        color: var(--volt);
+        background: rgba(200, 255, 0, 0.05);
+      }
 
-.input-box {
-  display:flex; gap:10px; align-items:flex-end;
-  background:var(--surf2); border:1px solid var(--border);
-  border-radius:14px; padding:10px 10px 10px 16px; transition:border-color .15s;
-}
-html[dir="rtl"] .input-box { padding:10px 16px 10px 10px; }
-.input-box:focus-within { border-color:rgba(123,92,255,.5); }
+      .input-box {
+        display: flex;
+        gap: 10px;
+        align-items: flex-end;
+        background: var(--surf2);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 10px 10px 10px 16px;
+        transition: border-color 0.15s;
+      }
+      html[dir="rtl"] .input-box {
+        padding: 10px 16px 10px 10px;
+      }
+      .input-box:focus-within {
+        border-color: rgba(123, 92, 255, 0.5);
+      }
 
-.chat-textarea {
-  flex:1; background:none; border:none; outline:none; resize:none;
-  color:var(--paper); font-family:'DM Sans',sans-serif; font-size:14px;
-  line-height:1.6; max-height:160px; overflow-y:auto; padding:2px 0;
-  min-height:24px;
-}
-body[dir="rtl"] .chat-textarea { font-family:'Noto Sans Arabic','DM Sans',sans-serif; }
-.chat-textarea::placeholder { color:var(--muted); }
+      .chat-textarea {
+        flex: 1;
+        background: none;
+        border: none;
+        outline: none;
+        resize: none;
+        color: var(--paper);
+        font-family: "DM Sans", sans-serif;
+        font-size: 14px;
+        line-height: 1.6;
+        max-height: 160px;
+        overflow-y: auto;
+        padding: 2px 0;
+        min-height: 24px;
+      }
+      body[dir="rtl"] .chat-textarea {
+        font-family: "Noto Sans Arabic", "DM Sans", sans-serif;
+      }
+      .chat-textarea::placeholder {
+        color: var(--muted);
+      }
 
-.send-btn {
-  width:36px; height:36px; border-radius:10px; border:none;
-  background:var(--volt); color:var(--ink); cursor:pointer; flex-shrink:0;
-  display:flex; align-items:center; justify-content:center; transition:all .12s;
-}
-.send-btn:hover { background:#d4ff1a; transform:scale(1.04); box-shadow:0 4px 20px rgba(200,255,0,.3); }
-.send-btn:disabled { background:var(--surf2); color:var(--muted); transform:none; box-shadow:none; cursor:not-allowed; }
+      .send-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        border: none;
+        background: var(--volt);
+        color: var(--ink);
+        cursor: pointer;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.12s;
+      }
+      .send-btn:hover {
+        background: #d4ff1a;
+        transform: scale(1.04);
+        box-shadow: 0 4px 20px rgba(200, 255, 0, 0.3);
+      }
+      .send-btn:disabled {
+        background: var(--surf2);
+        color: var(--muted);
+        transform: none;
+        box-shadow: none;
+        cursor: not-allowed;
+      }
 
-.input-footer {
-  display:flex; align-items:center; justify-content:space-between;
-  margin-top:8px; padding:0 4px;
-}
-.input-hint {
-  font-family:'Space Mono',monospace; font-size:8px; letter-spacing:.07em; color:var(--muted);
-}
-.char-count { font-family:'Space Mono',monospace; font-size:8px; letter-spacing:.07em; color:var(--muted); }
+      .input-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 8px;
+        padding: 0 4px;
+      }
+      .input-hint {
+        font-family: "Space Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.07em;
+        color: var(--muted);
+      }
+      .char-count {
+        font-family: "Space Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.07em;
+        color: var(--muted);
+      }
 
-/* ═══ PROFILE PANEL ═══ */
-.profile-panel {
-  position:absolute; top:0; right:0; bottom:0;
-  width:320px; background:var(--surface); border-left:1px solid var(--border);
-  z-index:100; transform:translateX(100%); transition:transform .3s ease;
-  display:flex; flex-direction:column; overflow:hidden;
-}
-html[dir="rtl"] .profile-panel { right:auto; left:0; border-left:none; border-right:1px solid var(--border); transform:translateX(-100%); }
-.profile-panel.open { transform:translateX(0); }
-html[dir="rtl"] .profile-panel.open { transform:translateX(0); }
+      /* ═══ PROFILE PANEL ═══ */
+      .profile-panel {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 320px;
+        background: var(--surface);
+        border-left: 1px solid var(--border);
+        z-index: 100;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      html[dir="rtl"] .profile-panel {
+        right: auto;
+        left: 0;
+        border-left: none;
+        border-right: 1px solid var(--border);
+        transform: translateX(-100%);
+      }
+      .profile-panel.open {
+        transform: translateX(0);
+      }
+      html[dir="rtl"] .profile-panel.open {
+        transform: translateX(0);
+      }
 
-.pp-head {
-  height:var(--header-h); display:flex; align-items:center; justify-content:space-between;
-  padding:0 18px; border-bottom:1px solid var(--border); flex-shrink:0;
-}
-.pp-title { font-family:'Syne',sans-serif; font-weight:700; font-size:15px; }
-.pp-close {
-  width:28px; height:28px; border-radius:7px; border:1px solid var(--border);
-  background:var(--glass); color:var(--muted); cursor:pointer;
-  display:flex; align-items:center; justify-content:center; font-size:14px; transition:all .12s;
-}
-.pp-close:hover { border-color:rgba(255,77,109,.4); color:var(--spark); }
+      .pp-head {
+        height: var(--header-h);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 18px;
+        border-bottom: 1px solid var(--border);
+        flex-shrink: 0;
+      }
+      .pp-title {
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 15px;
+      }
+      .pp-close {
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+        border: 1px solid var(--border);
+        background: var(--glass);
+        color: var(--muted);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        transition: all 0.12s;
+      }
+      .pp-close:hover {
+        border-color: rgba(255, 77, 109, 0.4);
+        color: var(--spark);
+      }
 
-.pp-body { flex:1; overflow-y:auto; padding:20px 18px; }
+      .pp-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px 18px;
+      }
 
-.pp-avatar-big {
-  width:60px; height:60px; border-radius:16px; margin:0 auto 14px;
-  background:linear-gradient(135deg,var(--plasma) 0%,var(--ice) 100%);
-  display:flex; align-items:center; justify-content:center;
-  font-family:'Syne',sans-serif; font-weight:800; font-size:22px; color:#fff;
-}
-.pp-name { font-family:'Syne',sans-serif; font-weight:800; font-size:18px; text-align:center; }
-.pp-email { font-size:12px; color:var(--muted); text-align:center; margin-top:2px; margin-bottom:18px; }
+      .pp-avatar-big {
+        width: 60px;
+        height: 60px;
+        border-radius: 16px;
+        margin: 0 auto 14px;
+        background: linear-gradient(135deg, var(--plasma) 0%, var(--ice) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 22px;
+        color: #fff;
+      }
+      .pp-name {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 18px;
+        text-align: center;
+      }
+      .pp-email {
+        font-size: 12px;
+        color: var(--muted);
+        text-align: center;
+        margin-top: 2px;
+        margin-bottom: 18px;
+      }
 
-.pp-card {
-  background:var(--surf2); border:1px solid var(--border); border-radius:12px;
-  padding:14px 16px; margin-bottom:12px;
-}
-.pp-card-label {
-  font-family:'Space Mono',monospace; font-size:8px; letter-spacing:.12em;
-  text-transform:uppercase; color:var(--muted); margin-bottom:8px;
-  display:flex; align-items:center; gap:6px;
-}
-.pp-card-label .pulse { width:5px; height:5px; border-radius:50%; background:var(--plasma); animation:pulse 2s ease infinite; }
-.pp-card-text { font-size:13px; color:rgba(245,243,239,.75); line-height:1.65; }
+      .pp-card {
+        background: var(--surf2);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin-bottom: 12px;
+      }
+      .pp-card-label {
+        font-family: "Space Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .pp-card-label .pulse {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--plasma);
+        animation: pulse 2s ease infinite;
+      }
+      .pp-card-text {
+        font-size: 13px;
+        color: rgba(245, 243, 239, 0.75);
+        line-height: 1.65;
+      }
 
-.pp-stat-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:12px; }
-.pp-stat {
-  background:var(--surf2); border:1px solid var(--border); border-radius:10px;
-  padding:12px 8px; text-align:center;
-}
-.pp-stat-n { font-family:'Syne',sans-serif; font-weight:800; font-size:20px; color:var(--volt); }
-.pp-stat-l { font-family:'Space Mono',monospace; font-size:8px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-top:2px; }
+      .pp-stat-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      .pp-stat {
+        background: var(--surf2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px 8px;
+        text-align: center;
+      }
+      .pp-stat-n {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 20px;
+        color: var(--volt);
+      }
+      .pp-stat-l {
+        font-family: "Space Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-top: 2px;
+      }
 
-.pp-pref { display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
-.pp-pref-row { display:flex; align-items:center; justify-content:space-between; }
-.pp-pref-label { font-size:12px; color:var(--muted); }
-.pp-pref-val   { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:.07em; color:var(--paper); background:rgba(123,92,255,.1); border:1px solid rgba(123,92,255,.2); padding:3px 8px; border-radius:5px; }
+      .pp-pref {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      .pp-pref-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .pp-pref-label {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .pp-pref-val {
+        font-family: "Space Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.07em;
+        color: var(--paper);
+        background: rgba(123, 92, 255, 0.1);
+        border: 1px solid rgba(123, 92, 255, 0.2);
+        padding: 3px 8px;
+        border-radius: 5px;
+      }
 
-.pp-logout {
-  width:100%; padding:11px; border-radius:10px; border:1px solid rgba(255,77,109,.3);
-  background:rgba(255,77,109,.06); color:var(--spark); cursor:pointer;
-  font-family:'Space Mono',monospace; font-size:10px; letter-spacing:.08em;
-  display:flex; align-items:center; justify-content:center; gap:8px; transition:all .12s;
-}
-.pp-logout:hover { background:rgba(255,77,109,.12); border-color:rgba(255,77,109,.5); }
+      .pp-logout {
+        width: 100%;
+        padding: 11px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 77, 109, 0.3);
+        background: rgba(255, 77, 109, 0.06);
+        color: var(--spark);
+        cursor: pointer;
+        font-family: "Space Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.12s;
+      }
+      .pp-logout:hover {
+        background: rgba(255, 77, 109, 0.12);
+        border-color: rgba(255, 77, 109, 0.5);
+      }
 
-/* ═══ EXPORT TOAST ═══ */
-.toast {
-  position:fixed; bottom:30px; left:50%; transform:translateX(-50%) translateY(20px);
-  background:var(--surface); border:1px solid var(--border); border-radius:10px;
-  padding:10px 18px; display:flex; align-items:center; gap:8px;
-  font-family:'Space Mono',monospace; font-size:10px; letter-spacing:.07em;
-  color:var(--paper); box-shadow:0 12px 40px rgba(0,0,0,.4);
-  opacity:0; transition:all .3s ease; z-index:500; pointer-events:none;
-}
-.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
-.toast-dot { width:6px; height:6px; border-radius:50%; background:var(--volt); }
+      /* ═══ EXPORT TOAST ═══ */
+      .toast {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 18px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "Space Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.07em;
+        color: var(--paper);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 500;
+        pointer-events: none;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+      .toast-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--volt);
+      }
 
-/* ═══ RESPONSIVE ═══ */
-@media(max-width:768px) {
-  .sidebar {
-    position:fixed; top:0; left:0; bottom:0; z-index:200;
-    transform:translateX(-100%);
-  }
-  html[dir="rtl"] .sidebar { left:auto; right:0; transform:translateX(100%); }
-  .sidebar.mob-open { transform:translateX(0); }
-  .mob-toggle { display:flex; }
-  .profile-panel { width:100%; }
-  .suggestion-grid { grid-template-columns:1fr; }
-  .header-right .logout-btn { display:none; }
-}
-@media(max-width:480px) {
-  .quick-actions { display:none; }
-  .welcome-logo { font-size:30px; }
-}
-</style>
-</head>
-<body>
-
-<div class="app" id="app">
-
-  <!-- ══════════ SIDEBAR ══════════ -->
-  <aside class="sidebar" id="sidebar">
-
-    <div class="sidebar-head">
-      <a href="nexus_landing.html" class="logo">nexus<span class="dot">.</span><span class="badge">AI</span></a>
-      <button class="new-chat-btn" onclick="newChat()" title="New Chat">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-        </svg>
-      </button>
-    </div>
-
-    <!-- User card -->
-    <div class="user-card" id="user-card" onclick="toggleProfile()">
-      <div class="user-card-inner">
-        <div class="avatar" id="sidebar-avatar">A</div>
-        <div>
-          <div class="user-name" id="sidebar-name">Alex Johnson</div>
-          <div class="user-sub" id="sidebar-sub">PRO · EN</div>
-        </div>
-        <span class="user-chevron">▾</span>
-      </div>
-    </div>
-
-    <!-- AI Summary -->
-    <div class="ai-summary" id="ai-summary">
-      <div class="summary-tag">
-        <span class="summary-dot"></span>
-        <span class="t" data-key="summary_label">AI Summary</span>
-      </div>
-      <div class="summary-text" id="summary-text">Frequently explores AI trends, coding patterns, and Arabic NLP. Prefers concise, technical responses.</div>
-    </div>
-
-    <!-- Search -->
-    <div class="sidebar-search">
-      <span class="search-icon">⌕</span>
-      <input type="text" id="search-input" placeholder="Search chats…" oninput="filterHistory(this.value)">
-    </div>
-
-    <div class="history-label t" data-key="hist_label">Recent Chats</div>
-
-    <!-- History list -->
-    <div class="history-list" id="history-list"></div>
-
-    <!-- Sidebar footer -->
-    <div class="sidebar-footer">
-      <button class="sf-btn" onclick="exportChat()">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-          <path d="M6.5 1v7M3.5 5l3 3 3-3M1.5 10h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span class="t" data-key="export_chat">Export Chat</span>
-      </button>
-      <button class="sf-btn" onclick="showToast(T[lang].settings_msg)">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-          <circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.4"/>
-          <path d="M6.5 1v1M6.5 11v1M1 6.5h1M11 6.5h1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-        </svg>
-        <span class="t" data-key="settings">Settings</span>
-      </button>
-    </div>
-
-  </aside>
-
-  <!-- ══════════ MAIN ══════════ -->
-  <main class="main" id="main">
-
-    <!-- Header -->
-    <header class="chat-header">
-      <div class="header-left">
-        <button class="mob-toggle" onclick="toggleSidebar()">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </button>
-
-        <!-- Model selector -->
-        <div class="model-select-wrap">
-          <div class="model-select" id="model-select" onclick="toggleModelDrop()">
-            <div class="model-dot" id="model-dot" style="background:var(--volt)"></div>
-            <span class="model-name-label" id="model-label">deepseek-chat</span>
-            <span class="model-chevron">▾</span>
-          </div>
-          <div class="model-dropdown" id="model-dropdown">
-            <div class="model-opt selected" data-model="deepseek-chat" data-color="var(--volt)" onclick="selectModel(this)">
-              <div class="model-dot" style="background:var(--volt)"></div>
-              <div class="model-opt-info">
-                <div class="model-opt-name">deepseek-chat</div>
-                <div class="model-opt-desc t" data-key="m1d">Reasoning · Code · Analysis</div>
-              </div>
-              <span class="model-check">✓</span>
-            </div>
-            <div class="model-opt" data-model="llama3-8b" data-color="var(--plasma)" onclick="selectModel(this)">
-              <div class="model-dot" style="background:var(--plasma)"></div>
-              <div class="model-opt-info">
-                <div class="model-opt-name">llama3-8b</div>
-                <div class="model-opt-desc t" data-key="m2d">Fast · Versatile · Open Source</div>
-              </div>
-            </div>
-            <div class="model-opt" data-model="mistral-7b" data-color="var(--ice)" onclick="selectModel(this)">
-              <div class="model-dot" style="background:var(--ice)"></div>
-              <div class="model-opt-info">
-                <div class="model-opt-name">mistral-7b</div>
-                <div class="model-opt-desc t" data-key="m3d">Efficient · European · Multilingual</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="header-right">
-        <!-- Language toggle -->
-        <div class="lang-tog">
-          <button class="lt-btn on" id="lt-en" onclick="setLang('en')">EN</button>
-          <button class="lt-btn"    id="lt-ar" onclick="setLang('ar')">عر</button>
-        </div>
-        <button class="logout-btn" onclick="showToast(T[lang].logout_msg)">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M8 4l3 2-3 2M5 6h6M7 2H2.5A.5.5 0 002 2.5v7a.5.5 0 00.5.5H7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <span class="t" data-key="logout">Sign Out</span>
-        </button>
-        <button class="logout-btn" onclick="openProfile()" style="border-color:rgba(123,92,255,.3);color:var(--plasma)">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <circle cx="6" cy="4" r="2.5" stroke="currentColor" stroke-width="1.3"/>
-            <path d="M1.5 11c0-2.485 2.015-4.5 4.5-4.5S10.5 8.515 10.5 11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-          </svg>
-          <span class="t" data-key="profile">Profile</span>
-        </button>
-      </div>
-    </header>
-
-    <!-- Messages -->
-    <div class="messages-wrap" id="messages-wrap">
-      <div class="messages-inner" id="messages-inner">
-
-        <!-- Welcome screen -->
-        <div class="welcome" id="welcome-screen">
-          <div class="welcome-logo">nexus<span class="dot">.</span></div>
-          <div class="welcome-sub t" data-key="welcome_sub">Your AI co-pilot. <em>Ask anything.</em></div>
-          <div class="suggestion-grid" id="sug-grid"></div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Input -->
-    <div class="input-area">
-      <div class="input-wrap">
-        <div class="quick-actions" id="quick-actions"></div>
-        <div class="input-box">
-          <textarea class="chat-textarea" id="chat-input"
-            rows="1"
-            placeholder="Ask anything…"
-            onkeydown="handleKey(event)"
-            oninput="autoResize(this)"></textarea>
-          <button class="send-btn" id="send-btn" onclick="sendMessage()">
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-              <path d="M2 7.5H13M13 7.5L8.5 3M13 7.5L8.5 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+      /* ═══ RESPONSIVE ═══ */
+      @media (max-width: 768px) {
+        .sidebar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          z-index: 200;
+          transform: translateX(-100%);
+        }
+        html[dir="rtl"] .sidebar {
+          left: auto;
+          right: 0;
+          transform: translateX(100%);
+        }
+        .sidebar.mob-open {
+          transform: translateX(0);
+        }
+        .mob-toggle {
+          display: flex;
+        }
+        .profile-panel {
+          width: 100%;
+        }
+        .suggestion-grid {
+          grid-template-columns: 1fr;
+        }
+        .header-right .logout-btn {
+          display: none;
+        }
+      }
+      @media (max-width: 480px) {
+        .quick-actions {
+          display: none;
+        }
+        .welcome-logo {
+          font-size: 30px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app" id="app">
+      <!-- ══════════ SIDEBAR ══════════ -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-head">
+          <a href="nexus_landing.html" class="logo"
+            >nexus<span class="dot">.</span><span class="badge">AI</span></a
+          >
+          <button class="new-chat-btn" onclick="newChat()" title="New Chat">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path
+                d="M7 2v10M2 7h10"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+              />
             </svg>
           </button>
         </div>
-        <div class="input-footer">
-          <span class="input-hint t" data-key="input_hint">Shift+Enter for new line</span>
-          <span class="char-count" id="char-count">0 / 4000</span>
+
+        <!-- User card -->
+        <div class="user-card" id="user-card" onclick="toggleProfile()">
+          <div class="user-card-inner">
+            <div class="avatar" id="sidebar-avatar">A</div>
+            <div>
+              <div class="user-name" id="sidebar-name">Alex Johnson</div>
+              <div class="user-sub" id="sidebar-sub">PRO · EN</div>
+            </div>
+            <span class="user-chevron">▾</span>
+          </div>
+        </div>
+
+        <!-- AI Summary -->
+        <div class="ai-summary" id="ai-summary">
+          <div class="summary-tag">
+            <span class="summary-dot"></span>
+            <span class="t" data-key="summary_label">AI Summary</span>
+          </div>
+          <div class="summary-text" id="summary-text">
+            Frequently explores AI trends, coding patterns, and Arabic NLP.
+            Prefers concise, technical responses.
+          </div>
+        </div>
+
+        <!-- Search -->
+        <div class="sidebar-search">
+          <span class="search-icon">⌕</span>
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Search chats…"
+            oninput="filterHistory(this.value)"
+          />
+        </div>
+
+        <div class="history-label t" data-key="hist_label">Recent Chats</div>
+
+        <!-- History list -->
+        <div class="history-list" id="history-list"></div>
+
+        <!-- Sidebar footer -->
+        <div class="sidebar-footer">
+          <button class="sf-btn" onclick="exportChat()">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <path
+                d="M6.5 1v7M3.5 5l3 3 3-3M1.5 10h10"
+                stroke="currentColor"
+                stroke-width="1.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span class="t" data-key="export_chat">Export Chat</span>
+          </button>
+          <button class="sf-btn" onclick="showToast(T[lang].settings_msg)">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <circle
+                cx="6.5"
+                cy="6.5"
+                r="2"
+                stroke="currentColor"
+                stroke-width="1.4"
+              />
+              <path
+                d="M6.5 1v1M6.5 11v1M1 6.5h1M11 6.5h1"
+                stroke="currentColor"
+                stroke-width="1.4"
+                stroke-linecap="round"
+              />
+            </svg>
+            <span class="t" data-key="settings">Settings</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- ══════════ MAIN ══════════ -->
+      <main class="main" id="main">
+        <!-- Header -->
+        <header class="chat-header">
+          <div class="header-left">
+            <button class="mob-toggle" onclick="toggleSidebar()">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M2 4h12M2 8h12M2 12h12"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </button>
+
+            <!-- Model selector -->
+            <div class="model-select-wrap">
+              <div
+                class="model-select"
+                id="model-select"
+                onclick="toggleModelDrop()"
+              >
+                <div
+                  class="model-dot"
+                  id="model-dot"
+                  style="background: var(--volt)"
+                ></div>
+                <span class="model-name-label" id="model-label"
+                  >Nemotron-chat</span
+                >
+                <span class="model-chevron">▾</span>
+              </div>
+              <div class="model-dropdown" id="model-dropdown">
+                <div
+                  class="model-opt selected"
+                  data-model="Nemotron-chat"
+                  data-color="var(--volt)"
+                  onclick="selectModel(this)"
+                >
+                  <div class="model-dot" style="background: var(--volt)"></div>
+                  <div class="model-opt-info">
+                    <div class="model-opt-name">Nemotron-chat</div>
+                    <div class="model-opt-desc t" data-key="m1d">
+                      Reasoning · Code · Analysis
+                    </div>
+                  </div>
+                  <span class="model-check">✓</span>
+                </div>
+                <div
+                  class="model-opt"
+                  data-model="Liquid-8b"
+                  data-color="var(--plasma)"
+                  onclick="selectModel(this)"
+                >
+                  <div
+                    class="model-dot"
+                    style="background: var(--plasma)"
+                  ></div>
+                  <div class="model-opt-info">
+                    <div class="model-opt-name">Liquid-8b</div>
+                    <div class="model-opt-desc t" data-key="m2d">
+                      Fast · Versatile · Open Source
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="model-opt"
+                  data-model="Trinity-7b"
+                  data-color="var(--ice)"
+                  onclick="selectModel(this)"
+                >
+                  <div class="model-dot" style="background: var(--ice)"></div>
+                  <div class="model-opt-info">
+                    <div class="model-opt-name">Trinity-7b</div>
+                    <div class="model-opt-desc t" data-key="m3d">
+                      Efficient · European · Multilingual
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="header-right">
+            <!-- Language toggle -->
+            <div class="lang-tog">
+              <button class="lt-btn on" id="lt-en" onclick="setLang('en')">
+                EN
+              </button>
+              <button class="lt-btn" id="lt-ar" onclick="setLang('ar')">
+                عر
+              </button>
+            </div>
+            <button class="logout-btn" onclick="showToast(T[lang].logout_msg)">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path
+                  d="M8 4l3 2-3 2M5 6h6M7 2H2.5A.5.5 0 002 2.5v7a.5.5 0 00.5.5H7"
+                  stroke="currentColor"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span class="t" data-key="logout">Sign Out</span>
+            </button>
+            <button
+              class="logout-btn"
+              onclick="openProfile()"
+              style="
+                border-color: rgba(123, 92, 255, 0.3);
+                color: var(--plasma);
+              "
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <circle
+                  cx="6"
+                  cy="4"
+                  r="2.5"
+                  stroke="currentColor"
+                  stroke-width="1.3"
+                />
+                <path
+                  d="M1.5 11c0-2.485 2.015-4.5 4.5-4.5S10.5 8.515 10.5 11"
+                  stroke="currentColor"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <span class="t" data-key="profile">Profile</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- Messages -->
+        <div class="messages-wrap" id="messages-wrap">
+          <div class="messages-inner" id="messages-inner">
+            <!-- Welcome screen -->
+            <div class="welcome" id="welcome-screen">
+              <div class="welcome-logo">nexus<span class="dot">.</span></div>
+              <div class="welcome-sub t" data-key="welcome_sub">
+                Your AI co-pilot. <em>Ask anything.</em>
+              </div>
+              <div class="suggestion-grid" id="sug-grid"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Input -->
+        <div class="input-area">
+          <div class="input-wrap">
+            <div class="quick-actions" id="quick-actions"></div>
+            <div class="input-box">
+              <textarea
+                class="chat-textarea"
+                id="chat-input"
+                rows="1"
+                placeholder="Ask anything…"
+                onkeydown="handleKey(event)"
+                oninput="autoResize(this)"
+              ></textarea>
+              <button class="send-btn" id="send-btn" onclick="sendMessage()">
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                  <path
+                    d="M2 7.5H13M13 7.5L8.5 3M13 7.5L8.5 12"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div class="input-footer">
+              <span class="input-hint t" data-key="input_hint"
+                >Shift+Enter for new line</span
+              >
+              <span class="char-count" id="char-count">0 / 4000</span>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- ══════════ PROFILE PANEL ══════════ -->
+      <div class="profile-panel" id="profile-panel">
+        <div class="pp-head">
+          <span class="pp-title t" data-key="profile_title">My Profile</span>
+          <button class="pp-close" onclick="closeProfile()">✕</button>
+        </div>
+        <div class="pp-body">
+          <div class="pp-avatar-big" id="pp-avatar">A</div>
+          <div class="pp-name" id="pp-name">Alex Johnson</div>
+          <div class="pp-email" id="pp-email">alex@example.com</div>
+
+          <div class="pp-stat-row">
+            <div class="pp-stat">
+              <div class="pp-stat-n" id="stat-chats">12</div>
+              <div class="pp-stat-l t" data-key="stat_chats">Chats</div>
+            </div>
+            <div class="pp-stat">
+              <div class="pp-stat-n" id="stat-msgs">84</div>
+              <div class="pp-stat-l t" data-key="stat_msgs">Messages</div>
+            </div>
+            <div class="pp-stat">
+              <div class="pp-stat-n" id="stat-models">3</div>
+              <div class="pp-stat-l t" data-key="stat_models">Models</div>
+            </div>
+          </div>
+
+          <div class="pp-card">
+            <div class="pp-card-label">
+              <span class="pulse"></span>
+              <span class="t" data-key="ai_summary_label"
+                >AI-Generated Summary</span
+              >
+            </div>
+            <div class="pp-card-text" id="pp-summary">
+              Frequently explores AI trends, coding patterns, and Arabic NLP.
+              Prefers concise, technical responses with code examples when
+              relevant.
+            </div>
+          </div>
+
+          <div class="pp-card">
+            <div class="pp-card-label t" data-key="preferences">
+              Preferences
+            </div>
+            <div class="pp-pref">
+              <div class="pp-pref-row">
+                <span class="pp-pref-label t" data-key="pref_lang"
+                  >Language</span
+                >
+                <span class="pp-pref-val" id="pref-lang-val">English</span>
+              </div>
+              <div class="pp-pref-row">
+                <span class="pp-pref-label t" data-key="pref_model"
+                  >Default Model</span
+                >
+                <span class="pp-pref-val" id="pref-model-val"
+                  >Nemotron-chat</span
+                >
+              </div>
+              <div class="pp-pref-row">
+                <span class="pp-pref-label t" data-key="pref_plan">Plan</span>
+                <span
+                  class="pp-pref-val"
+                  style="
+                    color: var(--volt);
+                    border-color: rgba(200, 255, 0, 0.3);
+                    background: rgba(200, 255, 0, 0.06);
+                  "
+                  >PRO</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <button class="pp-logout" onclick="showToast(T[lang].logout_msg)">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <path
+                d="M9 4l3 2.5-3 2.5M6 6.5h6M7.5 2H2.5A.5.5 0 002 2.5v8a.5.5 0 00.5.5h5"
+                stroke="currentColor"
+                stroke-width="1.3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span class="t" data-key="logout">Sign Out</span>
+          </button>
         </div>
       </div>
     </div>
 
-  </main>
-
-  <!-- ══════════ PROFILE PANEL ══════════ -->
-  <div class="profile-panel" id="profile-panel">
-    <div class="pp-head">
-      <span class="pp-title t" data-key="profile_title">My Profile</span>
-      <button class="pp-close" onclick="closeProfile()">✕</button>
+    <!-- Toast -->
+    <div class="toast" id="toast">
+      <span class="toast-dot"></span>
+      <span id="toast-msg">Done!</span>
     </div>
-    <div class="pp-body">
-      <div class="pp-avatar-big" id="pp-avatar">A</div>
-      <div class="pp-name"  id="pp-name">Alex Johnson</div>
-      <div class="pp-email" id="pp-email">alex@example.com</div>
 
-      <div class="pp-stat-row">
-        <div class="pp-stat"><div class="pp-stat-n" id="stat-chats">12</div><div class="pp-stat-l t" data-key="stat_chats">Chats</div></div>
-        <div class="pp-stat"><div class="pp-stat-n" id="stat-msgs">84</div><div class="pp-stat-l t" data-key="stat_msgs">Messages</div></div>
-        <div class="pp-stat"><div class="pp-stat-n" id="stat-models">3</div><div class="pp-stat-l t" data-key="stat_models">Models</div></div>
-      </div>
-
-      <div class="pp-card">
-        <div class="pp-card-label">
-          <span class="pulse"></span>
-          <span class="t" data-key="ai_summary_label">AI-Generated Summary</span>
-        </div>
-        <div class="pp-card-text" id="pp-summary">Frequently explores AI trends, coding patterns, and Arabic NLP. Prefers concise, technical responses with code examples when relevant.</div>
-      </div>
-
-      <div class="pp-card">
-        <div class="pp-card-label t" data-key="preferences">Preferences</div>
-        <div class="pp-pref">
-          <div class="pp-pref-row">
-            <span class="pp-pref-label t" data-key="pref_lang">Language</span>
-            <span class="pp-pref-val" id="pref-lang-val">English</span>
-          </div>
-          <div class="pp-pref-row">
-            <span class="pp-pref-label t" data-key="pref_model">Default Model</span>
-            <span class="pp-pref-val" id="pref-model-val">deepseek-chat</span>
-          </div>
-          <div class="pp-pref-row">
-            <span class="pp-pref-label t" data-key="pref_plan">Plan</span>
-            <span class="pp-pref-val" style="color:var(--volt);border-color:rgba(200,255,0,.3);background:rgba(200,255,0,.06)">PRO</span>
-          </div>
-        </div>
-      </div>
-
-      <button class="pp-logout" onclick="showToast(T[lang].logout_msg)">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-          <path d="M9 4l3 2.5-3 2.5M6 6.5h6M7.5 2H2.5A.5.5 0 002 2.5v8a.5.5 0 00.5.5h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span class="t" data-key="logout">Sign Out</span>
-      </button>
-    </div>
-  </div>
-
-</div>
-
-<!-- Toast -->
-<div class="toast" id="toast">
-  <span class="toast-dot"></span>
-  <span id="toast-msg">Done!</span>
-</div>
-
-<script>
-/* ════════════════════════════════════════
+    <script>
+      /* ════════════════════════════════════════
    TRANSLATIONS (JSON i18n)
 ════════════════════════════════════════ */
-const T = {
-  en: {
-    summary_label:    'AI Summary',
-    hist_label:       'Recent Chats',
-    export_chat:      'Export Chat',
-    settings:         'Settings',
-    logout:           'Sign Out',
-    profile:          'Profile',
-    welcome_sub:      'Your AI co-pilot. Ask anything.',
-    input_hint:       'Shift+Enter for new line',
-    input_ph:         'Ask anything, in English or Arabic…',
-    profile_title:    'My Profile',
-    stat_chats:       'Chats',
-    stat_msgs:        'Messages',
-    stat_models:      'Models',
-    ai_summary_label: 'AI-Generated Summary',
-    preferences:      'Preferences',
-    pref_lang:        'Language',
-    pref_model:       'Default Model',
-    pref_plan:        'Plan',
-    m1d:              'Reasoning · Code · Analysis',
-    m2d:              'Fast · Versatile · Open Source',
-    m3d:              'Efficient · European · Multilingual',
-    sug1_t: 'Explain a concept', sug1_d: 'Break down any complex topic simply',
-    sug2_t: 'Write & edit',      sug2_d: 'Drafts, emails, and creative writing',
-    sug3_t: 'Code assistance',   sug3_d: 'Debug, review, or write new code',
-    sug4_t: 'Translate',         sug4_d: 'Convert text between EN and AR',
-    qa1: '✦ Summarize', qa2: '✦ Translate', qa3: '✦ Rewrite', qa4: '✦ Explain',
-    you: 'You', ai_label: 'nexus.',
-    copy: 'Copy', regenerate: 'Regenerate',
-    today: 'Today', yesterday: 'Yesterday',
-    new_chat: 'New Chat',
-    sidebar_sub_en: 'PRO · EN', sidebar_sub_ar: 'PRO · AR',
-    logout_msg:   '✓ Signing you out…',
-    settings_msg: '⚙ Settings coming soon',
-    export_msg:   '✓ Chat exported as TXT',
-    pref_lang_val_en: 'English', pref_lang_val_ar: 'Arabic',
-    summary_en: 'Frequently explores AI trends, coding patterns, and Arabic NLP. Prefers concise, technical responses.',
-    summary_ar: 'يستكشف اتجاهات الذكاء الاصطناعي ونماذج البرمجة و NLP العربي. يفضل ردوداً موجزة وتقنية.',
-    err_empty: 'Please enter a valid query.',
-  },
-  ar: {
-    summary_label:    'ملخص الذكاء الاصطناعي',
-    hist_label:       'المحادثات الأخيرة',
-    export_chat:      'تصدير المحادثة',
-    settings:         'الإعدادات',
-    logout:           'تسجيل الخروج',
-    profile:          'الملف الشخصي',
-    welcome_sub:      'مساعدك الذكي. اسأل أي شيء.',
-    input_hint:       'Shift+Enter للسطر الجديد',
-    input_ph:         'اسأل أي شيء، بالإنجليزية أو العربية…',
-    profile_title:    'ملفي الشخصي',
-    stat_chats:       'محادثات',
-    stat_msgs:        'رسائل',
-    stat_models:      'نماذج',
-    ai_summary_label: 'ملخص مُولَّد بالذكاء الاصطناعي',
-    preferences:      'التفضيلات',
-    pref_lang:        'اللغة',
-    pref_model:       'النموذج الافتراضي',
-    pref_plan:        'الخطة',
-    m1d:              'استدلال · كود · تحليل',
-    m2d:              'سريع · متعدد الاستخدام · مفتوح',
-    m3d:              'فعّال · أوروبي · متعدد اللغات',
-    sug1_t: 'اشرح مفهوماً',    sug1_d: 'بسّط أي موضوع معقد',
-    sug2_t: 'كتابة وتحرير',    sug2_d: 'مسودات، بريد إلكتروني، كتابة إبداعية',
-    sug3_t: 'مساعدة في الكود', sug3_d: 'اكتشاف الأخطاء أو كتابة كود جديد',
-    sug4_t: 'ترجمة',           sug4_d: 'تحويل النصوص بين الإنجليزية والعربية',
-    qa1: '✦ تلخيص', qa2: '✦ ترجمة', qa3: '✦ إعادة الكتابة', qa4: '✦ شرح',
-    you: 'أنت', ai_label: 'نكسوس.',
-    copy: 'نسخ', regenerate: 'إعادة التوليد',
-    today: 'اليوم', yesterday: 'أمس',
-    new_chat: 'محادثة جديدة',
-    sidebar_sub_en: 'PRO · EN', sidebar_sub_ar: 'PRO · AR',
-    logout_msg:   '✓ جارٍ تسجيل الخروج…',
-    settings_msg: '⚙ الإعدادات قريباً',
-    export_msg:   '✓ تم تصدير المحادثة',
-    pref_lang_val_en: 'إنجليزي', pref_lang_val_ar: 'عربي',
-    summary_en: 'Frequently explores AI trends, coding patterns, and Arabic NLP. Prefers concise, technical responses.',
-    summary_ar: 'يستكشف اتجاهات الذكاء الاصطناعي ونماذج البرمجة و NLP العربي. يفضل ردوداً موجزة وتقنية.',
-    err_empty: 'يرجى إدخال استفسار صالح.',
-  }
-};
+      const T = {
+        en: {
+          summary_label: "AI Summary",
+          hist_label: "Recent Chats",
+          export_chat: "Export Chat",
+          settings: "Settings",
+          logout: "Sign Out",
+          profile: "Profile",
+          welcome_sub: "Your AI co-pilot. Ask anything.",
+          input_hint: "Shift+Enter for new line",
+          input_ph: "Ask anything, in English or Arabic…",
+          profile_title: "My Profile",
+          stat_chats: "Chats",
+          stat_msgs: "Messages",
+          stat_models: "Models",
+          ai_summary_label: "AI-Generated Summary",
+          preferences: "Preferences",
+          pref_lang: "Language",
+          pref_model: "Default Model",
+          pref_plan: "Plan",
+          m1d: "Reasoning · Code · Analysis",
+          m2d: "Fast · Versatile · Open Source",
+          m3d: "Efficient · European · Multilingual",
+          sug1_t: "Explain a concept",
+          sug1_d: "Break down any complex topic simply",
+          sug2_t: "Write & edit",
+          sug2_d: "Drafts, emails, and creative writing",
+          sug3_t: "Code assistance",
+          sug3_d: "Debug, review, or write new code",
+          sug4_t: "Translate",
+          sug4_d: "Convert text between EN and AR",
+          qa1: "✦ Summarize",
+          qa2: "✦ Translate",
+          qa3: "✦ Rewrite",
+          qa4: "✦ Explain",
+          you: "You",
+          ai_label: "nexus.",
+          copy: "Copy",
+          regenerate: "Regenerate",
+          today: "Today",
+          yesterday: "Yesterday",
+          new_chat: "New Chat",
+          sidebar_sub_en: "PRO · EN",
+          sidebar_sub_ar: "PRO · AR",
+          logout_msg: "✓ Signing you out…",
+          settings_msg: "⚙ Settings coming soon",
+          export_msg: "✓ Chat exported as TXT",
+          pref_lang_val_en: "English",
+          pref_lang_val_ar: "Arabic",
+          summary_en:
+            "Frequently explores AI trends, coding patterns, and Arabic NLP. Prefers concise, technical responses.",
+          summary_ar:
+            "يستكشف اتجاهات الذكاء الاصطناعي ونماذج البرمجة و NLP العربي. يفضل ردوداً موجزة وتقنية.",
+          err_empty: "Please enter a valid query.",
+        },
+        ar: {
+          summary_label: "ملخص الذكاء الاصطناعي",
+          hist_label: "المحادثات الأخيرة",
+          export_chat: "تصدير المحادثة",
+          settings: "الإعدادات",
+          logout: "تسجيل الخروج",
+          profile: "الملف الشخصي",
+          welcome_sub: "مساعدك الذكي. اسأل أي شيء.",
+          input_hint: "Shift+Enter للسطر الجديد",
+          input_ph: "اسأل أي شيء، بالإنجليزية أو العربية…",
+          profile_title: "ملفي الشخصي",
+          stat_chats: "محادثات",
+          stat_msgs: "رسائل",
+          stat_models: "نماذج",
+          ai_summary_label: "ملخص مُولَّد بالذكاء الاصطناعي",
+          preferences: "التفضيلات",
+          pref_lang: "اللغة",
+          pref_model: "النموذج الافتراضي",
+          pref_plan: "الخطة",
+          m1d: "استدلال · كود · تحليل",
+          m2d: "سريع · متعدد الاستخدام · مفتوح",
+          m3d: "فعّال · أوروبي · متعدد اللغات",
+          sug1_t: "اشرح مفهوماً",
+          sug1_d: "بسّط أي موضوع معقد",
+          sug2_t: "كتابة وتحرير",
+          sug2_d: "مسودات، بريد إلكتروني، كتابة إبداعية",
+          sug3_t: "مساعدة في الكود",
+          sug3_d: "اكتشاف الأخطاء أو كتابة كود جديد",
+          sug4_t: "ترجمة",
+          sug4_d: "تحويل النصوص بين الإنجليزية والعربية",
+          qa1: "✦ تلخيص",
+          qa2: "✦ ترجمة",
+          qa3: "✦ إعادة الكتابة",
+          qa4: "✦ شرح",
+          you: "أنت",
+          ai_label: "نكسوس.",
+          copy: "نسخ",
+          regenerate: "إعادة التوليد",
+          today: "اليوم",
+          yesterday: "أمس",
+          new_chat: "محادثة جديدة",
+          sidebar_sub_en: "PRO · EN",
+          sidebar_sub_ar: "PRO · AR",
+          logout_msg: "✓ جارٍ تسجيل الخروج…",
+          settings_msg: "⚙ الإعدادات قريباً",
+          export_msg: "✓ تم تصدير المحادثة",
+          pref_lang_val_en: "إنجليزي",
+          pref_lang_val_ar: "عربي",
+          summary_en:
+            "Frequently explores AI trends, coding patterns, and Arabic NLP. Prefers concise, technical responses.",
+          summary_ar:
+            "يستكشف اتجاهات الذكاء الاصطناعي ونماذج البرمجة و NLP العربي. يفضل ردوداً موجزة وتقنية.",
+          err_empty: "يرجى إدخال استفسار صالح.",
+        },
+      };
 
-/* ════════════════════════════════════════
+      /* ════════════════════════════════════════
    STATE
 ════════════════════════════════════════ */
-let lang         = 'en';
-let currentModel = 'deepseek-chat';
-let currentModelColor = 'var(--volt)';
-let chatSessions = [];
-let activeChatId = null;
-let isTyping     = false;
-let messages     = [];   /* current session messages */
+      let lang = "en";
+      let currentModel = "Nemotron-chat";
+      let currentModelColor = "var(--volt)";
+      let chatSessions = [];
+      let activeChatId = null;
+      let isTyping = false;
+      let messages = []; /* current session messages */
 
-const MODEL_COLORS = {
-  'deepseek-chat': 'var(--volt)',
-  'llama3-8b':     'var(--plasma)',
-  'mistral-7b':    'var(--ice)'
-};
+      const MODEL_COLORS = {
+        "Nemotron-chat": "var(--volt)",
+        "Liquid-8b": "var(--plasma)",
+        "Trinity-7b": "var(--ice)",
+      };
 
-/* Mock AI responses */
-const AI_RESPONSES = {
-  en: [
-    "That's a great question! Based on my analysis, the answer involves several key factors that I'll break down for you step by step.",
-    "I can help with that. Here's a concise overview:\n\n**Key Points:**\n• Modern AI systems leverage transformer architectures\n• Training data quality matters more than quantity\n• Fine-tuning enables domain-specific expertise\n\nWould you like me to dive deeper into any of these?",
-    "Absolutely! Let me craft that for you. The solution combines efficiency with clarity — exactly what you need for this use case.",
-    "Interesting challenge. I've analyzed the requirements and here's my recommendation: start with a modular approach, define clear interfaces, then iterate on implementation. This gives you flexibility while maintaining code quality.",
-    "Here's the code you requested:\n\n```python\ndef process_data(items):\n    return [item for item in items if item.is_valid()]\n```\n\nThis uses list comprehension for efficiency. Let me know if you need adjustments.",
-  ],
-  ar: [
-    "سؤال رائع! بناءً على تحليلي، تتضمن الإجابة عدة عوامل رئيسية سأشرحها لك خطوة بخطوة.",
-    "يمكنني المساعدة في ذلك. إليك نظرة عامة موجزة:\n\n**النقاط الرئيسية:**\n• تعتمد أنظمة الذكاء الاصطناعي الحديثة على بنى المحوّل\n• جودة بيانات التدريب أهم من الكمية\n• يتيح الضبط الدقيق الخبرة في مجالات محددة\n\nهل تريد أن أتعمق في أي من هذه النقاط؟",
-    "بالتأكيد! دعني أعدّ ذلك لك. يجمع الحل بين الكفاءة والوضوح — تماماً ما تحتاجه لهذا الغرض.",
-    "تحدٍّ مثير للاهتمام. لقد حللت المتطلبات وإليك توصيتي: ابدأ بنهج معياري، حدّد واجهات واضحة، ثم كرّر التنفيذ.",
-    "إليك الكود المطلوب:\n\n```python\ndef process_data(items):\n    return [item for item in items if item.is_valid()]\n```\n\nيستخدم هذا فهم القوائم للكفاءة. أخبرني إذا احتجت إلى تعديلات.",
-  ]
-};
+      /* Mock AI responses */
+      const AI_RESPONSES = {
+        en: [
+          "That's a great question! Based on my analysis, the answer involves several key factors that I'll break down for you step by step.",
+          "I can help with that. Here's a concise overview:\n\n**Key Points:**\n• Modern AI systems leverage transformer architectures\n• Training data quality matters more than quantity\n• Fine-tuning enables domain-specific expertise\n\nWould you like me to dive deeper into any of these?",
+          "Absolutely! Let me craft that for you. The solution combines efficiency with clarity — exactly what you need for this use case.",
+          "Interesting challenge. I've analyzed the requirements and here's my recommendation: start with a modular approach, define clear interfaces, then iterate on implementation. This gives you flexibility while maintaining code quality.",
+          "Here's the code you requested:\n\n```python\ndef process_data(items):\n    return [item for item in items if item.is_valid()]\n```\n\nThis uses list comprehension for efficiency. Let me know if you need adjustments.",
+        ],
+        ar: [
+          "سؤال رائع! بناءً على تحليلي، تتضمن الإجابة عدة عوامل رئيسية سأشرحها لك خطوة بخطوة.",
+          "يمكنني المساعدة في ذلك. إليك نظرة عامة موجزة:\n\n**النقاط الرئيسية:**\n• تعتمد أنظمة الذكاء الاصطناعي الحديثة على بنى المحوّل\n• جودة بيانات التدريب أهم من الكمية\n• يتيح الضبط الدقيق الخبرة في مجالات محددة\n\nهل تريد أن أتعمق في أي من هذه النقاط؟",
+          "بالتأكيد! دعني أعدّ ذلك لك. يجمع الحل بين الكفاءة والوضوح — تماماً ما تحتاجه لهذا الغرض.",
+          "تحدٍّ مثير للاهتمام. لقد حللت المتطلبات وإليك توصيتي: ابدأ بنهج معياري، حدّد واجهات واضحة، ثم كرّر التنفيذ.",
+          "إليك الكود المطلوب:\n\n```python\ndef process_data(items):\n    return [item for item in items if item.is_valid()]\n```\n\nيستخدم هذا فهم القوائم للكفاءة. أخبرني إذا احتجت إلى تعديلات.",
+        ],
+      };
 
-/* ════════════════════════════════════════
+      /* ════════════════════════════════════════
    HISTORY DATA
 ════════════════════════════════════════ */
-const HISTORY = [
-  { id:1, title:'AI trends in 2025', model:'deepseek-chat', date:'today',     msgs:8 },
-  { id:2, title:'Arabic NLP techniques', model:'llama3-8b', date:'today',     msgs:14 },
-  { id:3, title:'Build a REST API with Django', model:'mistral-7b', date:'yesterday', msgs:22 },
-  { id:4, title:'React vs Vue comparison', model:'deepseek-chat', date:'yesterday', msgs:11 },
-  { id:5, title:'تلخيص تقرير ربع السنة', model:'llama3-8b', date:'2 days ago', msgs:6 },
-  { id:6, title:'Debugging Python async code', model:'deepseek-chat', date:'3 days ago', msgs:19 },
-];
+      const HISTORY = [
+        {
+          id: 1,
+          title: "AI trends in 2025",
+          model: "Nemotron-chat",
+          date: "today",
+          msgs: 8,
+        },
+        {
+          id: 2,
+          title: "Arabic NLP techniques",
+          model: "Liquid-8b",
+          date: "today",
+          msgs: 14,
+        },
+        {
+          id: 3,
+          title: "Build a REST API with Django",
+          model: "Trinity-7b",
+          date: "yesterday",
+          msgs: 22,
+        },
+        {
+          id: 4,
+          title: "React vs Vue comparison",
+          model: "Nemotron-chat",
+          date: "yesterday",
+          msgs: 11,
+        },
+        {
+          id: 5,
+          title: "تلخيص تقرير ربع السنة",
+          model: "Liquid-8b",
+          date: "2 days ago",
+          msgs: 6,
+        },
+        {
+          id: 6,
+          title: "Debugging Python async code",
+          model: "Nemotron-chat",
+          date: "3 days ago",
+          msgs: 19,
+        },
+      ];
 
-/* ════════════════════════════════════════
+      /* ════════════════════════════════════════
    INIT
 ════════════════════════════════════════ */
-function init() {
-  renderHistory(HISTORY);
-  renderSuggestions();
-  renderQuickActions();
-  updateTextarea();
-}
+      function init() {
+        renderHistory(HISTORY);
+        renderSuggestions();
+        renderQuickActions();
+        updateTextarea();
+      }
 
-/* ════════════════════════════════════════
+      /* ════════════════════════════════════════
    LANGUAGE
 ════════════════════════════════════════ */
-function setLang(l) {
-  lang = l;
-  const isAr = l === 'ar';
+      function setLang(l) {
+        lang = l;
+        const isAr = l === "ar";
 
-  document.getElementById('lt-en').classList.toggle('on', !isAr);
-  document.getElementById('lt-ar').classList.toggle('on',  isAr);
-  document.documentElement.setAttribute('dir',  isAr ? 'rtl' : 'ltr');
-  document.documentElement.setAttribute('lang', l);
-  document.body.setAttribute('dir', isAr ? 'rtl' : 'ltr');
+        document.getElementById("lt-en").classList.toggle("on", !isAr);
+        document.getElementById("lt-ar").classList.toggle("on", isAr);
+        document.documentElement.setAttribute("dir", isAr ? "rtl" : "ltr");
+        document.documentElement.setAttribute("lang", l);
+        document.body.setAttribute("dir", isAr ? "rtl" : "ltr");
 
-  /* translate all .t[data-key] */
-  document.querySelectorAll('.t[data-key]').forEach(el => {
-    const v = T[l][el.dataset.key];
-    if (v !== undefined) el.textContent = v;
-  });
+        /* translate all .t[data-key] */
+        document.querySelectorAll(".t[data-key]").forEach((el) => {
+          const v = T[l][el.dataset.key];
+          if (v !== undefined) el.textContent = v;
+        });
 
-  /* Textarea placeholder */
-  document.getElementById('chat-input').placeholder = T[l].input_ph;
+        /* Textarea placeholder */
+        document.getElementById("chat-input").placeholder = T[l].input_ph;
 
-  /* Search placeholder */
-  document.getElementById('search-input').placeholder = isAr ? 'ابحث في المحادثات…' : 'Search chats…';
+        /* Search placeholder */
+        document.getElementById("search-input").placeholder = isAr
+          ? "ابحث في المحادثات…"
+          : "Search chats…";
 
-  /* User card sub */
-  document.getElementById('sidebar-sub').textContent = isAr ? T[l].sidebar_sub_ar : T[l].sidebar_sub_en;
+        /* User card sub */
+        document.getElementById("sidebar-sub").textContent = isAr
+          ? T[l].sidebar_sub_ar
+          : T[l].sidebar_sub_en;
 
-  /* Pref lang value */
-  const plv = document.getElementById('pref-lang-val');
-  if (plv) plv.textContent = isAr ? T[l].pref_lang_val_ar : T[l].pref_lang_val_en;
+        /* Pref lang value */
+        const plv = document.getElementById("pref-lang-val");
+        if (plv)
+          plv.textContent = isAr
+            ? T[l].pref_lang_val_ar
+            : T[l].pref_lang_val_en;
 
-  /* Summary text */
-  const sumText = isAr ? T[l].summary_ar : T[l].summary_en;
-  const el1 = document.getElementById('summary-text');
-  const el2 = document.getElementById('pp-summary');
-  if (el1) el1.textContent = sumText;
-  if (el2) el2.textContent = sumText;
+        /* Summary text */
+        const sumText = isAr ? T[l].summary_ar : T[l].summary_en;
+        const el1 = document.getElementById("summary-text");
+        const el2 = document.getElementById("pp-summary");
+        if (el1) el1.textContent = sumText;
+        if (el2) el2.textContent = sumText;
 
-  /* Re-render dynamic content */
-  renderSuggestions();
-  renderQuickActions();
-  renderHistory(getFilteredHistory());
-}
+        /* Re-render dynamic content */
+        renderSuggestions();
+        renderQuickActions();
+        renderHistory(getFilteredHistory());
+      }
 
-/* ════════════════════════════════════════
+      /* ════════════════════════════════════════
    MODEL SELECTOR
 ════════════════════════════════════════ */
-function toggleModelDrop() {
-  const drop = document.getElementById('model-dropdown');
-  const sel  = document.getElementById('model-select');
-  drop.classList.toggle('open');
-  sel.classList.toggle('open');
-}
+      function toggleModelDrop() {
+        const drop = document.getElementById("model-dropdown");
+        const sel = document.getElementById("model-select");
+        drop.classList.toggle("open");
+        sel.classList.toggle("open");
+      }
 
-function selectModel(opt) {
-  const model = opt.dataset.model;
-  const color = opt.dataset.color;
-  currentModel = model;
-  currentModelColor = color;
+      function selectModel(opt) {
+        const model = opt.dataset.model;
+        const color = opt.dataset.color;
+        currentModel = model;
+        currentModelColor = color;
 
-  document.querySelectorAll('.model-opt').forEach(o => {
-    o.classList.remove('selected');
-    o.querySelector('.model-check') && o.querySelector('.model-check').remove();
-  });
-  opt.classList.add('selected');
-  if (!opt.querySelector('.model-check')) {
-    const chk = document.createElement('span');
-    chk.className = 'model-check'; chk.textContent = '✓';
-    opt.appendChild(chk);
-  }
+        document.querySelectorAll(".model-opt").forEach((o) => {
+          o.classList.remove("selected");
+          o.querySelector(".model-check") &&
+            o.querySelector(".model-check").remove();
+        });
+        opt.classList.add("selected");
+        if (!opt.querySelector(".model-check")) {
+          const chk = document.createElement("span");
+          chk.className = "model-check";
+          chk.textContent = "✓";
+          opt.appendChild(chk);
+        }
 
-  document.getElementById('model-label').textContent = model;
-  document.getElementById('model-dot').style.background = color;
-  document.getElementById('pref-model-val').textContent = model;
+        document.getElementById("model-label").textContent = model;
+        document.getElementById("model-dot").style.background = color;
+        document.getElementById("pref-model-val").textContent = model;
 
-  toggleModelDrop();
-}
+        toggleModelDrop();
+      }
 
-/* Close dropdown on outside click */
-document.addEventListener('click', e => {
-  if (!e.target.closest('.model-select-wrap')) {
-    document.getElementById('model-dropdown').classList.remove('open');
-    document.getElementById('model-select').classList.remove('open');
-  }
-});
+      /* Close dropdown on outside click */
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".model-select-wrap")) {
+          document.getElementById("model-dropdown").classList.remove("open");
+          document.getElementById("model-select").classList.remove("open");
+        }
+      });
 
-/* ════════════════════════════════════════
+      /* ════════════════════════════════════════
    CHAT HISTORY
 ════════════════════════════════════════ */
-function renderHistory(items) {
-  const list = document.getElementById('history-list');
-  list.innerHTML = '';
-  if (!items.length) {
-    list.innerHTML = `<div style="padding:16px;text-align:center;font-size:12px;color:var(--muted)">${lang==='ar'?'لا توجد محادثات':'No chats yet'}</div>`;
-    return;
-  }
+      function renderHistory(items) {
+        const list = document.getElementById("history-list");
+        list.innerHTML = "";
+        if (!items.length) {
+          list.innerHTML = `<div style="padding:16px;text-align:center;font-size:12px;color:var(--muted)">${lang === "ar" ? "لا توجد محادثات" : "No chats yet"}</div>`;
+          return;
+        }
 
-  let lastDate = '';
-  items.forEach(h => {
-    const dateLabel = T[lang][h.date] || h.date;
-    if (dateLabel !== lastDate) {
-      const sep = document.createElement('div');
-      sep.className = 'date-sep';
-      sep.textContent = dateLabel;
-      list.appendChild(sep);
-      lastDate = dateLabel;
-    }
-    const item = document.createElement('div');
-    item.className = 'hist-item' + (h.id === activeChatId ? ' active' : '');
-    item.onclick = () => loadChat(h.id);
-    item.innerHTML = `
-      <div class="hist-model-dot" style="background:${MODEL_COLORS[h.model]||'var(--muted)'}"></div>
+        let lastDate = "";
+        items.forEach((h) => {
+          const dateLabel = T[lang][h.date] || h.date;
+          if (dateLabel !== lastDate) {
+            const sep = document.createElement("div");
+            sep.className = "date-sep";
+            sep.textContent = dateLabel;
+            list.appendChild(sep);
+            lastDate = dateLabel;
+          }
+          const item = document.createElement("div");
+          item.className =
+            "hist-item" + (h.id === activeChatId ? " active" : "");
+          item.onclick = () => loadChat(h.id);
+          item.innerHTML = `
+      <div class="hist-model-dot" style="background:${MODEL_COLORS[h.model] || "var(--muted)"}"></div>
       <div class="hist-content">
         <div class="hist-title">${h.title}</div>
-        <div class="hist-meta">${h.model} · ${h.msgs} ${lang==='ar'?'رسائل':'msgs'}</div>
+        <div class="hist-meta">${h.model} · ${h.msgs} ${lang === "ar" ? "رسائل" : "msgs"}</div>
       </div>`;
-    list.appendChild(item);
-  });
-}
+          list.appendChild(item);
+        });
+      }
 
-function getFilteredHistory() {
-  const q = document.getElementById('search-input').value.toLowerCase();
-  return q ? HISTORY.filter(h => h.title.toLowerCase().includes(q)) : HISTORY;
-}
+      function getFilteredHistory() {
+        const q = document.getElementById("search-input").value.toLowerCase();
+        return q
+          ? HISTORY.filter((h) => h.title.toLowerCase().includes(q))
+          : HISTORY;
+      }
 
-function filterHistory(q) {
-  renderHistory(getFilteredHistory());
-}
+      function filterHistory(q) {
+        renderHistory(getFilteredHistory());
+      }
 
-function loadChat(id) {
-  activeChatId = id;
-  const h = HISTORY.find(x => x.id === id);
-  if (!h) return;
+      function loadChat(id) {
+        activeChatId = id;
+        const h = HISTORY.find((x) => x.id === id);
+        if (!h) return;
 
-  // Hide welcome, show dummy messages
-  document.getElementById('welcome-screen').style.display = 'none';
-  messages = [];
-  const wrap = document.getElementById('messages-inner');
+        // Hide welcome, show dummy messages
+        document.getElementById("welcome-screen").style.display = "none";
+        messages = [];
+        const wrap = document.getElementById("messages-inner");
 
-  // Clear previous messages (keep welcome screen node)
-  Array.from(wrap.children).forEach(c => { if (!c.id) wrap.removeChild(c); });
+        // Clear previous messages (keep welcome screen node)
+        Array.from(wrap.children).forEach((c) => {
+          if (!c.id) wrap.removeChild(c);
+        });
 
-  // Inject a seed conversation
-  const q = h.title;
-  addMessageToDOM('user', q, false);
-  addMessageToDOM('ai', AI_RESPONSES[lang][id % AI_RESPONSES[lang].length], false);
+        // Inject a seed conversation
+        const q = h.title;
+        addMessageToDOM("user", q, false);
+        addMessageToDOM(
+          "ai",
+          AI_RESPONSES[lang][id % AI_RESPONSES[lang].length],
+          false,
+        );
 
-  renderHistory(getFilteredHistory());
-  closeProfile();
-}
+        renderHistory(getFilteredHistory());
+        closeProfile();
+      }
 
-/* ════════════════════════════════════════
+      /* ════════════════════════════════════════
    SUGGESTIONS & QUICK ACTIONS
 ════════════════════════════════════════ */
-function renderSuggestions() {
-  const grid = document.getElementById('sug-grid');
-  if (!grid) return;
-  grid.innerHTML = '';
-  [1,2,3,4].forEach(i => {
-    const t = T[lang][`sug${i}_t`];
-    const d = T[lang][`sug${i}_d`];
-    const card = document.createElement('div');
-    card.className = 'sug-card';
-    card.innerHTML = `<div class="sug-icon">${['💡','✍️','⌨️','🌐'][i-1]}</div><div class="sug-title">${t}</div><div class="sug-desc">${d}</div>`;
-    card.onclick = () => { document.getElementById('chat-input').value = t; autoResize(document.getElementById('chat-input')); sendMessage(); };
-    grid.appendChild(card);
-  });
-}
+      function renderSuggestions() {
+        const grid = document.getElementById("sug-grid");
+        if (!grid) return;
+        grid.innerHTML = "";
+        [1, 2, 3, 4].forEach((i) => {
+          const t = T[lang][`sug${i}_t`];
+          const d = T[lang][`sug${i}_d`];
+          const card = document.createElement("div");
+          card.className = "sug-card";
+          card.innerHTML = `<div class="sug-icon">${["💡", "✍️", "⌨️", "🌐"][i - 1]}</div><div class="sug-title">${t}</div><div class="sug-desc">${d}</div>`;
+          card.onclick = () => {
+            document.getElementById("chat-input").value = t;
+            autoResize(document.getElementById("chat-input"));
+            sendMessage();
+          };
+          grid.appendChild(card);
+        });
+      }
 
-function renderQuickActions() {
-  const qa = document.getElementById('quick-actions');
-  if (!qa) return;
-  qa.innerHTML = '';
-  [1,2,3,4].forEach(i => {
-    const btn = document.createElement('button');
-    btn.className = 'qa-pill';
-    btn.textContent = T[lang][`qa${i}`];
-    btn.onclick = () => { document.getElementById('chat-input').value = btn.textContent.replace(/[✦]/g,'').trim(); autoResize(document.getElementById('chat-input')); document.getElementById('chat-input').focus(); };
-    qa.appendChild(btn);
-  });
-}
+      function renderQuickActions() {
+        const qa = document.getElementById("quick-actions");
+        if (!qa) return;
+        qa.innerHTML = "";
+        [1, 2, 3, 4].forEach((i) => {
+          const btn = document.createElement("button");
+          btn.className = "qa-pill";
+          btn.textContent = T[lang][`qa${i}`];
+          btn.onclick = () => {
+            document.getElementById("chat-input").value = btn.textContent
+              .replace(/[✦]/g, "")
+              .trim();
+            autoResize(document.getElementById("chat-input"));
+            document.getElementById("chat-input").focus();
+          };
+          qa.appendChild(btn);
+        });
+      }
 
-/* ════════════════════════════════════════
+      /* ════════════════════════════════════════
    MESSAGING
 ════════════════════════════════════════ */
-function handleKey(e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
-}
+      function handleKey(e) {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      }
 
-function updateTextarea() {
-  const ta = document.getElementById('chat-input');
-  ta.placeholder = T[lang].input_ph;
-  ta.addEventListener('input', () => {
-    document.getElementById('char-count').textContent = `${ta.value.length} / 4000`;
-  });
-}
+      function updateTextarea() {
+        const ta = document.getElementById("chat-input");
+        ta.placeholder = T[lang].input_ph;
+        ta.addEventListener("input", () => {
+          document.getElementById("char-count").textContent =
+            `${ta.value.length} / 4000`;
+        });
+      }
 
-function autoResize(ta) {
-  ta.style.height = 'auto';
-  ta.style.height = Math.min(ta.scrollHeight, 160) + 'px';
-}
+      function autoResize(ta) {
+        ta.style.height = "auto";
+        ta.style.height = Math.min(ta.scrollHeight, 160) + "px";
+      }
 
-function sendMessage() {
-  if (isTyping) return;
-  const ta    = document.getElementById('chat-input');
-  const text  = ta.value.trim();
-  if (!text) { showToast(T[lang].err_empty); return; }
+      function sendMessage() {
+        if (isTyping) return;
+        const ta = document.getElementById("chat-input");
+        const text = ta.value.trim();
+        if (!text) {
+          showToast(T[lang].err_empty);
+          return;
+        }
 
-  // Hide welcome screen
-  document.getElementById('welcome-screen').style.display = 'none';
+        // Hide welcome screen
+        document.getElementById("welcome-screen").style.display = "none";
 
-  // Create new chat session if none active
-  if (!activeChatId) {
-    activeChatId = Date.now();
-    const newH = { id: activeChatId, title: text.slice(0,40), model: currentModel, date:'today', msgs:0 };
-    HISTORY.unshift(newH);
-  }
+        // Create new chat session if none active
+        if (!activeChatId) {
+          activeChatId = Date.now();
+          const newH = {
+            id: activeChatId,
+            title: text.slice(0, 40),
+            model: currentModel,
+            date: "today",
+            msgs: 0,
+          };
+          HISTORY.unshift(newH);
+        }
 
-  addMessageToDOM('user', text, true);
-  ta.value = '';
-  ta.style.height = 'auto';
-  document.getElementById('char-count').textContent = '0 / 4000';
+        addMessageToDOM("user", text, true);
+        ta.value = "";
+        ta.style.height = "auto";
+        document.getElementById("char-count").textContent = "0 / 4000";
 
-  renderHistory(getFilteredHistory());
-  showTyping();
+        renderHistory(getFilteredHistory());
+        showTyping();
 
-  const delay = 1200 + Math.random() * 1000;
-  setTimeout(() => {
-    hideTyping();
-    const reply = AI_RESPONSES[lang][Math.floor(Math.random() * AI_RESPONSES[lang].length)];
-    addMessageToDOM('ai', reply, true);
-    // Update history msg count
-    const h = HISTORY.find(x => x.id === activeChatId);
-    if (h) { h.msgs += 2; h.model = currentModel; }
-    renderHistory(getFilteredHistory());
-  }, delay);
-}
+        const delay = 1200 + Math.random() * 1000;
+        setTimeout(() => {
+          hideTyping();
+          const reply =
+            AI_RESPONSES[lang][
+              Math.floor(Math.random() * AI_RESPONSES[lang].length)
+            ];
+          addMessageToDOM("ai", reply, true);
+          // Update history msg count
+          const h = HISTORY.find((x) => x.id === activeChatId);
+          if (h) {
+            h.msgs += 2;
+            h.model = currentModel;
+          }
+          renderHistory(getFilteredHistory());
+        }, delay);
+      }
 
-function addMessageToDOM(role, text, animate) {
-  const wrap = document.getElementById('messages-inner');
-  const msg  = document.createElement('div');
-  msg.className = `msg ${role}`;
+      function addMessageToDOM(role, text, animate) {
+        const wrap = document.getElementById("messages-inner");
+        const msg = document.createElement("div");
+        msg.className = `msg ${role}`;
 
-  const avatarIcon = role === 'ai' ? '◈' : '●';
-  const metaLabel  = role === 'ai' ? T[lang].ai_label : T[lang].you;
-  const modelStr   = role === 'ai' ? `<span class="meta-model">${currentModel}</span>` : '';
+        const avatarIcon = role === "ai" ? "◈" : "●";
+        const metaLabel = role === "ai" ? T[lang].ai_label : T[lang].you;
+        const modelStr =
+          role === "ai"
+            ? `<span class="meta-model">${currentModel}</span>`
+            : "";
 
-  /* Render markdown-ish: bold, code blocks */
-  let rendered = text
-    .replace(/```([\s\S]*?)```/g, '<pre style="background:rgba(0,0,0,.3);padding:10px 12px;border-radius:8px;font-size:12px;overflow-x:auto;margin:8px 0;font-family:\'Space Mono\',monospace"><code>$1</code></pre>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/`([^`]+)`/g, '<code style="background:rgba(0,0,0,.3);padding:2px 5px;border-radius:3px;font-family:\'Space Mono\',monospace;font-size:12px">$1</code>')
-    .replace(/\n• /g, '<br>• ')
-    .replace(/\n/g, '<br>');
+        /* Render markdown-ish: bold, code blocks */
+        let rendered = text
+          .replace(
+            /```([\s\S]*?)```/g,
+            "<pre style=\"background:rgba(0,0,0,.3);padding:10px 12px;border-radius:8px;font-size:12px;overflow-x:auto;margin:8px 0;font-family:'Space Mono',monospace\"><code>$1</code></pre>",
+          )
+          .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+          .replace(
+            /`([^`]+)`/g,
+            "<code style=\"background:rgba(0,0,0,.3);padding:2px 5px;border-radius:3px;font-family:'Space Mono',monospace;font-size:12px\">$1</code>",
+          )
+          .replace(/\n• /g, "<br>• ")
+          .replace(/\n/g, "<br>");
 
-  msg.innerHTML = `
+        msg.innerHTML = `
     <div class="msg-avatar">${avatarIcon}</div>
     <div class="msg-body">
       <div class="msg-meta">${metaLabel} ${modelStr}</div>
       <div class="msg-bubble">${rendered}</div>
       <div class="msg-actions">
         <button class="msg-act-btn" onclick="copyMsg(this)">${T[lang].copy}</button>
-        ${role==='ai'?`<button class="msg-act-btn" onclick="regenMsg()">${T[lang].regenerate}</button>`:''}
+        ${role === "ai" ? `<button class="msg-act-btn" onclick="regenMsg()">${T[lang].regenerate}</button>` : ""}
       </div>
     </div>`;
 
-  if (animate) msg.style.animationDelay = '0s';
-  wrap.appendChild(msg);
-  scrollBottom();
-  messages.push({ role, text });
-}
+        if (animate) msg.style.animationDelay = "0s";
+        wrap.appendChild(msg);
+        scrollBottom();
+        messages.push({ role, text });
+      }
 
-let typingEl = null;
-function showTyping() {
-  isTyping = true;
-  document.getElementById('send-btn').disabled = true;
-  const wrap = document.getElementById('messages-inner');
-  typingEl = document.createElement('div');
-  typingEl.className = 'typing-msg';
-  typingEl.innerHTML = `
+      let typingEl = null;
+      function showTyping() {
+        isTyping = true;
+        document.getElementById("send-btn").disabled = true;
+        const wrap = document.getElementById("messages-inner");
+        typingEl = document.createElement("div");
+        typingEl.className = "typing-msg";
+        typingEl.innerHTML = `
     <div class="msg-avatar" style="background:rgba(123,92,255,.15);border:1px solid rgba(123,92,255,.25);display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;flex-shrink:0;margin-top:2px">◈</div>
     <div class="typing-bubble"><div class="td"></div><div class="td"></div><div class="td"></div></div>`;
-  wrap.appendChild(typingEl);
-  scrollBottom();
-}
+        wrap.appendChild(typingEl);
+        scrollBottom();
+      }
 
-function hideTyping() {
-  isTyping = false;
-  document.getElementById('send-btn').disabled = false;
-  if (typingEl) { typingEl.remove(); typingEl = null; }
-}
+      function hideTyping() {
+        isTyping = false;
+        document.getElementById("send-btn").disabled = false;
+        if (typingEl) {
+          typingEl.remove();
+          typingEl = null;
+        }
+      }
 
-function scrollBottom() {
-  const w = document.getElementById('messages-wrap');
-  w.scrollTo({ top: w.scrollHeight, behavior: 'smooth' });
-}
+      function scrollBottom() {
+        const w = document.getElementById("messages-wrap");
+        w.scrollTo({ top: w.scrollHeight, behavior: "smooth" });
+      }
 
-function copyMsg(btn) {
-  const bubble = btn.closest('.msg-body').querySelector('.msg-bubble');
-  navigator.clipboard.writeText(bubble.innerText).then(() => showToast('✓ ' + (lang==='ar'?'تم النسخ':'Copied!')));
-}
+      function copyMsg(btn) {
+        const bubble = btn.closest(".msg-body").querySelector(".msg-bubble");
+        navigator.clipboard
+          .writeText(bubble.innerText)
+          .then(() =>
+            showToast("✓ " + (lang === "ar" ? "تم النسخ" : "Copied!")),
+          );
+      }
 
-function regenMsg() {
-  if (isTyping) return;
-  const lastUser = [...messages].reverse().find(m => m.role === 'user');
-  if (!lastUser) return;
-  // Remove last AI message from DOM
-  const msgs = document.querySelectorAll('.msg.ai');
-  if (msgs.length) msgs[msgs.length-1].remove();
-  showTyping();
-  setTimeout(() => {
-    hideTyping();
-    addMessageToDOM('ai', AI_RESPONSES[lang][Math.floor(Math.random()*AI_RESPONSES[lang].length)], true);
-  }, 1000 + Math.random()*800);
-}
+      function regenMsg() {
+        if (isTyping) return;
+        const lastUser = [...messages].reverse().find((m) => m.role === "user");
+        if (!lastUser) return;
+        // Remove last AI message from DOM
+        const msgs = document.querySelectorAll(".msg.ai");
+        if (msgs.length) msgs[msgs.length - 1].remove();
+        showTyping();
+        setTimeout(
+          () => {
+            hideTyping();
+            addMessageToDOM(
+              "ai",
+              AI_RESPONSES[lang][
+                Math.floor(Math.random() * AI_RESPONSES[lang].length)
+              ],
+              true,
+            );
+          },
+          1000 + Math.random() * 800,
+        );
+      }
 
-/* ════════════════════════════════════════
+      /* ════════════════════════════════════════
    UI CONTROLS
 ════════════════════════════════════════ */
-function newChat() {
-  activeChatId = null;
-  messages = [];
-  const wrap = document.getElementById('messages-inner');
-  Array.from(wrap.children).forEach(c => { if (!c.id) wrap.removeChild(c); });
-  document.getElementById('welcome-screen').style.display = '';
-  renderHistory(getFilteredHistory());
-}
+      function newChat() {
+        activeChatId = null;
+        messages = [];
+        const wrap = document.getElementById("messages-inner");
+        Array.from(wrap.children).forEach((c) => {
+          if (!c.id) wrap.removeChild(c);
+        });
+        document.getElementById("welcome-screen").style.display = "";
+        renderHistory(getFilteredHistory());
+      }
 
-function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('mob-open');
-}
+      function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("mob-open");
+      }
 
-function toggleProfile() {
-  const card    = document.getElementById('user-card');
-  const summary = document.getElementById('ai-summary');
-  card.classList.toggle('open');
-  summary.classList.toggle('visible');
-}
+      function toggleProfile() {
+        const card = document.getElementById("user-card");
+        const summary = document.getElementById("ai-summary");
+        card.classList.toggle("open");
+        summary.classList.toggle("visible");
+      }
 
-function openProfile() {
-  document.getElementById('profile-panel').classList.add('open');
-}
-function closeProfile() {
-  document.getElementById('profile-panel').classList.remove('open');
-}
+      function openProfile() {
+        document.getElementById("profile-panel").classList.add("open");
+      }
+      function closeProfile() {
+        document.getElementById("profile-panel").classList.remove("open");
+      }
 
-function exportChat() {
-  if (!messages.length) { showToast(lang==='ar'?'لا توجد رسائل للتصدير':'No messages to export'); return; }
-  const lines = messages.map(m => `[${m.role === 'ai' ? 'nexus.' : T[lang].you}]\n${m.text}\n`);
-  const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href = url; a.download = `nexus-chat-${Date.now()}.txt`;
-  a.click(); URL.revokeObjectURL(url);
-  showToast(T[lang].export_msg);
-}
+      function exportChat() {
+        if (!messages.length) {
+          showToast(
+            lang === "ar" ? "لا توجد رسائل للتصدير" : "No messages to export",
+          );
+          return;
+        }
+        const lines = messages.map(
+          (m) => `[${m.role === "ai" ? "nexus." : T[lang].you}]\n${m.text}\n`,
+        );
+        const blob = new Blob([lines.join("\n")], {
+          type: "text/plain;charset=utf-8",
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `nexus-chat-${Date.now()}.txt`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast(T[lang].export_msg);
+      }
 
-/* ════════════════════════════════════════
+      /* ════════════════════════════════════════
    TOAST
 ════════════════════════════════════════ */
-let toastTimer;
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  document.getElementById('toast-msg').textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
-}
+      let toastTimer;
+      function showToast(msg) {
+        const t = document.getElementById("toast");
+        document.getElementById("toast-msg").textContent = msg;
+        t.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => t.classList.remove("show"), 2800);
+      }
 
-/* ════════════════════════════════════════
+      /* ════════════════════════════════════════
    BOOT
 ════════════════════════════════════════ */
-init();
-</script>
-</body>
+      init();
+    </script>
+  </body>
 </html>

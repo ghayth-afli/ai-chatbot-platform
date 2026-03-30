@@ -94,19 +94,19 @@ PHASE 4 (Polish): T055–T060
 
 **Goal**: User selects model, sends message, AI processes via selected provider, response displays and saves  
 **Acceptance**: Message appears instantly, AI response received in < 15 seconds, both saved to database  
-**Independent Test**: Send message to DeepSeek, LLaMA 3, Mistral; verify response quality and database storage
+**Independent Test**: Send message to Nemotron, LLaMA 3, Trinity; verify response quality and database storage
 
 #### Backend Tasks (AI Routing + Message Handling) ✅ COMPLETE
 
 - [x] T015 Create backend/chats/models.py: ChatSession model (id, user_id, title, model, language, created_at, updated_at), Message model (id, session_id, sender, message, language, created_at)
 - [x] T016 Create database migrations for ChatSession and Message models; apply migrations to db.sqlite3
 - [x] T017 Create backend/chats/serializers.py with ChatSessionSerializer and MessageSerializer for API responses
-- [x] T018 Create backend/chats/router.py with three functions: route_to_openrouter(model_id, message, api_key) for DeepSeek/Mistral, route_to_groq(model_id, message, api_key) for LLaMA 3, dispatch_to_provider(model, message, user_id) that calls correct router based on model string
+- [x] T018 Create backend/chats/router.py with three functions: route_to_openrouter(model_id, message, api_key) for Nemotron/Trinity, route_to_groq(model_id, message, api_key) for LLaMA 3, dispatch_to_provider(model, message, user_id) that calls correct router based on model string
 - [x] T019 Create backend/chats/services.py with ChatService class: send_message(session_id, message, model, language) that saves user message, calls router, saves AI response, returns response dict
 - [x] T020 Create backend/chats/views.py with ChatViewSet and POST /api/chat/send endpoint that accepts {session_id, message, model, language}, validates input, calls ChatService.send_message(), returns {response, session_id, model}
 - [x] T021 Create backend/chats/urls.py with router.register('chat', ChatViewSet) and POST /api/chat/send path
 - [x] T022 Update backend/config/urls.py to include chats URLs: include chats.urls
-- [x] T023 Create backend/tests/test_chat_router.py with unit tests for router functions: test_route_to_openrouter_deepseek, test_route_to_groq_llama3, test_dispatch_selects_correct_router
+- [x] T023 Create backend/tests/test_chat_router.py with unit tests for router functions: test_route_to_openrouter_Nemotron, test_route_to_groq_Liquid, test_dispatch_selects_correct_router
 - [x] T024 Create backend/tests/test_chat_send.py with integration test: test_send_message_to_ai_saves_to_db, test_response_appears_in_session, test_model_selection_routing
 
 #### Frontend Tasks (Message Input + Send) ✅ COMPLETE
@@ -181,17 +181,17 @@ PHASE 4 (Polish): T055–T060
 
 **Goal**: User selects model from dropdown; subsequent messages route to that model  
 **Acceptance**: Model selection persists for session, message routing verified correct (FR-004)  
-**Independent Test**: Send same question to DeepSeek, LLaMA 3, Mistral; verify different responses from each provider
+**Independent Test**: Send same question to Nemotron, LLaMA 3, Trinity; verify different responses from each provider
 
 #### Backend Tasks (Model Validation + Routing)
 
-- [x] T049 Update backend/chats/services.py send_message() method to validate model in ("deepseek", "llama3", "mistral"), raise ValueError if invalid
+- [x] T049 Update backend/chats/services.py send_message() method to validate model in ("Nemotron", "Liquid", "Trinity"), raise ValueError if invalid
 - [x] T050 Update backend/chats/router.py dispatch_to_provider() to include model validation + logging of which provider called for each model
-- [x] T051 Create backend/tests/test_model_routing.py with test_deepseek_routes_to_openrouter, test_llama3_routes_to_groq, test_mistral_routes_to_openrouter, test_invalid_model_raises_error
+- [x] T051 Create backend/tests/test_model_routing.py with test_Nemotron_routes_to_openrouter, test_Liquid_routes_to_groq, test_Trinity_routes_to_openrouter, test_invalid_model_raises_error
 
 #### Frontend Tasks (Model Dropdown + State)
 
-- [x] T052 Create frontend/src/components/chat/ModelSelector.jsx dropdown component with options ["DeepSeek", "LLaMA 3", "Mistral"], default to "DeepSeek", state persists for session
+- [x] T052 Create frontend/src/components/chat/ModelSelector.jsx dropdown component with options ["Nemotron", "LLaMA 3", "Trinity"], default to "Nemotron", state persists for session
 
 ---
 
@@ -204,7 +204,7 @@ PHASE 4 (Polish): T055–T060
 #### Backend Tasks (Summary Generation)
 
 - [x] T053 Update backend/summaries/models.py UserSummary model: id, user_id, summary (text), language, message_count, updated_at; add method check_if_summary_needed(user_id) to check if >15–20 new messages since last summary
-- [x] T054 Create backend/summaries/services.py SummaryService with generate_summary(user_id, language='en') method that: collects user's recent messages, calls OpenRouter with default model (DeepSeek) with prompt to summarize interests, saves to UserSummary, returns summary text
+- [x] T054 Create backend/summaries/services.py SummaryService with generate_summary(user_id, language='en') method that: collects user's recent messages, calls OpenRouter with default model (Nemotron) with prompt to summarize interests, saves to UserSummary, returns summary text
 
 ---
 

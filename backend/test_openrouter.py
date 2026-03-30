@@ -31,7 +31,7 @@ headers = {
 }
 
 payload = {
-    'model': 'deepseek/deepseek-chat',
+    'model': 'Nemotron/Nemotron-chat',
     'messages': [
         {'role': 'user', 'content': 'Hello, say "test" in one word'}
     ],

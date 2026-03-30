@@ -21,9 +21,9 @@
       "authenticated": "…"
     },
     "chips": {
-      "deepseek": "DeepSeek Chat",
+      "Nemotron": "Nemotron Chat",
       "llama": "LLaMA 3",
-      "mistral": "Mistral 7B"
+      "Trinity": "Trinity 7B"
     }
   },
   "features": {
@@ -36,9 +36,9 @@
   "models": {
     "title": "Available Models",
     "rows": {
-      "deepseek": { "description": "…" },
+      "Nemotron": { "description": "…" },
       "llama": { "description": "…" },
-      "mistral": { "description": "…" }
+      "Trinity": { "description": "…" }
     }
   },
   "bilingual": {

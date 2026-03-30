@@ -37,13 +37,13 @@ class ChatAPIIntegrationTests(APITestCase):
         # Step 1: Create a chat session
         session_data = {
             'title': 'Integration Test Chat',
-            'ai_model': 'deepseek',
+            'ai_model': 'Nemotron',
             'language': 'en',
         }
         response = self.client.post(self.chat_create_url, session_data)
         assert response.status_code == status.HTTP_201_CREATED
         assert response.data['title'] == 'Integration Test Chat'
-        assert response.data['ai_model'] == 'deepseek'
+        assert response.data['ai_model'] == 'Nemotron'
 
         session_id = response.data['id']
         session_url = reverse(':chat-detail', args=[session_id])
@@ -59,7 +59,7 @@ class ChatAPIIntegrationTests(APITestCase):
         # Step 3: Send a message to the session
         message_data = {
             'message_text': 'Hello AI, test message',
-            'model': 'deepseek',
+            'model': 'Nemotron',
         }
 
         send_url = reverse('chats:chat-send', args=[session_id])
@@ -68,7 +68,7 @@ class ChatAPIIntegrationTests(APITestCase):
             mock_dispatch.return_value = {
                 'response': 'Hello! I received your test message.',
                 'tokens': 45,
-                'model': 'deepseek-chat',
+                'model': 'Nemotron-chat',
             }
 
             send_response = self.client.post(send_url, message_data)
@@ -96,11 +96,11 @@ class ChatAPIIntegrationTests(APITestCase):
 
         # Step 5: Update session model
         update_url = reverse('chats:chat-update-model', args=[session_id])
-        update_data = {'model': 'llama3'}
+        update_data = {'model': 'Liquid'}
 
         update_response = self.client.put(update_url, update_data)
         assert update_response.status_code == status.HTTP_200_OK
-        assert update_response.data['model'] == 'llama3'
+        assert update_response.data['model'] == 'Liquid'
 
         # Step 6: Delete the session
         delete_url = reverse('chats:chat-detail', args=[session_id])
@@ -121,7 +121,7 @@ class ChatAPIIntegrationTests(APITestCase):
         for i in range(3):
             session_data = {
                 'title': f'Session {i + 1}',
-                'ai_model': 'deepseek',
+                'ai_model': 'Nemotron',
                 'language': 'en',
             }
             response = self.client.post(self.chat_create_url, session_data)
@@ -139,7 +139,7 @@ class ChatAPIIntegrationTests(APITestCase):
         for i, session_id in enumerate(session_ids):
             message_data = {
                 'message_text': f'Message for session {i + 1}',
-                'model': 'deepseek',
+                'model': 'Nemotron',
             }
             send_url = reverse('chats:chat-send', args=[session_id])
 
@@ -147,7 +147,7 @@ class ChatAPIIntegrationTests(APITestCase):
                 mock_dispatch.return_value = {
                     'response': f'Response for session {i + 1}',
                     'tokens': 20,
-                    'model': 'deepseek-chat',
+                    'model': 'Nemotron-chat',
                 }
 
                 send_response = self.client.post(send_url, message_data)
@@ -168,7 +168,7 @@ class ChatAPIIntegrationTests(APITestCase):
         # Create multiple sessions with many messages
         session_data = {
             'title': 'Pagination Test',
-            'ai_model': 'deepseek',
+            'ai_model': 'Nemotron',
             'language': 'en',
         }
         response = self.client.post(self.chat_create_url, session_data)
@@ -178,7 +178,7 @@ class ChatAPIIntegrationTests(APITestCase):
         for i in range(5):
             message_data = {
                 'message_text': f'Message {i + 1}',
-                'model': 'deepseek',
+                'model': 'Nemotron',
             }
             send_url = reverse('chats:chat-send', args=[session_id])
 
@@ -186,7 +186,7 @@ class ChatAPIIntegrationTests(APITestCase):
                 mock_dispatch.return_value = {
                     'response': f'Response {i + 1}',
                     'tokens': 20,
-                    'model': 'deepseek-chat',
+                    'model': 'Nemotron-chat',
                 }
 
                 self.client.post(send_url, message_data)
@@ -207,7 +207,7 @@ class ChatAPIIntegrationTests(APITestCase):
         fake_session_id = 99999
         message_data = {
             'message_text': 'Should fail',
-            'model': 'deepseek',
+            'model': 'Nemotron',
         }
         send_url = reverse('chats:chat-send', args=[fake_session_id])
 
@@ -217,7 +217,7 @@ class ChatAPIIntegrationTests(APITestCase):
         # Test invalid model
         session_data = {
             'title': 'Test',
-            'ai_model': 'deepseek',
+            'ai_model': 'Nemotron',
             'language': 'en',
         }
         session_response = self.client.post(self.chat_create_url, session_data)
@@ -244,7 +244,7 @@ class ChatAPIIntegrationTests(APITestCase):
         # Create session as first user
         session_data = {
             'title': 'Private Session',
-            'ai_model': 'deepseek',
+            'ai_model': 'Nemotron',
             'language': 'en',
         }
         response = self.client.post(self.chat_create_url, session_data)
@@ -271,46 +271,46 @@ class ChatAPIIntegrationTests(APITestCase):
 
         session_data = {
             'title': 'Model Switch Test',
-            'ai_model': 'deepseek',
+            'ai_model': 'Nemotron',
             'language': 'en',
         }
         response = self.client.post(self.chat_create_url, session_data)
         session_id = response.data['id']
 
-        # Send message with deepseek
+        # Send message with Nemotron
         with patch('chats.services.dispatch_to_provider') as mock_dispatch:
             mock_dispatch.return_value = {
-                'response': 'Deepseek response',
+                'response': 'Nemotron response',
                 'tokens': 20,
-                'model': 'deepseek-chat',
+                'model': 'Nemotron-chat',
             }
 
             message_data = {
                 'message_text': 'First message',
-                'model': 'deepseek',
+                'model': 'Nemotron',
             }
             send_url = reverse('chats:chat-send', args=[session_id])
             response = self.client.post(send_url, message_data)
             assert response.status_code == status.HTTP_200_OK
 
-        # Switch to llama3
+        # Switch to Liquid
         update_url = reverse('chats:chat-update-model', args=[session_id])
-        update_data = {'model': 'llama3'}
+        update_data = {'model': 'Liquid'}
         response = self.client.put(update_url, update_data)
         assert response.status_code == status.HTTP_200_OK
-        assert response.data['model'] == 'llama3'
+        assert response.data['model'] == 'Liquid'
 
-        # Send message with llama3
+        # Send message with Liquid
         with patch('chats.services.dispatch_to_provider') as mock_dispatch:
             mock_dispatch.return_value = {
                 'response': 'Llama response',
                 'tokens': 15,
-                'model': 'llama3-8b',
+                'model': 'Liquid-8b',
             }
 
             message_data = {
                 'message_text': 'Second message',
-                'model': 'llama3',
+                'model': 'Liquid',
             }
             response = self.client.post(send_url, message_data)
             assert response.status_code == status.HTTP_200_OK

@@ -76,7 +76,7 @@ def test_model_validation():
     print("=" * 50)
     
     valid_models = ['nemotron', 'liquid', 'trinity']
-    invalid_models = ['deepseek', 'mistral', 'llama3', 'gpt-4', 'unknown']
+    invalid_models = ['Nemotron', 'Trinity', 'Liquid', 'gpt-4', 'unknown']
     
     print("\nTesting valid models:")
     for model in valid_models:

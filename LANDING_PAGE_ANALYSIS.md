@@ -115,7 +115,7 @@ Landing.jsx
    - Size: `text-lg sm:text-xl`
    - Color: `text-paper/60`
 3. **Model Chips** - Supported models display
-   - 3 chips: DeepSeek Chat, LLaMA 3, Mistral 7B
+   - 3 chips: Nemotron Chat, LLaMA 3, Trinity 7B
    - Style: `bg-glass border border-border`
    - Hover effect: `hover:border-volt hover:text-volt`
    - Font: Space Mono (mono)
@@ -216,9 +216,9 @@ Landing.jsx
 
 ```javascript
 [
-  { modelName: "DeepSeek Chat", provider: "DeepSeek", status: "available" },
+  { modelName: "Nemotron Chat", provider: "Nemotron", status: "available" },
   { modelName: "LLaMA 3", provider: "Meta", status: "available" },
-  { modelName: "Mistral 7B", provider: "Mistral", status: "available" },
+  { modelName: "Trinity 7B", provider: "Trinity", status: "available" },
 ];
 ```
 
@@ -1169,7 +1169,7 @@ html[dir="rtl"] {
   features.modelSwitching.title / body);
 
 // Models
-(models.title, models.rows.deepseek / llama / mistral.description);
+(models.title, models.rows.Nemotron / llama / Trinity.description);
 
 // Bilingual
 (bilingual.title,

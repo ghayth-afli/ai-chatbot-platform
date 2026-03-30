@@ -49,7 +49,7 @@ headers = {
 }
 
 payload = {
-    'model': 'deepseek/deepseek-chat',
+    'model': 'Nemotron/Nemotron-chat',
     'messages': [{'role': 'user', 'content': 'test'}],
     'max_tokens': 10,
 }
@@ -72,14 +72,14 @@ except Exception as e:
     print(f"✗ Exception: {str(e)}")
 
 # Test 3: List available models from OpenRouter
-print("\nTest 3: Checking if DeepSeek model exists...")
+print("\nTest 3: Checking if Nemotron model exists...")
 try:
     response = requests.get('https://openrouter.io/api/v1/models', headers=headers, timeout=10)
     if response.status_code == 200:
         data = response.json()
-        deepseek_models = [m for m in data.get('data', []) if 'deepseek' in m.get('id', '').lower()]
-        print(f"Found {len(deepseek_models)} DeepSeek models:")
-        for model in deepseek_models:
+        Nemotron_models = [m for m in data.get('data', []) if 'Nemotron' in m.get('id', '').lower()]
+        print(f"Found {len(Nemotron_models)} Nemotron models:")
+        for model in Nemotron_models:
             print(f"  - {model.get('id')}")
 except Exception as e:
     print(f"✗ Exception: {str(e)}")

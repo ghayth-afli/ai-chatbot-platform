@@ -27,12 +27,12 @@ Creates a new chat session for the authenticated user.
 ```json
 {
   "title": "Python Help",
-  "model": "deepseek",
+  "model": "Nemotron",
   "language": "en"
 }
 ```
 
-_Note: All fields are optional. `title` defaults to empty, `model` defaults to 'deepseek', `language` defaults to 'en'_
+_Note: All fields are optional. `title` defaults to empty, `model` defaults to 'Nemotron', `language` defaults to 'en'_
 
 **Response (201 Created):**
 
@@ -40,7 +40,7 @@ _Note: All fields are optional. `title` defaults to empty, `model` defaults to '
 {
   "id": 123,
   "title": "Chat 001",
-  "model": "deepseek",
+  "model": "Nemotron",
   "language": "en",
   "created_at": "2026-03-29T10:00:00Z",
   "updated_at": "2026-03-29T10:00:00Z"
@@ -73,7 +73,7 @@ Retrieves paginated list of user's chat sessions, sorted by most recent.
     {
       "id": 123,
       "title": "Chat 001",
-      "model": "deepseek",
+      "model": "Nemotron",
       "created_at": "2026-03-29T10:00:00Z",
       "updated_at": "2026-03-29T10:00:00Z",
       "message_count": 5
@@ -116,14 +116,14 @@ Retrieves a specific session with its messages, paginated.
       "id": 456,
       "role": "user",
       "content": "What is Python?",
-      "model": "deepseek",
+      "model": "Nemotron",
       "created_at": "2026-03-29T10:00:00Z"
     },
     {
       "id": 457,
       "role": "assistant",
       "content": "Python is a programming language...",
-      "model": "deepseek",
+      "model": "Nemotron",
       "created_at": "2026-03-29T10:00:05Z"
     }
   ],
@@ -159,7 +159,7 @@ Sends a message to the selected AI model and receives response.
 ```json
 {
   "message": "What is machine learning?",
-  "model": "llama3"
+  "model": "Liquid"
 }
 ```
 
@@ -172,7 +172,7 @@ _Note: `message` is required (max 5000 chars). `model` is optional and uses sess
   "user_message_id": 456,
   "ai_message_id": 457,
   "response": "Machine learning is...",
-  "model": "llama3",
+  "model": "Liquid",
   "tokens_used": 187,
   "session_updated_at": "2026-03-29T10:00:05Z"
 }
@@ -202,18 +202,18 @@ Changes the AI model for a session (affects future messages only).
 
 ```json
 {
-  "model": "mistral"
+  "model": "Trinity"
 }
 ```
 
-_Note: `model` is required and must be one of: deepseek, llama3, mistral_
+_Note: `model` is required and must be one of: Nemotron, Liquid, Trinity_
 
 **Response (200 OK):**
 
 ```json
 {
   "session_id": 123,
-  "model": "mistral",
+  "model": "Trinity",
   "updated_at": "2026-03-29T10:00:00Z"
 }
 ```
@@ -265,7 +265,7 @@ Permanently deletes a session and all its messages.
 
 ### Models
 
-Valid values: `deepseek`, `llama3`, `mistral`
+Valid values: `Nemotron`, `Liquid`, `Trinity`
 
 ### Languages
 
@@ -290,7 +290,7 @@ curl -X POST http://localhost:8000/api/chat/ \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Quick Chat",
-    "model": "deepseek"
+    "model": "Nemotron"
   }'
 ```
 
@@ -302,7 +302,7 @@ curl -X POST http://localhost:8000/api/chat/123/send/ \
   -H "Content-Type: application/json" \
   -d '{
     "message": "Hello, what can you do?",
-    "model": "deepseek"
+    "model": "Nemotron"
   }'
 ```
 
@@ -347,7 +347,7 @@ When connected to WebSocket (`ws://localhost:8000/ws/chat/`), clients receive re
     "id": 457,
     "role": "assistant",
     "content": "AI response here",
-    "model": "deepseek",
+    "model": "Nemotron",
     "created_at": "2026-03-29T10:00:05Z"
   }
 }
