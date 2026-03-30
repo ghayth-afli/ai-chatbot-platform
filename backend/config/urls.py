@@ -23,5 +23,6 @@ urlpatterns = [
         path('health/', include('api.urls')),
         path('auth/', include('users.urls')),  # Authentication endpoints registered under /api/auth
         path('chat/', include('chats.urls')),  # Chat endpoints registered under /api/chat
+        path('ai/', include('ai.urls')),       # AI endpoints registered under /api/ai
     ])),
 ]

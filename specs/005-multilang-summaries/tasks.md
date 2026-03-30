@@ -151,7 +151,7 @@ Setup (T001-T005)
 
 ### Backend: Profile Summary API
 
-- [ ] T021 [P] [US1] Extend `backend/ai/views.py` to add GET profile summary endpoint
+- [x] T021 [P] [US1] Extend `backend/ai/views.py` to add GET profile summary endpoint
   - Endpoint: `GET /api/users/{user_id}/profile/summary`
   - Query: `UserSummary.objects.filter(user_id=user_id, archived=False).order_by('-date_generated')`
   - Response: Paginated list with fields: id, summary_text, language_tag, date_generated, archived
@@ -159,11 +159,11 @@ Setup (T001-T005)
   - Status: 200 on success; 401 if not authenticated; 404 if user not found
   - File: `backend/ai/views.py` (add ProfileSummaryListView class)
 
-- [ ] T022 [P] [US1] Add endpoint URL routing in `backend/ai/urls.py`
+- [x] T022 [P] [US1] Add endpoint URL routing in `backend/ai/urls.py`
   - Route: `path('api/users/<int:user_id>/profile/summary', ProfileSummaryListView.as_view())`
   - Include in `backend/config/urls.py` as `path('', include('ai.urls'))`
 
-- [ ] T023 [US1] Create unit test for profile summary endpoint in `backend/ai/tests/test_views.py`
+- [x] T023 [US1] Create unit test for profile summary endpoint in `backend/ai/tests/test_views.py`
   - Test: GET returns 200 and paginated list
   - Test: GET returns only active (archived=False) summaries
   - Test: GET returns summaries in reverse chronological order
