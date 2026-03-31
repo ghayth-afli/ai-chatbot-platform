@@ -578,7 +578,7 @@ We welcome contributions! Here's how to get started:
 1. **Fork the repository**
 
    ```bash
-   git clone https://github.com/yourusername/ai-chatbot-platform.git
+   git clone https://github.com/ghayth-afli/ai-chatbot-platform.git
    cd ai-chatbot-platform
    ```
 
@@ -818,7 +818,7 @@ See [LICENSE](LICENSE) file for details.
 
 ## 📞 Support & Contact
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/ai-chatbot-platform/issues)
+- **Issues**: [GitHub Issues](https://github.com/ghayth-afli/ai-chatbot-platform/issues)
 - **Documentation**: [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md)
 
 ---
